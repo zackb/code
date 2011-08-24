@@ -11,10 +11,10 @@ typedef enum    {
 } LogLevel;
 
 const char *LogLevelLabels[] = {
-    "ERROR",
-    "WARN",
-    "INFO",
-    "DEBUG"
+    " ERROR ",
+    " WARN  ",
+    " INFO  ",
+    " DEBUG "
 };
 
 
@@ -29,11 +29,11 @@ class Log   {
         static void log(LogLevel level, const char *name, QString msg)  {
             if (loglevel >= level)   {
 
-                *(Log::outs) << LogLevelLabels[level] 
+                *(Log::outs) << "[" << LogLevelLabels[level] << "] -"
                              << " [" << QDate::currentDate().toString(Qt::ISODate) 
                              << " " << QTime::currentTime().toString(Qt::ISODate) << "]";
 
-                *(Log::outs) <<  " [" << QCoreApplication::applicationFilePath() << "-" << QCoreApplication::applicationPid() << "]";
+                *(Log::outs) <<  " [" << "log-" << QCoreApplication::applicationPid() << "]";
 
                 if (name)   {
                     *(Log::outs) << " [" << name << "]";
