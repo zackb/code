@@ -1,5 +1,5 @@
 #ifndef __ZB_LOCK
-#define __ZB_LOCK
+#define __ZB_LOCK 1
 
 #include "log.h"
 

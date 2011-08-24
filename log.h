@@ -1,5 +1,12 @@
 #ifndef __ZB_LOG
-#define __ZB_LOG
+#define __ZB_LOG 1
+
+#include <QFile>
+#include <QTextStream>
+#include <QDate>
+#include <QTime>
+#include <QCoreApplication>
+#include <QDebug>
 
 
 typedef enum    {
@@ -10,14 +17,6 @@ typedef enum    {
     DEBUG   = 3
 } LogLevel;
 
-const char *LogLevelLabels[] = {
-    " ERROR ",
-    " WARN  ",
-    " INFO  ",
-    " DEBUG "
-};
-
-
 class Log   {
 
     public:
@@ -26,27 +25,7 @@ class Log   {
         static bool initialized;
         static LogLevel loglevel;
 
-        static void log(LogLevel level, const char *name, QString msg)  {
-            if (loglevel >= level)   {
-
-                *(Log::outs) << "[" << LogLevelLabels[level] << "] -"
-                             << " [" << QDate::currentDate().toString(Qt::ISODate) 
-                             << " " << QTime::currentTime().toString(Qt::ISODate) << "]";
-
-                *(Log::outs) <<  " [" << "log-" << QCoreApplication::applicationPid() << "]";
-
-                if (name)   {
-                    *(Log::outs) << " [" << name << "]";
-                }
-                if (!msg.isEmpty())    {
-                    *(Log::outs) << " " << msg;
-                }
-
-                *(Log::outs) << "\n";
-
-                Log::outs->flush();
-            }
-        }
+        static void log(LogLevel level, const char *name, QString msg);
         static void error(const char *name, QString msg)  {
             log(ERROR, name, msg);
         }
@@ -74,10 +53,5 @@ class Log   {
         }
 
 };
-
-bool Log::initialized = false;
-LogLevel Log::loglevel = DEBUG;
-QFile *Log::logfile;
-QTextStream *Log::outs;
 
 #endif
