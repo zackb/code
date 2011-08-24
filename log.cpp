@@ -8,6 +8,9 @@ const char *LogLevelLabels[] = {
 };
 
 void Log::log(LogLevel level, const char *name, QString msg)  {
+    if (!initialized)   {
+        return;
+    }
     if (loglevel >= level)   {
 
         *(Log::outs) << "[" << LogLevelLabels[level] << "] -"
@@ -27,9 +30,11 @@ void Log::log(LogLevel level, const char *name, QString msg)  {
 
         Log::outs->flush();
 
+        /**
         if (DEBUG == level) {
             qDebug() << name << msg;
         }
+        */
     }
 }
 
