@@ -15,6 +15,7 @@ import org.apache.hadoop.hbase.HColumnDescriptor
 import org.apache.hadoop.hbase.HTableDescriptor
 import org.apache.hadoop.hbase.client.Get
 import org.apache.hadoop.hbase.client.Result
+import org.apache.hadoop.hbase.client.Delete
 
 /**
  * User: zack
@@ -47,7 +48,9 @@ class HBasePersistence<T>   {
         Double.class,
         Short.class,
         Date.class,
-        String[].class
+        Object[].class,
+        List.class,
+        Map.class
     ]
 
     public HBasePersistence(Class clazz, Object delegate = null)   {
@@ -67,6 +70,14 @@ class HBasePersistence<T>   {
                 field.accessible = true
                 Object value = field.get(this.delegate)
                 if (value != null)  {
+                    if (field.type == Map)   {
+                        String columnFamily = field.name
+                        Map map = (Map)value
+                        map.each { String k, v ->
+                            persist(put, columnFamily, k, v)
+                        }
+                        continue
+                    }
                     persist(put, PROPERTY_COLUMN_FAMILY, field.name, value)
                 }
             }
@@ -75,15 +86,28 @@ class HBasePersistence<T>   {
     }
 
     public T get(String id)  {
-        HTable table = getTable()
-        try {
-            Get g = new Get(bytes(getId()))
+        assert id : "No identifier provided"
+        T result = null
+        withTable ({ HTable table ->
+            Get g = new Get(bytes(id))
             Result r = table.get(g)
-            def result = null //deserialize(clazz, r);
-            return result
-        } finally {
-            returnTable(table);
+            if (r.empty)    {
+                return null
+            }
+            result = deserialize(r)
+        })
+        return result
+    }
+
+    public void delete(String id = null)   {
+        if (!id)    {
+            id = getId()
         }
+        withTable({ HTable table ->
+            Delete d = new Delete(Bytes.toBytes(id))
+            table.delete(d)
+            //table.close()
+        })
     }
 
     public void ensureTable(boolean drop = false)   {
@@ -100,6 +124,11 @@ class HBasePersistence<T>   {
         }
 
         ensureColumnFamily(PROPERTY_COLUMN_FAMILY)
+        persistibleFields().each { Field field ->
+            if (field.type == Map)  {
+                ensureColumnFamily(field.name)
+            }
+        }
     }
 
     public void deleteTable()    {
@@ -128,7 +157,7 @@ class HBasePersistence<T>   {
             config.set("hbase.zookeeper.quorum", "jax")
         }
 
-        return config;
+        return config
     }
 
     public static HBaseAdmin getHbaseAdmin()  {
@@ -138,18 +167,42 @@ class HBasePersistence<T>   {
 
         return admin
     }
+    
+    private T deserialize(Result result)    {
+        T t = clazz.newInstance() as T
+        persistibleFields().each { Field field ->
+            if (field.type == Map)  {
+                Map map = new HashMap()
+                Map<byte[], byte[]> familyMap = result.getFamilyMap(bytes(field.name))
+                familyMap.each { byte[] k, byte[] v ->
+                    map[fromBytes(k, String.class)] = fromBytes(v, String.class)
+                }
+                field.accessible = true
+                field.set(t, map)
+                return
+            }
+            byte[] value = result.getValue(PROPERTY_COLUMN_FAMILY_BYTES, bytes(field.name))
+            field.accessible = true
+            field.set(t, fromBytes(value, field.type))
+        }
+        
+        return t
+    }
 
     private void persist(Put put, String columnFamily, String name, Object value)  {
         put.add(bytes(columnFamily), bytes(name), bytes(value))
     }
     
     private boolean persistible(Class c)    {
+        if (c.array)    {
+            return true
+        }
         return PERSISTABLE_CLASSES.contains(c)
     }
 
     private boolean persistible(Field field)    {
         if (field == null)  {
-            return false;
+            return false
         }
 
         if (Modifier.isStatic(field.modifiers))   {
@@ -189,6 +242,7 @@ class HBasePersistence<T>   {
     }
 
     private void returnTable(HTable table) {
+        table.flushCommits()
         tablePool.putTable(table)
     }
 
@@ -219,6 +273,9 @@ class HBasePersistence<T>   {
 
     private Object fromBytes(byte[] bytes, Class type)  {
         assert persistible(type) : "Not supported type: ${type}"
+        if (bytes == null)  {
+            return null
+        }
         Object value = null
         switch (type)   {
             case String:
@@ -240,6 +297,7 @@ class HBasePersistence<T>   {
                 value = Bytes.toShort(bytes)
                 break
             case Object[]:
+            case List:
                 ByteArrayInputStream bin = new ByteArrayInputStream(bytes)
                 ObjectInputStream oin = new ObjectInputStream(bin)
                 value = oin.readObject()
@@ -253,50 +311,41 @@ class HBasePersistence<T>   {
     }
 
 
-    private static byte[] bytes(String str) {
+    public static byte[] bytes(String str) {
         return Bytes.toBytes(str)
     }
 
-    private static byte[] bytes(Date date) {
+    public static byte[] bytes(Date date) {
         return Bytes.toBytes(date.time)
     }
 
-    private static byte[] bytes(Long l)    {
+    public static byte[] bytes(Long l)    {
         return Bytes.toBytes(l)
     }
 
-    private static byte[] bytes(Double d)    {
+    public static byte[] bytes(Double d)    {
         return Bytes.toBytes(d)
     }
 
-    private static byte[] bytes(Integer i)    {
+    public static byte[] bytes(Integer i)    {
         return Bytes.toBytes(i)
     }
 
-    private static byte[] bytes(Short s)    {
+    public static byte[] bytes(Short s)    {
         return Bytes.toBytes(s)
     }
 
-    private static byte[] bytes(List<?> list)    {
-        // TODO: do this better
-        String value = list.join(",")
-        return Bytes.toBytes(value)
+    public static byte[] bytes(List<?> list)    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ObjectOutputStream os = new ObjectOutputStream(baos)
+        os.writeObject(list)
+        return baos.toByteArray()
     }
 
-    private static byte[] bytes(Object[] array) {
+    public static byte[] bytes(Object[] array) {
           ByteArrayOutputStream baos = new ByteArrayOutputStream()
           ObjectOutputStream os = new ObjectOutputStream(baos)
           os.writeObject(array)
           return baos.toByteArray()
     }
-
-    /*
-    private static byte[] bytes(Object obj) {
-        if (obj == null)    {
-            return null
-        }
-        assert false : "Not supported type: ${obj.class}"
-        return null
-    }
-    */
 }
