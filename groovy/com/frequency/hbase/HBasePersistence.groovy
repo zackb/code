@@ -1,4 +1,4 @@
-package com.frequency.hbase
+package com.jeedup.hbase
 
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
