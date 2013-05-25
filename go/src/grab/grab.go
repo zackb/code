@@ -11,24 +11,39 @@ import (
 )
 
 type Grab struct    {
-    Tags map[string]string 
-    Etag string
+    Url string
+    Tag map[string]string
+    Data []byte
+    Html string
+    Json map[string]interface{}
+    StatusCode int
+    Headers map[string]string
 }
 
+func (g Grab) Header(key string) string {
+    return g.Headers[strings.ToLower(key)]
+}
+
+
 func GrabUrl(url string) Grab  {
-    grab := Grab{}
-    grab.Tags = GrabTags(url)
+    grab := download(url)
+    contentType := grab.Header("content-type")
+    switch  {
+        case strings.Contains(contentType, "application/json"):
+            grab.Json = ParseJson(grab.Data)
+        case contentType == "" || strings.Contains(contentType, "text/html"):
+            grab.Tag = GrabTags(grab.Html)
+            grab.Html = string(grab.Data)
+    }
     return grab
 }
 
-func GrabTags(url string) map[string]string   {
+func GrabTags(html string) map[string]string   {
 
-    tags := []string{"title", "description"} 
-    metas := []string{"og:", "twitter:"} 
+    tags := []string{"title", "description"}
+    metas := []string{"og:", "twitter:"}
 
-    data := map[string]string{} 
-
-    html := download(url) 
+    data := map[string]string{}
 
     nodes := parse(html)
 
@@ -82,7 +97,8 @@ func parse(html string) goquery.Nodes    {
     return nodes
 }
 
-func download(url string) string    {
+func download(url string) Grab  {
+    grab := Grab{}
     resp, err := http.Get(url)
     if err != nil {
         log.Println("request failed - %s %s", url, err.Error())
@@ -94,7 +110,18 @@ func download(url string) string    {
     if err != nil {
         log.Println("read failed - %s %s", url, err.Error())
     }
-    return string(data)
+
+    grab.Data = data
+    grab.StatusCode = resp.StatusCode
+
+    headers := resp.Header
+    grab.Headers = make(map[string]string)
+
+    for k, v := range headers   {
+        grab.Headers[strings.ToLower(k)] = strings.Join(v, ",")
+    }
+
+    return grab
 }
 
 func dump(v interface{})  {

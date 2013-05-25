@@ -30,7 +30,12 @@ func Index(w http.ResponseWriter, req *http.Request) {
 func doGrab(w http.ResponseWriter, req *http.Request) {
     url := req.FormValue("u")
     grab := grab.GrabUrl(url)
-    for k, v := range grab.Tags {
+    for k, v := range grab.Tag  {
+        log.Println(k + " = " + v)
+    }
+
+    log.Println(grab.Header["Expires"])
+    for k, v := range grab.Header  {
         log.Println(k + " = " + v)
     }
 }
