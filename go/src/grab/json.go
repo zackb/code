@@ -3,6 +3,7 @@ package grab
 import (
     "encoding/json"
     "fmt"
+    "reflect"
 )
 
 type Json struct    {
@@ -60,9 +61,38 @@ func ParseJson(bytes []byte) Json   {
     if f == nil {
         return Json{}
     }
-    m := f.(map[string]interface{})
-    return Json{Data:m}
+    switch f.(type)   {
+        case []interface{}:
+            //fmt.Println("Dont Know: %i", reflect.TypeOf(f))
+            //aa := f.([]map[string]interface{})
+            //a := make([]map[string]interface{}, aa[0].(map[string]interface{}))
+            //a[0] = f.(map[string]interface{})
+            //a := f.([]map[string]interface{})
+            /*
+            m := make(map[string]interface{})
+            for k, v := range vf {
+                m[k] = v
+            }
+            */
+            //return Json{Data:m}
+        case  map[string]interface{}:
+            m := f.(map[string]interface{})
+            return Json{Data:m}
+        default:
+            fmt.Println("Dont Know: %i", reflect.TypeOf(f))
+    }
+    return Json{}
 }
+
+func ParseJsonArr(bytes []byte) JsonArr {
+    var f []interface{}
+    json.Unmarshal([]byte(bytes), &f)
+    if f == nil {
+        return JsonArr{}
+    }
+    return JsonArr{Data:f}
+}
+
 
 func PrintJson(json map[string]interface{})   {
     for k, v := range json {

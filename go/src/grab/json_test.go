@@ -5,7 +5,7 @@ import (
 )
 
 func Test_ParseJson(t *testing.T) {
-    s := `{"o": 1, "s": "mystr", "m":{"foo":"bar", "i": 100}, "a":[4, {"mm":"mv"}, 11]}`
+    s := `{"o": 1, "s": "mystr", "m":{"foo":"bar", "i": 100}, "a":[4, {"mm":"mv"}, 11, {"aa":[54]}]}`
     json := ParseJson([]byte(s))
     if json.Int("o") != 1   {
         t.Error("int parse failed")
@@ -37,6 +37,10 @@ func Test_ParseJson(t *testing.T) {
 
     if json.Arr("a").Float(2) != 11.0    {
         t.Error("array float parse failed")
+    }
+
+    if json.Arr("a").Get(3).Arr("aa").Int(0) != 54  {
+        t.Error("array aray int parse failed")
     }
 }
 
