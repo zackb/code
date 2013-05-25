@@ -97,7 +97,7 @@ func parse(html string) goquery.Nodes    {
 }
 
 func download(url string) Grab  {
-    grab := Grab{}
+    grab := Grab{Url:url}
     resp, err := http.Get(url)
     if err != nil {
         log.Println("request failed - %s %s", url, err.Error())
