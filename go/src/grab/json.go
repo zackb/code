@@ -20,27 +20,37 @@ func (json Json) Str(key string) string   {
 }
 
 func (json Json) Get(key interface{}) Json  {
+    var v interface{}
     switch key.(type) {
-        case string:
-            return Json{Data:json.Data[key.(string)].(map[string]interface{})}
-        case int:
-            return Json{Data:json.arr[key.(int)].(map[string]interface{})}
+    case string:
+        v = json.Data[key.(string)]
+    case int:
+        v = json.arr[key.(int)]
+    }
+
+    switch v.(type) {
+        case []interface{}:
+            return Json{arr:v.([]interface{})}
+        case  map[string]interface{}:
+            return Json{Data:v.(map[string]interface{})}
     }
     return Json{}
 }
 
-func (json Json) Float(key string) float64  {
-    return json.Data[key].(float64)
+func (json Json) Float(key interface{}) float64  {
+    switch key.(type)   {
+        case string:
+            return json.Data[key.(string)].(float64)
+        case int:
+            return json.arr[key.(int)].(float64)
+    }
+
+    return 0.0
 }
 
-func (json Json) Int(key string) int  {
+func (json Json) Int(key interface{}) int  {
     x := json.Float(key)
     return int(x)
-}
-
-func (json Json) Arr(key string) JsonArr    {
-    d := json.Data[key].([]interface{})
-    return JsonArr{Data:d}
 }
 
 func (arr JsonArr) Str(i int) string {
@@ -53,11 +63,6 @@ func (arr JsonArr) Float(i int) float64 {
 
 func (arr JsonArr) Int(i int) int {
     return int(arr.Float(i))
-}
-
-func (arr JsonArr) Get(i int) Json  {
-    j := Json{Data:arr.Data[i].(map[string]interface{})}
-    return j
 }
 
 func ParseJson(bytes []byte) Json   {

@@ -35,19 +35,19 @@ func Test_ParseJson(t *testing.T) {
         t.Error("map int parse failed")
     }
 
-    if json.Arr("a").Int(0) != 4    {
+    if json.Get("a").Int(0) != 4    {
         t.Error("array int parse failed")
     }
 
-    if json.Arr("a").Get(1).Str("mm") != "mv"    {
+    if json.Get("a").Get(1).Str("mm") != "mv"    {
         t.Error("array map parse failed")
     }
 
-    if json.Arr("a").Float(2) != 11.0    {
+    if json.Get("a").Float(2) != 11.0    {
         t.Error("array float parse failed")
     }
 
-    if json.Arr("a").Get(3).Arr("aa").Int(0) != 54  {
+    if json.Get("a").Get(3).Get("aa").Int(0) != 54  {
         t.Error("array aray int parse failed")
     }
 }
