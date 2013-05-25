@@ -4,6 +4,14 @@ import (
     "testing"
 )
 
+func Test_ParseJsonArr(t *testing.T)    {
+    s := `[{"i":4}]`
+    json := ParseJson([]byte(s))
+    if json.Get(0).Int("i") != 4   {
+        t.Error("arr int parse failed")
+    }
+}
+
 func Test_ParseJson(t *testing.T) {
     s := `{"o": 1, "s": "mystr", "m":{"foo":"bar", "i": 100}, "a":[4, {"mm":"mv"}, 11, {"aa":[54]}]}`
     json := ParseJson([]byte(s))

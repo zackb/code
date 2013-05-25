@@ -34,8 +34,8 @@ func doGrab(w http.ResponseWriter, req *http.Request) {
         log.Println(k + " = " + v)
     }
 
-    log.Println(grab.Header["Expires"])
-    for k, v := range grab.Header  {
+    log.Println(grab.Header("Expires"))
+    for k, v := range grab.Headers  {
         log.Println(k + " = " + v)
     }
 }
