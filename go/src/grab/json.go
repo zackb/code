@@ -11,10 +11,6 @@ type Json struct    {
     arr []interface{}
 }
 
-type JsonArr struct {
-    Data []interface{}
-}
-
 func (json Json) Str(key string) string   {
     return fmt.Sprintf("%s", json.Data[key])
 }
@@ -53,18 +49,6 @@ func (json Json) Int(key interface{}) int  {
     return int(x)
 }
 
-func (arr JsonArr) Str(i int) string {
-    return fmt.Sprintf("%s", arr.Data[i])
-}
-
-func (arr JsonArr) Float(i int) float64 {
-    return arr.Data[i].(float64)
-}
-
-func (arr JsonArr) Int(i int) int {
-    return int(arr.Float(i))
-}
-
 func ParseJson(bytes []byte) Json   {
     var f interface{}
     json.Unmarshal([]byte(bytes), &f)
@@ -82,16 +66,6 @@ func ParseJson(bytes []byte) Json   {
     }
     return Json{}
 }
-
-func ParseJsonArr(bytes []byte) JsonArr {
-    var f []interface{}
-    json.Unmarshal([]byte(bytes), &f)
-    if f == nil {
-        return JsonArr{}
-    }
-    return JsonArr{Data:f}
-}
-
 
 func PrintJson(json map[string]interface{})   {
     for k, v := range json {
