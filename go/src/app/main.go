@@ -10,7 +10,7 @@ import (
 type GrabResult struct  {
     Url string
     StatusCode int
-    Date int32
+    Date int64
 }
 
 
@@ -27,9 +27,9 @@ func main() {
 
     //grab.PrintJson(g.Json)
 
-    s := g.Json["datetime"]
+    s := g.Json.Get("minClientVersion").Int("iphone")
 
-    fmt.Printf("%s\n", s)
+    fmt.Printf("%d\n", s)
     //Web()
 
     //engine := xorm.Create("mysql", "root:G3tB43ck@/flix?charset=utf8")
@@ -39,6 +39,6 @@ func main() {
 
     res := GrabResult{}
     res.Url = url
-    res.Date = int32(time.Now().Unix())
+    res.Date = time.Now().Unix()
 
 }

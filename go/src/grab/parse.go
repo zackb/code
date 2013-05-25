@@ -5,11 +5,15 @@ import  (
     "fmt"
 )
 
-func ParseJson(bytes []byte) map[string]interface{} {
+//func ParseJson(bytes []byte) map[string]interface{} {
+func ParseJson(bytes []byte) Json   {
     var f interface{}
     json.Unmarshal([]byte(bytes), &f)
+    if f == nil {
+        return Json{}
+    }
     m := f.(map[string]interface{})
-    return m
+    return Json{Data:m}
 }
 
 func PrintJson(json map[string]interface{})   {

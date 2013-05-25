@@ -15,12 +15,13 @@ type Grab struct    {
     Tag map[string]string
     Data []byte
     Html string
-    Json map[string]interface{}
+    //Json map[string]interface{}
+    Json Json
     StatusCode int
     Headers map[string]string
 }
 
-func (g Grab) Header(key string) string {
+func (g *Grab) Header(key string) string {
     return g.Headers[strings.ToLower(key)]
 }
 
