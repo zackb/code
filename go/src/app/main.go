@@ -3,8 +3,8 @@ package main
 import (
     "grab"
     "flag"
-    "fmt"
     "time"
+    "fmt"
 )
 
 type GrabResult struct  {
@@ -20,17 +20,16 @@ func main() {
     url := args[0]
     g := grab.GrabUrl(url)
 
-    fmt.Printf("%s", g.Header("Content-Type"))
-    for k, v := range g.Headers {
-        fmt.Printf("'" + k + "' = " + v + "\n");
+    for k, v := range g.Tag  {
+        fmt.Println("Tag: " + k + " = " + v)
+    }
+
+    for k, v := range g.Headers  {
+        fmt.Println("Header: " + k + " = " + v)
     }
 
     //grab.PrintJson(g.Json)
 
-    s := g.Json.Get("minClientVersion").Int("iphone")
-
-    fmt.Printf("%d\n", s)
-    //Web()
 
     //engine := xorm.Create("mysql", "root:G3tB43ck@/flix?charset=utf8")
     //err := engine.CreateTables(&GrabResult{})
@@ -41,4 +40,5 @@ func main() {
     res.Url = url
     res.Date = time.Now().Unix()
 
+    //Web()
 }
