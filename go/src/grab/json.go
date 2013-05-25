@@ -19,9 +19,14 @@ func (json Json) Str(key string) string   {
     return fmt.Sprintf("%s", json.Data[key])
 }
 
-func (json Json) Get(key string) Json  {
-    j := Json{Data:json.Data[key].(map[string]interface{})}
-    return j
+func (json Json) Get(key interface{}) Json  {
+    switch key.(type) {
+        case string:
+            return Json{Data:json.Data[key.(string)].(map[string]interface{})}
+        case int:
+            return Json{Data:json.arr[key.(int)].(map[string]interface{})}
+    }
+    return Json{}
 }
 
 func (json Json) Float(key string) float64  {
@@ -63,18 +68,7 @@ func ParseJson(bytes []byte) Json   {
     }
     switch f.(type)   {
         case []interface{}:
-            //fmt.Println("Dont Know: %i", reflect.TypeOf(f))
-            //aa := f.([]map[string]interface{})
-            //a := make([]map[string]interface{}, aa[0].(map[string]interface{}))
-            //a[0] = f.(map[string]interface{})
-            //a := f.([]map[string]interface{})
-            /*
-            m := make(map[string]interface{})
-            for k, v := range vf {
-                m[k] = v
-            }
-            */
-            //return Json{Data:m}
+            return Json{arr:f.([]interface{})}
         case  map[string]interface{}:
             m := f.(map[string]interface{})
             return Json{Data:m}
