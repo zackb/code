@@ -33,20 +33,20 @@ func GrabUrl(url string) Grab  {
         case strings.Contains(contentType, "application/json"):
             grab.Json = ParseJson(grab.Data)
         case contentType == "" || strings.Contains(contentType, "text/html"):
-            grab.Tag = GrabTags(grab.Html)
             grab.Html = string(grab.Data)
+            GrabTags(&grab)
     }
     return grab
 }
 
-func GrabTags(html string) map[string]string   {
+func GrabTags(g *Grab) {
 
     tags := []string{"title", "description"}
     metas := []string{"og:", "twitter:"}
 
-    data := map[string]string{}
+    g.Tag = map[string]string{}
 
-    nodes := parse(html)
+    nodes := parse(g.Html)
 
     head := nodes.Find("head")
 
@@ -56,7 +56,7 @@ func GrabTags(html string) map[string]string   {
         for _, tag := range tags  {
             switch node.Data    {
                 case tag:
-                    data[tag] = node.Child[0].Data
+                    g.Tag[tag] = node.Child[0].Data
                 case "meta":
                     attrs := attr_map(node.Attr)
                     name := attrs["property"]
@@ -71,14 +71,12 @@ func GrabTags(html string) map[string]string   {
                             if value == ""  {
                                 value = attrs["content"]
                             }
-                            data[name] = value
+                            g.Tag[name] = value
                         }
                     }
             }
         }
     }
-
-    return data
 }
 
 func attr_map(attrs []html.Attribute) map[string]string  {

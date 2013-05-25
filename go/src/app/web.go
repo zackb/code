@@ -31,12 +31,11 @@ func doGrab(w http.ResponseWriter, req *http.Request) {
     url := req.FormValue("u")
     grab := grab.GrabUrl(url)
     for k, v := range grab.Tag  {
-        log.Println(k + " = " + v)
+        log.Println("Tag: " + k + " = " + v)
     }
 
-    log.Println(grab.Header("Expires"))
     for k, v := range grab.Headers  {
-        log.Println(k + " = " + v)
+        log.Println("Header: " + k + " = " + v)
     }
 }
 
