@@ -7,19 +7,19 @@ import (
 )
 
 type Json struct    {
-    Data map[string]interface{}
+    data map[string]interface{}
     arr []interface{}
 }
 
 func (json Json) Str(key string) string   {
-    return fmt.Sprintf("%s", json.Data[key])
+    return fmt.Sprintf("%s", json.data[key])
 }
 
 func (json Json) Get(key interface{}) Json  {
     var v interface{}
     switch key.(type) {
     case string:
-        v = json.Data[key.(string)]
+        v = json.data[key.(string)]
     case int:
         v = json.arr[key.(int)]
     }
@@ -28,7 +28,7 @@ func (json Json) Get(key interface{}) Json  {
         case []interface{}:
             return Json{arr:v.([]interface{})}
         case  map[string]interface{}:
-            return Json{Data:v.(map[string]interface{})}
+            return Json{data:v.(map[string]interface{})}
     }
     return Json{}
 }
@@ -36,7 +36,7 @@ func (json Json) Get(key interface{}) Json  {
 func (json Json) Float(key interface{}) float64  {
     switch key.(type)   {
         case string:
-            return json.Data[key.(string)].(float64)
+            return json.data[key.(string)].(float64)
         case int:
             return json.arr[key.(int)].(float64)
     }
@@ -60,7 +60,7 @@ func ParseJson(bytes []byte) Json   {
             return Json{arr:f.([]interface{})}
         case  map[string]interface{}:
             m := f.(map[string]interface{})
-            return Json{Data:m}
+            return Json{data:m}
         default:
             fmt.Println("Dont Know: %i", reflect.TypeOf(f))
     }
