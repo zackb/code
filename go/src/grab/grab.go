@@ -8,6 +8,7 @@ import (
     "io/ioutil"
     "strings"
     "reflect"
+    "grab/text"
 )
 
 type Grab struct    {
@@ -40,6 +41,10 @@ func GrabUrl(url string) (*Grab, error)  {
             GrabTags(grab)
     }
     return grab,nil
+}
+
+func (g Grab)Summary() string {
+    return text.Summarize(g.Tag["title"], g.Html)
 }
 
 func GrabTags(g *Grab) {

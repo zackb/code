@@ -15,7 +15,7 @@ type GrabResult struct  {
 }
 
 func handle(url string) {
-    g := grab.GrabUrl(url)
+    g,_ := grab.GrabUrl(url)
     //crawl.Crawl(g)
     for k, v := range g.Tag  {
         fmt.Println("Tag: " + k + " = " + v)
@@ -24,6 +24,7 @@ func handle(url string) {
         fmt.Println("Header: " + k + " = " + v)
     }
     fmt.Println("Json: %v", g.Json)
+    fmt.Println("Summary: %v", g.Summary())
 }
 
 func main() {
@@ -33,16 +34,16 @@ func main() {
     in := bufio.NewReader(os.Stdin)
     input := ""
     for input != "." {
-        if input, err := in.ReadString('\n'); err != nil {
+        input, err := in.ReadString('\n')
+        if err != nil {
             fmt.Println(err)
-            return err
+            return
         }
         input = strings.TrimSpace(input)
         if input == "" {
             continue
         }
         go handle(input)
-        fmt.Println("Here")
     }
 
     //grab.PrintJson(g.Json)

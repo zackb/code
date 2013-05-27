@@ -28,4 +28,3 @@ func Test_Vimeo(t *testing.T)   {
         t.Error("failed parsing string vimeo user_name")
     }
 }
-

@@ -40,7 +40,7 @@ func sentencesIntersection(sent1, sent2 string) int {
     s2 := strings.Split(sent2, " ") //unique
 
     // if no intersection return 0
-    if (len(s1) + len(s2)) == 0 {
+    if len(s1) + len(s2) == 0 {
         return 0
     }
 
