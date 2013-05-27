@@ -6,8 +6,8 @@ import (
     "log"
     "net/http"
     "io/ioutil"
-    "reflect"
     "strings"
+    "reflect"
 )
 
 type Grab struct    {
@@ -15,7 +15,6 @@ type Grab struct    {
     Tag map[string]string
     Data []byte
     Html string
-    //Json map[string]interface{}
     Json Json
     StatusCode int
     Headers map[string]string
@@ -42,7 +41,7 @@ func GrabUrl(url string) Grab  {
 func GrabTags(g *Grab) {
 
     tags := []string{"title", "description"}
-    metas := []string{"og:", "twitter:"}
+    metas := []string{"og:", "twitter:", "description"}
 
     g.Tag = map[string]string{}
 
