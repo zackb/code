@@ -13,18 +13,22 @@ import (
 
 type Grab struct    {
     Url string
-    Tag map[string]string
     Data []byte
-    Html string
+    Html Html
     Json Json
     StatusCode int
     Headers map[string]string
 }
 
+type Html struct {
+    Data string
+    Tag map[string]string
+    Body string
+}
+
 func (g *Grab) Header(key string) string {
     return g.Headers[strings.ToLower(key)]
 }
-
 
 func GrabUrl(url string) (*Grab, error)  {
     grab, err := download(url)
@@ -37,14 +41,15 @@ func GrabUrl(url string) (*Grab, error)  {
         case strings.Contains(contentType, "application/json"):
             grab.Json = ParseJson(grab.Data)
         case contentType == "" || strings.Contains(contentType, "text/html"):
-            grab.Html = string(grab.Data)
+            grab.Html = Html{}
+            grab.Html.Data = string(grab.Data)
             GrabTags(grab)
     }
     return grab,nil
 }
 
 func (g Grab)Summary() string {
-    return text.Summarize(g.Tag["title"], g.Html)
+    return text.Summarize(g.Html.Tag["title"], g.Html.Body)
 }
 
 func GrabTags(g *Grab) {
@@ -52,9 +57,9 @@ func GrabTags(g *Grab) {
     tags := []string{"title", "description"}
     metas := []string{"og:", "twitter:", "description"}
 
-    g.Tag = map[string]string{}
+    g.Html.Tag = map[string]string{}
 
-    nodes := parse(g.Html)
+    nodes := parse(g.Html.Data)
 
     head := nodes.Find("head")
 
@@ -63,25 +68,25 @@ func GrabTags(g *Grab) {
 
         for _, tag := range tags  {
             switch node.Data    {
-                case tag:
-                    g.Tag[tag] = node.Child[0].Data
-                case "meta":
-                    attrs := attr_map(node.Attr)
-                    name := attrs["property"]
+            case tag:
+                g.Html.Tag[tag] = node.Child[0].Data
+            case "meta":
+                attrs := attr_map(node.Attr)
+                name := attrs["property"]
 
-                    if name == ""   {
-                        name = attrs["name"]
-                    }
+                if name == ""   {
+                    name = attrs["name"]
+                }
 
-                    for _, meta := range metas    {
-                        if strings.HasPrefix(name, meta)   {
-                            value := attrs["value"]
-                            if value == ""  {
-                                value = attrs["content"]
-                            }
-                            g.Tag[name] = value
+                for _, meta := range metas    {
+                    if strings.HasPrefix(name, meta)   {
+                        value := attrs["value"]
+                        if value == ""  {
+                            value = attrs["content"]
                         }
+                        g.Html.Tag[name] = value
                     }
+                }
             }
         }
     }
