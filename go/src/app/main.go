@@ -17,14 +17,15 @@ type GrabResult struct  {
 func handle(url string) {
     g,_ := grab.GrabUrl(url)
     //crawl.Crawl(g)
-    for k, v := range g.Tag  {
+    for k, v := range g.Html.Tag  {
         fmt.Println("Tag: " + k + " = " + v)
     }
     for k, v := range g.Headers  {
         fmt.Println("Header: " + k + " = " + v)
     }
     fmt.Println("Json: %v", g.Json)
-    fmt.Println("Summary: %v", g.Summary())
+    //fmt.Println("Summary: %v", g.Summary())
+    fmt.Println("Summary: %v", g.Html.Body)
 }
 
 func main() {

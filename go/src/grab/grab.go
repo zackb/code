@@ -55,7 +55,7 @@ func (g Grab)Summary() string {
 func GrabTags(g *Grab) {
 
     tags := []string{"title", "description"}
-    metas := []string{"og:", "twitter:", "description"}
+    metas := []string{"og:", "twitter:", "description", "keywords"}
 
     g.Html.Tag = map[string]string{}
 
@@ -90,6 +90,8 @@ func GrabTags(g *Grab) {
             }
         }
     }
+    // TODO
+    g.Html.Body = nodes.Find("body").Html()
 }
 
 func attr_map(attrs []html.Attribute) map[string]string  {
