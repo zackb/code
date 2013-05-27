@@ -6,7 +6,7 @@ import (
 
 func Test_ParseJsonDoc(t *testing.T) {
     url := "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=jack"
-    g := GrabUrl(url)
+    g,_ := GrabUrl(url)
     if g.Json.Get(1).Get("user").Str("screen_name") != "jack"  {
         t.Error("failed parsing tweet user screen_name")
     }
@@ -14,7 +14,7 @@ func Test_ParseJsonDoc(t *testing.T) {
 
 func Test_Vimeo(t *testing.T)   {
     url := "http://vimeo.com/api/v2/video/66753522.json"
-    g := GrabUrl(url)
+    g,_ := GrabUrl(url)
     if g.StatusCode != 200  {
         t.Error("status code", g.StatusCode)
     }

@@ -25,17 +25,21 @@ func (g *Grab) Header(key string) string {
 }
 
 
-func GrabUrl(url string) Grab  {
-    grab := download(url)
+func GrabUrl(url string) (*Grab, error)  {
+    grab, err := download(url)
+    if err != nil   {
+        log.Println("download failed - ", err.Error())
+        return nil, err
+    }
     contentType := grab.Header("content-type")
     switch  {
         case strings.Contains(contentType, "application/json"):
             grab.Json = ParseJson(grab.Data)
         case contentType == "" || strings.Contains(contentType, "text/html"):
             grab.Html = string(grab.Data)
-            GrabTags(&grab)
+            GrabTags(grab)
     }
-    return grab
+    return grab,nil
 }
 
 func GrabTags(g *Grab) {
@@ -95,11 +99,12 @@ func parse(html string) goquery.Nodes    {
     return nodes
 }
 
-func download(url string) Grab  {
+func download(url string) (*Grab,error)  {
     grab := Grab{Url:url}
     resp, err := http.Get(url)
     if err != nil {
         log.Println("request failed - %s %s", url, err.Error())
+        return nil,err
     }
 
     defer resp.Body.Close()
@@ -107,6 +112,7 @@ func download(url string) Grab  {
     data, err := ioutil.ReadAll(resp.Body)
     if err != nil {
         log.Println("read failed - %s %s", url, err.Error())
+        return nil,err
     }
 
     grab.Data = data
@@ -119,7 +125,7 @@ func download(url string) Grab  {
         grab.Headers[strings.ToLower(k)] = strings.Join(v, ",")
     }
 
-    return grab
+    return &grab,nil
 }
 
 func dump(v interface{})  {
