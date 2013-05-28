@@ -49,6 +49,15 @@ func GrabUrl(url string) (*Grab, error)  {
     return grab,nil
 }
 
+func (g Grab) Item() *Item {
+    item := Item{id:1}
+    item.Title = first(g.Html.Meta["og:title"], g.Html.Meta["title"])
+    item.Description = first(g.Html.Meta["og:description"], g.Html.Meta["description"])
+    item.Url = g.Url
+    item.Tags = strings.Split(g.Html.Meta["keywords"], ",")
+    return &item
+}
+
 func (g Grab)Summary() string {
     return text.Summarize(g.Html.Meta["title"], g.Html.Body)
 }
@@ -166,6 +175,15 @@ func getNodeText(node *html.Node) string {
         return buf.String()
     }
 
+    return ""
+}
+
+func first(obs ...string) string {
+    for _,o := range obs {
+        if o != "" {
+            return o
+        }
+    }
     return ""
 }
 

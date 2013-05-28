@@ -6,7 +6,8 @@ import (
     "html/template"
     "log"
     "net/http"
-    //"fmt"
+    "encoding/json"
+    "fmt"
 )
 
 var addr = flag.String("addr", ":1718", "http service address") // Q=17, R=18
@@ -29,14 +30,27 @@ func Index(w http.ResponseWriter, req *http.Request) {
 
 func doGrab(w http.ResponseWriter, req *http.Request) {
     url := req.FormValue("u")
-    grab := grab.GrabUrl(url)
-    for k, v := range grab.Tag  {
+    grab,_ := grab.GrabUrl(url)
+    for k, v := range grab.Html.Meta {
         log.Println("Tag: " + k + " = " + v)
     }
 
     for k, v := range grab.Headers  {
         log.Println("Header: " + k + " = " + v)
     }
+
+    w.Header().Set("Content-Type", "application/json")
+    fmt.Fprint(w, JsonResponse{"item" : grab.Item()})
+}
+
+type JsonResponse map[string]interface{}
+func (r JsonResponse) String() (s string) {
+    b, err := json.Marshal(r)
+    if err != nil {
+        return ""
+    }
+
+    return string(b)
 }
 
 const templateStr = `
