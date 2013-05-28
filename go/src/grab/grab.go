@@ -28,6 +28,8 @@ type Html struct {
     Tags []string
 }
 
+var USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"
+
 func (g *Grab) Header(key string) string {
     return g.Headers[strings.ToLower(key)]
 }
@@ -138,7 +140,11 @@ func parseHtml(h string) (*goquery.Document, error) {
 
 func download(url string) (*Grab,error)  {
     grab := Grab{Url:url}
-    resp, err := http.Get(url)
+    client := http.Client{Jar:newCookieJar()}
+    req, err := http.NewRequest("GET", url, nil)
+    req.Header.Set("User-Agent", USER_AGENT)
+    resp, err := client.Do(req)
+
     if err != nil {
         log.Println("request failed - %s %s", url, err.Error())
         return nil,err
@@ -166,7 +172,7 @@ func download(url string) (*Grab,error)  {
 }
 
 func getNodeText(node *html.Node) string {
-    if node.Data == "script"  {
+    if node.Data == "script" {
         return ""
     }
     if node.Type == html.TextNode {
@@ -174,7 +180,7 @@ func getNodeText(node *html.Node) string {
         if text == "" {
             return ""
         }
-        return text + "\n"
+        return text + "\n\n"
     } else if node.FirstChild != nil {
         var buf bytes.Buffer
         for c := node.FirstChild; c != nil; c = c.NextSibling {

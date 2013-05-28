@@ -30,7 +30,7 @@ func sentences(content string) []string    {
 
 // Naive method for splitting a text into paragraphs
 func paragraphs(content string) []string {
-    return strings.Split(content, "\n") // \n\n
+    return strings.Split(content, "\n\n")
 }
 
 // Caculate the intersection between two sentences

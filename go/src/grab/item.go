@@ -58,8 +58,10 @@ func UrlToId(urlStr string) string {
     //}
 
     //buf.WriteString("?" + url.Query().Encode())
-    query := urlStr[strings.Index(urlStr, "?"):]
-    buf.WriteString(query)
+    if q := strings.Index(urlStr, "?"); q != -1 {
+        query := urlStr[q:]
+        buf.WriteString(query)
+    }
 
     return buf.String()
 }
