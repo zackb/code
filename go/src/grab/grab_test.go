@@ -28,3 +28,18 @@ func Test_Vimeo(t *testing.T)   {
         t.Error("failed parsing string vimeo user_name")
     }
 }
+
+func Test_UrlToId(t *testing.T) {
+    url := "http://www.example.com/path/to/file?var=val&v2=val2"
+    for i := 0; i < 100; i++ {
+        id := UrlToId(url)
+        if id != "com.example.www:http/path/to/file?var=val&v2=val2" {
+            t.Error("invalid id: " + id)
+        }
+
+        idUrl := IdToUrl(id)
+        if url != idUrl {
+            t.Error("invalid id to url: " + idUrl)
+        }
+    }
+}

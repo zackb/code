@@ -51,11 +51,14 @@ func GrabUrl(url string) (*Grab, error)  {
 }
 
 func (g Grab) Item() *Item {
-    item := Item{id:1}
+    item := Item{}
     item.Title = first(g.Html.Meta["og:title"], g.Html.Meta["title"])
     item.Description = first(g.Html.Meta["og:description"], g.Html.Meta["description"])
     item.Url = g.Url
+    item.ImageUrl = g.Html.Meta["og:image"]
     item.Tags = g.Html.Tags
+
+    item.Id = UrlToId(item.Url)
     return &item
 }
 
