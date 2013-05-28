@@ -53,9 +53,9 @@ var content = `
 
 
 func Test_Summarize(t *testing.T) {
-    summ := Summarize(title, content)
+    summ := Summarize(title, content, nil)
     ratio := 100 - (100 * len(summ) / (len(title) + len(content)))
     if ratio > 75 {
-        t.Error("Summary Ratio:" , ratio)
+        t.Error("Summary Ratio:" , summ)
     }
 }

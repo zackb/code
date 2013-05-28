@@ -9,11 +9,10 @@ import  (
 func Summarize(title, content string, paras []string) string {
     var sentences_map map[string]int
     if paras == nil {
-        //paras := paragraphs(content)
-        sentences_map = sentencesRanks(content)
-    } else {
-        sentences_map = sentencesRanks(strings.Join(paras, "\n\n"))
+        paras = paragraphs(content)
     }
+
+    sentences_map = sentencesRanks(strings.Join(paras, "\n\n"))
     summary := []string{title}
 
     // highest scoring sentence from each paragraph

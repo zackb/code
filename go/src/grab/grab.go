@@ -112,16 +112,10 @@ func GrabMeta(g *Grab) error {
         }
     })
 
-    getNodeParagraphs(nodes.Find("body").Nodes[0], g)
+    body := nodes.Find("body").Nodes[0]
 
-    nodes.Find("body").Each(func(i int, s *goquery.Selection) {
-        for _,node := range s.Nodes  {
-            if node.Data == "body"  {
-                g.Html.Body = getNodeText(node)
-                break
-            }
-        }
-    })
+    getNodeParagraphs(body, g)
+    g.Html.Body = getNodeText(body)
 
     for _,s := range strings.Split(g.Html.Meta["keywords"], ",") {
         g.Html.Tags = append(g.Html.Tags, strings.TrimSpace(s))
