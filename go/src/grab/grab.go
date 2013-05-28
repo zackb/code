@@ -8,6 +8,7 @@ import (
     "io/ioutil"
     "strings"
     "reflect"
+    "bytes"
     "grab/text"
 )
 
@@ -96,6 +97,15 @@ func GrabMeta(g *Grab) error {
         }
     })
 
+    nodes.Find("body").Each(func(i int, s *goquery.Selection) {
+        for _,node := range s.Nodes  {
+            if node.Data == "body"  {
+                g.Html.Body = getNodeText(node)
+                break
+            }
+        }
+    })
+
     return nil
 }
 
@@ -136,6 +146,27 @@ func download(url string) (*Grab,error)  {
     }
 
     return &grab,nil
+}
+
+func getNodeText(node *html.Node) string {
+    if node.Data == "script"  {
+        return ""
+    }
+    if node.Type == html.TextNode {
+        text := strings.TrimSpace(node.Data)
+        if text == "" {
+            return ""
+        }
+        return text + "\n"
+    } else if node.FirstChild != nil {
+        var buf bytes.Buffer
+        for c := node.FirstChild; c != nil; c = c.NextSibling {
+            buf.WriteString(getNodeText(c))
+        }
+        return buf.String()
+    }
+
+    return ""
 }
 
 func dump(v interface{})  {

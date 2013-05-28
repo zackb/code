@@ -13,13 +13,13 @@ func Summarize(title, content string) string {
 
     // highest scoring sentence from each paragraph
     for _,p := range paras {
-        sentence := strings.Trim(bestSentence(p, sentences_map), ` \n\r\t`)
+        sentence := strings.TrimSpace(bestSentence(p, sentences_map))
         if sentence != ""   {
             summary = append(summary, sentence)
         }
     }
 
-    return strings.Join(summary, `\n`)
+    return strings.Join(summary, "\n")
 }
 
 // Naive method for splitting a text into sentences
@@ -30,7 +30,7 @@ func sentences(content string) []string    {
 
 // Naive method for splitting a text into paragraphs
 func paragraphs(content string) []string {
-    return strings.Split(content, "\n\n")
+    return strings.Split(content, "\n") // \n\n
 }
 
 // Caculate the intersection between two sentences
