@@ -1,14 +1,14 @@
 package grab
 
 import (
-    "github.com/opesun/goquery"
-    "github.com/opesun/goquery/exp/html"
+    "github.com/PuerkitoBio/goquery"
     "log"
     "net/http"
     "io/ioutil"
     "strings"
     "reflect"
     "grab/text"
+    "code.google.com/p/go.net/html"
 )
 
 type Grab struct    {
@@ -52,63 +52,61 @@ func (g Grab)Summary() string {
     return text.Summarize(g.Html.Tag["title"], g.Html.Body)
 }
 
-func GrabTags(g *Grab) {
+func GrabTags(g *Grab) error {
 
-    tags := []string{"title", "description"}
-    metas := []string{"og:", "twitter:", "description", "keywords"}
+    tags := map[string]bool {"title" : true, "description" : true}
+    //metas := []string{"og:", "twitter:", "description", "keywords"}
 
     g.Html.Tag = map[string]string{}
 
-    nodes := parse(g.Html.Data)
+    nodes, err := parseHtml(g.Html.Data)
+    if err != nil {
+        return err
+    }
 
     head := nodes.Find("head")
 
-    for _, node := range head.Find("*")    {
-        //log.Println(node.Type) //log.Println(node.Data) //log.Println(node.Attr)
-
-        for _, tag := range tags  {
-            switch node.Data    {
-            case tag:
-                g.Html.Tag[tag] = node.Child[0].Data
-            case "meta":
-                attrs := attr_map(node.Attr)
-                name := attrs["property"]
-
-                if name == ""   {
-                    name = attrs["name"]
+    head.Find("*").Each(func(i int, s *goquery.Selection) {
+        for _,node := range s.Nodes  {
+            switch node.Type    {
+            case html.ErrorNode:
+            case html.TextNode:
+            case html.DocumentNode:
+            case html.ElementNode:
+                if tags[node.Data] {
+                    g.Html.Tag[node.Data] = node.FirstChild.Data
                 }
-
-                for _, meta := range metas    {
-                    if strings.HasPrefix(name, meta)   {
-                        value := attrs["value"]
-                        if value == ""  {
-                            value = attrs["content"]
+                switch node.Data {
+                case "meta":
+                    var k, v string
+                    for _,attr := range node.Attr    {
+                        if attr.Key == "property" || attr.Key == "name" {
+                            k = attr.Val
+                        } else if attr.Key == "content" || attr.Key == "value" {
+                            v = attr.Val
                         }
-                        g.Html.Tag[name] = value
+                    }
+                    if k != "" && v != "" {
+                        g.Html.Tag[k] = v
                     }
                 }
+            case html.CommentNode:
+            case html.DoctypeNode:
             }
         }
-    }
-    // TODO
-    g.Html.Body = nodes.Find("body").Html()
+    })
+
+    return nil
 }
 
-func attr_map(attrs []html.Attribute) map[string]string  {
-    data := map[string]string{}
-    for _, attr := range attrs  {
-        data[attr.Key] = attr.Val
-    }
-    return data
-}
-
-
-func parse(html string) goquery.Nodes    {
-    nodes, err := goquery.Parse(html)
+func parseHtml(h string) (*goquery.Document, error) {
+    node, err := html.Parse(strings.NewReader(h))
     if err != nil {
         log.Println("parsing failed - %s %s", err.Error())
+        return nil, err
     }
-    return nodes
+    doc := goquery.NewDocumentFromNode(node)
+    return doc,nil
 }
 
 func download(url string) (*Grab,error)  {

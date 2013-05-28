@@ -13,7 +13,7 @@ func Summarize(title, content string) string {
 
     // highest scoring sentence from each paragraph
     for _,p := range paras {
-        sentence := strings.Trim(bestSentence(p, sentences_map), ` `)
+        sentence := strings.Trim(bestSentence(p, sentences_map), ` \n\r\t`)
         if sentence != ""   {
             summary = append(summary, sentence)
         }
