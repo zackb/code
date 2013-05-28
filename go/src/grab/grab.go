@@ -183,7 +183,7 @@ func getNodeParagraphs(node *html.Node, g *Grab) {
         }
     } else if node.FirstChild != nil {
         for c := node.FirstChild; c != nil; c = c.NextSibling {
-            if tags[c.Data] || c.Type == html.TextNode {
+            if c.Type == html.TextNode || tags[c.Data] {
                 getNodeParagraphs(c, g)
             }
         }
