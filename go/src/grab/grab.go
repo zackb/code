@@ -44,8 +44,7 @@ func GrabUrl(url string) (*Grab, error)  {
         case strings.Contains(contentType, "application/json"):
             grab.Json = ParseJson(grab.Data)
         case contentType == "" || strings.Contains(contentType, "text/html"):
-            grab.Html = Html{}
-            grab.Html.Data = string(grab.Data)
+            grab.Html = Html{Data:string(grab.Data)}
             GrabMeta(grab)
     }
     return grab,nil
@@ -168,7 +167,15 @@ func download(url string) (*Grab,error)  {
 }
 
 func getNodeParagraphs(node *html.Node, g *Grab) {
-    tags := map[string]bool{"p":true,"div":true}
+    tags := map[string]bool {
+        "body":true,
+        "p":true,
+        "div":true,
+        "span":true,
+        "article":true,
+        "h1":true,"h2":true,"h3":true,"h4":true,"h5":true,"h6":true,
+    }
+
     if node.Type == html.TextNode {
         text := text.AlphaNumeric(node.Data)
         if text != "" {

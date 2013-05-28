@@ -23,8 +23,8 @@ func handle(url string) {
     for k, v := range g.Headers  {
         fmt.Println("Header: " + k + " = " + v)
     }
-    fmt.Println("Json: %v", g.Json)
-    fmt.Println("Summary: %v", g.Summary())
+    fmt.Printf("Json: %v\n", g.Json)
+    fmt.Printf("Summary: %v\n", g.Summary())
     //fmt.Printf("Paragraphs: %d %v\n", len(g.Html.Paragraphs), g.Html.Paragraphs)
 }
 

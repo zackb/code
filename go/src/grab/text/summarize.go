@@ -72,7 +72,7 @@ func formatSentence(sentence string) string {
     return safe
 }
 
-var alphaNumericReg, _ = regexp.Compile("[^A-Za-z0-9.]+")
+var alphaNumericReg, _ = regexp.Compile("[^(A-Za-z0-9.)|']+")
 func AlphaNumeric(sentence string) string {
     return strings.TrimSpace(alphaNumericReg.ReplaceAllString(sentence, " "))
 }
