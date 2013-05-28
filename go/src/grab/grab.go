@@ -25,6 +25,7 @@ type Html struct {
     Data string
     Meta map[string]string
     Body string
+    Tags []string
 }
 
 func (g *Grab) Header(key string) string {
@@ -54,7 +55,7 @@ func (g Grab) Item() *Item {
     item.Title = first(g.Html.Meta["og:title"], g.Html.Meta["title"])
     item.Description = first(g.Html.Meta["og:description"], g.Html.Meta["description"])
     item.Url = g.Url
-    item.Tags = strings.Split(g.Html.Meta["keywords"], ",")
+    item.Tags = g.Html.Tags
     return &item
 }
 
@@ -114,6 +115,10 @@ func GrabMeta(g *Grab) error {
             }
         }
     })
+
+    for _,s := range strings.Split(g.Html.Meta["keywords"], ",") {
+        g.Html.Tags = append(g.Html.Tags, strings.TrimSpace(s))
+    }
 
     return nil
 }

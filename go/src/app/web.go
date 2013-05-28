@@ -32,7 +32,7 @@ func doGrab(w http.ResponseWriter, req *http.Request) {
     url := req.FormValue("u")
     grab,_ := grab.GrabUrl(url)
     for k, v := range grab.Html.Meta {
-        log.Println("Tag: " + k + " = " + v)
+        log.Println("Meta: " + k + " = " + v)
     }
 
     for k, v := range grab.Headers  {
