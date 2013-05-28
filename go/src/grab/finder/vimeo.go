@@ -10,7 +10,7 @@ type VimeoFinder struct { }
 
 func (f VimeoFinder)extract(g *grab.Grab) Video  {
     v := Video{}
-    v.Title = g.Html.Tag["og:title"]
+    v.Title = g.Html.Meta["og:title"]
     return v
 }
 

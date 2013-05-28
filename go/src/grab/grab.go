@@ -2,13 +2,13 @@ package grab
 
 import (
     "github.com/PuerkitoBio/goquery"
+    "code.google.com/p/go.net/html"
     "log"
     "net/http"
     "io/ioutil"
     "strings"
     "reflect"
     "grab/text"
-    "code.google.com/p/go.net/html"
 )
 
 type Grab struct    {
@@ -22,7 +22,7 @@ type Grab struct    {
 
 type Html struct {
     Data string
-    Tag map[string]string
+    Meta map[string]string
     Body string
 }
 
@@ -43,21 +43,21 @@ func GrabUrl(url string) (*Grab, error)  {
         case contentType == "" || strings.Contains(contentType, "text/html"):
             grab.Html = Html{}
             grab.Html.Data = string(grab.Data)
-            GrabTags(grab)
+            GrabMeta(grab)
     }
     return grab,nil
 }
 
 func (g Grab)Summary() string {
-    return text.Summarize(g.Html.Tag["title"], g.Html.Body)
+    return text.Summarize(g.Html.Meta["title"], g.Html.Body)
 }
 
-func GrabTags(g *Grab) error {
+func GrabMeta(g *Grab) error {
 
     tags := map[string]bool {"title" : true, "description" : true}
     //metas := []string{"og:", "twitter:", "description", "keywords"}
 
-    g.Html.Tag = map[string]string{}
+    g.Html.Meta = map[string]string{}
 
     nodes, err := parseHtml(g.Html.Data)
     if err != nil {
@@ -74,7 +74,7 @@ func GrabTags(g *Grab) error {
             case html.DocumentNode:
             case html.ElementNode:
                 if tags[node.Data] {
-                    g.Html.Tag[node.Data] = node.FirstChild.Data
+                    g.Html.Meta[node.Data] = node.FirstChild.Data
                 }
                 switch node.Data {
                 case "meta":
@@ -87,7 +87,7 @@ func GrabTags(g *Grab) error {
                         }
                     }
                     if k != "" && v != "" {
-                        g.Html.Tag[k] = v
+                        g.Html.Meta[k] = v
                     }
                 }
             case html.CommentNode:
