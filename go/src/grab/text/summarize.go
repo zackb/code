@@ -6,9 +6,14 @@ import  (
 )
 
 // Build a summary of a title and content
-func Summarize(title, content string) string {
-    sentences_map := sentencesRanks(content)
-    paras := paragraphs(content)
+func Summarize(title, content string, paras []string) string {
+    var sentences_map map[string]int
+    if paras == nil {
+        //paras := paragraphs(content)
+        sentences_map = sentencesRanks(content)
+    } else {
+        sentences_map = sentencesRanks(strings.Join(paras, "\n\n"))
+    }
     summary := []string{title}
 
     // highest scoring sentence from each paragraph
@@ -19,7 +24,7 @@ func Summarize(title, content string) string {
         }
     }
 
-    return strings.Join(summary, "\n")
+    return strings.Join(summary, ". ")
 }
 
 // Naive method for splitting a text into sentences
@@ -66,6 +71,11 @@ func formatSentence(sentence string) string {
     safe := formatSentenceReg.ReplaceAllString(sentence, "-")
     safe = strings.ToLower(strings.Trim(safe, "-"))
     return safe
+}
+
+var alphaNumericReg, _ = regexp.Compile("[^A-Za-z0-9.]+")
+func AlphaNumeric(sentence string) string {
+    return strings.TrimSpace(alphaNumericReg.ReplaceAllString(sentence, " "))
 }
 
 // Convert the content into a map[K]V

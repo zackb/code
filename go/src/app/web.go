@@ -39,6 +39,8 @@ func doGrab(w http.ResponseWriter, req *http.Request) {
         log.Println("Header: " + k + " = " + v)
     }
 
+    log.Println("Summary: " + grab.Summary())
+
     w.Header().Set("Content-Type", "application/json")
     fmt.Fprint(w, JsonResponse{"item" : grab.Item()})
 }

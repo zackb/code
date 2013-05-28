@@ -25,7 +25,7 @@ func handle(url string) {
     }
     fmt.Println("Json: %v", g.Json)
     fmt.Println("Summary: %v", g.Summary())
-    //fmt.Println("Summary: %v", g.Html.Body)
+    //fmt.Printf("Paragraphs: %d %v\n", len(g.Html.Paragraphs), g.Html.Paragraphs)
 }
 
 func main() {

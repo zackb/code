@@ -26,9 +26,8 @@ type Html struct {
     Meta map[string]string
     Body string
     Tags []string
+    Paragraphs []string
 }
-
-var USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"
 
 func (g *Grab) Header(key string) string {
     return g.Headers[strings.ToLower(key)]
@@ -65,7 +64,8 @@ func (g Grab) Item() *Item {
 }
 
 func (g Grab)Summary() string {
-    return text.Summarize(g.Html.Meta["title"], g.Html.Body)
+    title := first(g.Html.Meta["og:title"], g.Html.Meta["title"])
+    return text.Summarize(title, g.Html.Body, g.Html.Paragraphs)
 }
 
 func GrabMeta(g *Grab) error {
@@ -111,6 +111,8 @@ func GrabMeta(g *Grab) error {
             }
         }
     })
+
+    getNodeParagraphs(nodes.Find("body").Nodes[0], g)
 
     nodes.Find("body").Each(func(i int, s *goquery.Selection) {
         for _,node := range s.Nodes  {
@@ -171,6 +173,22 @@ func download(url string) (*Grab,error)  {
     return &grab,nil
 }
 
+func getNodeParagraphs(node *html.Node, g *Grab) {
+    tags := map[string]bool{"p":true,"div":true}
+    if node.Type == html.TextNode {
+        text := text.AlphaNumeric(node.Data)
+        if text != "" {
+            g.Html.Paragraphs = append(g.Html.Paragraphs, text)
+        }
+    } else if node.FirstChild != nil {
+        for c := node.FirstChild; c != nil; c = c.NextSibling {
+            if tags[c.Data] || c.Type == html.TextNode {
+                getNodeParagraphs(c, g)
+            }
+        }
+    }
+}
+
 func getNodeText(node *html.Node) string {
     if node.Data == "script" {
         return ""
@@ -214,3 +232,5 @@ func dump(v interface{})  {
         log.Printf("Method(%d): %s %s = %v\n", i, f.Name, f.Type)
     }
 }
+
+var USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"
