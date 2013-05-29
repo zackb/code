@@ -50,7 +50,6 @@ func main() {
     //grab.PrintJson(g.Json)
 
 
-    //engine := xorm.Create("mysql", "root:G3tB43ck@/flix?charset=utf8")
     //err := engine.CreateTables(&GrabResult{})
     //id, err := engine.Insert(&GrabResult{Url:"foo"})
     //fmt.Printf("$d - %i\n", id, err)
