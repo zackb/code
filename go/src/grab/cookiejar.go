@@ -15,7 +15,7 @@ func (jar InMemoryCookieJar) SetCookies(u *url.URL, cookies []*http.Cookie) {
 		if ck.Path != "/" {
 			path = ck.Domain + ck.Path
 		}
-		if ck.Domain[0] == '.' {
+		if len(ck.Domain) > 0 && ck.Domain[0] == '.' {
 			path = path[1:]
 		}
 		if _, found := jar.storage[path]; found {

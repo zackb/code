@@ -173,6 +173,7 @@ func getNodeParagraphs(node *html.Node, g *Grab) {
         "div":true,
         "span":true,
         "article":true,
+        "a":true,
         "h1":true,"h2":true,"h3":true,"h4":true,"h5":true,"h6":true,
     }
 
