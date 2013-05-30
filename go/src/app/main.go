@@ -6,6 +6,7 @@ import (
     "os"
     "bufio"
     "strings"
+    //"grab/db"
 )
 
 type GrabResult struct  {
@@ -15,7 +16,11 @@ type GrabResult struct  {
 }
 
 func handle(url string) {
-    g,_ := grab.GrabUrl(url)
+    g,err := grab.GrabUrl(url)
+    if err != nil {
+        fmt.Println("Error: ", err)
+        return
+    }
     //crawl.Crawl(g)
     for k, v := range g.Html.Meta  {
         fmt.Println("Meta: " + k + " = " + v)
@@ -32,6 +37,9 @@ func main() {
     //flag.Parse()
     //args := flag.Args()
     //url := args[0]
+
+    //db.G()
+
     in := bufio.NewReader(os.Stdin)
     input := ""
     for input != "." {

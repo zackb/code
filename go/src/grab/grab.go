@@ -36,7 +36,6 @@ func (g *Grab) Header(key string) string {
 func GrabUrl(url string) (*Grab, error)  {
     grab, err := download(url)
     if err != nil   {
-        log.Println("download failed - ", err.Error())
         return nil, err
     }
     contentType := grab.Header("content-type")
@@ -137,11 +136,16 @@ func download(url string) (*Grab,error)  {
     grab := Grab{Url:url}
     client := http.Client{Jar:newCookieJar()}
     req, err := http.NewRequest("GET", url, nil)
+    if err != nil {
+        return nil,err
+    }
     req.Header.Set("User-Agent", USER_AGENT)
     resp, err := client.Do(req)
+    if err != nil {
+        return nil,err
+    }
 
     if err != nil {
-        log.Println("request failed - %s %s", url, err.Error())
         return nil,err
     }
 
@@ -149,7 +153,6 @@ func download(url string) (*Grab,error)  {
 
     data, err := ioutil.ReadAll(resp.Body)
     if err != nil {
-        log.Println("read failed - %s %s", url, err.Error())
         return nil,err
     }
 
