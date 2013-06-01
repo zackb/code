@@ -43,3 +43,10 @@ func Test_UrlToId(t *testing.T) {
         }
     }
 }
+
+func Test_SummarizeHtml(t *testing.T) {
+    url := "http://blog.stewtopia.com/2013/05/30/android-users-arent-cheap-but-cheap-users-use-android/"
+    g,_ := GrabUrl(url)
+    summ := g.Summary()
+    t.Error(summ)
+}

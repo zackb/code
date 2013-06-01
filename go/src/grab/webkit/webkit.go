@@ -1,41 +1,72 @@
 package webkit
 
 import (
+	"github.com/mattn/go-gtk/gtk"
+    "github.com/mattn/go-gtk/gdk"
     "fmt"
+    "time"
 )
 
 var webview *WebView
 var c chan bool
 
 func InitWebKit() {
-    c = make(chan bool)
+	gtk.Init(nil)
+    gdk.ThreadsInit()
+    c = make(chan bool, 2)
+    gdk.ThreadsEnter()
     webview = CreateWebView(func() {
-        go loadFinish()
+        fmt.Printf("HEEEERLoad Finished\n")
+        c <- true
     })
-}
+    gdk.ThreadsLeave()
 
-func loadFinish() {
-    fmt.Printf("HEEEERLoad Finished: %s\n", webview.GetUri())
-    c <- true
+    go func() {
+        gdk.ThreadsEnter()
+        gtk.Main()
+        gdk.ThreadsLeave()
+    }()
 }
 
 func RenderHtml(html, baseuri string) string {
     result := ""
 
-    go webview.LoadHtmlString(html, baseuri)
-    // webview.LoadUri("http://google.com")
+    fmt.Printf("Starting load\n")
+    //go func() {
+        gdk.ThreadsEnter()
+        webview.GetMainFrame().LoadString(html, "text/html", "UTF-8", baseuri)
+        //webview.LoadUri("http://google.com")
+        gdk.ThreadsLeave()
+        fmt.Printf("Ending load\n")
+    //}()
+
+    //for gtk.EventsPending() {
+    //    fmt.Printf("Iteration\n")
+    //    gtk.MainIteration()
+    //}
+
+    timeout := make(chan bool, 1)
+    go func() {
+        time.Sleep(4 * time.Second)
+        timeout <- true
+    }()
+
     select {
         case <- c:
             fmt.Printf("read from channel\n")
-            result = getHtml(webview)
+        case <- timeout:
+            fmt.Printf("timeout\n")
     }
+    //gdk.ThreadsEnter()
+    result = getHtml(webview)
+    //gdk.ThreadsLeave()
     return result
 }
 
 func getHtml(webview *WebView) string {
-    js := "document.title=document.documentElement.innerHTML"
+    js := "document.title=document.documentElement.outerHTML"
     webview.ExecuteScript(js)
-    str := webview.GetTitle()
+    str := webview.GetMainFrame().GetTitle()
     return str
 }
 
@@ -44,6 +75,9 @@ func CreateWebView(loadfinished func()) *WebView {
 	webview.Connect("load-error", func() {
         fmt.Printf("Load Error: %s\n", webview.GetUri())
 	})
+	webview.Connect("user-changed-contents"  , func() {
+        fmt.Printf("User changed contents: %s\n", webview.GetUri())
+	})
 	webview.Connect("onload-event", func() {
         fmt.Printf("Onload Event: %s\n", webview.GetUri())
 	})
@@ -51,9 +85,15 @@ func CreateWebView(loadfinished func()) *WebView {
         fmt.Printf("Resource Load Finished: %v\n", wv)
 	})
 	webview.Connect("load-committed", func() {
-		//entry.SetText(webview.GetUri())
         fmt.Printf("Load Committed: %s\n", webview.GetUri())
 	})
-	webview.Connect("load-finished", loadfinished)
+	webview.Connect("load-finished", func() {
+        fmt.Printf("Load Finished: %s\n", webview.GetUri())
+        //loadfinished()
+    })
+	webview.Connect("window-object-cleared", func() {
+        fmt.Printf("Window object cleared: %s\n", webview.GetUri())
+        loadfinished()
+    })
     return webview
 }

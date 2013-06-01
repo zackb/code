@@ -307,6 +307,9 @@ func (v *WebFrame) getWebFrame() *C.WebKitWebFrame {
 //                                                          const gchar *name);
 // WebKitWebDataSource * webkit_web_frame_get_data_source  (WebKitWebFrame *frame);
 // JSGlobalContextRef  webkit_web_frame_get_global_context (WebKitWebFrame *frame);
+func (v *WebFrame) GetGlobalContext() interface{} {
+    return C.webkit_web_frame_get_global_context(v.getWebFrame())
+}
 func (v *WebFrame) GetHorizontalScrollbarPolicy() uint {
 	return uint(C.webkit_web_frame_get_horizontal_scrollbar_policy(v.getWebFrame()))
 }
