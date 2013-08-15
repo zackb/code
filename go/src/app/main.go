@@ -6,8 +6,68 @@ import (
     "os"
     "bufio"
     "strings"
+    "time"
+    "sync"
     //"grab/db"
+    _ "github.com/go-sql-driver/mysql"
+    "github.com/lunny/xorm"
+    rss "github.com/frequency/go-pkg-rss"
 )
+
+
+type Feed struct {
+    Id int64
+    FeedUrl string `xorm:"feedUrl"`
+}
+
+func main() {
+    engine := xorm.Create("mysql", "root:G3tB4ck@tcp(184.72.198.200:3306)/frequency_feedfront?charset=utf8")
+    var feeds []Feed
+    err := engine.Table("RssFeed").Where("stateId <> ? and feedParserTypeId is null", "3").Find(&feeds) 
+    if err != nil {
+        fmt.Printf("Err: %v", err)
+    }
+
+    num_concurrent := 100
+    urls :=  make(chan string, num_concurrent)
+    var wg sync.WaitGroup
+    for i := 0; i < num_concurrent; i++ {
+        go func (){
+            for url := range urls {
+                PollFeed(url, 5)
+                wg.Done()
+            }
+        }()
+    }
+    for _,feed := range feeds {
+        wg.Add(1)
+        urls <-feed.FeedUrl
+    }
+    wg.Wait()
+    fmt.Println("Finished")
+
+    select {}
+}
+
+func PollFeed(uri string, timeout int) {
+    feed := rss.New(timeout, true, chanHandler, itemHandler)
+    for {
+        if err := feed.Fetch(uri, nil); err != nil {
+            fmt.Fprintf(os.Stderr, "[e] %s: %s\n\n", uri, err)
+            return
+        }
+        <-time.After(time.Duration(feed.SecondsTillUpdate() * 1e9))
+    }
+}
+
+func chanHandler(feed *rss.Feed, newchannels []*rss.Channel) {
+    fmt.Printf("%d new channel(s) in %s\n", len(newchannels), feed.Url)
+}
+
+func itemHandler(feed *rss.Feed, ch *rss.Channel, newitems []*rss.Item) {
+    fmt.Printf("%d new item(s) in %s\n", len(newitems), feed.Url)
+}
+
 
 type GrabResult struct  {
     Url string
@@ -33,7 +93,7 @@ func handle(url string) {
     //fmt.Printf("Paragraphs: %d %v\n", len(g.Html.Paragraphs), g.Html.Paragraphs)
 }
 
-func main() {
+func wmain() {
     //flag.Parse()
     //args := flag.Args()
     //url := args[0]
