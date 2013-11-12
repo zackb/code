@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define JAB_SAY "jab "
 #define CROSS_SAY "cross "
