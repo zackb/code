@@ -21,7 +21,7 @@ type Feed struct {
 }
 
 func main() {
-    engine := xorm.Create("mysql", "root:G3tB4ck@tcp(184.72.198.200:3306)/frequency_feedfront?charset=utf8")
+    engine := xorm.Create("mysql", "xxxx:xxxxx@tcp(127.0.0.1:3306)/frequency_feedfront?charset=utf8")
     var feeds []Feed
     err := engine.Table("RssFeed").Where("stateId <> ? and feedParserTypeId is null", "3").Find(&feeds) 
     if err != nil {

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/* say -o hi.wav --data-format=LEF32@8000 "hello" */
 #define JAB_SAY "jab "
 #define CROSS_SAY "cross "
 #define LEFT_HOOK_SAY "left hook "
