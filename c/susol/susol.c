@@ -12,7 +12,8 @@ void print_board();
 int board[SIZE][SIZE] = {{EMPTY}};
 
 int main(int argc, const char **argv) {
-    if (argc != 2) return usage();
+    if (argc != 2) 
+        return usage();
     read_board(argv[1]);
     solve_board();
     print_board();
@@ -36,19 +37,19 @@ int solve_board() {
     }
     if (empty == 0) return 1;
 
-    // track numbers used in row and cols
+    // track numbers already used in row and cols
     int numbers[SIZE + 1] = { 0 };
     for (int i = 0; i < SIZE; i++) {
         numbers[board[x][i]] = 1;
         numbers[board[i][y]] = 1;
     }
 
-    // track numbers used in the box
-    int dx = 3 * (x / 3);
-    int dy = 3 * (y / 3);
+    // track numbers already used in the unit
+    int ux = (x / 3) * 3;
+    int uy = (y / 3) * 3;
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            numbers[board[dx + i][dy + j]] = 1;
+            numbers[board[ux + i][uy + j]] = 1;
 
     // find unused numbers and see if they fit
     for (int i = 1; i <= SIZE; i++) {
