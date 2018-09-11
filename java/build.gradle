@@ -1,0 +1,79 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'org.junit.platform.gradle.plugin'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    group 'net.jeedup'
+    version '1.0.' + (System.getenv('BUILD_NUMBER') ?: '0-SNAPSHOT')
+
+    dependencies {
+        testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0'
+        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0'
+    }
+}
+
+task all(dependsOn: ['clean', 'jar', 'test'])
+task clean(dependsOn: getTasksByName('clean', true))
+task jar(dependsOn: getTasksByName('jar', true))
+task test(dependsOn: getTasksByName('test', true))
+
+project(':common') {
+
+}
+
+project(':json') {
+    dependencies {
+        // Jackson
+        compile 'com.fasterxml.jackson.core:jackson-core:2.7+'
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.7+'
+    }
+}
+
+project(':kinesis') {
+    dependencies {
+		// Common
+        compile project(':common')
+
+        // JSON common
+        compile project(':json')
+
+        // AWS Kinesis Client
+        compile 'com.amazonaws:amazon-kinesis-client:1.+'
+
+        // AWS Kinesis Lambda Events
+        compile 'com.amazonaws:aws-lambda-java-events:1+'
+    }
+}
+
+project(':app') {
+
+    def mainClassName = 'net.jeedup.app.App'
+
+    dependencies {
+        compile project(':common')
+        compile project(':json')
+    }
+
+    jar {
+        dependsOn configurations.runtime
+        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+        manifest {
+            attributes 'Main-Class': mainClassName
+        }
+    }
+}
