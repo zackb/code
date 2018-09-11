@@ -2,5 +2,6 @@
 *.iml
 .gradle
 build
+out
 gradlew.bat
 .DS_Store
