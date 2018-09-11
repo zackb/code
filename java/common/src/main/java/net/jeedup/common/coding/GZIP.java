@@ -1,4 +1,6 @@
-package net.jeedup.common.util;
+package net.jeedup.common.coding;
+
+import net.jeedup.common.util.IOUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

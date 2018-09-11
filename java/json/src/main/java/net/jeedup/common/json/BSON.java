@@ -2,7 +2,7 @@ package net.jeedup.common.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-import net.jeedup.common.util.GZIP;
+import net.jeedup.common.coding.GZIP;
 
 import java.io.IOException;
 import java.util.HashMap;
