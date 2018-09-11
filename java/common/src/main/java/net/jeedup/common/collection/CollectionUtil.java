@@ -1,6 +1,6 @@
-package net.jeedup.common.util;
+package net.jeedup.common.collection;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -18,5 +18,9 @@ public class CollectionUtil {
         int chunk = (size - 1) / length;
         return IntStream.range(0, chunk + 1).mapToObj(
                 n -> source.subList(n * length, n == chunk ? size : (n + 1) * length));
+    }
+
+    public static <T> Set<T> set(T... elements) {
+        return new HashSet<>(Arrays.asList(elements));
     }
 }

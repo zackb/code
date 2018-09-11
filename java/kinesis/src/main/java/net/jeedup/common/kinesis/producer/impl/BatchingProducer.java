@@ -1,7 +1,7 @@
 package net.jeedup.common.kinesis.producer.impl;
 
 import net.jeedup.common.kinesis.producer.KinesisProducer;
-import net.jeedup.common.util.CollectionUtil;
+import net.jeedup.common.collection.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
