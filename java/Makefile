@@ -1,6 +1,6 @@
 .PHONY: build
 
-GRADLE := gradle
+GRADLE := ./gradlew
 
 default: build
 
