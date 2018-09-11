@@ -10,15 +10,17 @@ buildscript {
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
     apply plugin: 'org.junit.platform.gradle.plugin'
 
     sourceCompatibility = 1.8
 
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 
-    group 'net.jeedup'
+    group 'net.jeedup.common'
     version '1.0.' + (System.getenv('BUILD_NUMBER') ?: '0-SNAPSHOT')
 
     dependencies {
@@ -31,16 +33,40 @@ task all(dependsOn: ['clean', 'jar', 'test'])
 task clean(dependsOn: getTasksByName('clean', true))
 task jar(dependsOn: getTasksByName('jar', true))
 task test(dependsOn: getTasksByName('test', true))
+task pub(dependsOn: getTasksByName('publishToMavenLocal', true))
 
 project(':common') {
-
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'common'
+                version version
+                from components.java
+            }
+        }
+    }
 }
 
 project(':json') {
     dependencies {
+        // Common
+        compile project(':common')
+
         // Jackson
         compile 'com.fasterxml.jackson.core:jackson-core:2.7+'
         compile 'com.fasterxml.jackson.core:jackson-databind:2.7+'
+        compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.7.+'
+    }
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'json'
+                version version
+                from components.java
+            }
+        }
     }
 }
 
@@ -58,6 +84,16 @@ project(':kinesis') {
         // AWS Kinesis Lambda Events
         compile 'com.amazonaws:aws-lambda-java-events:1+'
     }
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'kinesis'
+                version version
+                from components.java
+            }
+        }
+    }
 }
 
 project(':app') {
@@ -67,6 +103,8 @@ project(':app') {
     dependencies {
         compile project(':common')
         compile project(':json')
+        //compile 'net.jeedup.common:common:1+'
+        //compile 'net.jeedup.common:json:1+'
     }
 
     jar {

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Random utilites
+ * Random utilities
  * Created by zack on 6/7/17.
  */
 public class Util {
