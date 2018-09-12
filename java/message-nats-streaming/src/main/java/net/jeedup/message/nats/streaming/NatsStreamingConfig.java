@@ -14,14 +14,14 @@ import static net.jeedup.common.collection.CollectionUtil.set;
 public class NatsStreamingConfig {
 
     public String clusterId    = "jeedup_cluster";
-    public String queueName    = "jeedup_group";
+    public String subject      = "jeedup_group";
+    public Set<String> subjects = set("jeedup1");
     public String queueGroup   = "jeedup.workers";
     public String host;
     public int port;
 
     public boolean manualAcks = true;
 
-    public Set<String> queueNames = set("jeedup1");
 
     public Serde<?> serde;
 
@@ -30,6 +30,8 @@ public class NatsStreamingConfig {
 
     // number of seconds to wait for an ACK before a message is considered failed and should be redelivered
     public int ackWaitSecs     = 60;
+
+    public int maxReconnects   = 60;
 
     public String getNatsUrl() {
         return String.format("nats://%s:%d", host, port);

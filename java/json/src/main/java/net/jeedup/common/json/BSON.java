@@ -70,6 +70,7 @@ public class BSON {
         return decode(bytes, false);
     }
 
+    @SuppressWarnings("unchecked")
     public static Map<String, Object> decode(byte[] bytes, boolean compressed) {
         return (Map<String, Object>) decodeObject(bytes, mapClass, compressed);
     }

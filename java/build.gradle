@@ -111,8 +111,32 @@ project(':message-serde-json') {
     }
 }
 
-project(':message-nats-streaming') {
+project(':message-nats') {
 
+    dependencies {
+        // Common
+        compile project(':common')
+
+        // Message
+        compile project(':message')
+
+        // NATS
+        compile 'io.nats:jnats:2+'
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message-nats'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
+project(':message-nats-streaming') {
 
     dependencies {
         // Common

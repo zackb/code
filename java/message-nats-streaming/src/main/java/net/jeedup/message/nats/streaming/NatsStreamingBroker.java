@@ -46,7 +46,7 @@ public class NatsStreamingBroker<T> implements MessageBroker<T> {
 
     @Override
     public void publish(Message<T> message) throws Exception {
-        connection.publish(config.queueName, serde.serialize(message.getPayload()), (nuid, ex) -> {
+        connection.publish(config.subject, serde.serialize(message.getPayload()), (nuid, ex) -> {
             if (ex != null) log.log(Level.SEVERE, "Failed publishing", ex);
         });
     }
@@ -65,10 +65,10 @@ public class NatsStreamingBroker<T> implements MessageBroker<T> {
 
         SubscriptionOptions subscriptionOptions = builder.build();
 
-        Set<String> queueNames = config.queueNames;
+        Set<String> queueNames = config.subjects;
 
         if (empty(queueNames)) {
-            queueNames = set(config.queueName);
+            queueNames = set(config.subject);
         }
 
         for (String queueName : queueNames) {
@@ -104,6 +104,7 @@ public class NatsStreamingBroker<T> implements MessageBroker<T> {
     public void startup() throws IOException, InterruptedException {
         io.nats.client.Options options = new io.nats.client.Options.Builder()
                 .server(config.getNatsUrl())
+                .maxReconnects(config.maxReconnects)
                 .connectionListener((conn, type) -> {
                     switch (type) {
                         case CONNECTED:

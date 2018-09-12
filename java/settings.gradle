@@ -5,6 +5,7 @@ include(
     'kinesis-producer', 
     'message',
     'message-serde-json',
+    'message-nats',
     'message-nats-streaming',
     'message-rabbitmq',
     'app'
