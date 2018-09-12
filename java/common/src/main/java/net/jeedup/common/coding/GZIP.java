@@ -1,6 +1,6 @@
 package net.jeedup.common.coding;
 
-import net.jeedup.common.util.IOUtil;
+import net.jeedup.common.io.IO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,7 @@ import java.util.zip.GZIPOutputStream;
 public class GZIP {
     public static byte[] decompress(byte[] bytes) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        IOUtil.copyStream(new GZIPInputStream(new ByteArrayInputStream(bytes)), out);
+        IO.copyStream(new GZIPInputStream(new ByteArrayInputStream(bytes)), out);
         return out.toByteArray();
     }
 

@@ -1,6 +1,6 @@
 package net.jeedup.common.net;
 
-import net.jeedup.common.util.IOUtil;
+import net.jeedup.common.io.IO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public class HTTP {
     public static String get(String uri) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(uri).openConnection();
         connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-        return IOUtil.readString(connection.getInputStream());
+        return IO.readString(connection.getInputStream());
     }
 
     public static String getInput(HttpURLConnection connection) throws IOException {
@@ -33,7 +33,7 @@ public class HTTP {
             ins = new GZIPInputStream(connection.getInputStream());
         else
             ins = connection.getInputStream();
-        return IOUtil.readString(ins);
+        return IO.readString(ins);
     }
 
     public static String getError(HttpURLConnection connection) throws IOException {
@@ -42,6 +42,6 @@ public class HTTP {
             ins = new GZIPInputStream(connection.getErrorStream());
         else
             ins = connection.getErrorStream();
-        return IOUtil.readString(ins);
+        return IO.readString(ins);
     }
 }

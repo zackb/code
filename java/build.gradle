@@ -20,7 +20,7 @@ subprojects {
         mavenCentral()
     }
 
-    group 'net.jeedup.common'
+    group 'net.jeedup'
     version '1.0.' + (System.getenv('BUILD_NUMBER') ?: '0-SNAPSHOT')
 
     dependencies {
@@ -70,7 +70,99 @@ project(':json') {
     }
 }
 
-project(':kinesis') {
+project(':message') {
+
+    dependencies {
+        // Common
+        compile project(':common')
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
+project(':message-serde-json') {
+
+    dependencies {
+        // Message
+        compile project(':message')
+
+        // JSON
+        compile project(':json')
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message-serde-json'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
+project(':message-nats-streaming') {
+
+
+    dependencies {
+        // Common
+        compile project(':common')
+
+        // Message
+        compile project(':message')
+
+        // NATS Streaming
+        compile 'io.nats:java-nats-streaming:2+'
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message-nats-streaming'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
+project(':message-rabbitmq') {
+
+    dependencies {
+        // Common
+        compile project(':common')
+
+        // Message
+        compile project(':message')
+
+        // RabbitMQ clietn
+        compile 'com.rabbitmq:amqp-client:5.4+'
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message-rabbitmq'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
+project(':kinesis-producer') {
     dependencies {
 		// Common
         compile project(':common')
@@ -88,7 +180,7 @@ project(':kinesis') {
         publications {
             api(MavenPublication) {
                 groupId group
-                artifactId 'kinesis'
+                artifactId 'kinesis-producer'
                 version version
                 from components.java
             }
@@ -103,8 +195,8 @@ project(':app') {
     dependencies {
         compile project(':common')
         compile project(':json')
-        //compile 'net.jeedup.common:common:1+'
-        //compile 'net.jeedup.common:json:1+'
+        //compile 'net.jeedup:common:1+'
+        //compile 'net.jeedup:json:1+'
     }
 
     jar {

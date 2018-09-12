@@ -1,6 +1,6 @@
 package net.jeedup.common.coding;
 
-import net.jeedup.common.util.IOUtil;
+import net.jeedup.common.io.IO;
 
 import java.io.*;
 import java.util.Enumeration;
@@ -17,8 +17,8 @@ public class ZIP {
         FileOutputStream fout = new FileOutputStream(archive);
         ZipOutputStream zip = new ZipOutputStream(fout);
         addFolderToZip("", dir, zip);
-        IOUtil.close(zip);
-        IOUtil.close(fout);
+        IO.close(zip);
+        IO.close(fout);
     }
 
     private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws IOException {
@@ -73,8 +73,8 @@ public class ZIP {
                 // write the current file to disk
                 FileOutputStream fos = new FileOutputStream(destFile);
                 BufferedOutputStream dest = new BufferedOutputStream(fos);
-                IOUtil.copyStream(is, dest);
-                IOUtil.close(dest);
+                IO.copyStream(is, dest);
+                IO.close(dest);
             }
         }
     }
