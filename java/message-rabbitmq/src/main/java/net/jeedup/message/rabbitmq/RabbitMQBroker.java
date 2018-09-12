@@ -1,6 +1,7 @@
 package net.jeedup.message.rabbitmq;
 
 import com.rabbitmq.client.*;
+import com.rabbitmq.client.impl.DefaultExceptionHandler;
 import net.jeedup.message.Message;
 import net.jeedup.message.Serde;
 import net.jeedup.message.broker.MessageBroker;
@@ -8,6 +9,7 @@ import net.jeedup.message.broker.MessageConsumer;
 import net.jeedup.message.broker.impl.BaseMessage;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,17 +50,18 @@ public class RabbitMQBroker<T> implements MessageBroker<T> {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope,
                                        AMQP.BasicProperties properties, byte[] body) throws IOException {
-                T payload= serde.deserialize(body);
-                BaseMessage<T> message = new BaseMessage<>();
-                message.setPayload(payload);
-                message.setTimestamp(properties.getTimestamp().getTime());
-                message.ack = () -> ack(channel, envelope);
                 try {
+                    T payload= serde.deserialize(body);
+                    BaseMessage<T> message = new BaseMessage<>();
+                    message.setPayload(payload);
+                    Date ts = properties.getTimestamp();
+                    if (ts != null)
+                        message.setTimestamp(ts.getTime());
+                    message.ack = () -> ack(channel, envelope);
                     consumer.consume(message);
                 } catch (Throwable e) {
                     log.log(Level.SEVERE, "Failed consuming message", e);
                     nack(channel, envelope);
-
                 }
                 //log.finest("Received message: " + body.length);
             }
@@ -92,6 +95,7 @@ public class RabbitMQBroker<T> implements MessageBroker<T> {
             factory.setUsername(config.username);
             factory.setPassword(config.password);
         }
+        factory.setExceptionHandler(new DefaultExceptionHandler());
 
         connection = factory.newConnection();
 
