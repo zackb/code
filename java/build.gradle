@@ -70,6 +70,23 @@ project(':json') {
     }
 }
 
+project(':sql') {
+    dependencies {
+        // Common
+        compile project(':common')
+    }
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'sql'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
 project(':message') {
 
     dependencies {

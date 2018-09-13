@@ -233,5 +233,18 @@ public class StringUtil {
         if (s == null) return s;
         return s.length() > length ? s.substring(0, length) : s;
     }
+
+    private static final Pattern camelCasePattern = Pattern.compile("([a-z])([A-Z])");
+
+    /**
+     * Convert camel case string to snake case
+     * @param camel case string
+     * @return snake case string
+     */
+    public static String snake(String camel) {
+        return camelCasePattern.matcher(camel)
+                .replaceAll("$1_$2")
+                .toLowerCase();
+    }
 }
 

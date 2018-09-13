@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Map;
 
+import static net.jeedup.common.util.StringUtil.snake;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -55,5 +56,10 @@ class StringUtilTest {
         assertEquals("1234567", StringUtil.truncate(str, 7));
         assertEquals("1", StringUtil.truncate(str,1));
         assertEquals("", StringUtil.truncate(str,0));
+    }
+
+    @Test
+    void testSnakeCase() {
+        assertEquals("this_is_test", snake("thisIsTest"));
     }
 }

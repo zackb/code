@@ -60,6 +60,10 @@ public class Reflect<T> {
      * @return map of object field names and the fields themselves
      */
     private Map<String, Field> describeFields() {
+        return describeFields(clazz);
+    }
+
+    public static <T> Map<String, Field> describeFields(Class<T> clazz) {
         Map<String, Field> fields = fieldsCache.get(clazz);
 
         if (fields != null)

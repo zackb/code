@@ -3,6 +3,7 @@ include(
     'common', 
     'json', 
     'kinesis-producer', 
+    'sql',
     'message',
     'message-serde-json',
     'message-nats',
