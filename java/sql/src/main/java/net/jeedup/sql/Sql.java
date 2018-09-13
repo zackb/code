@@ -1,4 +1,4 @@
-package net.jeedup.persist.sql;
+package net.jeedup.sql;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;

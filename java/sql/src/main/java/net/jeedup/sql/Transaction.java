@@ -1,6 +1,6 @@
-package net.jeedup.persist.sql;
+package net.jeedup.sql;
 
-import net.jeedup.persist.sql.impl.SqlConnection;
+import net.jeedup.sql.impl.SqlConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

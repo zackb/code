@@ -1,4 +1,4 @@
-package net.jeedup.persist.sql;
+package net.jeedup.sql;
 
 import net.jeedup.common.reflect.Reflect;
 import net.jeedup.common.util.StringUtil;

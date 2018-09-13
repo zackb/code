@@ -1,6 +1,6 @@
-package net.jeedup.persist.sql.impl;
+package net.jeedup.sql.impl;
 
-import net.jeedup.persist.sql.Sql;
+import net.jeedup.sql.Sql;
 
 import javax.sql.DataSource;
 import java.io.Closeable;

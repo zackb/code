@@ -1,8 +1,8 @@
-package net.jeedup.persist.sql.impl;
+package net.jeedup.sql.impl;
 
-import net.jeedup.persist.sql.NamedParameterStatement;
-import net.jeedup.persist.sql.Sql;
-import net.jeedup.persist.sql.Transaction;
+import net.jeedup.sql.NamedParameterStatement;
+import net.jeedup.sql.Sql;
+import net.jeedup.sql.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
