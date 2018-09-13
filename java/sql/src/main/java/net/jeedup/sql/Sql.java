@@ -21,6 +21,14 @@ public interface Sql extends AutoCloseable {
     int execute(String sql) throws SQLException;
 
     /**
+     * Execute a SQL statement with parameter values;
+     * @param sql any class of SQL statement (select/insert/update/delete/ddl/etc) that has question marks
+     * @param params object parameters in the sql
+     * @throws SQLException on bad SQL
+     */
+    int execute(String sql, List<Object> params) throws SQLException;
+
+    /**
      * Execute a SQL statement with named parameters.
      * IMPORTANT: The name of the parameter can only be used once.
      * @param sql any class of SQL statement (select/insert/update/delete/ddl/etc)
@@ -81,6 +89,7 @@ public interface Sql extends AutoCloseable {
     interface TransactionConsumer {
         void tx(final Transaction transaction) throws SQLException;
     }
+
     // util class to hold a row of query response data
     class Row extends HashMap<String, Object> {
         public Row(int size) {

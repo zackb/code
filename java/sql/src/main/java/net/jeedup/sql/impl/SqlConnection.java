@@ -39,6 +39,16 @@ public class SqlConnection implements Sql {
         }
     }
 
+    @Override
+    public int execute(String sql, List<Object> params) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 1; i <= params.size(); i++) {
+                statement.setObject(i, params.get(i - 1));
+            }
+            return statement.executeUpdate();
+        }
+    }
+
     /**
      * {@inheritDoc}
      */

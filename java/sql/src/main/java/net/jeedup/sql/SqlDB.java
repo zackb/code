@@ -5,7 +5,11 @@ import net.jeedup.common.util.StringUtil;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +19,7 @@ import static net.jeedup.common.util.StringUtil.snake;
 import static net.jeedup.common.util.Util.empty;
 
 /**
+ * http://jdbi.org/ is probably better
  * Created by zack on 9/12/18.
  */
 public class SqlDB<T> {
@@ -51,8 +56,17 @@ public class SqlDB<T> {
      * Persists an object to a datastore. If the object already exists it is updated.
      * @param obj to store
      */
-    public <T> void save(T obj) {
-        //insertOrUpdate(obj);
+    public void save(T obj) throws Exception {
+        insertOrUpdate(obj);
+    }
+
+    /**
+     * Retrieves and deserializes an object from a datastore given an identifier.
+     * @param id primary identifier for an object
+     * @return deserialized object for the given identifier
+     */
+    public T get(Object id) throws SQLException {
+        return findBy("id", id);
     }
 
     /**
@@ -62,7 +76,7 @@ public class SqlDB<T> {
      * @return single object or null if no attribute matches the value
      */
     public T findBy(String attributeName, Object attributeValue) throws SQLException  {
-        String query = String.format("select * from %s where `%s` = %s limit 1",
+        String query = String.format("select * from %s where `%s` = '%s' limit 1",
                 tableName, attributeName, attributeValue);
 
         Sql.Row row = sql.firstRow(query);
@@ -77,12 +91,9 @@ public class SqlDB<T> {
      */
     public void insertOrUpdate(T obj) throws Exception {
         if (id(obj) == null) {
-            // Sql().executeInsert(describeInsertOrUpdateSql(), values(obj));
+            sql.execute(describeInsertOrUpdateSql(), values(obj));
         } else {
-            // def res = Sql().executeInsert(describeInsertSql(), values(obj));
-            // if (res) {
-                // setId(obj, res[0][0])
-            // }
+            sql.execute(describeInsertSql(), values(obj));
         }
     }
 
@@ -92,7 +103,7 @@ public class SqlDB<T> {
      * @param obj to get the identifier value
      * @return value of the identifier
      */
-    public <T> Object id(T obj) throws IllegalAccessException {
+    public Object id(T obj) throws IllegalAccessException {
         Field field = fields.get("id");
         return field.get(obj);
     }
@@ -150,15 +161,143 @@ public class SqlDB<T> {
                 // TODO!
             }
 
-            try {
-                field.set(obj, value);
-            } catch (IllegalAccessException e) {
-                String.format(
-                    "Failed setting field %s %s to %s %s",
-                        field.getType(), field.getName(), value == null ? null :
-                                value.getClass(), value);
-            }
+            setEx(obj, field, value);
         }
         return obj;
+    }
+
+    private static void setEx(Object obj, Field field, Object value) {
+        try {
+            field.set(obj, value);
+        } catch (IllegalAccessException e) {
+            log.log(Level.SEVERE, String.format(
+                    "Failed setting field %s %s to %s %s",
+                    field.getType(), field.getName(), value == null ? null :
+                            value.getClass(), value), e);
+        }
+    }
+
+    private static Object getEx(Object obj, Field field) {
+        Object val = null;
+        try {
+            val = field.get(obj);
+        } catch (IllegalAccessException e) {
+            log.log(Level.SEVERE, String.format(
+                    "Failed getting field %s %s from %s ",  field.getType(), field.getName(), obj.getClass()), e);
+        }
+        return val;
+    }
+
+    /**
+     * Get field values of an object.
+     * @param obj object to get values for
+     * @return list of values of the object's fields
+     */
+    private List<Object> values(T obj) {
+
+        List<Object> values = new ArrayList<>();
+
+        if (obj == null)
+            return values;
+
+        fields.forEach((name, field) -> {
+            Object value = getEx(obj, field);
+            if ("updated".equals(name)) {
+                values.add(new Date());
+            } else if ("created".equals(name) && value == null) {
+                values.add(new Date());
+            } else {
+                values.add(value);
+            }
+        });
+
+        return values;
+    }
+
+    private static Map<String, String> insertOrUpdateSqlCache = new ConcurrentHashMap<>();
+
+    /**
+     * Generates a SQL insert and 'on duplicate key update' statement for this object.
+     * The result is cached so is only computed once.
+     * @return SQL insert or update statement
+     */
+    protected final String describeInsertOrUpdateSql() {
+
+        String inserOrUpdatetSql = insertOrUpdateSqlCache.get(tableName);
+
+        if (!empty(inserOrUpdatetSql)) {
+            return inserOrUpdatetSql;
+        }
+
+        StringBuilder updateSql = new StringBuilder();
+        StringBuilder insertSql = new StringBuilder();
+
+        //insertSql.append("insert into `").append(tableName).append("` (");
+        insertSql.append("insert into ").append(tableName).append(" (");
+
+        int i = 0;
+        for (String name : fieldToRow.values()) {
+            //insertSql.append("`").append(name).append("`");
+            insertSql.append(name);
+
+            updateSql.append("`").append(name).append("` = coalesce(values(`").append(name).append("`), `").append(name).append("`)");
+            if (++i < fieldToRow.size()) {
+                insertSql.append(",");
+                updateSql.append(",");
+            }
+        }
+
+        insertSql.append(") values (").append(questionMarksWithCommas(fields.size())).append(")");
+
+        insertSql.append(" on duplicate key update ").append(updateSql);
+
+        String isql = insertSql.toString();
+        insertOrUpdateSqlCache.put(tableName, isql);
+
+        return isql;
+    }
+
+    private static Map<String, String> insertSqlCache = new ConcurrentHashMap<>();
+
+    /**
+     * Generates a SQL insert statement for this object.
+     * The result is cached so is only computed once.
+     * @return SQL insert statement
+     */
+    public String describeInsertSql() {
+        String insertSql = insertSqlCache.get(tableName);
+        if (!empty(insertSql)) {
+            return insertSql;
+        }
+
+        insertSql = "insert into " + tableName + " (";
+
+        for (String name : fieldToRow.values()) {
+            insertSql += "`" + name + "`,";
+        }
+
+        // trim last ,
+        insertSql = insertSql.substring(0, insertSql.length() - 1);
+
+        insertSql += ") values (" + questionMarksWithCommas(fieldToRow.size()) + " ) ";
+
+        insertSqlCache.put(tableName, insertSql);
+
+        return insertSql;
+    }
+
+    private static String questionMarksWithCommas(int num) {
+        if (num == 0) {
+            return "";
+        }
+
+        StringBuilder s = new StringBuilder();
+        for (int h = 0; h < num; h++) {
+            s.append("?");
+            if (h < num - 1) {
+                s.append(",");
+            }
+        }
+        return s.toString();
     }
 }

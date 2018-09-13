@@ -74,6 +74,12 @@ project(':sql') {
     dependencies {
         // Common
         compile project(':common')
+
+        // H2 db for testing
+        testCompile 'com.h2database:h2:1.4+'
+
+        // Embedded PostgreSQL for testing
+        testCompile 'com.opentable.components:otj-pg-embedded:0.11.0'
     }
     publishing {
         publications {

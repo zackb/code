@@ -54,6 +54,14 @@ public class SqlDataSource implements Sql {
      * {@inheritDoc}
      */
     @Override
+    public int execute(String sql, List<Object> params) throws SQLException {
+        return withConnectionResult(c -> c.execute(sql, params));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int execute(String sql, Map<String, ?> params) throws SQLException {
         return withConnectionResult(c -> c.execute(sql, params));
     }
