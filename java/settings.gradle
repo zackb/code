@@ -5,6 +5,7 @@ include(
     'kinesis-producer', 
     'sql',
     'message',
+    'discover',
     'message-serde-json',
     'message-nats',
     'message-nats-streaming',

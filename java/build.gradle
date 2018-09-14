@@ -112,6 +112,28 @@ project(':message') {
     }
 }
 
+project(':discover') {
+
+    dependencies {
+        // Common
+        compile project(':common')
+
+        // JGroups for peering
+        compile 'org.jgroups:jgroups:4+'
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'discover'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
 project(':message-serde-json') {
 
     dependencies {
