@@ -37,6 +37,8 @@ public interface Sql extends AutoCloseable {
      */
     int execute(String sql, Map<String, ?> params) throws SQLException;
 
+    Object executeInsert(String sql, List<Object> params) throws SQLException;
+
     /**
      * Execute a SQL read query
      * @param sql select statement

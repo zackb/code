@@ -41,6 +41,7 @@ public class SqlConnection implements Sql {
 
     @Override
     public int execute(String sql, List<Object> params) throws SQLException {
+        log.info("Running sql: " + sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             for (int i = 1; i <= params.size(); i++) {
                 statement.setObject(i, params.get(i - 1));
@@ -61,6 +62,22 @@ public class SqlConnection implements Sql {
                 stmt.set(key, params.get(key));
 
             return stmt.executeUpdate();
+        }
+    }
+
+    @Override
+    public Object executeInsert(String sql, List<Object> params) throws SQLException {
+        log.info("Running sql: " + sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 1; i <= params.size(); i++) {
+                statement.setObject(i, params.get(i - 1));
+            }
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            Object key = null;
+            if (rs != null)
+                key = rs.getObject(0);
+            return key;
         }
     }
 

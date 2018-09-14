@@ -66,6 +66,11 @@ public class SqlDataSource implements Sql {
         return withConnectionResult(c -> c.execute(sql, params));
     }
 
+    @Override
+    public Object executeInsert(String sql, List<Object> params) throws SQLException {
+        return withConnectionResult(c -> c.executeInsert(sql, params));
+    }
+
     /**
      * {@inheritDoc}
      */

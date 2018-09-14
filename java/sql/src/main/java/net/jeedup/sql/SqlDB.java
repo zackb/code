@@ -4,6 +4,7 @@ import net.jeedup.common.reflect.Reflect;
 import net.jeedup.common.util.StringUtil;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static net.jeedup.common.util.StringUtil.snake;
 import static net.jeedup.common.util.Util.empty;
@@ -32,7 +34,8 @@ public class SqlDB<T> {
     private final Map<String, Field> fields;
 
     private final Map<String, String> fieldToRow;
-    private final Map<String, String> rowToField;
+    //private final Map<String, String> rowToField;
+    private final List<String> sortedFields;
 
     public SqlDB(Class<T> clazz, Sql sql, String tableName) {
         this.sql = sql;
@@ -44,8 +47,13 @@ public class SqlDB<T> {
         this.fieldToRow = fields.keySet().stream()
                 .collect(toMap(Function.identity(), StringUtil::snake));
 
+        /*
         this.rowToField = fields.keySet().stream()
                 .collect(toMap(StringUtil::snake, Function.identity()));
+        */
+
+        this.sortedFields = fields.keySet().stream()
+                .sorted().collect(toList());
     }
 
     public SqlDB(Class<T> clazz, Sql sql) {
@@ -58,6 +66,26 @@ public class SqlDB<T> {
      */
     public void save(T obj) throws Exception {
         insertOrUpdate(obj);
+    }
+
+    /**
+     * Inserts a row to the database. If a row with the same identifier already
+     * exists an exeption is thrown.
+     * @param obj to persist
+     */
+    public void insert(T obj) throws Exception {
+        Object val = sql.executeInsert(describeInsertSql(), values(obj));
+        setId(obj, val);
+    }
+
+    /**
+     * Update a row in the database with the object's identifier and values.
+     * @param obj to update
+     */
+    public void update(T obj) throws Exception {
+        List<Object> values = values(obj);
+        values.add(id(obj));
+        sql.execute(describeUpdateSql(), values);
     }
 
     /**
@@ -90,11 +118,13 @@ public class SqlDB<T> {
      * @param obj to persist
      */
     public void insertOrUpdate(T obj) throws Exception {
+        sql.execute(describeInsertOrUpdateSql(), values(obj));
+        /*
         if (id(obj) == null) {
-            sql.execute(describeInsertOrUpdateSql(), values(obj));
         } else {
             sql.execute(describeInsertSql(), values(obj));
         }
+        */
     }
 
     /**
@@ -124,7 +154,7 @@ public class SqlDB<T> {
     public T instantiate(Map<String, Object> values) {
         T obj = null;
         try {
-            obj = (T)clazz.newInstance();
+            obj = clazz.newInstance();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Failed instantiating object: ", e);
         }
@@ -168,13 +198,36 @@ public class SqlDB<T> {
 
     private static void setEx(Object obj, Field field, Object value) {
         try {
-            field.set(obj, value);
+            field.set(obj, coerce(field, value));
         } catch (IllegalAccessException e) {
             log.log(Level.SEVERE, String.format(
                     "Failed setting field %s %s to %s %s",
                     field.getType(), field.getName(), value == null ? null :
                             value.getClass(), value), e);
         }
+    }
+
+    static Object coerce(Field field, Object value) {
+
+        if (value == null)
+            return value;
+
+        Object result = value;
+
+        Class<?> fieldType = field.getType();
+        Class<?> valueType = value.getClass();
+
+        if (fieldType != valueType &&
+            !fieldType.isAssignableFrom(valueType)) {
+
+            if (value instanceof BigDecimal) {
+                if (fieldType == Double.class || fieldType == double.class) {
+                    result = ((BigDecimal)value).doubleValue();
+                }
+            }
+        }
+
+        return result;
     }
 
     private static Object getEx(Object obj, Field field) {
@@ -200,7 +253,8 @@ public class SqlDB<T> {
         if (obj == null)
             return values;
 
-        fields.forEach((name, field) -> {
+        sortedFields.forEach(name -> {
+            Field field = fields.get(name);
             Object value = getEx(obj, field);
             if ("updated".equals(name)) {
                 values.add(new Date());
@@ -223,10 +277,10 @@ public class SqlDB<T> {
      */
     protected final String describeInsertOrUpdateSql() {
 
-        String inserOrUpdatetSql = insertOrUpdateSqlCache.get(tableName);
+        String inserOrUpdateSql = insertOrUpdateSqlCache.get(tableName);
 
-        if (!empty(inserOrUpdatetSql)) {
-            return inserOrUpdatetSql;
+        if (!empty(inserOrUpdateSql)) {
+            return inserOrUpdateSql;
         }
 
         StringBuilder updateSql = new StringBuilder();
@@ -236,7 +290,7 @@ public class SqlDB<T> {
         insertSql.append("insert into ").append(tableName).append(" (");
 
         int i = 0;
-        for (String name : fieldToRow.values()) {
+        for (String name : sortedFields) {
             //insertSql.append("`").append(name).append("`");
             insertSql.append(name);
 
@@ -247,7 +301,7 @@ public class SqlDB<T> {
             }
         }
 
-        insertSql.append(") values (").append(questionMarksWithCommas(fields.size())).append(")");
+        insertSql.append(") values (").append(questionMarksWithCommas(sortedFields.size())).append(")");
 
         insertSql.append(" on duplicate key update ").append(updateSql);
 
@@ -265,25 +319,69 @@ public class SqlDB<T> {
      * @return SQL insert statement
      */
     public String describeInsertSql() {
-        String insertSql = insertSqlCache.get(tableName);
-        if (!empty(insertSql)) {
-            return insertSql;
+        String isql = insertSqlCache.get(tableName);
+        if (!empty(isql)) {
+            return isql;
         }
 
-        insertSql = "insert into " + tableName + " (";
+        StringBuilder insertSql = new StringBuilder("insert into " + tableName + " (");
 
-        for (String name : fieldToRow.values()) {
-            insertSql += "`" + name + "`,";
+        for (String name : sortedFields) {
+            insertSql.append("`").append(name).append("`,");
         }
 
         // trim last ,
-        insertSql = insertSql.substring(0, insertSql.length() - 1);
+        insertSql = new StringBuilder(insertSql.substring(0, insertSql.length() - 1));
 
-        insertSql += ") values (" + questionMarksWithCommas(fieldToRow.size()) + " ) ";
+        insertSql.append(") values (").append(questionMarksWithCommas(sortedFields.size())).append(" ) ");
 
-        insertSqlCache.put(tableName, insertSql);
+        isql = insertSql.toString();
 
-        return insertSql;
+        insertSqlCache.put(tableName, isql);
+
+        return isql;
+    }
+
+    private static Map<String, String> updateSqlCache = new ConcurrentHashMap<>();
+
+    /**
+     * Generates a SQL update statement for this object.
+     * The result is cached so is only computed once.
+     * @return SQL update statement
+     */
+    private final String describeUpdateSql() {
+
+        String usql = updateSqlCache.get(tableName);
+
+        if (!empty(usql)) {
+            return usql;
+        }
+
+        StringBuilder updateSql = new StringBuilder("update `").append(tableName).append("` set ");
+
+        for (String name : sortedFields) {
+            updateSql.append("`").append(name).append("` = ?,");
+        }
+
+        // trim last ,
+        updateSql = new StringBuilder(updateSql.substring(0, updateSql.length() - 1));
+
+        updateSql.append(" where `id` = ? ");
+
+        usql = updateSql.toString();
+
+        updateSqlCache.put(tableName, usql);
+
+        return usql;
+    }
+
+    /**
+     * Sets the value of the identifier field for a given object.
+     * @param obj to set identifier value
+     * @param value to set identifier to
+     */
+    protected void setId(T obj, Object value) {
+        setEx(obj, fields.get("id"), value);
     }
 
     private static String questionMarksWithCommas(int num) {
