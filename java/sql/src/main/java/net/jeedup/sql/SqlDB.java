@@ -376,6 +376,113 @@ public class SqlDB<T> {
     }
 
     /**
+     * Very rudimentary create table syntax, mysql only
+     *
+     */
+    public void createTable() throws Exception {
+        createTable("innodb");
+    }
+
+    public void createTable(final String engine) throws Exception {
+
+        StringBuilder createSql = new StringBuilder();
+
+        createSql.append("create table `").append(tableName).append("` (");
+
+        final List<String> constraints = new ArrayList<>();
+
+        if (fields.containsKey("id")) {
+
+            final String idType = fields.get("id").getType().getSimpleName();
+
+            if ("Long".equals(idType)    || "long".equals(idType) ||
+                "Integer".equals(idType) || "int".equals(idType)) {
+                // remove ` because h2...
+                createSql.append("id int(10) unsigned not null auto_increment,");
+            } else if ("String".equals(idType)) {
+                createSql.append("id varchar(255) not null,"); // character set utf8
+            }
+
+            constraints.add("constraint pk_" + tableName + " primary key(id),");
+        }
+
+        for (String name : fields.keySet()) {
+
+            if (name.equals("id"))
+                continue;
+
+            Field field = fields.get(name);
+
+            final Constraints options = field.getAnnotation(Constraints.class);
+
+            String datatype = "";
+            boolean unique = false;
+            boolean index = false;
+            int numberMax = 10;
+            int stringMax = 255;
+            if (options != null) {
+                if (options.max() > 0) {
+                    numberMax = options.max();
+                    stringMax = options.max();
+                }
+                unique = options.unique();
+                index = options.index();
+            }
+
+            String type = field.getType().getSimpleName();
+            switch (type) {
+                case "String":
+                    datatype = "varchar(" + stringMax + ")"; // character set utf8";
+                    break;
+                case "Long":
+                case "long":
+                    datatype = "bigint(" + numberMax + ")";
+                    break;
+                case "Integer":
+                case "int":
+                case "short":
+                case "Short":
+                    datatype = "int(" + numberMax + ")";
+                    break;
+                case "Double":
+                case "double":
+                case "Float":
+                case "float":
+                    datatype = "double"; // numeric?
+                    break;
+                case "Date":
+                case "Timestamp":
+                    datatype = "datetime";
+                    break;
+                case "byte[]": // mer?
+                    datatype = "blob";
+                    break;
+                default:
+                    throw new Exception("Do not know how to handle: ${field.type.name}");
+            }
+
+            // remove ` because of h2
+            createSql.append(name).append(" ").append(datatype).append(",");
+
+            if (unique){
+                constraints.add(" constraint u_" + tableName + "_on_" + name + " unique(" + name + "),");
+            }
+            if (index){
+                constraints.add(" index idx_" + tableName + "_on_" + name + " (" + name + "),");
+            }
+        }
+
+        createSql.append(String.join(" ", constraints));
+
+        // trim last ,
+        createSql = new StringBuilder(createSql.substring(0, createSql.length() - 1));
+
+        createSql.append(") engine=").append(engine).append(" default charset=utf8");
+
+        sql.execute(createSql.toString());
+    }
+
+    /**
      * Sets the value of the identifier field for a given object.
      * @param obj to set identifier value
      * @param value to set identifier to

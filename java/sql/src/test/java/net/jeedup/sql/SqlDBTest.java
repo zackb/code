@@ -18,7 +18,7 @@ class SqlDBTest {
     static void init() throws Exception {
         //postgres = TestDB.createTestingPostgresDatabase();
         mysql = TestDB.createTestingDatabase("SqlDBTest", "MySql");
-        mysql.execute("create table test_object (id varchar(255) primary key, itgr int(10), data varchar(255), dbl numeric, updated datetime, created datetime)");
+        // mysql.execute("create table test_object (id varchar(255) primary key, itgr int(10), data varchar(255), dbl numeric, updated datetime, created datetime)");
     }
 
     @AfterAll
@@ -30,6 +30,7 @@ class SqlDBTest {
     @Test
     void testSave() throws Exception {
         SqlDB<TestObject> db = new SqlDB<>(TestObject.class, mysql);
+        db.createTable();
         TestObject o1 = new TestObject();
         o1.id = "foo";
         o1.itgr = 43;
