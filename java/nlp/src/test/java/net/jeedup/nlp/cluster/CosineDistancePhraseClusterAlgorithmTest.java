@@ -4,8 +4,11 @@ import net.jeedup.nlp.Phrase;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import static net.jeedup.common.collection.CollectionUtil.set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CosineDistancePhraseClusterAlgorithmTest {
@@ -26,8 +29,11 @@ class CosineDistancePhraseClusterAlgorithmTest {
         assertEquals(2, clusers.size());
         for (Phrase phrase : clusers) {
             if (phrase.text.contains("fox")) {
-                assertEquals("There was a dark brown fox", phrase.text);
-                assertEquals("The quick brown fox", phrase.relatedPhrases.iterator().next().text);
+                Set<String> texts = new HashSet<>();
+                for (Phrase p : phrase.relatedPhrases)
+                    texts.add(p.text);
+                texts.add(phrase.text);
+                assertEquals(set("The quick brown fox", "There was a dark brown fox"), texts);
             } else {
                 assertEquals("jumped into the fort", phrase.text);
             }
