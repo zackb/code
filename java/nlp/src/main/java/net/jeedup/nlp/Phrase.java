@@ -11,6 +11,7 @@ import static net.jeedup.common.collection.CollectionUtil.set;
 public class Phrase {
 
     public String text;
+    public double score;
     public Set<Phrase> relatedPhrases = set();
 
     public Phrase() { }
@@ -19,10 +20,16 @@ public class Phrase {
         this.text = text;
     }
 
+    public Phrase(String text, double score) {
+        this.text = text;
+        this.score = score;
+    }
+
     @Override
     public String toString() {
         return "Phrase{" +
                 "text='" + text + '\'' +
+                ", score=" + score +
                 ", relatedPhrases=" + relatedPhrases +
                 '}';
     }

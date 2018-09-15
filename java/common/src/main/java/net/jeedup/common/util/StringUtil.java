@@ -246,5 +246,22 @@ public class StringUtil {
                 .replaceAll("$1_$2")
                 .toLowerCase();
     }
+
+    /**
+     * Test if the first character of a string is capitalized and no other.
+     * @param str to check
+     * @return true if the first char is capitalized and all of the rest are not
+     */
+    public static boolean isCapitalized(String str) {
+
+        if (!Character.isUpperCase(str.charAt(0)))
+            return true;
+
+        for (int i = 1; i < str.length(); ++i)
+            if (!Character.isLowerCase(str.charAt(i)))
+                return true;
+
+        return false;
+    }
 }
 
