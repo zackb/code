@@ -148,7 +148,7 @@ public class StringUtil {
     }
 
     /**
-     * Split a query parameter string into a map of key -> value
+     * Split a query parameter string into a map of key to value
      * @param query http query parameter string
      * @return map of query parameter to values
      */
@@ -176,7 +176,7 @@ public class StringUtil {
 
     /**
      * Format a map to query parameter string
-     * @param params key values to be converted into: ?k1=v1&k2=v2
+     * @param params key values to be converted into: ?k1=v1&amp;k2=v2
      * @return query parameter string
      */
     public static String formatQuery(Map<String, String> params) {

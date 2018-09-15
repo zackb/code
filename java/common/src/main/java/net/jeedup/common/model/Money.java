@@ -38,12 +38,10 @@ import java.math.RoundingMode;
 * take a <tt>BigDecimal</tt>, so you need to understand it use of the idea of scale.
 *
 * <P>The scale can be negative. Using the above examples :
-* <table border='1' cellspacing='0' cellpadding='3'>
-*  <tr><th>Number</th><th>Scale</th></tr>
-*  <tr><td>123456.78</th><th>2</th></tr>
-*  <tr><td>123456</th><th>0</th></tr>
-*  <tr><td>123 (thousands)</th><th>-3</th></tr>
-* </table>
+*  Number       Scale
+*  123456.78    2
+*  123456       0
+*  123 (thousands)  -3
 *
 * <P>Note that scale and rounding are two separate issues.
 * In addition, rounding is only necessary for multiplication and division operations.
@@ -54,22 +52,22 @@ import java.math.RoundingMode;
 * For example, these  operations are valid (using an <em>ad hoc</em>
 * symbolic notation):
 * <PRE>
-* 10.plus(1.23) => 11.23
-* 10.minus(1.23) => 8.77
-* 10.gt(1.23) => true
-* 10.eq(10.00) => true
+* 10.plus(1.23)  11.23
+* 10.minus(1.23)  8.77
+* 10.gt(1.23)  true
+* 10.eq(10.00)  true
 * </PRE> 
 * This corresponds to typical user expectations.
 * An important exception to this rule is that {@link #equals(Object)} is sensitive
 * to scale (while {@link #eq(Money)} is not) . That is,
 * <PRE>
-*   10.equals(10.00) => false
+*   10.equals(10.00)  false
 * </PRE>
 *
 * <h2>Multiplication, Division and Extra Decimal Places</h2>
 * <P>Operations involving multiplication and division are different, since the result
 * can have a scale which exceeds that expected for the given currency. For example
-* <PRE>($10.00).times(0.1256) => $1.256</PRE>
+* <PRE>($10.00).times(0.1256)  $1.256</PRE>
 * which has more than two decimals. In such cases, <em>this class will always round
 * to the expected number of decimal places for that currency.</em>
 * This is the simplest policy, and likely conforms to the expectations of most

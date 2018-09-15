@@ -34,6 +34,7 @@ task clean(dependsOn: getTasksByName('clean', true))
 task jar(dependsOn: getTasksByName('jar', true))
 task test(dependsOn: getTasksByName('test', true))
 task pub(dependsOn: getTasksByName('publishToMavenLocal', true))
+task docs(dependsOn: getTasksByName('javadoc', true))
 
 project(':common') {
     publishing {
@@ -119,7 +120,7 @@ project(':discover') {
         compile project(':common')
 
         // JGroups for peering
-        compile 'org.jgroups:jgroups:4+'
+        compile 'org.jgroups:jgroups:4.0.13+'
     }
 
     publishing {
