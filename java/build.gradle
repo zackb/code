@@ -134,6 +134,28 @@ project(':discover') {
     }
 }
 
+project(':nlp') {
+
+    dependencies {
+        // Common
+        compile project(':common')
+
+        // LingPipe
+        compile 'de.julielab:aliasi-lingpipe:4.1.0'
+    }
+
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'nlp'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
 project(':message-serde-json') {
 
     dependencies {

@@ -6,6 +6,7 @@ include(
     'sql',
     'message',
     'discover',
+    'nlp',
     'message-serde-json',
     'message-nats',
     'message-nats-streaming',
