@@ -15,6 +15,7 @@ import net.jeedup.message.broker.MessageConsumer;
 import net.jeedup.message.broker.impl.BaseMessage;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -49,6 +50,13 @@ public class NatsStreamingBroker<T> implements MessageBroker<T> {
         connection.publish(config.subject, serde.serialize(message.getPayload()), (nuid, ex) -> {
             if (ex != null) log.log(Level.SEVERE, "Failed publishing", ex);
         });
+    }
+
+    @Override
+    public void publish(Collection<Message<T>> messages) throws Exception {
+        for (Message<T> message : messages) {
+            publish(message);
+        }
     }
 
     @Override

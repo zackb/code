@@ -34,6 +34,7 @@ public class KinesisUtil {
      * @return Kinesis Stream client
      */
     public static AmazonKinesis buildKinesisStreamClient(int connectTimeout, int socketTimeout) {
+        // TODO: static credentials
         AWSCredentialsProvider provider = new DefaultAWSCredentialsProviderChain();
         ClientConfiguration kinesisConfig = new ClientConfiguration();
         kinesisConfig.setProtocol(Protocol.HTTPS);
@@ -61,6 +62,7 @@ public class KinesisUtil {
      * @return new Firehose client
      */
     public static AmazonKinesisFirehose buildKinesisFirehoseClient(int connectTimeout, int socketTimeout) {
+        // TODO: static credentials
         AWSCredentialsProvider provider = new DefaultAWSCredentialsProviderChain();
         ClientConfiguration firehoseConfig = new ClientConfiguration();
         firehoseConfig.setMaxConnections(1);

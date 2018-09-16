@@ -9,6 +9,7 @@ import net.jeedup.message.broker.MessageConsumer;
 import net.jeedup.message.broker.impl.BaseMessage;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +42,13 @@ public class RabbitMQBroker<T> implements MessageBroker<T> {
     @Override
     public void publish(Message<T> message) throws Exception {
         channels.get().basicPublish(config.queueName, config.queueName, null, serde.serialize(message.getPayload()));
+    }
+
+    @Override
+    public void publish(Collection<Message<T>> messages) throws Exception {
+        for (Message<T> message : messages) {
+            publish(message);
+        }
     }
 
     @Override

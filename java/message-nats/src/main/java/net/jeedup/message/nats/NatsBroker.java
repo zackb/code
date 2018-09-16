@@ -8,6 +8,7 @@ import net.jeedup.message.broker.MessageBroker;
 import net.jeedup.message.broker.MessageConsumer;
 import net.jeedup.message.broker.impl.BaseMessage;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,6 +36,13 @@ public class NatsBroker<T> implements MessageBroker<T> {
     @Override
     public void publish(Message<T> message) throws Exception {
         connection.publish(config.subject, serde.serialize(message.getPayload()));
+    }
+
+    @Override
+    public void publish(Collection<Message<T>> messages) throws Exception {
+        for (Message<T> message : messages) {
+            publish(message);
+        }
     }
 
     @Override

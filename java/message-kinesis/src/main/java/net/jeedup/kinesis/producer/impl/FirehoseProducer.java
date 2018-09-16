@@ -94,4 +94,12 @@ public class FirehoseProducer<T> extends BatchingProducer<T> implements KinesisP
             result = firehose.putRecordBatch(putRequest);
         }
     }
+
+    @Override
+    public void startup() throws Exception { }
+
+    @Override
+    public void shutdown() throws Exception {
+        firehose.shutdown();
+    }
 }

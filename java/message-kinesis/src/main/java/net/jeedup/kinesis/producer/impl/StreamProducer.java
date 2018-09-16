@@ -122,4 +122,12 @@ public class StreamProducer<T> extends BatchingProducer<T> implements KinesisPro
             }
         }
     }
+
+    @Override
+    public void startup() throws Exception { }
+
+    @Override
+    public void shutdown() throws Exception {
+        kinesis.shutdown();
+    }
 }

@@ -6,6 +6,7 @@ import net.jeedup.common.collection.CollectionUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static net.jeedup.common.collection.CollectionUtil.set;
 import static net.jeedup.common.util.Util.empty;
 
 /**
@@ -17,6 +18,11 @@ import static net.jeedup.common.util.Util.empty;
 public abstract class BatchingProducer<T> implements KinesisProducer<T> {
 
     private static final int MAX_BATCH_SIZE = 500;
+
+    @Override
+    public void putRecord(T record) {
+        putRecords(set(record));
+    }
 
     @Override
     public void putRecords(Collection<T> records) {

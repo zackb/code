@@ -4,6 +4,7 @@ import net.jeedup.message.Message;
 import net.jeedup.message.broker.MessageBroker;
 import net.jeedup.message.broker.MessageConsumer;
 
+import java.util.Collection;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +42,13 @@ public class InMemoryBroker<T> implements MessageBroker<T> {
     @Override
     public void publish(Message<T> message) {
         queue.offer(message);
+    }
+
+    @Override
+    public void publish(Collection<Message<T>> messages) throws Exception {
+        for (Message<T> message : messages) {
+            publish(message);
+        }
     }
 
     @Override

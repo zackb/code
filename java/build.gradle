@@ -264,8 +264,8 @@ project(':aws-lambda-kinesis') {
         // JSON common
         compile project(':json')
 
-        // Kinesis Producer Common
-        compile project(':kinesis-producer')
+        // Kinesis Common
+        compile project(':message-kinesis')
 
         // AWS Lambda
         compile 'com.amazonaws:aws-lambda-java-core:1+'
@@ -285,7 +285,7 @@ project(':aws-lambda-kinesis') {
     }
 }
 
-project(':kinesis-producer') {
+project(':message-kinesis') {
     dependencies {
 		// Common
         compile project(':common')
@@ -295,12 +295,15 @@ project(':kinesis-producer') {
 
         // AWS Kinesis Client
         compile 'com.amazonaws:amazon-kinesis-client:1.+'
+
+        // Kinesis Producer Library
+        compile 'com.amazonaws:amazon-kinesis-producer:0.12+'
     }
     publishing {
         publications {
             api(MavenPublication) {
                 groupId group
-                artifactId 'kinesis-producer'
+                artifactId 'message-kinesis'
                 version version
                 from components.java
             }

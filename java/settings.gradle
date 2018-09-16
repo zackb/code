@@ -2,15 +2,15 @@ rootProject.name = 'jeedup'
 include(
     'common', 
     'json', 
-    'kinesis-producer', 
     'sql',
-    'message',
     'discover',
     'nlp',
-    'aws-lambda-kinesis',
-    'message-serde-json',
+    'message',
+    'message-kinesis',
     'message-nats',
     'message-nats-streaming',
+    'message-serde-json',
     'message-rabbitmq',
+    'aws-lambda-kinesis',
     'app'
 )

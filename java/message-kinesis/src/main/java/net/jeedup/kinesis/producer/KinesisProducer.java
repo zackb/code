@@ -16,8 +16,18 @@ import java.util.Collection;
 public interface KinesisProducer<T> {
 
     /**
+     * Write a single record to Kinesis
+     * @param record to write
+     */
+    void putRecord(T record);
+
+    /**
      * Write records to Kinesis
      * @param records to write
      */
     void putRecords(Collection<T> records);
+
+    void startup() throws Exception;
+
+    void shutdown() throws Exception;
 }
