@@ -14,9 +14,9 @@ import static net.jeedup.common.util.Util.empty;
 public class FileUtil {
 
     /**
-     * Attempt to parse the file extension defaulting to m3u8
+     * Attempt to parse the file extension
      * @param filename path or full host + path to parse
-     * @return file extension or "m3u8" on failure
+     * @return file extension or empty string on failure
      */
     public static String parseFileExtension(String filename) {
         if (empty(filename)) return "";

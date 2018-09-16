@@ -3,6 +3,8 @@ package net.jeedup.kinesis.util;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder;
@@ -74,5 +76,14 @@ public class KinesisUtil {
                 .withClientConfiguration(firehoseConfig)
                 .withCredentials(provider)
                 .build();
+    }
+
+    /**
+     * // TODO: Default credentials
+     * Create credentials to be used with AWS SDK calls
+     * @return basic credentials using access key and secret key
+     */
+    public static AWSCredentialsProvider createStaticCredentials(String accessKey, String secretKey) {
+        return new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
     }
 }

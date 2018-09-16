@@ -1,17 +1,13 @@
 package net.jeedup.kinesis.producer;
 
+import net.jeedup.kinesis.KinesisConfig;
 import net.jeedup.kinesis.producer.serialize.Serializer;
 
 /**
  * Producer config, some variables specific to particular servce (stream, firehose, kpl)
  * Created by zack on 9/15/18.
  */
-public class KinesisProducerConfig {
-    public String region = "us-west-2";
-    public String accessKey;
-    public String secretKey;
-
-    public String streamName;
+public class KinesisProducerConfig extends KinesisConfig {
 
     public Serializer<?> serializer;
 

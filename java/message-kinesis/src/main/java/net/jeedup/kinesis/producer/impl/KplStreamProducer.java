@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toList;
+import static net.jeedup.kinesis.util.KinesisUtil.createStaticCredentials;
 
 /**
  * A Kinesis Stream producer that uses the KPL rather than the normal client
@@ -42,7 +43,7 @@ public class KplStreamProducer<T> implements KinesisProducer<T> {
         this.config = config;
         this.serializer = (Serializer<T>) config.serializer;
 
-        AWSCredentialsProvider credentialsProvider = createCredentials();
+        AWSCredentialsProvider credentialsProvider = createStaticCredentials(config.accessKey, config.secretKey);
 
         KinesisProducerConfiguration kpc = new KinesisProducerConfiguration()
                 .setRecordMaxBufferedTime(config.maxBufferedTimeMillis) // library default is 100ms
@@ -163,14 +164,5 @@ public class KplStreamProducer<T> implements KinesisProducer<T> {
             kinesis.flushSync();
             kinesis.destroy();
         }
-    }
-
-    /**
-     * // TODO: Default credentials
-     * Create credentials to be used with AWS SDK calls
-     * @return basic credentials using access key and secret key
-     */
-    private AWSCredentialsProvider createCredentials() {
-        return new AWSStaticCredentialsProvider(new BasicAWSCredentials(config.accessKey, config.secretKey));
     }
 }
