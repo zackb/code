@@ -255,6 +255,36 @@ project(':message-rabbitmq') {
     }
 }
 
+project(':aws-lambda-kinesis') {
+    dependencies {
+
+        // Common
+        compile project(':common')
+
+        // JSON common
+        compile project(':json')
+
+        // Kinesis Producer Common
+        compile project(':kinesis-producer')
+
+        // AWS Lambda
+        compile 'com.amazonaws:aws-lambda-java-core:1+'
+
+        // AWS Kinesis Lambda Events
+        compile 'com.amazonaws:aws-lambda-java-events:2+'
+    }
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'aws-lambda-kinesis'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
 project(':kinesis-producer') {
     dependencies {
 		// Common
@@ -265,9 +295,6 @@ project(':kinesis-producer') {
 
         // AWS Kinesis Client
         compile 'com.amazonaws:amazon-kinesis-client:1.+'
-
-        // AWS Kinesis Lambda Events
-        compile 'com.amazonaws:aws-lambda-java-events:1+'
     }
     publishing {
         publications {
