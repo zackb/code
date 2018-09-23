@@ -56,9 +56,9 @@ project(':json') {
         compile project(':common')
 
         // Jackson
-        compile 'com.fasterxml.jackson.core:jackson-core:2.7+'
-        compile 'com.fasterxml.jackson.core:jackson-databind:2.7+'
-        compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2.7.+'
+        compile 'com.fasterxml.jackson.core:jackson-core:2+'
+        compile 'com.fasterxml.jackson.core:jackson-databind:2+'
+        compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-smile:2+'
     }
     publishing {
         publications {
