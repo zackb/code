@@ -12,7 +12,7 @@ public class LRUMap<K, V> extends LinkedHashMap<K, V> {
     private int maxSize;
 
     public LRUMap(int maxSize) {
-        super(maxSize + 1, 1.0f, true);
+        super(10, 1.0f, true);
         this.maxSize = maxSize;
     }
 

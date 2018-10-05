@@ -286,6 +286,34 @@ project(':message-kinesis') {
     }
 }
 
+project(':message-kafka') {
+
+    dependencies {
+
+        // Common
+        compile project(':common')
+
+        // Message
+        compile project(':message')
+
+        // JSON serde by default
+        compile project(':message-serde-json')
+
+        // Kafka Clients
+        compile 'org.apache.kafka:kafka-clients:2+'
+    }
+    publishing {
+        publications {
+            api(MavenPublication) {
+                groupId group
+                artifactId 'message-kafka'
+                version version
+                from components.java
+            }
+        }
+    }
+}
+
 project(':aws-lambda-kinesis') {
     dependencies {
 
