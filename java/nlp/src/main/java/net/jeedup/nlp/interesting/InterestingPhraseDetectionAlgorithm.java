@@ -55,13 +55,17 @@ public class InterestingPhraseDetectionAlgorithm {
     // collocated significant terms
     public List<Phrase> getSignificantPhrases(int minCount, boolean capitalizedOnly) {
 
-        SortedSet<ScoredObject<String[]>> coll =
-                model.collocationSet(ngramReportingLength, this.minCount, maxCount);
-
         if (minCount > 0) {
             model.sequenceCounter().prune(minCount);
         }
 
+        SortedSet<ScoredObject<String[]>> coll =
+                model.collocationSet(ngramReportingLength, this.minCount, maxCount);
+
+        return toPhrases(coll, capitalizedOnly);
+    }
+
+    static List<Phrase> toPhrases(SortedSet<ScoredObject<String[]>> coll, boolean capitalizedOnly) {
         List<Phrase> phrases = new ArrayList<>();
 
         for (ScoredObject<String[]> col : coll) {
@@ -71,13 +75,12 @@ public class InterestingPhraseDetectionAlgorithm {
             boolean add = true;
             if (capitalizedOnly) {
                 for (int i = 0; i < toks.length; i++) {
-                    if (isCapitalized(toks[i])) {
+                    if (!isCapitalized(toks[i])) {
                         add = false;
                         break;
                     }
                 }
             }
-
 
             if (add) {
                 String text = String.join(" ", toks);
@@ -87,4 +90,20 @@ public class InterestingPhraseDetectionAlgorithm {
 
         return phrases;
     }
+
+
+    TokenizedLM getModel() {
+        return model;
+    }
+
+    public int getMinCount() {
+        return minCount;
+    }
+
+    public int getMaxCount() {
+        return maxCount;
+    }
+
+    public int getNgramReportingLength() {
+        return ngramReportingLength; }
 }

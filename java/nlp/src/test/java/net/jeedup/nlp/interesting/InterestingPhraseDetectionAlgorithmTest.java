@@ -42,6 +42,6 @@ class InterestingPhraseDetectionAlgorithmTest {
                 .orElse(null);
 
         assertNotNull(brownFox);
-        assertEquals(87.000, brownFox.score, 0.001);
+        assertEquals(81.9999, brownFox.score, 0.001);
     }
 }

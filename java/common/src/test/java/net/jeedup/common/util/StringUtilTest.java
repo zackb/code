@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Map;
 
+import static net.jeedup.common.util.StringUtil.isCapitalized;
 import static net.jeedup.common.util.StringUtil.snake;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,5 +62,13 @@ class StringUtilTest {
     @Test
     void testSnakeCase() {
         assertEquals("this_is_test", snake("thisIsTest"));
+    }
+
+    @Test
+    void testIsCapitalized() {
+        assertTrue(isCapitalized("Zack"));
+        assertFalse(isCapitalized("ZackBartel"));
+        assertFalse(isCapitalized("Zack Bartel"));
+        assertFalse(isCapitalized("zAck"));
     }
 }

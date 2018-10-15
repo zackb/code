@@ -255,13 +255,13 @@ public class StringUtil {
     public static boolean isCapitalized(String str) {
 
         if (!Character.isUpperCase(str.charAt(0)))
-            return true;
+            return false;
 
         for (int i = 1; i < str.length(); ++i)
             if (!Character.isLowerCase(str.charAt(i)))
-                return true;
+                return false;
 
-        return false;
+        return true;
     }
 }
 
