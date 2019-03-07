@@ -77,8 +77,8 @@ void read_board(char *path) {
             j = 0;
             continue;
         }
-        if (c == 'x') c = EMPTY;
-        board[i][j++] = atoi(&c);
+        if (c == 'x') board[i][j++] = EMPTY;
+        else board[i][j++] = c - '0';
     }
     fclose(file);
 }
