@@ -1,14 +1,13 @@
 package net.jeedup.kinesis.producer.impl;
 
 import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.kinesis.producer.KinesisProducerConfiguration;
 import com.amazonaws.services.kinesis.producer.UserRecordFailedException;
 import com.amazonaws.services.kinesis.producer.UserRecordResult;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import net.jeedup.common.util.FileUtil;
 import net.jeedup.kinesis.producer.KinesisProducer;
 import net.jeedup.kinesis.producer.KinesisProducerConfig;
@@ -80,7 +79,7 @@ public class KplStreamProducer<T> implements KinesisProducer<T> {
                         serializer.partitionKey(message),
                         serializer.serialize(message));
 
-        Futures.addCallback(future, callback);
+        Futures.addCallback(future, callback, directExecutor());
     }
 
 
