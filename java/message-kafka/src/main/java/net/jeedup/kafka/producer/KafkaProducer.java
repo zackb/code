@@ -33,6 +33,10 @@ public class KafkaProducer<T> {
         Properties props = new Properties();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, createClientId());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.bootstrapServerString());
+        props.setProperty(ProducerConfig.LINGER_MS_CONFIG, "1");
+        props.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "16384");
+        props.setProperty(ProducerConfig.BUFFER_MEMORY_CONFIG, "33554432");
+        //props.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
 
 
         if (config.exactlyOnce) {
