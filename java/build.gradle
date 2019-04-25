@@ -6,7 +6,6 @@ buildscript {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
     }
 }
-
 subprojects {
 
     apply plugin: 'java'
@@ -342,6 +341,74 @@ project(':aws-lambda-kinesis') {
             }
         }
     }
+}
+
+    ext {
+        flinkVersion = '1.8+'
+        scalaVersion = '2.12'
+    }
+
+project(':flink')    {
+
+    configurations {
+        frovided
+        frovided.exclude group: 'org.apache.flink', module: 'force-shading'
+        frovided.exclude group: 'com.google.code.findbugs', module: 'jsr305'
+        frovided.exclude group: 'org.slf4j'
+    }
+
+    sourceSets {
+        main.compileClasspath += configurations.frovided
+        main.runtimeClasspath += configurations.frovided
+
+        test.compileClasspath += configurations.frovided
+        test.runtimeClasspath += configurations.frovided
+    }
+
+    dependencies {
+
+        // common
+        compile project(':common')
+
+        // json
+        compile project(':json')
+
+        // kafka
+        compile project(':message-kafka')
+
+        // Apache Flink
+        frovided "org.apache.flink:flink-java:$flinkVersion"
+
+        // Apache Flink Java Streaming
+        frovided "org.apache.flink:flink-streaming-java_$scalaVersion:$flinkVersion"
+
+        // Apache Flink Kafka Connector
+        compile "org.apache.flink:flink-connector-kafka_$scalaVersion:$flinkVersion"
+
+        // Apache Flink S3
+        frovided "org.apache.flink:flink-s3-fs-hadoop:$flinkVersion"
+
+        // Apache Hadoop Filesystem
+        frovided 'org.apache.hadoop:hadoop-common:2.8+'
+        frovided 'org.apache.hadoop:hadoop-hdfs:2.8+'
+
+        // Apache Flink Parquet
+        compile "org.apache.flink:flink-parquet:$flinkVersion"
+
+        // Apache Avro Parquet support
+        compile 'org.apache.parquet:parquet-avro:1+'
+
+        // Amazon Kinesis
+        compile  files(fileTree(include: ['*.jar'], dir: 'lib'))
+        compile 'commons-logging:commons-logging:1+'
+        compile 'commons-lang:commons-lang:2.6'
+        compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.8+'
+    }
+
+    javadoc {
+        exclude 'net/jeedup/flink/**'
+    }
+
 }
 
 project(':app') {

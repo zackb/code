@@ -13,5 +13,6 @@ include(
     'message-serde-json',
     'message-rabbitmq',
     'aws-lambda-kinesis',
+    'flink',
     'app'
 )
