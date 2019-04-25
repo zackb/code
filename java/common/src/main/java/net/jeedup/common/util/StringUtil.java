@@ -263,5 +263,21 @@ public class StringUtil {
 
         return true;
     }
+
+    /**
+     * Capitalize the first letter of a string.
+     * @param s string to capitalize
+     * @return capitalized string
+     */
+    public static String capitalize(String s) {
+        if (empty(s)) return s;
+        char[] chars = s.toCharArray();
+        chars[0] = Character.toUpperCase(chars[0]);
+        return new String(chars);
+    }
+
+    public static boolean greaterThanEqual(String s1, String s2) {
+        return s2.compareTo(s1) >= 0;
+    }
 }
 

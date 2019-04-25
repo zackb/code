@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +70,23 @@ public class JSON {
         return null;
     }
 
+    /**
+     * Decode the byte representation of an object into an instance of the class
+     * @param bytes byte array to read JSON data from
+     * @param offset into the byte array to start reading
+     * @param len number of bytes to read after offset
+     * @param clazz type of object to create
+     * @return new instance of clazz containing the data from the JSON representation
+     */
+    public static <T> T decodeObject(byte[] bytes, int offset, int len, Class<T> clazz) {
+        try {
+            return mapper.readValue(bytes, offset, len, clazz);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed decoding object: " + clazz + " : " + bytes, e);
+        }
+        return null;
+    }
+
     public static <T> T decodeObject(String data, Class<T> clazz) {
         try {
             return mapper.readValue(data.getBytes("UTF-8"), clazz);
@@ -107,5 +128,34 @@ public class JSON {
 		}
 		return null;
 	}
+
+    public interface StreamConsumer<T> {
+        void consume(T t);
+    }
+
+    public static <T> void decodeStreamList(InputStream ins, Class<T> clazz,
+                                            StreamConsumer<T> consumer) throws IOException {
+
+        try (JsonParser parser = mapper.getFactory().createParser(ins)) {
+            ObjectReader reader = mapper.readerFor(clazz);
+
+            if (parser.nextToken() != JsonToken.START_ARRAY) {
+                throw new IOException("Expected an array");
+            }
+
+            while (parser.nextToken() == JsonToken.START_OBJECT) {
+                T t = reader.readValue(parser);
+                consumer.consume(t);
+            }
+        }
+    }
+
+    public static <T> T decodeStream(InputStream ins, Class<T> clazz) throws IOException {
+
+        try (JsonParser parser = mapper.getFactory().createParser(ins)) {
+            ObjectReader reader = mapper.readerFor(clazz);
+            return reader.readValue(parser);
+        }
+    }
 
 }
