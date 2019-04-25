@@ -21,7 +21,7 @@ public class BreadthFirst<V> implements Visitor<V> {
     @Override
     public Visitor<V> visitTree(Tree<V> tree) {
         boolean cont = consumer.visitTree(level, tree);
-        return cont ? new BreadthFirst(level + 1, consumer) : null;
+        return cont ? new BreadthFirst<>(level + 1, consumer) : null;
     }
     @Override
     public void visitData(Tree<V> parent, V data) {

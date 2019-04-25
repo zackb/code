@@ -1,15 +1,7 @@
 package net.jeedup.common.util;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -78,113 +70,5 @@ public class Util {
             env = defaul;
 
         return env;
-    }
-
-    // get the hostname of the local machine using the local interface
-    public static String getHostName() throws UnknownHostException {
-        return InetAddress.getLocalHost().getHostName();
-    }
-
-    // get the best NetworkInterface preferring em2, em1, then non-lo
-    public static NetworkInterface getNetworkInterface() throws SocketException {
-        NetworkInterface networkInterface = null;
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-
-        while (interfaces.hasMoreElements()) {
-            NetworkInterface inter = interfaces.nextElement();
-            String name = inter.getName();
-            if ("em2".equals(name)) {
-                networkInterface = inter;
-            } else if ((networkInterface == null || !"em2".equals(networkInterface.getName())) && "em1".equals(name)) {
-                networkInterface = inter;
-            } else if (networkInterface == null && !name.startsWith("lo") && inter.getHardwareAddress() != null) {
-                networkInterface = inter;
-            }
-        }
-
-        return networkInterface;
-    }
-
-    // get the MAC address of a network interface
-    public static String getMacAddress(NetworkInterface inter) throws SocketException {
-        byte[] mac = inter.getHardwareAddress();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mac.length; i++)
-            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-        return sb.toString();
-    }
-
-    /**
-     * Create a unique-ish identifying string for this host (consumer).
-     * Use the hostname if available else the MAC address of the em2, em1, non-lo interfaces
-     * @return clientId
-     */
-    public static String createClientId(String prefix) {
-        String clientId = null;
-        try {
-            clientId = Util.getHostName();
-        } catch (UnknownHostException e) {
-            log.warning("Failed getting hostname for clientId, trying MAC");
-        }
-
-        if (empty(clientId)) {
-            try {
-                NetworkInterface inter = Util.getNetworkInterface();
-                if (inter != null)
-                    clientId = Util.getMacAddress(inter);
-            } catch (SocketException e) {
-                log.severe("Failed getting MAC address for clientId, defaulting to 'UNKNOWN'");
-            }
-        }
-
-        if (empty(clientId)) {
-            clientId = "UNKNOWN";
-        }
-
-        clientId = prefix + "_" + clientId.replaceAll("[^A-Za-z0-9]", "_");
-
-        return clientId;
-    }
-
-    // get a JUL Level from a string
-    public static Level logLevel(String level) {
-        Level l = null;
-        switch (level.toLowerCase()) {
-            case "severe":
-                l = Level.SEVERE;
-                break;
-            case "warning":
-                l = Level.WARNING;
-                break;
-            case "info":
-                l  = Level.INFO;
-                break;
-            case "config":
-                l  = Level.CONFIG;
-                break;
-            case "fine":
-                l  = Level.FINE;
-                break;
-            case "finer":
-                l  = Level.FINER;
-                break;
-            case "finest":
-                l  = Level.FINEST;
-                break;
-            case "all":
-                l  = Level.ALL;
-                break;
-            default:
-                break;
-        }
-        return l;
-    }
-
-    // set the global log level
-    public static void setLogLevel(final Level level) {
-        Logger rootLogger  = LogManager.getLogManager().getLogger("");
-        rootLogger.setLevel(level);
-        Arrays.stream(rootLogger.getHandlers())
-                .forEach(h -> h.setLevel(level));
     }
 }
