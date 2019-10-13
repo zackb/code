@@ -1,0 +1,76 @@
+
+func (p *people) values() plotter.Values {
+	v := make(plotter.Values, len(*p))
+
+	g := p.grouped()
+	for _, i := range g.sort() {
+		fmt.Println(g[i])
+		v = append(v, float64(g[i]))
+	}
+	return v
+
+}
+
+func drawGraph(ppl people) {
+
+	p, err := plot.New()
+	if err != nil {
+		panic(err)
+	}
+	p.Title.Text = "BWZ Guestbook"
+	p.Y.Label.Text = "People"
+
+	w := vg.Points(20)
+
+	bars, err := plotter.NewBarChart(ppl.values(), w)
+	if err != nil {
+		panic(err)
+	}
+	bars.LineStyle.Width = vg.Length(0)
+	bars.Color = plotutil.Color(0)
+	// bars.Offset = -w
+
+	p.Add(bars)
+	p.Legend.Add("All", bars)
+	p.Legend.Top = true
+	p.NominalX("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine")
+
+	if err := p.Save(5*vg.Inch, 3*vg.Inch, "output.png"); err != nil {
+		panic(err)
+	}
+
+}
+
+/*
+func drawGraph(p people) {
+
+	graph := chart.BarChart{
+		Title: "BWZ Guestbook",
+		Background: chart.Style{
+			Padding: chart.Box{
+				Top: 40,
+			},
+		},
+		Height:   512,
+		BarWidth: 60,
+		Bars:     p.values(),
+	}
+
+	f, _ := os.Create("output.png")
+	defer f.Close()
+	graph.Render(chart.PNG, f)
+}
+*/
+
+/*
+func (p *people) values() []chart.Value {
+	var values []chart.Value
+	for l, v := range p.series() {
+		values = append(values, chart.Value{
+			Label: l,
+			Value: float64(v),
+		})
+	}
+	return values
+}
+*/
