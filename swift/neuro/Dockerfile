@@ -3,7 +3,7 @@ WORKDIR /root
 COPY . .
 run echo "deb [trusted=yes] http://apt.orkhanalikhanov.com ./" | tee -a /etc/apt/sources.list
 run apt-get update
-run apt-get install libressl
+run apt-get install libressl libssl-dev
 RUN make linux
 
 FROM swift:slim
