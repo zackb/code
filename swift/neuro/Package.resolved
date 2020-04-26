@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HttpSwift",
+        "repositoryURL": "https://github.com/BiAtoms/Http.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "2e0cd4c94ffc1aec04dc355feca92b32b827dd74",
+          "version": "2.2.1"
+        }
+      },
+      {
+        "package": "RequestSwift",
+        "repositoryURL": "https://github.com/BiAtoms/Request.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "47cea3de9cb961f77c659a27894d32454b42e25f",
+          "version": "2.3.0"
+        }
+      },
+      {
+        "package": "SocketSwift",
+        "repositoryURL": "https://github.com/BiAtoms/Socket.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "36911c13adfe12859ed43dcba878052b1897fcd3",
+          "version": "2.4.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
