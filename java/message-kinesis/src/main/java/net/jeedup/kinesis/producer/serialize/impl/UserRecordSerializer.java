@@ -18,7 +18,7 @@ public class UserRecordSerializer implements Serializer<UserRecord> {
 
     @Override
     public UserRecord deserialize(ByteBuffer bytes) {
-        throw new UnsupportedOperationException("Can not genericlly deserialize a UserRecord");
+        throw new UnsupportedOperationException("Can not generically deserialize a UserRecord");
     }
 
     @Override
