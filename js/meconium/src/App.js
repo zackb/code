@@ -1,24 +1,22 @@
 import React from "react";
-import axios from "axios";
 import "./styles.css";
 
 export default class App extends React.Component {
   state = {
-    message: '',
+    messages: [],
   };
 
   componentDidMount() {
-    axios.get('/message').then((response) => {
-      this.setState({ message: response.data.message });
-    });
+    fetch('/message')
+      .then(res => res.json())
+      .then((data) => 
+        this.setState({ messages: data.messages }));
   }
 
   render() {
-    const { message } = this.state;
+    const { messages } = this.state;
     return (
-      <div>
-      {message}
-      </div>
+      messages.map(msg => <div>{msg.data}</div>)
     );
   }
 }
