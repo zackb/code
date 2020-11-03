@@ -16,7 +16,10 @@ export default class App extends React.Component {
   render() {
     const { messages } = this.state;
     return (
-      messages.map(msg => <div>{msg.data}</div>)
+      <div>
+        <span>Hello, here are your messages</span>
+        {messages.map(msg => <div>{msg.data}</div>)}
+      </div>
     );
   }
 }
