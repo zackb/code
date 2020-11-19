@@ -7,9 +7,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "foo": "npm run test",
-    "dev": "npx parcel index.html"
+    "start": "parcel index.html",
+    "dev": "npx parcel index.html",
+    "build": "parcel build index.html"
   },
   "author": "Zack Bartel",
   "license": "MIT",
