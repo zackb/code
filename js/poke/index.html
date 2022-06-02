@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poke</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    #search-input {
+      background-image: url('img/searchicon.png');
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+
+    #poke-table {
+      /* border-collapse: collapse; */
+      width: 100%;
+      border: 1px solid #ddd;
+      font-size: 18px;
+    }
+
+    #poke-table th {
+      text-align: center;
+      padding: 12px;
+    }
+    #poke-table td {
+      text-align: left;
+      padding: 12px;
+    }
+
+    #poke-table tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    #poke-table tr.header,
+    #poke-table tr:hover {
+      background-color: #e4b4b4;
+    }
+    #poke-table tr.subheader,
+    #poke-table tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Pok&eacute;Me</h2>
+
+  <input type="text" id="search-input" onkeyup="filter()" placeholder="Search for names.." title="Type in a name">
+
+  <table id="poke-table">
+    <tr class="header">
+      <th colspan="3">Master</th>
+      <th colspan="3">Ultra</th>
+      <th colspan="3">Great</th>
+    </tr>
+    <tr class="subheader">
+      <th width="10px" >Rank</th>
+      <th>Name</th>
+      <th width="10px">Score</th>
+      <th width="10px" >Rank</th>
+      <th>Name</th>
+      <th width="10px">Score</th>
+      <th width="10px" >Rank</th>
+      <th>Name</th>
+      <th width="10px">Score</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Vulpix</td>
+      <td>99</td>
+      <td>1</td>
+      <td>Diggersby</td>
+      <td>99</td>
+      <td>1</td>
+      <td>Tokicroak</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Diggersby</td>
+      <td>99</td>
+      <td>1</td>
+      <td>Machop</td>
+      <td>99</td>
+      <td>1</td>
+      <td>Vulpix</td>
+      <td>99</td>
+    </tr>
+  </table>
+<script>
+  document.addEventListener('DOMContentLoaded', (e) => {
+    console.log(`Document is ready!`);
+  });
+
+  function filter() {
+    var input, filter, table, tr, td, i, txtValue;
+    const nameCols = [1, 4, 7];
+    input = document.getElementById("search-input");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("poke-table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      nameCols.forEach(j => {
+        console.log(j);
+        tds = tr[i].getElementsByTagName("td");
+        td = tds[j]
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tds[j-1].style.display = "";
+            tds[j].style.display = "";
+            tds[j+1].style.display = "";
+          } else {
+            tds[j-1].style.display = "none";
+            tds[j].style.display = "none";
+            tds[j+1].style.display = "none";
+          }
+        }
+      });
+    }
+    }
+  </script>
+
+</body>
+
+</html>
