@@ -90,16 +90,6 @@
           <th>Name</th>
           <th width="10px">Score</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>Vulpix</td>
-          <td>99</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Diggersby</td>
-          <td>99</td>
-        </tr>
       </table>
     </div>
     <div class="column">
@@ -111,16 +101,6 @@
           <th width="10px">Rank</th>
           <th>Name</th>
           <th width="10px">Score</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Vulpix</td>
-          <td>99</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Diggersby</td>
-          <td>99</td>
         </tr>
       </table>
     </div>
@@ -134,16 +114,6 @@
           <th>Name</th>
           <th width="10px">Score</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>Diggersby</td>
-          <td>99</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Vulpix</td>
-          <td>99</td>
-        </tr>
       </table>
     </div>
   </div>
@@ -151,7 +121,34 @@
 
     document.addEventListener('DOMContentLoaded', (e) => {
       console.log(`Document is ready!`);
+      fetch("data/overall-10000.json")
+        .then(response => response.json())
+        .then(json => populateTable("poke-table-master", json));
+
+      fetch("data/overall-2500.json")
+        .then(response => response.json())
+        .then(json => populateTable("poke-table-ultra", json));
+
+      fetch("data/overall-1500.json")
+        .then(response => response.json())
+        .then(json => populateTable("poke-table-great", json));
+
     });
+
+    function populateTable(id, data) {
+      table = document.getElementById(id);
+      var i = 1;
+      data.forEach(d => {
+        var row = table.insertRow(-1);
+        var rank = row.insertCell(0);
+        rank.innerText = i;
+        var name = row.insertCell(1);
+        name.innerText = d.speciesName;
+        var score = row.insertCell(2);
+        score.innerText = d.score;
+        i++;
+      });
+    }
 
     function filter() {
       var input, filter, table, tr, td, i, txtValue;
