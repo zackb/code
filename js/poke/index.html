@@ -20,33 +20,54 @@
       margin-bottom: 12px;
     }
 
-    #poke-table {
-      /* border-collapse: collapse; */
-      width: 100%;
+    .poke-table {
       border: 1px solid #ddd;
       font-size: 18px;
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 100%;
+      border: 1px solid #ddd;
     }
 
-    #poke-table th {
+    .poke-table th {
       text-align: center;
       padding: 12px;
     }
-    #poke-table td {
+
+    .poke-table td {
       text-align: left;
       padding: 12px;
     }
 
-    #poke-table tr {
+    .poke-table tr {
       border-bottom: 1px solid #ddd;
     }
 
-    #poke-table tr.header,
-    #poke-table tr:hover {
+    .poke-table tr.header,
+    .poke-table tr:hover {
       background-color: #e4b4b4;
     }
-    #poke-table tr.subheader,
-    #poke-table tr:hover {
+
+    .poke-table tr.subheader,
+    .poke-table tr:hover {
       background-color: #f1f1f1;
+    }
+
+    .row {
+      display: flex;
+      margin-left: -5px;
+      margin-right: -5px;
+    }
+
+    .column {
+      flex: 33%;
+      padding: 5px;
+    }
+
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
     }
   </style>
 </head>
@@ -57,77 +78,100 @@
 
   <input type="text" id="search-input" onkeyup="filter()" placeholder="Search for names.." title="Type in a name">
 
-  <table id="poke-table">
-    <tr class="header">
-      <th colspan="3">Master</th>
-      <th colspan="3">Ultra</th>
-      <th colspan="3">Great</th>
-    </tr>
-    <tr class="subheader">
-      <th width="10px" >Rank</th>
-      <th>Name</th>
-      <th width="10px">Score</th>
-      <th width="10px" >Rank</th>
-      <th>Name</th>
-      <th width="10px">Score</th>
-      <th width="10px" >Rank</th>
-      <th>Name</th>
-      <th width="10px">Score</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Vulpix</td>
-      <td>99</td>
-      <td>1</td>
-      <td>Diggersby</td>
-      <td>99</td>
-      <td>1</td>
-      <td>Tokicroak</td>
-      <td>99</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Diggersby</td>
-      <td>99</td>
-      <td>1</td>
-      <td>Machop</td>
-      <td>99</td>
-      <td>1</td>
-      <td>Vulpix</td>
-      <td>99</td>
-    </tr>
-  </table>
-<script>
-  document.addEventListener('DOMContentLoaded', (e) => {
-    console.log(`Document is ready!`);
-  });
+  <div class="row">
+    <div class="column">
 
-  function filter() {
-    var input, filter, table, tr, td, i, txtValue;
-    const nameCols = [1, 4, 7];
-    input = document.getElementById("search-input");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("poke-table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      nameCols.forEach(j => {
-        console.log(j);
-        tds = tr[i].getElementsByTagName("td");
-        td = tds[j]
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tds[j-1].style.display = "";
-            tds[j].style.display = "";
-            tds[j+1].style.display = "";
-          } else {
-            tds[j-1].style.display = "none";
-            tds[j].style.display = "none";
-            tds[j+1].style.display = "none";
+      <table id="poke-table-master" class="poke-table">
+        <tr class="header">
+          <th colspan="3">Master</th>
+        </tr>
+        <tr class="subheader">
+          <th width="10px">Rank</th>
+          <th>Name</th>
+          <th width="10px">Score</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Vulpix</td>
+          <td>99</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Diggersby</td>
+          <td>99</td>
+        </tr>
+      </table>
+    </div>
+    <div class="column">
+      <table id="poke-table-ultra" class="poke-table">
+        <tr class="header">
+          <th colspan="3">Ultra</th>
+        </tr>
+        <tr class="subheader">
+          <th width="10px">Rank</th>
+          <th>Name</th>
+          <th width="10px">Score</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Vulpix</td>
+          <td>99</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Diggersby</td>
+          <td>99</td>
+        </tr>
+      </table>
+    </div>
+    <div class="column">
+      <table id="poke-table-great" class="poke-table">
+        <tr class="header">
+          <th colspan="3">Great</th>
+        </tr>
+        <tr class="subheader">
+          <th width="10px">Rank</th>
+          <th>Name</th>
+          <th width="10px">Score</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Diggersby</td>
+          <td>99</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Vulpix</td>
+          <td>99</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', (e) => {
+      console.log(`Document is ready!`);
+    });
+
+    function filter() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("search-input");
+      filter = input.value.toUpperCase();
+      tables = document.getElementsByClassName("poke-table");
+      Array.from(tables).forEach(table => {
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
         }
       });
-    }
     }
   </script>
 
