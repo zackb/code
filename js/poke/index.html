@@ -169,7 +169,14 @@
 
     function filter() {
       var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("search-input").value;
+      input = document.getElementById("search-input").value.trim();
+      if (input == "") {
+        Array.from(document.getElementsByTagName("tr")).forEach(tr => {
+          tr.style.display = "";
+        });
+        return;
+      }
+
       possibilities = findPossibilities(input);
       tables = document.getElementsByClassName("poke-table");
       Array.from(tables).forEach(table => {
@@ -178,7 +185,7 @@
           td = tr[i].getElementsByTagName("td")[1];
           if (td) {
             txtValue = td.textContent || td.innerText;
-            if (isPossible(possibilities, txtValue)) {
+            if (isPossible(input, possibilities, txtValue)) {
               tr[i].style.display = "";
             } else {
               tr[i].style.display = "none";
@@ -188,7 +195,10 @@
       });
     }
 
-    function isPossible(possibilities, text) {
+    function isPossible(input, possibilities, text) {
+      if (text.toUpperCase().indexOf(input.toUpperCase()) > -1) {
+        return true;
+      }
       for (possibility of possibilities) {
         if (possibility.toUpperCase().indexOf(text.toUpperCase()) > -1) {
           return true;
