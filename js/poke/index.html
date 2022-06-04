@@ -121,6 +121,7 @@
 
     document.addEventListener('DOMContentLoaded', (e) => {
       console.log(`Document is ready!`);
+      loadEvolutionMap();
       fetch("data/overall-10000.json")
         .then(response => response.json())
         .then(json => populateTable("poke-table-master", json));
@@ -134,6 +135,22 @@
         .then(json => populateTable("poke-table-great", json));
 
     });
+
+    var evolutionMap = new Map();
+    function loadEvolutionMap() {
+      fetch("data/pokemon_evolutions.json")
+        .then(response => response.json())
+        .then(json => {
+          json.forEach(d => {
+            evs = new Set();
+            if (evolutionMap.has(d.speciesName)) {
+              evs = evolutionMap.get(d.speciesName);
+            }
+            d.evolutions.forEach(evs.add, evs);
+            evolutionMap.set(d.speciesName, evs);
+          });
+        });
+    }
 
     function populateTable(id, data) {
       table = document.getElementById(id);
@@ -152,8 +169,8 @@
 
     function filter() {
       var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("search-input");
-      filter = input.value.toUpperCase();
+      input = document.getElementById("search-input").value;
+      possibilities = findPossibilities(input);
       tables = document.getElementsByClassName("poke-table");
       Array.from(tables).forEach(table => {
         tr = table.getElementsByTagName("tr");
@@ -161,7 +178,7 @@
           td = tr[i].getElementsByTagName("td")[1];
           if (td) {
             txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            if (isPossible(possibilities, txtValue)) {
               tr[i].style.display = "";
             } else {
               tr[i].style.display = "none";
@@ -169,6 +186,33 @@
           }
         }
       });
+    }
+
+    function isPossible(possibilities, text) {
+      for (possibility of possibilities) {
+        if (possibility.toUpperCase().indexOf(text.toUpperCase()) > -1) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function findPossibilities(input) {
+      var possibilities = [];
+      var search = input.toUpperCase();
+      for (const [pokemon, evolutions] of evolutionMap) {
+        if (pokemon.toUpperCase().indexOf(search) > -1) {
+          possibilities.push(pokemon);
+          possibilities.push(...evolutions);
+        }
+        for (const ev of evolutions) {
+          if (ev.toUpperCase().indexOf(search) > -1) {
+            possibilities.push(ev);
+            possibilities.push(pokemon);
+          }
+        }
+      }
+      return possibilities;
     }
   </script>
 

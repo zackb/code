@@ -1,0 +1,2683 @@
+[
+  {
+    "speciesName": "Bulbasaur",
+    "evolutions": [
+      "Ivysaur"
+    ]
+  },
+  {
+    "speciesName": "Ivysaur",
+    "evolutions": [
+      "Venusaur"
+    ]
+  },
+  {
+    "speciesName": "Charmander",
+    "evolutions": [
+      "Charmeleon"
+    ]
+  },
+  {
+    "speciesName": "Charmeleon",
+    "evolutions": [
+      "Charizard"
+    ]
+  },
+  {
+    "speciesName": "Squirtle",
+    "evolutions": [
+      "Wartortle"
+    ]
+  },
+  {
+    "speciesName": "Wartortle",
+    "evolutions": [
+      "Blastoise"
+    ]
+  },
+  {
+    "speciesName": "Caterpie",
+    "evolutions": [
+      "Metapod"
+    ]
+  },
+  {
+    "speciesName": "Metapod",
+    "evolutions": [
+      "Butterfree"
+    ]
+  },
+  {
+    "speciesName": "Weedle",
+    "evolutions": [
+      "Kakuna"
+    ]
+  },
+  {
+    "speciesName": "Kakuna",
+    "evolutions": [
+      "Beedrill"
+    ]
+  },
+  {
+    "speciesName": "Pidgey",
+    "evolutions": [
+      "Pidgeotto"
+    ]
+  },
+  {
+    "speciesName": "Pidgeotto",
+    "evolutions": [
+      "Pidgeot"
+    ]
+  },
+  {
+    "speciesName": "Rattata",
+    "evolutions": [
+      "Raticate"
+    ]
+  },
+  {
+    "speciesName": "Rattata",
+    "evolutions": [
+      "Raticate"
+    ]
+  },
+  {
+    "speciesName": "Spearow",
+    "evolutions": [
+      "Fearow"
+    ]
+  },
+  {
+    "speciesName": "Ekans",
+    "evolutions": [
+      "Arbok"
+    ]
+  },
+  {
+    "speciesName": "Pikachu",
+    "evolutions": [
+      "Raichu"
+    ]
+  },
+  {
+    "speciesName": "Sandshrew",
+    "evolutions": [
+      "Sandslash"
+    ]
+  },
+  {
+    "speciesName": "Sandshrew",
+    "evolutions": [
+      "Sandslash"
+    ]
+  },
+  {
+    "speciesName": "Nidoran♀",
+    "evolutions": [
+      "Nidorina"
+    ]
+  },
+  {
+    "speciesName": "Nidorina",
+    "evolutions": [
+      "Nidoqueen"
+    ]
+  },
+  {
+    "speciesName": "Nidoran♂",
+    "evolutions": [
+      "Nidorino"
+    ]
+  },
+  {
+    "speciesName": "Nidorino",
+    "evolutions": [
+      "Nidoking"
+    ]
+  },
+  {
+    "speciesName": "Clefairy",
+    "evolutions": [
+      "Clefable"
+    ]
+  },
+  {
+    "speciesName": "Vulpix",
+    "evolutions": [
+      "Ninetales"
+    ]
+  },
+  {
+    "speciesName": "Vulpix",
+    "evolutions": [
+      "Ninetales"
+    ]
+  },
+  {
+    "speciesName": "Jigglypuff",
+    "evolutions": [
+      "Wigglytuff"
+    ]
+  },
+  {
+    "speciesName": "Zubat",
+    "evolutions": [
+      "Golbat"
+    ]
+  },
+  {
+    "speciesName": "Golbat",
+    "evolutions": [
+      "Crobat"
+    ]
+  },
+  {
+    "speciesName": "Oddish",
+    "evolutions": [
+      "Gloom"
+    ]
+  },
+  {
+    "speciesName": "Gloom",
+    "evolutions": [
+      "Vileplume",
+      "Bellossom"
+    ]
+  },
+  {
+    "speciesName": "Paras",
+    "evolutions": [
+      "Parasect"
+    ]
+  },
+  {
+    "speciesName": "Venonat",
+    "evolutions": [
+      "Venomoth"
+    ]
+  },
+  {
+    "speciesName": "Diglett",
+    "evolutions": [
+      "Dugtrio"
+    ]
+  },
+  {
+    "speciesName": "Diglett",
+    "evolutions": [
+      "Dugtrio"
+    ]
+  },
+  {
+    "speciesName": "Meowth",
+    "evolutions": [
+      "Persian"
+    ]
+  },
+  {
+    "speciesName": "Meowth",
+    "evolutions": [
+      "Perrserker"
+    ]
+  },
+  {
+    "speciesName": "Meowth",
+    "evolutions": [
+      "Persian"
+    ]
+  },
+  {
+    "speciesName": "Psyduck",
+    "evolutions": [
+      "Golduck"
+    ]
+  },
+  {
+    "speciesName": "Mankey",
+    "evolutions": [
+      "Primeape"
+    ]
+  },
+  {
+    "speciesName": "Growlithe",
+    "evolutions": [
+      "Arcanine"
+    ]
+  },
+  {
+    "speciesName": "Poliwag",
+    "evolutions": [
+      "Poliwhirl"
+    ]
+  },
+  {
+    "speciesName": "Poliwhirl",
+    "evolutions": [
+      "Poliwrath",
+      "Politoed"
+    ]
+  },
+  {
+    "speciesName": "Abra",
+    "evolutions": [
+      "Kadabra"
+    ]
+  },
+  {
+    "speciesName": "Kadabra",
+    "evolutions": [
+      "Alakazam"
+    ]
+  },
+  {
+    "speciesName": "Machop",
+    "evolutions": [
+      "Machoke"
+    ]
+  },
+  {
+    "speciesName": "Machoke",
+    "evolutions": [
+      "Machamp"
+    ]
+  },
+  {
+    "speciesName": "Bellsprout",
+    "evolutions": [
+      "Weepinbell"
+    ]
+  },
+  {
+    "speciesName": "Weepinbell",
+    "evolutions": [
+      "Victreebel"
+    ]
+  },
+  {
+    "speciesName": "Tentacool",
+    "evolutions": [
+      "Tentacruel"
+    ]
+  },
+  {
+    "speciesName": "Geodude",
+    "evolutions": [
+      "Graveler"
+    ]
+  },
+  {
+    "speciesName": "Geodude",
+    "evolutions": [
+      "Graveler"
+    ]
+  },
+  {
+    "speciesName": "Graveler",
+    "evolutions": [
+      "Golem"
+    ]
+  },
+  {
+    "speciesName": "Graveler",
+    "evolutions": [
+      "Golem"
+    ]
+  },
+  {
+    "speciesName": "Ponyta",
+    "evolutions": [
+      "Rapidash"
+    ]
+  },
+  {
+    "speciesName": "Ponyta",
+    "evolutions": [
+      "Rapidash"
+    ]
+  },
+  {
+    "speciesName": "Slowpoke",
+    "evolutions": [
+      "Slowbro",
+      "Slowking"
+    ]
+  },
+  {
+    "speciesName": "Slowpoke",
+    "evolutions": [
+      "Slowbro",
+      "Slowking"
+    ]
+  },
+  {
+    "speciesName": "Slowpoke",
+    "evolutions": [
+      "Slowbro",
+      "Slowking"
+    ]
+  },
+  {
+    "speciesName": "Magnemite",
+    "evolutions": [
+      "Magneton"
+    ]
+  },
+  {
+    "speciesName": "Magneton",
+    "evolutions": [
+      "Magnezone"
+    ]
+  },
+  {
+    "speciesName": "Farfetch’d",
+    "evolutions": [
+      "Sirfetch’d"
+    ]
+  },
+  {
+    "speciesName": "Doduo",
+    "evolutions": [
+      "Dodrio"
+    ]
+  },
+  {
+    "speciesName": "Seel",
+    "evolutions": [
+      "Dewgong"
+    ]
+  },
+  {
+    "speciesName": "Grimer",
+    "evolutions": [
+      "Muk"
+    ]
+  },
+  {
+    "speciesName": "Grimer",
+    "evolutions": [
+      "Muk"
+    ]
+  },
+  {
+    "speciesName": "Shellder",
+    "evolutions": [
+      "Cloyster"
+    ]
+  },
+  {
+    "speciesName": "Gastly",
+    "evolutions": [
+      "Haunter"
+    ]
+  },
+  {
+    "speciesName": "Haunter",
+    "evolutions": [
+      "Gengar"
+    ]
+  },
+  {
+    "speciesName": "Onix",
+    "evolutions": [
+      "Steelix"
+    ]
+  },
+  {
+    "speciesName": "Drowzee",
+    "evolutions": [
+      "Hypno"
+    ]
+  },
+  {
+    "speciesName": "Krabby",
+    "evolutions": [
+      "Kingler"
+    ]
+  },
+  {
+    "speciesName": "Voltorb",
+    "evolutions": [
+      "Electrode"
+    ]
+  },
+  {
+    "speciesName": "Voltorb",
+    "evolutions": [
+      "Electrode"
+    ]
+  },
+  {
+    "speciesName": "Exeggcute",
+    "evolutions": [
+      "Exeggutor"
+    ]
+  },
+  {
+    "speciesName": "Cubone",
+    "evolutions": [
+      "Marowak"
+    ]
+  },
+  {
+    "speciesName": "Lickitung",
+    "evolutions": [
+      "Lickilicky"
+    ]
+  },
+  {
+    "speciesName": "Koffing",
+    "evolutions": [
+      "Weezing"
+    ]
+  },
+  {
+    "speciesName": "Rhyhorn",
+    "evolutions": [
+      "Rhydon"
+    ]
+  },
+  {
+    "speciesName": "Rhydon",
+    "evolutions": [
+      "Rhyperior"
+    ]
+  },
+  {
+    "speciesName": "Chansey",
+    "evolutions": [
+      "Blissey"
+    ]
+  },
+  {
+    "speciesName": "Tangela",
+    "evolutions": [
+      "Tangrowth"
+    ]
+  },
+  {
+    "speciesName": "Horsea",
+    "evolutions": [
+      "Seadra"
+    ]
+  },
+  {
+    "speciesName": "Seadra",
+    "evolutions": [
+      "Kingdra"
+    ]
+  },
+  {
+    "speciesName": "Goldeen",
+    "evolutions": [
+      "Seaking"
+    ]
+  },
+  {
+    "speciesName": "Staryu",
+    "evolutions": [
+      "Starmie"
+    ]
+  },
+  {
+    "speciesName": "Mr. Mime",
+    "evolutions": [
+      "Mr. Rime"
+    ]
+  },
+  {
+    "speciesName": "Scyther",
+    "evolutions": [
+      "Scizor"
+    ]
+  },
+  {
+    "speciesName": "Electabuzz",
+    "evolutions": [
+      "Electivire"
+    ]
+  },
+  {
+    "speciesName": "Magmar",
+    "evolutions": [
+      "Magmortar"
+    ]
+  },
+  {
+    "speciesName": "Magikarp",
+    "evolutions": [
+      "Gyarados"
+    ]
+  },
+  {
+    "speciesName": "Eevee",
+    "evolutions": [
+      "Vaporeon",
+      "Jolteon",
+      "Flareon",
+      "Espeon",
+      "Umbreon",
+      "Leafeon",
+      "Glaceon",
+      "Sylveon"
+    ]
+  },
+  {
+    "speciesName": "Porygon",
+    "evolutions": [
+      "Porygon2"
+    ]
+  },
+  {
+    "speciesName": "Omanyte",
+    "evolutions": [
+      "Omastar"
+    ]
+  },
+  {
+    "speciesName": "Kabuto",
+    "evolutions": [
+      "Kabutops"
+    ]
+  },
+  {
+    "speciesName": "Dratini",
+    "evolutions": [
+      "Dragonair"
+    ]
+  },
+  {
+    "speciesName": "Dragonair",
+    "evolutions": [
+      "Dragonite"
+    ]
+  },
+  {
+    "speciesName": "Chikorita",
+    "evolutions": [
+      "Bayleef"
+    ]
+  },
+  {
+    "speciesName": "Bayleef",
+    "evolutions": [
+      "Meganium"
+    ]
+  },
+  {
+    "speciesName": "Cyndaquil",
+    "evolutions": [
+      "Quilava"
+    ]
+  },
+  {
+    "speciesName": "Quilava",
+    "evolutions": [
+      "Typhlosion"
+    ]
+  },
+  {
+    "speciesName": "Totodile",
+    "evolutions": [
+      "Croconaw"
+    ]
+  },
+  {
+    "speciesName": "Croconaw",
+    "evolutions": [
+      "Feraligatr"
+    ]
+  },
+  {
+    "speciesName": "Sentret",
+    "evolutions": [
+      "Furret"
+    ]
+  },
+  {
+    "speciesName": "Hoothoot",
+    "evolutions": [
+      "Noctowl"
+    ]
+  },
+  {
+    "speciesName": "Ledyba",
+    "evolutions": [
+      "Ledian"
+    ]
+  },
+  {
+    "speciesName": "Spinarak",
+    "evolutions": [
+      "Ariados"
+    ]
+  },
+  {
+    "speciesName": "Chinchou",
+    "evolutions": [
+      "Lanturn"
+    ]
+  },
+  {
+    "speciesName": "Pichu",
+    "evolutions": [
+      "Pikachu"
+    ]
+  },
+  {
+    "speciesName": "Cleffa",
+    "evolutions": [
+      "Clefairy"
+    ]
+  },
+  {
+    "speciesName": "Igglybuff",
+    "evolutions": [
+      "Jigglypuff"
+    ]
+  },
+  {
+    "speciesName": "Togepi",
+    "evolutions": [
+      "Togetic"
+    ]
+  },
+  {
+    "speciesName": "Togetic",
+    "evolutions": [
+      "Togekiss"
+    ]
+  },
+  {
+    "speciesName": "Natu",
+    "evolutions": [
+      "Xatu"
+    ]
+  },
+  {
+    "speciesName": "Mareep",
+    "evolutions": [
+      "Flaaffy"
+    ]
+  },
+  {
+    "speciesName": "Flaaffy",
+    "evolutions": [
+      "Ampharos"
+    ]
+  },
+  {
+    "speciesName": "Marill",
+    "evolutions": [
+      "Azumarill"
+    ]
+  },
+  {
+    "speciesName": "Hoppip",
+    "evolutions": [
+      "Skiploom"
+    ]
+  },
+  {
+    "speciesName": "Skiploom",
+    "evolutions": [
+      "Jumpluff"
+    ]
+  },
+  {
+    "speciesName": "Aipom",
+    "evolutions": [
+      "Ambipom"
+    ]
+  },
+  {
+    "speciesName": "Sunkern",
+    "evolutions": [
+      "Sunflora"
+    ]
+  },
+  {
+    "speciesName": "Yanma",
+    "evolutions": [
+      "Yanmega"
+    ]
+  },
+  {
+    "speciesName": "Wooper",
+    "evolutions": [
+      "Quagsire"
+    ]
+  },
+  {
+    "speciesName": "Murkrow",
+    "evolutions": [
+      "Honchkrow"
+    ]
+  },
+  {
+    "speciesName": "Misdreavus",
+    "evolutions": [
+      "Mismagius"
+    ]
+  },
+  {
+    "speciesName": "Pineco",
+    "evolutions": [
+      "Forretress"
+    ]
+  },
+  {
+    "speciesName": "Gligar",
+    "evolutions": [
+      "Gliscor"
+    ]
+  },
+  {
+    "speciesName": "Snubbull",
+    "evolutions": [
+      "Granbull"
+    ]
+  },
+  {
+    "speciesName": "Sneasel",
+    "evolutions": [
+      "Weavile"
+    ]
+  },
+  {
+    "speciesName": "Teddiursa",
+    "evolutions": [
+      "Ursaring"
+    ]
+  },
+  {
+    "speciesName": "Slugma",
+    "evolutions": [
+      "Magcargo"
+    ]
+  },
+  {
+    "speciesName": "Swinub",
+    "evolutions": [
+      "Piloswine"
+    ]
+  },
+  {
+    "speciesName": "Piloswine",
+    "evolutions": [
+      "Mamoswine"
+    ]
+  },
+  {
+    "speciesName": "Remoraid",
+    "evolutions": [
+      "Octillery"
+    ]
+  },
+  {
+    "speciesName": "Houndour",
+    "evolutions": [
+      "Houndoom"
+    ]
+  },
+  {
+    "speciesName": "Phanpy",
+    "evolutions": [
+      "Donphan"
+    ]
+  },
+  {
+    "speciesName": "Porygon2",
+    "evolutions": [
+      "Porygon-Z"
+    ]
+  },
+  {
+    "speciesName": "Tyrogue",
+    "evolutions": [
+      "Hitmonlee",
+      "Hitmonchan",
+      "Hitmontop"
+    ]
+  },
+  {
+    "speciesName": "Smoochum",
+    "evolutions": [
+      "Jynx"
+    ]
+  },
+  {
+    "speciesName": "Elekid",
+    "evolutions": [
+      "Electabuzz"
+    ]
+  },
+  {
+    "speciesName": "Magby",
+    "evolutions": [
+      "Magmar"
+    ]
+  },
+  {
+    "speciesName": "Larvitar",
+    "evolutions": [
+      "Pupitar"
+    ]
+  },
+  {
+    "speciesName": "Pupitar",
+    "evolutions": [
+      "Tyranitar"
+    ]
+  },
+  {
+    "speciesName": "Treecko",
+    "evolutions": [
+      "Grovyle"
+    ]
+  },
+  {
+    "speciesName": "Grovyle",
+    "evolutions": [
+      "Sceptile"
+    ]
+  },
+  {
+    "speciesName": "Torchic",
+    "evolutions": [
+      "Combusken"
+    ]
+  },
+  {
+    "speciesName": "Combusken",
+    "evolutions": [
+      "Blaziken"
+    ]
+  },
+  {
+    "speciesName": "Mudkip",
+    "evolutions": [
+      "Marshtomp"
+    ]
+  },
+  {
+    "speciesName": "Marshtomp",
+    "evolutions": [
+      "Swampert"
+    ]
+  },
+  {
+    "speciesName": "Poochyena",
+    "evolutions": [
+      "Mightyena"
+    ]
+  },
+  {
+    "speciesName": "Zigzagoon",
+    "evolutions": [
+      "Linoone"
+    ]
+  },
+  {
+    "speciesName": "Zigzagoon",
+    "evolutions": [
+      "Linoone"
+    ]
+  },
+  {
+    "speciesName": "Linoone",
+    "evolutions": [
+      "Obstagoon"
+    ]
+  },
+  {
+    "speciesName": "Wurmple",
+    "evolutions": [
+      "Silcoon",
+      "Cascoon"
+    ]
+  },
+  {
+    "speciesName": "Silcoon",
+    "evolutions": [
+      "Beautifly"
+    ]
+  },
+  {
+    "speciesName": "Cascoon",
+    "evolutions": [
+      "Dustox"
+    ]
+  },
+  {
+    "speciesName": "Lotad",
+    "evolutions": [
+      "Lombre"
+    ]
+  },
+  {
+    "speciesName": "Lombre",
+    "evolutions": [
+      "Ludicolo"
+    ]
+  },
+  {
+    "speciesName": "Seedot",
+    "evolutions": [
+      "Nuzleaf"
+    ]
+  },
+  {
+    "speciesName": "Nuzleaf",
+    "evolutions": [
+      "Shiftry"
+    ]
+  },
+  {
+    "speciesName": "Taillow",
+    "evolutions": [
+      "Swellow"
+    ]
+  },
+  {
+    "speciesName": "Wingull",
+    "evolutions": [
+      "Pelipper"
+    ]
+  },
+  {
+    "speciesName": "Ralts",
+    "evolutions": [
+      "Kirlia"
+    ]
+  },
+  {
+    "speciesName": "Kirlia",
+    "evolutions": [
+      "Gallade",
+      "Gardevoir"
+    ]
+  },
+  {
+    "speciesName": "Surskit",
+    "evolutions": [
+      "Masquerain"
+    ]
+  },
+  {
+    "speciesName": "Shroomish",
+    "evolutions": [
+      "Breloom"
+    ]
+  },
+  {
+    "speciesName": "Slakoth",
+    "evolutions": [
+      "Vigoroth"
+    ]
+  },
+  {
+    "speciesName": "Vigoroth",
+    "evolutions": [
+      "Slaking"
+    ]
+  },
+  {
+    "speciesName": "Nincada",
+    "evolutions": [
+      "Ninjask"
+    ]
+  },
+  {
+    "speciesName": "Whismur",
+    "evolutions": [
+      "Loudred"
+    ]
+  },
+  {
+    "speciesName": "Loudred",
+    "evolutions": [
+      "Exploud"
+    ]
+  },
+  {
+    "speciesName": "Makuhita",
+    "evolutions": [
+      "Hariyama"
+    ]
+  },
+  {
+    "speciesName": "Azurill",
+    "evolutions": [
+      "Marill"
+    ]
+  },
+  {
+    "speciesName": "Nosepass",
+    "evolutions": [
+      "Probopass"
+    ]
+  },
+  {
+    "speciesName": "Skitty",
+    "evolutions": [
+      "Delcatty"
+    ]
+  },
+  {
+    "speciesName": "Aron",
+    "evolutions": [
+      "Lairon"
+    ]
+  },
+  {
+    "speciesName": "Lairon",
+    "evolutions": [
+      "Aggron"
+    ]
+  },
+  {
+    "speciesName": "Meditite",
+    "evolutions": [
+      "Medicham"
+    ]
+  },
+  {
+    "speciesName": "Electrike",
+    "evolutions": [
+      "Manectric"
+    ]
+  },
+  {
+    "speciesName": "Roselia",
+    "evolutions": [
+      "Roserade"
+    ]
+  },
+  {
+    "speciesName": "Gulpin",
+    "evolutions": [
+      "Swalot"
+    ]
+  },
+  {
+    "speciesName": "Carvanha",
+    "evolutions": [
+      "Sharpedo"
+    ]
+  },
+  {
+    "speciesName": "Wailmer",
+    "evolutions": [
+      "Wailord"
+    ]
+  },
+  {
+    "speciesName": "Numel",
+    "evolutions": [
+      "Camerupt"
+    ]
+  },
+  {
+    "speciesName": "Spoink",
+    "evolutions": [
+      "Grumpig"
+    ]
+  },
+  {
+    "speciesName": "Trapinch",
+    "evolutions": [
+      "Vibrava"
+    ]
+  },
+  {
+    "speciesName": "Vibrava",
+    "evolutions": [
+      "Flygon"
+    ]
+  },
+  {
+    "speciesName": "Cacnea",
+    "evolutions": [
+      "Cacturne"
+    ]
+  },
+  {
+    "speciesName": "Swablu",
+    "evolutions": [
+      "Altaria"
+    ]
+  },
+  {
+    "speciesName": "Barboach",
+    "evolutions": [
+      "Whiscash"
+    ]
+  },
+  {
+    "speciesName": "Corphish",
+    "evolutions": [
+      "Crawdaunt"
+    ]
+  },
+  {
+    "speciesName": "Baltoy",
+    "evolutions": [
+      "Claydol"
+    ]
+  },
+  {
+    "speciesName": "Lileep",
+    "evolutions": [
+      "Cradily"
+    ]
+  },
+  {
+    "speciesName": "Anorith",
+    "evolutions": [
+      "Armaldo"
+    ]
+  },
+  {
+    "speciesName": "Feebas",
+    "evolutions": [
+      "Milotic"
+    ]
+  },
+  {
+    "speciesName": "Shuppet",
+    "evolutions": [
+      "Banette"
+    ]
+  },
+  {
+    "speciesName": "Duskull",
+    "evolutions": [
+      "Dusclops"
+    ]
+  },
+  {
+    "speciesName": "Dusclops",
+    "evolutions": [
+      "Dusknoir"
+    ]
+  },
+  {
+    "speciesName": "Wynaut",
+    "evolutions": [
+      "Wobbuffet"
+    ]
+  },
+  {
+    "speciesName": "Snorunt",
+    "evolutions": [
+      "Froslass",
+      "Glalie"
+    ]
+  },
+  {
+    "speciesName": "Spheal",
+    "evolutions": [
+      "Sealeo"
+    ]
+  },
+  {
+    "speciesName": "Sealeo",
+    "evolutions": [
+      "Walrein"
+    ]
+  },
+  {
+    "speciesName": "Clamperl",
+    "evolutions": [
+      "Huntail",
+      "Gorebyss"
+    ]
+  },
+  {
+    "speciesName": "Bagon",
+    "evolutions": [
+      "Shelgon"
+    ]
+  },
+  {
+    "speciesName": "Shelgon",
+    "evolutions": [
+      "Salamence"
+    ]
+  },
+  {
+    "speciesName": "Beldum",
+    "evolutions": [
+      "Metang"
+    ]
+  },
+  {
+    "speciesName": "Metang",
+    "evolutions": [
+      "Metagross"
+    ]
+  },
+  {
+    "speciesName": "Turtwig",
+    "evolutions": [
+      "Grotle"
+    ]
+  },
+  {
+    "speciesName": "Grotle",
+    "evolutions": [
+      "Torterra"
+    ]
+  },
+  {
+    "speciesName": "Chimchar",
+    "evolutions": [
+      "Monferno"
+    ]
+  },
+  {
+    "speciesName": "Monferno",
+    "evolutions": [
+      "Infernape"
+    ]
+  },
+  {
+    "speciesName": "Piplup",
+    "evolutions": [
+      "Prinplup"
+    ]
+  },
+  {
+    "speciesName": "Prinplup",
+    "evolutions": [
+      "Empoleon"
+    ]
+  },
+  {
+    "speciesName": "Starly",
+    "evolutions": [
+      "Staravia"
+    ]
+  },
+  {
+    "speciesName": "Staravia",
+    "evolutions": [
+      "Staraptor"
+    ]
+  },
+  {
+    "speciesName": "Bidoof",
+    "evolutions": [
+      "Bibarel"
+    ]
+  },
+  {
+    "speciesName": "Kricketot",
+    "evolutions": [
+      "Kricketune"
+    ]
+  },
+  {
+    "speciesName": "Shinx",
+    "evolutions": [
+      "Luxio"
+    ]
+  },
+  {
+    "speciesName": "Luxio",
+    "evolutions": [
+      "Luxray"
+    ]
+  },
+  {
+    "speciesName": "Budew",
+    "evolutions": [
+      "Roselia"
+    ]
+  },
+  {
+    "speciesName": "Cranidos",
+    "evolutions": [
+      "Rampardos"
+    ]
+  },
+  {
+    "speciesName": "Shieldon",
+    "evolutions": [
+      "Bastiodon"
+    ]
+  },
+  {
+    "speciesName": "Burmy",
+    "evolutions": [
+      "Wormadam",
+      "Mothim"
+    ]
+  },
+  {
+    "speciesName": "Burmy",
+    "evolutions": [
+      "Wormadam",
+      "Mothim"
+    ]
+  },
+  {
+    "speciesName": "Burmy",
+    "evolutions": [
+      "Wormadam",
+      "Mothim"
+    ]
+  },
+  {
+    "speciesName": "Combee",
+    "evolutions": [
+      "Vespiquen"
+    ]
+  },
+  {
+    "speciesName": "Buizel",
+    "evolutions": [
+      "Floatzel"
+    ]
+  },
+  {
+    "speciesName": "Cherubi",
+    "evolutions": [
+      "Cherrim",
+      "Cherrim"
+    ]
+  },
+  {
+    "speciesName": "Shellos",
+    "evolutions": [
+      "Gastrodon"
+    ]
+  },
+  {
+    "speciesName": "Shellos",
+    "evolutions": [
+      "Gastrodon"
+    ]
+  },
+  {
+    "speciesName": "Drifloon",
+    "evolutions": [
+      "Drifblim"
+    ]
+  },
+  {
+    "speciesName": "Buneary",
+    "evolutions": [
+      "Lopunny"
+    ]
+  },
+  {
+    "speciesName": "Glameow",
+    "evolutions": [
+      "Purugly"
+    ]
+  },
+  {
+    "speciesName": "Chingling",
+    "evolutions": [
+      "Chimecho"
+    ]
+  },
+  {
+    "speciesName": "Stunky",
+    "evolutions": [
+      "Skuntank"
+    ]
+  },
+  {
+    "speciesName": "Bronzor",
+    "evolutions": [
+      "Bronzong"
+    ]
+  },
+  {
+    "speciesName": "Bonsly",
+    "evolutions": [
+      "Sudowoodo"
+    ]
+  },
+  {
+    "speciesName": "Mime Jr.",
+    "evolutions": [
+      "Mr. Mime"
+    ]
+  },
+  {
+    "speciesName": "Happiny",
+    "evolutions": [
+      "Chansey"
+    ]
+  },
+  {
+    "speciesName": "Gible",
+    "evolutions": [
+      "Gabite"
+    ]
+  },
+  {
+    "speciesName": "Gabite",
+    "evolutions": [
+      "Garchomp"
+    ]
+  },
+  {
+    "speciesName": "Munchlax",
+    "evolutions": [
+      "Snorlax"
+    ]
+  },
+  {
+    "speciesName": "Riolu",
+    "evolutions": [
+      "Lucario"
+    ]
+  },
+  {
+    "speciesName": "Hippopotas",
+    "evolutions": [
+      "Hippowdon"
+    ]
+  },
+  {
+    "speciesName": "Skorupi",
+    "evolutions": [
+      "Drapion"
+    ]
+  },
+  {
+    "speciesName": "Croagunk",
+    "evolutions": [
+      "Toxicroak"
+    ]
+  },
+  {
+    "speciesName": "Finneon",
+    "evolutions": [
+      "Lumineon"
+    ]
+  },
+  {
+    "speciesName": "Mantyke",
+    "evolutions": [
+      "Mantine"
+    ]
+  },
+  {
+    "speciesName": "Snover",
+    "evolutions": [
+      "Abomasnow"
+    ]
+  },
+  {
+    "speciesName": "Snivy",
+    "evolutions": [
+      "Servine"
+    ]
+  },
+  {
+    "speciesName": "Servine",
+    "evolutions": [
+      "Serperior"
+    ]
+  },
+  {
+    "speciesName": "Tepig",
+    "evolutions": [
+      "Pignite"
+    ]
+  },
+  {
+    "speciesName": "Pignite",
+    "evolutions": [
+      "Emboar"
+    ]
+  },
+  {
+    "speciesName": "Oshawott",
+    "evolutions": [
+      "Dewott"
+    ]
+  },
+  {
+    "speciesName": "Dewott",
+    "evolutions": [
+      "Samurott"
+    ]
+  },
+  {
+    "speciesName": "Patrat",
+    "evolutions": [
+      "Watchog"
+    ]
+  },
+  {
+    "speciesName": "Lillipup",
+    "evolutions": [
+      "Herdier"
+    ]
+  },
+  {
+    "speciesName": "Herdier",
+    "evolutions": [
+      "Stoutland"
+    ]
+  },
+  {
+    "speciesName": "Purrloin",
+    "evolutions": [
+      "Liepard"
+    ]
+  },
+  {
+    "speciesName": "Pansage",
+    "evolutions": [
+      "Simisage"
+    ]
+  },
+  {
+    "speciesName": "Pansear",
+    "evolutions": [
+      "Simisear"
+    ]
+  },
+  {
+    "speciesName": "Panpour",
+    "evolutions": [
+      "Simipour"
+    ]
+  },
+  {
+    "speciesName": "Munna",
+    "evolutions": [
+      "Musharna"
+    ]
+  },
+  {
+    "speciesName": "Pidove",
+    "evolutions": [
+      "Tranquill"
+    ]
+  },
+  {
+    "speciesName": "Tranquill",
+    "evolutions": [
+      "Unfezant"
+    ]
+  },
+  {
+    "speciesName": "Blitzle",
+    "evolutions": [
+      "Zebstrika"
+    ]
+  },
+  {
+    "speciesName": "Roggenrola",
+    "evolutions": [
+      "Boldore"
+    ]
+  },
+  {
+    "speciesName": "Boldore",
+    "evolutions": [
+      "Gigalith"
+    ]
+  },
+  {
+    "speciesName": "Woobat",
+    "evolutions": [
+      "Swoobat"
+    ]
+  },
+  {
+    "speciesName": "Drilbur",
+    "evolutions": [
+      "Excadrill"
+    ]
+  },
+  {
+    "speciesName": "Timburr",
+    "evolutions": [
+      "Gurdurr"
+    ]
+  },
+  {
+    "speciesName": "Gurdurr",
+    "evolutions": [
+      "Conkeldurr"
+    ]
+  },
+  {
+    "speciesName": "Tympole",
+    "evolutions": [
+      "Palpitoad"
+    ]
+  },
+  {
+    "speciesName": "Palpitoad",
+    "evolutions": [
+      "Seismitoad"
+    ]
+  },
+  {
+    "speciesName": "Sewaddle",
+    "evolutions": [
+      "Swadloon"
+    ]
+  },
+  {
+    "speciesName": "Swadloon",
+    "evolutions": [
+      "Leavanny"
+    ]
+  },
+  {
+    "speciesName": "Venipede",
+    "evolutions": [
+      "Whirlipede"
+    ]
+  },
+  {
+    "speciesName": "Whirlipede",
+    "evolutions": [
+      "Scolipede"
+    ]
+  },
+  {
+    "speciesName": "Cottonee",
+    "evolutions": [
+      "Whimsicott"
+    ]
+  },
+  {
+    "speciesName": "Petilil",
+    "evolutions": [
+      "Lilligant"
+    ]
+  },
+  {
+    "speciesName": "Sandile",
+    "evolutions": [
+      "Krokorok"
+    ]
+  },
+  {
+    "speciesName": "Krokorok",
+    "evolutions": [
+      "Krookodile"
+    ]
+  },
+  {
+    "speciesName": "Darumaka",
+    "evolutions": [
+      "Darmanitan"
+    ]
+  },
+  {
+    "speciesName": "Darumaka",
+    "evolutions": [
+      "Darmanitan"
+    ]
+  },
+  {
+    "speciesName": "Dwebble",
+    "evolutions": [
+      "Crustle"
+    ]
+  },
+  {
+    "speciesName": "Scraggy",
+    "evolutions": [
+      "Scrafty"
+    ]
+  },
+  {
+    "speciesName": "Yamask",
+    "evolutions": [
+      "Runerigus"
+    ]
+  },
+  {
+    "speciesName": "Yamask",
+    "evolutions": [
+      "Cofagrigus"
+    ]
+  },
+  {
+    "speciesName": "Tirtouga",
+    "evolutions": [
+      "Carracosta"
+    ]
+  },
+  {
+    "speciesName": "Archen",
+    "evolutions": [
+      "Archeops"
+    ]
+  },
+  {
+    "speciesName": "Trubbish",
+    "evolutions": [
+      "Garbodor"
+    ]
+  },
+  {
+    "speciesName": "Zorua",
+    "evolutions": [
+      "Zoroark"
+    ]
+  },
+  {
+    "speciesName": "Minccino",
+    "evolutions": [
+      "Cinccino"
+    ]
+  },
+  {
+    "speciesName": "Gothita",
+    "evolutions": [
+      "Gothorita"
+    ]
+  },
+  {
+    "speciesName": "Gothorita",
+    "evolutions": [
+      "Gothitelle"
+    ]
+  },
+  {
+    "speciesName": "Solosis",
+    "evolutions": [
+      "Duosion"
+    ]
+  },
+  {
+    "speciesName": "Duosion",
+    "evolutions": [
+      "Reuniclus"
+    ]
+  },
+  {
+    "speciesName": "Ducklett",
+    "evolutions": [
+      "Swanna"
+    ]
+  },
+  {
+    "speciesName": "Vanillite",
+    "evolutions": [
+      "Vanillish"
+    ]
+  },
+  {
+    "speciesName": "Vanillish",
+    "evolutions": [
+      "Vanilluxe"
+    ]
+  },
+  {
+    "speciesName": "Deerling",
+    "evolutions": [
+      "Sawsbuck"
+    ]
+  },
+  {
+    "speciesName": "Deerling",
+    "evolutions": [
+      "Sawsbuck"
+    ]
+  },
+  {
+    "speciesName": "Deerling",
+    "evolutions": [
+      "Sawsbuck"
+    ]
+  },
+  {
+    "speciesName": "Deerling",
+    "evolutions": [
+      "Sawsbuck"
+    ]
+  },
+  {
+    "speciesName": "Karrablast",
+    "evolutions": [
+      "Escavalier"
+    ]
+  },
+  {
+    "speciesName": "Foongus",
+    "evolutions": [
+      "Amoonguss"
+    ]
+  },
+  {
+    "speciesName": "Frillish",
+    "evolutions": [
+      "Jellicent"
+    ]
+  },
+  {
+    "speciesName": "Frillish",
+    "evolutions": [
+      "Jellicent"
+    ]
+  },
+  {
+    "speciesName": "Joltik",
+    "evolutions": [
+      "Galvantula"
+    ]
+  },
+  {
+    "speciesName": "Ferroseed",
+    "evolutions": [
+      "Ferrothorn"
+    ]
+  },
+  {
+    "speciesName": "Klink",
+    "evolutions": [
+      "Klang"
+    ]
+  },
+  {
+    "speciesName": "Klang",
+    "evolutions": [
+      "Klinklang"
+    ]
+  },
+  {
+    "speciesName": "Tynamo",
+    "evolutions": [
+      "Eelektrik"
+    ]
+  },
+  {
+    "speciesName": "Eelektrik",
+    "evolutions": [
+      "Eelektross"
+    ]
+  },
+  {
+    "speciesName": "Elgyem",
+    "evolutions": [
+      "Beheeyem"
+    ]
+  },
+  {
+    "speciesName": "Litwick",
+    "evolutions": [
+      "Lampent"
+    ]
+  },
+  {
+    "speciesName": "Lampent",
+    "evolutions": [
+      "Chandelure"
+    ]
+  },
+  {
+    "speciesName": "Axew",
+    "evolutions": [
+      "Fraxure"
+    ]
+  },
+  {
+    "speciesName": "Fraxure",
+    "evolutions": [
+      "Haxorus"
+    ]
+  },
+  {
+    "speciesName": "Cubchoo",
+    "evolutions": [
+      "Beartic"
+    ]
+  },
+  {
+    "speciesName": "Shelmet",
+    "evolutions": [
+      "Accelgor"
+    ]
+  },
+  {
+    "speciesName": "Mienfoo",
+    "evolutions": [
+      "Mienshao"
+    ]
+  },
+  {
+    "speciesName": "Golett",
+    "evolutions": [
+      "Golurk"
+    ]
+  },
+  {
+    "speciesName": "Pawniard",
+    "evolutions": [
+      "Bisharp"
+    ]
+  },
+  {
+    "speciesName": "Rufflet",
+    "evolutions": [
+      "Braviary"
+    ]
+  },
+  {
+    "speciesName": "Vullaby",
+    "evolutions": [
+      "Mandibuzz"
+    ]
+  },
+  {
+    "speciesName": "Deino",
+    "evolutions": [
+      "Zweilous"
+    ]
+  },
+  {
+    "speciesName": "Zweilous",
+    "evolutions": [
+      "Hydreigon"
+    ]
+  },
+  {
+    "speciesName": "Larvesta",
+    "evolutions": [
+      "Volcarona"
+    ]
+  },
+  {
+    "speciesName": "Chespin",
+    "evolutions": [
+      "Quilladin"
+    ]
+  },
+  {
+    "speciesName": "Quilladin",
+    "evolutions": [
+      "Chesnaught"
+    ]
+  },
+  {
+    "speciesName": "Fennekin",
+    "evolutions": [
+      "Braixen"
+    ]
+  },
+  {
+    "speciesName": "Braixen",
+    "evolutions": [
+      "Delphox"
+    ]
+  },
+  {
+    "speciesName": "Froakie",
+    "evolutions": [
+      "Frogadier"
+    ]
+  },
+  {
+    "speciesName": "Frogadier",
+    "evolutions": [
+      "Greninja"
+    ]
+  },
+  {
+    "speciesName": "Bunnelby",
+    "evolutions": [
+      "Diggersby"
+    ]
+  },
+  {
+    "speciesName": "Fletchling",
+    "evolutions": [
+      "Fletchinder"
+    ]
+  },
+  {
+    "speciesName": "Fletchinder",
+    "evolutions": [
+      "Talonflame"
+    ]
+  },
+  {
+    "speciesName": "Scatterbug",
+    "evolutions": [
+      "Spewpa"
+    ]
+  },
+  {
+    "speciesName": "Spewpa",
+    "evolutions": [
+      "Vivillon"
+    ]
+  },
+  {
+    "speciesName": "Litleo",
+    "evolutions": [
+      "Pyroar",
+      "Pyroar"
+    ]
+  },
+  {
+    "speciesName": "Flabebe",
+    "evolutions": [
+      "Floette"
+    ]
+  },
+  {
+    "speciesName": "Flabebe",
+    "evolutions": [
+      "Floette"
+    ]
+  },
+  {
+    "speciesName": "Flabebe",
+    "evolutions": [
+      "Floette"
+    ]
+  },
+  {
+    "speciesName": "Flabebe",
+    "evolutions": [
+      "Floette"
+    ]
+  },
+  {
+    "speciesName": "Flabebe",
+    "evolutions": [
+      "Floette"
+    ]
+  },
+  {
+    "speciesName": "Floette",
+    "evolutions": [
+      "Florges"
+    ]
+  },
+  {
+    "speciesName": "Floette",
+    "evolutions": [
+      "Florges"
+    ]
+  },
+  {
+    "speciesName": "Floette",
+    "evolutions": [
+      "Florges"
+    ]
+  },
+  {
+    "speciesName": "Floette",
+    "evolutions": [
+      "Florges"
+    ]
+  },
+  {
+    "speciesName": "Floette",
+    "evolutions": [
+      "Florges"
+    ]
+  },
+  {
+    "speciesName": "Skiddo",
+    "evolutions": [
+      "Gogoat"
+    ]
+  },
+  {
+    "speciesName": "Pancham",
+    "evolutions": [
+      "Pangoro"
+    ]
+  },
+  {
+    "speciesName": "Espurr",
+    "evolutions": [
+      "Meowstic",
+      "Meowstic"
+    ]
+  },
+  {
+    "speciesName": "Honedge",
+    "evolutions": [
+      "Doublade"
+    ]
+  },
+  {
+    "speciesName": "Doublade",
+    "evolutions": [
+      "Aegislash"
+    ]
+  },
+  {
+    "speciesName": "Spritzee",
+    "evolutions": [
+      "Aromatisse"
+    ]
+  },
+  {
+    "speciesName": "Swirlix",
+    "evolutions": [
+      "Slurpuff"
+    ]
+  },
+  {
+    "speciesName": "Inkay",
+    "evolutions": [
+      "Malamar"
+    ]
+  },
+  {
+    "speciesName": "Binacle",
+    "evolutions": [
+      "Barbaracle"
+    ]
+  },
+  {
+    "speciesName": "Skrelp",
+    "evolutions": [
+      "Dragalge"
+    ]
+  },
+  {
+    "speciesName": "Clauncher",
+    "evolutions": [
+      "Clawitzer"
+    ]
+  },
+  {
+    "speciesName": "Helioptile",
+    "evolutions": [
+      "Heliolisk"
+    ]
+  },
+  {
+    "speciesName": "Tyrunt",
+    "evolutions": [
+      "Tyrantrum"
+    ]
+  },
+  {
+    "speciesName": "Amaura",
+    "evolutions": [
+      "Aurorus"
+    ]
+  },
+  {
+    "speciesName": "Goomy",
+    "evolutions": [
+      "Sliggoo"
+    ]
+  },
+  {
+    "speciesName": "Sliggoo",
+    "evolutions": [
+      "Goodra"
+    ]
+  },
+  {
+    "speciesName": "Phantump",
+    "evolutions": [
+      "Trevenant"
+    ]
+  },
+  {
+    "speciesName": "Pumpkaboo",
+    "evolutions": [
+      "Gourgeist"
+    ]
+  },
+  {
+    "speciesName": "Pumpkaboo",
+    "evolutions": [
+      "Gourgeist"
+    ]
+  },
+  {
+    "speciesName": "Pumpkaboo",
+    "evolutions": [
+      "Gourgeist"
+    ]
+  },
+  {
+    "speciesName": "Pumpkaboo",
+    "evolutions": [
+      "Gourgeist"
+    ]
+  },
+  {
+    "speciesName": "Bergmite",
+    "evolutions": [
+      "Avalugg"
+    ]
+  },
+  {
+    "speciesName": "Noibat",
+    "evolutions": [
+      "Noivern"
+    ]
+  },
+  {
+    "speciesName": "Rowlet",
+    "evolutions": [
+      "Dartrix"
+    ]
+  },
+  {
+    "speciesName": "Dartrix",
+    "evolutions": [
+      "Decidueye"
+    ]
+  },
+  {
+    "speciesName": "Litten",
+    "evolutions": [
+      "Torracat"
+    ]
+  },
+  {
+    "speciesName": "Torracat",
+    "evolutions": [
+      "Incineroar"
+    ]
+  },
+  {
+    "speciesName": "Popplio",
+    "evolutions": [
+      "Brionne"
+    ]
+  },
+  {
+    "speciesName": "Brionne",
+    "evolutions": [
+      "Primarina"
+    ]
+  },
+  {
+    "speciesName": "Pikipek",
+    "evolutions": [
+      "Trumbeak"
+    ]
+  },
+  {
+    "speciesName": "Trumbeak",
+    "evolutions": [
+      "Toucannon"
+    ]
+  },
+  {
+    "speciesName": "Yungoos",
+    "evolutions": [
+      "Gumshoos"
+    ]
+  },
+  {
+    "speciesName": "Grubbin",
+    "evolutions": [
+      "Charjabug"
+    ]
+  },
+  {
+    "speciesName": "Charjabug",
+    "evolutions": [
+      "Vikavolt"
+    ]
+  },
+  {
+    "speciesName": "Crabrawler",
+    "evolutions": [
+      "Crabominable"
+    ]
+  },
+  {
+    "speciesName": "Cutiefly",
+    "evolutions": [
+      "Ribombee"
+    ]
+  },
+  {
+    "speciesName": "Rockruff",
+    "evolutions": [
+      "Lycanroc",
+      "Lycanroc"
+    ]
+  },
+  {
+    "speciesName": "Mareanie",
+    "evolutions": [
+      "Toxapex"
+    ]
+  },
+  {
+    "speciesName": "Mudbray",
+    "evolutions": [
+      "Mudsdale"
+    ]
+  },
+  {
+    "speciesName": "Dewpider",
+    "evolutions": [
+      "Araquanid"
+    ]
+  },
+  {
+    "speciesName": "Fomantis",
+    "evolutions": [
+      "Lurantis"
+    ]
+  },
+  {
+    "speciesName": "Morelull",
+    "evolutions": [
+      "Shiinotic"
+    ]
+  },
+  {
+    "speciesName": "Salandit",
+    "evolutions": [
+      "Salazzle"
+    ]
+  },
+  {
+    "speciesName": "Stufful",
+    "evolutions": [
+      "Bewear"
+    ]
+  },
+  {
+    "speciesName": "Bounsweet",
+    "evolutions": [
+      "Steenee"
+    ]
+  },
+  {
+    "speciesName": "Steenee",
+    "evolutions": [
+      "Tsareena"
+    ]
+  },
+  {
+    "speciesName": "Wimpod",
+    "evolutions": [
+      "Golisopod"
+    ]
+  },
+  {
+    "speciesName": "Sandygast",
+    "evolutions": [
+      "Palossand"
+    ]
+  },
+  {
+    "speciesName": "Type: Null",
+    "evolutions": [
+      "Silvally"
+    ]
+  },
+  {
+    "speciesName": "Jangmo-o",
+    "evolutions": [
+      "Hakamo-o"
+    ]
+  },
+  {
+    "speciesName": "Hakamo-o",
+    "evolutions": [
+      "Kommo-o"
+    ]
+  },
+  {
+    "speciesName": "Cosmog",
+    "evolutions": [
+      "Cosmoem"
+    ]
+  },
+  {
+    "speciesName": "Cosmoem",
+    "evolutions": [
+      "Solgaleo",
+      "Lunala"
+    ]
+  },
+  {
+    "speciesName": "Poipole",
+    "evolutions": [
+      "Naganadel"
+    ]
+  },
+  {
+    "speciesName": "Meltan",
+    "evolutions": [
+      "Melmetal"
+    ]
+  },
+  {
+    "speciesName": "Grookey",
+    "evolutions": [
+      "Thwackey"
+    ]
+  },
+  {
+    "speciesName": "Thwackey",
+    "evolutions": [
+      "Rillaboom"
+    ]
+  },
+  {
+    "speciesName": "Scorbunny",
+    "evolutions": [
+      "Raboot"
+    ]
+  },
+  {
+    "speciesName": "Raboot",
+    "evolutions": [
+      "Cinderace"
+    ]
+  },
+  {
+    "speciesName": "Sobble",
+    "evolutions": [
+      "Drizzile"
+    ]
+  },
+  {
+    "speciesName": "Drizzile",
+    "evolutions": [
+      "Inteleon"
+    ]
+  },
+  {
+    "speciesName": "Skwovet",
+    "evolutions": [
+      "Greedent"
+    ]
+  },
+  {
+    "speciesName": "Rookidee",
+    "evolutions": [
+      "Corvisquire"
+    ]
+  },
+  {
+    "speciesName": "Corvisquire",
+    "evolutions": [
+      "Corviknight"
+    ]
+  },
+  {
+    "speciesName": "Blipbug",
+    "evolutions": [
+      "Dottler"
+    ]
+  },
+  {
+    "speciesName": "Dottler",
+    "evolutions": [
+      "Orbeetle"
+    ]
+  },
+  {
+    "speciesName": "Nickit",
+    "evolutions": [
+      "Thievul"
+    ]
+  },
+  {
+    "speciesName": "Gossifleur",
+    "evolutions": [
+      "Eldegoss"
+    ]
+  },
+  {
+    "speciesName": "Wooloo",
+    "evolutions": [
+      "Dubwool"
+    ]
+  },
+  {
+    "speciesName": "Chewtle",
+    "evolutions": [
+      "Drednaw"
+    ]
+  },
+  {
+    "speciesName": "Yamper",
+    "evolutions": [
+      "Boltund"
+    ]
+  },
+  {
+    "speciesName": "Rolycoly",
+    "evolutions": [
+      "Carkol"
+    ]
+  },
+  {
+    "speciesName": "Carkol",
+    "evolutions": [
+      "Coalossal"
+    ]
+  },
+  {
+    "speciesName": "Applin",
+    "evolutions": [
+      "Flapple",
+      "Appletun"
+    ]
+  },
+  {
+    "speciesName": "Silicobra",
+    "evolutions": [
+      "Sandaconda"
+    ]
+  },
+  {
+    "speciesName": "Arrokuda",
+    "evolutions": [
+      "Barraskewda"
+    ]
+  },
+  {
+    "speciesName": "Toxel",
+    "evolutions": [
+      "Toxtricity",
+      "Toxtricity"
+    ]
+  },
+  {
+    "speciesName": "Sizzlipede",
+    "evolutions": [
+      "Centiskorch"
+    ]
+  },
+  {
+    "speciesName": "Clobbopus",
+    "evolutions": [
+      "Grapploct"
+    ]
+  },
+  {
+    "speciesName": "Sinistea",
+    "evolutions": [
+      "Polteageist"
+    ]
+  },
+  {
+    "speciesName": "Sinistea",
+    "evolutions": [
+      "Polteageist"
+    ]
+  },
+  {
+    "speciesName": "Hatenna",
+    "evolutions": [
+      "Hattrem"
+    ]
+  },
+  {
+    "speciesName": "Hattrem",
+    "evolutions": [
+      "Hatterene"
+    ]
+  },
+  {
+    "speciesName": "Impidimp",
+    "evolutions": [
+      "Morgrem"
+    ]
+  },
+  {
+    "speciesName": "Morgrem",
+    "evolutions": [
+      "Grimmsnarl"
+    ]
+  },
+  {
+    "speciesName": "Milcery",
+    "evolutions": [
+      "Alcremie"
+    ]
+  },
+  {
+    "speciesName": "Snom",
+    "evolutions": [
+      "Frosmoth"
+    ]
+  },
+  {
+    "speciesName": "Cufant",
+    "evolutions": [
+      "Copperajah"
+    ]
+  },
+  {
+    "speciesName": "Dreepy",
+    "evolutions": [
+      "Drakloak"
+    ]
+  },
+  {
+    "speciesName": "Drakloak",
+    "evolutions": [
+      "Dragapult"
+    ]
+  },
+  {
+    "speciesName": "Kubfu",
+    "evolutions": [
+      "Urshifu",
+      "Urshifu"
+    ]
+  }
+]
