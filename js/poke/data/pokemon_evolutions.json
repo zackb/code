@@ -247,12 +247,6 @@
     ]
   },
   {
-    "speciesName": "Growlithe",
-    "evolutions": [
-      "Arcanine"
-    ]
-  },
-  {
     "speciesName": "Poliwag",
     "evolutions": [
       "Poliwhirl"
@@ -783,18 +777,6 @@
     "speciesName": "Snubbull",
     "evolutions": [
       "Granbull"
-    ]
-  },
-  {
-    "speciesName": "Qwilfish",
-    "evolutions": [
-      "Overqwil"
-    ]
-  },
-  {
-    "speciesName": "Sneasel",
-    "evolutions": [
-      "Sneasler"
     ]
   },
   {
