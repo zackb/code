@@ -1,30 +1,34 @@
 [
   {
-    "speciesName": "Registeel",
-    "score": 96.9
+    "speciesName": "Stunfisk (Galarian)",
+    "score": 96.8
   },
   {
-    "speciesName": "Stunfisk (Galarian)",
-    "score": 96.1
+    "speciesName": "Registeel",
+    "score": 96.3
   },
   {
     "speciesName": "Trevenant",
-    "score": 95.8
+    "score": 95.4
   },
   {
     "speciesName": "Swampert",
-    "score": 94.2
+    "score": 94.9
   },
   {
-    "speciesName": "Medicham",
-    "score": 93.7
+    "speciesName": "Bastiodon",
+    "score": 94.3
   },
   {
     "speciesName": "Swampert (Shadow)",
-    "score": 93.4
+    "score": 94.1
   },
   {
-    "speciesName": "Scrafty",
+    "speciesName": "Medicham",
+    "score": 93.6
+  },
+  {
+    "speciesName": "Altaria",
     "score": 93.2
   },
   {
@@ -32,467 +36,491 @@
     "score": 92.9
   },
   {
-    "speciesName": "Bastiodon",
-    "score": 92.6
-  },
-  {
-    "speciesName": "Altaria",
-    "score": 92.4
-  },
-  {
-    "speciesName": "Lanturn",
-    "score": 91.9
+    "speciesName": "Scrafty",
+    "score": 92.9
   },
   {
     "speciesName": "Diggersby",
-    "score": 90.5
+    "score": 91.1
   },
   {
-    "speciesName": "Runerigus",
-    "score": 90.5
+    "speciesName": "Whiscash",
+    "score": 91.1
   },
   {
-    "speciesName": "Azumarill",
-    "score": 90.4
+    "speciesName": "Dubwool",
+    "score": 90.2
   },
   {
     "speciesName": "Machamp (Shadow)",
-    "score": 90.1
-  },
-  {
-    "speciesName": "Nidoqueen (Shadow)",
     "score": 89.9
   },
   {
-    "speciesName": "Sneasler",
+    "speciesName": "Runerigus",
+    "score": 89.9
+  },
+  {
+    "speciesName": "Guzzlord",
     "score": 89.8
   },
   {
-    "speciesName": "Araquanid",
+    "speciesName": "Nidoqueen (Shadow)",
     "score": 89.7
   },
   {
+    "speciesName": "Skarmory",
+    "score": 89.7
+  },
+  {
+    "speciesName": "Walrein",
+    "score": 89.5
+  },
+  {
+    "speciesName": "Abomasnow (Shadow)",
+    "score": 89.3
+  },
+  {
+    "speciesName": "Lanturn",
+    "score": 89.3
+  },
+  {
     "speciesName": "Regirock",
+    "score": 89.3
+  },
+  {
+    "speciesName": "Kommo-o",
     "score": 89.2
   },
   {
     "speciesName": "Nidoqueen",
-    "score": 89
+    "score": 89.2
+  },
+  {
+    "speciesName": "Toxapex",
+    "score": 89.1
   },
   {
     "speciesName": "Mandibuzz",
-    "score": 88.8
-  },
-  {
-    "speciesName": "Pachirisu",
-    "score": 88.6
-  },
-  {
-    "speciesName": "Whiscash",
-    "score": 88.5
-  },
-  {
-    "speciesName": "Wigglytuff",
-    "score": 88.5
-  },
-  {
-    "speciesName": "Lurantis",
-    "score": 88.3
-  },
-  {
-    "speciesName": "Tropius",
-    "score": 88.3
-  },
-  {
-    "speciesName": "Wobbuffet",
-    "score": 88.2
-  },
-  {
-    "speciesName": "Dubwool",
-    "score": 88.1
+    "score": 88.9
   },
   {
     "speciesName": "Sableye",
-    "score": 88.1
+    "score": 88.9
   },
   {
-    "speciesName": "Umbreon",
-    "score": 88.1
+    "speciesName": "Castform (Snowy)",
+    "score": 88.8
   },
   {
     "speciesName": "Cresselia",
-    "score": 88
+    "score": 88.8
   },
   {
-    "speciesName": "Vigoroth",
-    "score": 88
+    "speciesName": "Froslass",
+    "score": 88.8
+  },
+  {
+    "speciesName": "Azumarill",
+    "score": 88.7
   },
   {
     "speciesName": "Cofagrigus",
-    "score": 87.6
+    "score": 88.5
   },
   {
-    "speciesName": "Skarmory",
-    "score": 87.6
-  },
-  {
-    "speciesName": "Kommo-o",
-    "score": 87.5
-  },
-  {
-    "speciesName": "Beedrill (Shadow)",
-    "score": 87.4
-  },
-  {
-    "speciesName": "Golbat",
-    "score": 87.4
-  },
-  {
-    "speciesName": "Tapu Fini",
-    "score": 87.3
-  },
-  {
-    "speciesName": "Zangoose",
-    "score": 87.3
-  },
-  {
-    "speciesName": "Lucario",
-    "score": 87.1
-  },
-  {
-    "speciesName": "Machamp",
-    "score": 87
-  },
-  {
-    "speciesName": "Deoxys (Defense)",
-    "score": 86.9
+    "speciesName": "Walrein (Shadow)",
+    "score": 88.5
   },
   {
     "speciesName": "Dragonite (Shadow)",
-    "score": 86.9
-  },
-  {
-    "speciesName": "Golbat (Shadow)",
-    "score": 86.9
-  },
-  {
-    "speciesName": "Meganium",
-    "score": 86.8
-  },
-  {
-    "speciesName": "Abomasnow (Shadow)",
-    "score": 86.7
-  },
-  {
-    "speciesName": "Buzzwole",
-    "score": 86.7
-  },
-  {
-    "speciesName": "Jumpluff (Shadow)",
-    "score": 86.7
-  },
-  {
-    "speciesName": "Qwilfish (Hisuian)",
-    "score": 86.7
-  },
-  {
-    "speciesName": "Ninetales (Alolan)",
-    "score": 86.6
-  },
-  {
-    "speciesName": "Luxray (Shadow)",
-    "score": 86.5
-  },
-  {
-    "speciesName": "Magnezone (Shadow)",
-    "score": 86.5
-  },
-  {
-    "speciesName": "Obstagoon",
-    "score": 86.5
-  },
-  {
-    "speciesName": "Granbull (Shadow)",
-    "score": 86.4
-  },
-  {
-    "speciesName": "Snorlax",
-    "score": 86.4
-  },
-  {
-    "speciesName": "Dragonair (Shadow)",
-    "score": 86.3
-  },
-  {
-    "speciesName": "Munchlax",
-    "score": 86.2
-  },
-  {
-    "speciesName": "Castform (Rainy)",
-    "score": 86.1
-  },
-  {
-    "speciesName": "Marowak (Alolan) (Shadow)",
-    "score": 86.1
-  },
-  {
-    "speciesName": "Pelipper",
-    "score": 86.1
+    "score": 88.4
   },
   {
     "speciesName": "Steelix",
-    "score": 86
+    "score": 88.2
   },
   {
-    "speciesName": "Jumpluff",
-    "score": 85.9
+    "speciesName": "Umbreon",
+    "score": 88.2
   },
   {
-    "speciesName": "Sirfetch'd",
-    "score": 85.9
+    "speciesName": "Wobbuffet",
+    "score": 88
   },
   {
-    "speciesName": "Walrein",
-    "score": 85.9
+    "speciesName": "Beedrill (Shadow)",
+    "score": 87.7
   },
   {
-    "speciesName": "Meganium (Shadow)",
-    "score": 85.8
+    "speciesName": "Vigoroth",
+    "score": 87.6
   },
   {
-    "speciesName": "Noctowl",
-    "score": 85.8
+    "speciesName": "Deoxys (Defense)",
+    "score": 87.5
+  },
+  {
+    "speciesName": "Snorlax",
+    "score": 87.5
+  },
+  {
+    "speciesName": "Sandslash (Alolan) (Shadow)",
+    "score": 87.4
+  },
+  {
+    "speciesName": "Abomasnow",
+    "score": 87.3
+  },
+  {
+    "speciesName": "Lurantis",
+    "score": 87.3
+  },
+  {
+    "speciesName": "Tropius",
+    "score": 87.3
+  },
+  {
+    "speciesName": "Zweilous",
+    "score": 87.3
+  },
+  {
+    "speciesName": "Golbat (Shadow)",
+    "score": 87.1
+  },
+  {
+    "speciesName": "Hakamo-o",
+    "score": 87.1
+  },
+  {
+    "speciesName": "Wigglytuff",
+    "score": 87.1
+  },
+  {
+    "speciesName": "Dragonair (Shadow)",
+    "score": 87
+  },
+  {
+    "speciesName": "Skarmory (Shadow)",
+    "score": 87
+  },
+  {
+    "speciesName": "Togedemaru",
+    "score": 86.9
   },
   {
     "speciesName": "Sableye (Shadow)",
+    "score": 86.8
+  },
+  {
+    "speciesName": "Lucario",
+    "score": 86.7
+  },
+  {
+    "speciesName": "Dragonite",
+    "score": 86.5
+  },
+  {
+    "speciesName": "Dewgong",
+    "score": 86.4
+  },
+  {
+    "speciesName": "Machamp",
+    "score": 86.4
+  },
+  {
+    "speciesName": "Snorlax (Shadow)",
+    "score": 86.4
+  },
+  {
+    "speciesName": "Jumpluff",
+    "score": 86.3
+  },
+  {
+    "speciesName": "Ninetales (Alolan)",
+    "score": 86.3
+  },
+  {
+    "speciesName": "Tapu Fini",
+    "score": 86.3
+  },
+  {
+    "speciesName": "Granbull (Shadow)",
+    "score": 86.2
+  },
+  {
+    "speciesName": "Obstagoon",
+    "score": 86.2
+  },
+  {
+    "speciesName": "Zangoose",
+    "score": 86.2
+  },
+  {
+    "speciesName": "Noctowl",
+    "score": 86.1
+  },
+  {
+    "speciesName": "Quagsire",
+    "score": 86.1
+  },
+  {
+    "speciesName": "Araquanid",
+    "score": 86
+  },
+  {
+    "speciesName": "Gourgeist (Super)",
+    "score": 86
+  },
+  {
+    "speciesName": "Qwilfish (Hisuian)",
+    "score": 86
+  },
+  {
+    "speciesName": "Politoed (Shadow)",
     "score": 85.8
   },
   {
-    "speciesName": "Clefable",
+    "speciesName": "Regice",
+    "score": 85.8
+  },
+  {
+    "speciesName": "Dragonair",
+    "score": 85.7
+  },
+  {
+    "speciesName": "Golbat",
+    "score": 85.7
+  },
+  {
+    "speciesName": "Marowak (Alolan) (Shadow)",
+    "score": 85.7
+  },
+  {
+    "speciesName": "Mew",
     "score": 85.7
   },
   {
     "speciesName": "Galvantula",
-    "score": 85.7
-  },
-  {
-    "speciesName": "Jellicent",
     "score": 85.6
   },
   {
-    "speciesName": "Hakamo-o",
+    "speciesName": "Pachirisu",
+    "score": 85.6
+  },
+  {
+    "speciesName": "Flygon (Shadow)",
     "score": 85.5
   },
   {
-    "speciesName": "Politoed (Shadow)",
+    "speciesName": "Jumpluff (Shadow)",
     "score": 85.5
   },
   {
-    "speciesName": "Venusaur",
+    "speciesName": "Meganium",
     "score": 85.5
   },
   {
-    "speciesName": "Zweilous",
-    "score": 85.5
-  },
-  {
-    "speciesName": "Froslass",
-    "score": 85.3
+    "speciesName": "Munchlax",
+    "score": 85.4
   },
   {
     "speciesName": "Gardevoir (Shadow)",
     "score": 85.3
   },
   {
-    "speciesName": "Overqwil",
+    "speciesName": "Lickilicky",
     "score": 85.3
   },
   {
-    "speciesName": "Primeape",
+    "speciesName": "Perrserker",
     "score": 85.3
   },
   {
-    "speciesName": "Samurott",
-    "score": 85.3
-  },
-  {
-    "speciesName": "Bewear",
+    "speciesName": "Pelipper",
     "score": 85.2
   },
   {
-    "speciesName": "Gourgeist (Super)",
-    "score": 85.1
-  },
-  {
-    "speciesName": "Quagsire",
-    "score": 85.1
-  },
-  {
-    "speciesName": "Serperior",
-    "score": 85.1
-  },
-  {
-    "speciesName": "Slurpuff",
-    "score": 85.1
-  },
-  {
-    "speciesName": "Lickilicky",
+    "speciesName": "Lapras",
     "score": 85
   },
   {
-    "speciesName": "Skarmory (Shadow)",
+    "speciesName": "Meganium (Shadow)",
     "score": 85
   },
   {
-    "speciesName": "Aromatisse",
+    "speciesName": "Buzzwole",
     "score": 84.9
-  },
-  {
-    "speciesName": "Snorlax (Shadow)",
-    "score": 84.9
-  },
-  {
-    "speciesName": "Dragonite",
-    "score": 84.8
-  },
-  {
-    "speciesName": "Electivire (Shadow)",
-    "score": 84.7
-  },
-  {
-    "speciesName": "Stunfisk",
-    "score": 84.7
   },
   {
     "speciesName": "Escavalier",
-    "score": 84.6
-  },
-  {
-    "speciesName": "Toxicroak",
-    "score": 84.6
-  },
-  {
-    "speciesName": "Venusaur (Shadow)",
-    "score": 84.6
-  },
-  {
-    "speciesName": "Ninetales (Shadow)",
-    "score": 84.5
-  },
-  {
-    "speciesName": "Sylveon",
-    "score": 84.5
-  },
-  {
-    "speciesName": "Dragonair",
-    "score": 84.4
-  },
-  {
-    "speciesName": "Mew",
-    "score": 84.4
-  },
-  {
-    "speciesName": "Spritzee",
-    "score": 84.4
-  },
-  {
-    "speciesName": "Blastoise",
-    "score": 84.3
-  },
-  {
-    "speciesName": "Raikou (Shadow)",
-    "score": 84.3
-  },
-  {
-    "speciesName": "Walrein (Shadow)",
-    "score": 84.3
-  },
-  {
-    "speciesName": "Castform (Snowy)",
-    "score": 84.2
-  },
-  {
-    "speciesName": "Magnezone",
-    "score": 84.1
-  },
-  {
-    "speciesName": "Ninetales",
-    "score": 84.1
-  },
-  {
-    "speciesName": "Whimsicott",
-    "score": 84.1
-  },
-  {
-    "speciesName": "Zapdos (Shadow)",
-    "score": 84
-  },
-  {
-    "speciesName": "Chesnaught",
-    "score": 83.9
-  },
-  {
-    "speciesName": "Forretress",
-    "score": 83.9
-  },
-  {
-    "speciesName": "Sneasel (Hisuian)",
-    "score": 83.9
-  },
-  {
-    "speciesName": "Togekiss",
-    "score": 83.7
-  },
-  {
-    "speciesName": "Abomasnow",
-    "score": 83.6
-  },
-  {
-    "speciesName": "Bayleef (Shadow)",
-    "score": 83.6
-  },
-  {
-    "speciesName": "Beedrill",
-    "score": 83.6
-  },
-  {
-    "speciesName": "Hitmontop",
-    "score": 83.6
-  },
-  {
-    "speciesName": "Regice",
-    "score": 83.6
-  },
-  {
-    "speciesName": "Falinks",
-    "score": 83.5
-  },
-  {
-    "speciesName": "Flygon (Shadow)",
-    "score": 83.5
-  },
-  {
-    "speciesName": "Gourgeist (Average)",
-    "score": 83.4
-  },
-  {
-    "speciesName": "Zapdos",
-    "score": 83.4
+    "score": 84.8
   },
   {
     "speciesName": "Gourgeist (Large)",
-    "score": 83.3
+    "score": 84.8
+  },
+  {
+    "speciesName": "Gourgeist (Average)",
+    "score": 84.6
+  },
+  {
+    "speciesName": "Overqwil",
+    "score": 84.6
+  },
+  {
+    "speciesName": "Castform (Rainy)",
+    "score": 84.5
+  },
+  {
+    "speciesName": "Clefable",
+    "score": 84.5
+  },
+  {
+    "speciesName": "Jellicent",
+    "score": 84.5
+  },
+  {
+    "speciesName": "Sandslash (Alolan)",
+    "score": 84.5
+  },
+  {
+    "speciesName": "Sirfetch'd",
+    "score": 84.5
+  },
+  {
+    "speciesName": "Aurorus",
+    "score": 84.4
+  },
+  {
+    "speciesName": "Toxicroak",
+    "score": 84.4
+  },
+  {
+    "speciesName": "Zapdos (Shadow)",
+    "score": 84.4
+  },
+  {
+    "speciesName": "Sneasler",
+    "score": 84.3
+  },
+  {
+    "speciesName": "Venusaur (Shadow)",
+    "score": 84.3
+  },
+  {
+    "speciesName": "Aromatisse",
+    "score": 84.2
   },
   {
     "speciesName": "Gourgeist (Small)",
+    "score": 84.2
+  },
+  {
+    "speciesName": "Blastoise",
+    "score": 84.1
+  },
+  {
+    "speciesName": "Excadrill",
+    "score": 84.1
+  },
+  {
+    "speciesName": "Venusaur",
+    "score": 84.1
+  },
+  {
+    "speciesName": "Forretress",
+    "score": 84
+  },
+  {
+    "speciesName": "Ninetales (Shadow)",
+    "score": 84
+  },
+  {
+    "speciesName": "Slurpuff",
+    "score": 84
+  },
+  {
+    "speciesName": "Victini",
+    "score": 83.9
+  },
+  {
+    "speciesName": "Amaura",
+    "score": 83.8
+  },
+  {
+    "speciesName": "Gliscor",
+    "score": 83.8
+  },
+  {
+    "speciesName": "Lapras (Shadow)",
+    "score": 83.8
+  },
+  {
+    "speciesName": "Samurott",
+    "score": 83.7
+  },
+  {
+    "speciesName": "Ferrothorn",
+    "score": 83.6
+  },
+  {
+    "speciesName": "Whimsicott",
+    "score": 83.6
+  },
+  {
+    "speciesName": "Zapdos",
+    "score": 83.6
+  },
+  {
+    "speciesName": "Empoleon",
+    "score": 83.5
+  },
+  {
+    "speciesName": "Shiftry (Shadow)",
+    "score": 83.5
+  },
+  {
+    "speciesName": "Ninetales",
+    "score": 83.4
+  },
+  {
+    "speciesName": "Sylveon",
+    "score": 83.4
+  },
+  {
+    "speciesName": "Serperior",
+    "score": 83.3
+  },
+  {
+    "speciesName": "Spritzee",
+    "score": 83.3
+  },
+  {
+    "speciesName": "Stunfisk",
+    "score": 83.3
+  },
+  {
+    "speciesName": "Togekiss",
     "score": 83.2
   },
   {
-    "speciesName": "Dewgong",
+    "speciesName": "Pangoro",
     "score": 83.1
   },
   {
-    "speciesName": "Zapdos (Galarian)",
+    "speciesName": "Marshtomp",
+    "score": 83
+  },
+  {
+    "speciesName": "Politoed",
+    "score": 83
+  },
+  {
+    "speciesName": "Raikou (Shadow)",
+    "score": 83
+  },
+  {
+    "speciesName": "Marshtomp (Shadow)",
     "score": 82.9
   },
   {
@@ -500,131 +528,123 @@
     "score": 82.8
   },
   {
-    "speciesName": "Ferrothorn",
-    "score": 82.8
-  },
-  {
-    "speciesName": "Machoke (Shadow)",
-    "score": 82.8
-  },
-  {
-    "speciesName": "Pidgeot",
+    "speciesName": "Drapion (Shadow)",
     "score": 82.8
   },
   {
     "speciesName": "Quagsire (Shadow)",
-    "score": 82.5
+    "score": 82.8
   },
   {
-    "speciesName": "Skuntank (Shadow)",
-    "score": 82.5
+    "speciesName": "Sealeo",
+    "score": 82.8
   },
   {
-    "speciesName": "Victini",
-    "score": 82.5
+    "speciesName": "Zapdos (Galarian)",
+    "score": 82.8
   },
   {
-    "speciesName": "Excadrill",
-    "score": 82.4
+    "speciesName": "Drifblim",
+    "score": 82.7
   },
   {
-    "speciesName": "Lapras",
-    "score": 82.4
+    "speciesName": "Chesnaught",
+    "score": 82.6
   },
   {
-    "speciesName": "Shiftry (Shadow)",
-    "score": 82.4
+    "speciesName": "Falinks",
+    "score": 82.6
   },
   {
-    "speciesName": "Talonflame",
-    "score": 82.4
+    "speciesName": "Hitmontop",
+    "score": 82.6
   },
   {
-    "speciesName": "Gliscor",
-    "score": 82.3
+    "speciesName": "Sealeo (Shadow)",
+    "score": 82.6
   },
   {
     "speciesName": "Hitmonchan (Shadow)",
-    "score": 82.3
+    "score": 82.5
   },
   {
-    "speciesName": "Pangoro",
-    "score": 82.3
+    "speciesName": "Beedrill",
+    "score": 82.2
   },
   {
-    "speciesName": "Politoed",
-    "score": 82.3
+    "speciesName": "Bewear",
+    "score": 82.2
   },
   {
-    "speciesName": "Dedenne",
+    "speciesName": "Primeape",
+    "score": 82.2
+  },
+  {
+    "speciesName": "Dragalge",
     "score": 82.1
   },
   {
-    "speciesName": "Electivire",
+    "speciesName": "Flygon",
     "score": 82.1
+  },
+  {
+    "speciesName": "Gligar",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Gliscor (Shadow)",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Hitmonchan",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Hypno",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Raticate (Alolan)",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Shiftry",
+    "score": 82.1
+  },
+  {
+    "speciesName": "Dunsparce",
+    "score": 81.9
+  },
+  {
+    "speciesName": "Skuntank (Shadow)",
+    "score": 81.9
+  },
+  {
+    "speciesName": "Gengar",
+    "score": 81.8
+  },
+  {
+    "speciesName": "Granbull",
+    "score": 81.8
+  },
+  {
+    "speciesName": "Machoke (Shadow)",
+    "score": 81.8
+  },
+  {
+    "speciesName": "Articuno",
+    "score": 81.7
   },
   {
     "speciesName": "Machoke",
-    "score": 82.1
-  },
-  {
-    "speciesName": "Primarina",
-    "score": 82
-  },
-  {
-    "speciesName": "Skuntank",
-    "score": 82
-  },
-  {
-    "speciesName": "Ariados",
-    "score": 81.9
-  },
-  {
-    "speciesName": "Bellossom (Shadow)",
-    "score": 81.9
-  },
-  {
-    "speciesName": "Perrserker",
-    "score": 81.9
-  },
-  {
-    "speciesName": "Bellossom",
-    "score": 81.8
+    "score": 81.7
   },
   {
     "speciesName": "Goodra",
-    "score": 81.8
-  },
-  {
-    "speciesName": "Lapras (Shadow)",
-    "score": 81.8
-  },
-  {
-    "speciesName": "Marshtomp",
-    "score": 81.8
-  },
-  {
-    "speciesName": "Grimer (Alolan)",
-    "score": 81.7
-  },
-  {
-    "speciesName": "Heracross",
-    "score": 81.7
-  },
-  {
-    "speciesName": "Sandslash (Alolan) (Shadow)",
-    "score": 81.7
-  },
-  {
-    "speciesName": "Victreebel (Shadow)",
-    "score": 81.7
-  },
-  {
-    "speciesName": "Grimer (Shadow)",
     "score": 81.6
   },
   {
-    "speciesName": "Qwilfish",
+    "speciesName": "Magnezone (Shadow)",
     "score": 81.6
   },
   {
@@ -632,39 +652,23 @@
     "score": 81.5
   },
   {
-    "speciesName": "Dragalge",
-    "score": 81.4
+    "speciesName": "Miltank",
+    "score": 81.5
   },
   {
-    "speciesName": "Hitmonchan",
-    "score": 81.4
+    "speciesName": "Probopass",
+    "score": 81.5
   },
   {
-    "speciesName": "Pinsir (Shadow)",
-    "score": 81.4
+    "speciesName": "Talonflame",
+    "score": 81.5
   },
   {
-    "speciesName": "Raticate (Alolan)",
-    "score": 81.4
-  },
-  {
-    "speciesName": "Alomomola",
+    "speciesName": "Cradily",
     "score": 81.3
   },
   {
-    "speciesName": "Drapion",
-    "score": 81.3
-  },
-  {
-    "speciesName": "Empoleon",
-    "score": 81.3
-  },
-  {
-    "speciesName": "Granbull",
-    "score": 81.3
-  },
-  {
-    "speciesName": "Lycanroc (Midnight)",
+    "speciesName": "Gyarados (Shadow)",
     "score": 81.3
   },
   {
@@ -672,123 +676,127 @@
     "score": 81.3
   },
   {
-    "speciesName": "Gengar",
+    "speciesName": "Primarina",
+    "score": 81.3
+  },
+  {
+    "speciesName": "Bellossom",
     "score": 81.2
   },
   {
-    "speciesName": "Gligar",
+    "speciesName": "Bellossom (Shadow)",
     "score": 81.2
   },
   {
-    "speciesName": "Dunsparce",
-    "score": 81.1
+    "speciesName": "Grimer (Shadow)",
+    "score": 81.2
   },
   {
-    "speciesName": "Roserade",
-    "score": 81.1
+    "speciesName": "Pidgeot",
+    "score": 81.2
   },
   {
     "speciesName": "Poliwrath (Shadow)",
+    "score": 81.2
+  },
+  {
+    "speciesName": "Gyarados",
+    "score": 81.1
+  },
+  {
+    "speciesName": "Luxray (Shadow)",
+    "score": 81.1
+  },
+  {
+    "speciesName": "Skuntank",
+    "score": 81.1
+  },
+  {
+    "speciesName": "Jirachi",
     "score": 81
   },
   {
-    "speciesName": "Quilladin",
-    "score": 81
-  },
-  {
-    "speciesName": "Raichu",
-    "score": 81
-  },
-  {
-    "speciesName": "Seviper",
-    "score": 81
-  },
-  {
-    "speciesName": "Aurorus",
+    "speciesName": "Qwilfish",
     "score": 80.9
   },
   {
-    "speciesName": "Gliscor (Shadow)",
-    "score": 80.9
-  },
-  {
-    "speciesName": "Marshtomp (Shadow)",
-    "score": 80.9
-  },
-  {
-    "speciesName": "Raikou",
-    "score": 80.9
-  },
-  {
-    "speciesName": "Hariyama",
+    "speciesName": "Gallade (Shadow)",
     "score": 80.8
   },
   {
-    "speciesName": "Drapion (Shadow)",
+    "speciesName": "Grimer (Alolan)",
+    "score": 80.8
+  },
+  {
+    "speciesName": "Piloswine",
+    "score": 80.8
+  },
+  {
+    "speciesName": "Raikou",
+    "score": 80.8
+  },
+  {
+    "speciesName": "Tyrunt",
+    "score": 80.8
+  },
+  {
+    "speciesName": "Druddigon",
+    "score": 80.7
+  },
+  {
+    "speciesName": "Haunter",
+    "score": 80.7
+  },
+  {
+    "speciesName": "Alomomola",
     "score": 80.6
   },
   {
-    "speciesName": "Drifblim",
-    "score": 80.5
-  },
-  {
-    "speciesName": "Farfetch'd (Galarian)",
-    "score": 80.5
-  },
-  {
-    "speciesName": "Flygon",
-    "score": 80.5
+    "speciesName": "Drapion",
+    "score": 80.6
   },
   {
     "speciesName": "Genesect",
+    "score": 80.6
+  },
+  {
+    "speciesName": "Magnezone",
+    "score": 80.6
+  },
+  {
+    "speciesName": "Dusclops (Shadow)",
     "score": 80.5
+  },
+  {
+    "speciesName": "Zebstrika",
+    "score": 80.5
+  },
+  {
+    "speciesName": "Hariyama",
+    "score": 80.4
+  },
+  {
+    "speciesName": "Chansey",
+    "score": 80.3
   },
   {
     "speciesName": "Linoone",
-    "score": 80.5
-  },
-  {
-    "speciesName": "Pinsir",
-    "score": 80.5
-  },
-  {
-    "speciesName": "Sealeo (Shadow)",
-    "score": 80.5
-  },
-  {
-    "speciesName": "Amaura",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Barbaracle",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Cradily",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Electrode (Hisuian)",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Gloom (Shadow)",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Hypno",
-    "score": 80.4
-  },
-  {
-    "speciesName": "Miltank",
     "score": 80.3
   },
   {
-    "speciesName": "Weezing (Galarian)",
+    "speciesName": "Sneasel (Hisuian)",
     "score": 80.3
   },
   {
-    "speciesName": "Marowak (Alolan)",
+    "speciesName": "Victreebel (Shadow)",
+    "score": 80.3
+  },
+  {
+    "speciesName": "Bayleef (Shadow)",
+    "score": 80.2
+  },
+  {
+    "speciesName": "Pinsir (Shadow)",
     "score": 80.2
   },
   {
@@ -796,135 +804,191 @@
     "score": 80.2
   },
   {
-    "speciesName": "Probopass",
+    "speciesName": "Castform (Sunny)",
     "score": 80.1
   },
   {
-    "speciesName": "Sandslash (Alolan)",
+    "speciesName": "Raichu",
     "score": 80.1
   },
   {
-    "speciesName": "Shiftry",
+    "speciesName": "Scizor (Shadow)",
     "score": 80.1
+  },
+  {
+    "speciesName": "Seviper",
+    "score": 80.1
+  },
+  {
+    "speciesName": "Avalugg",
+    "score": 80
+  },
+  {
+    "speciesName": "Dedenne",
+    "score": 80
+  },
+  {
+    "speciesName": "Electrode (Hisuian)",
+    "score": 80
+  },
+  {
+    "speciesName": "Farfetch'd (Galarian)",
+    "score": 80
+  },
+  {
+    "speciesName": "Gardevoir",
+    "score": 80
+  },
+  {
+    "speciesName": "Greedent",
+    "score": 80
+  },
+  {
+    "speciesName": "Marowak (Alolan)",
+    "score": 80
   },
   {
     "speciesName": "Sceptile",
     "score": 80
   },
   {
-    "speciesName": "Haunter",
+    "speciesName": "Gallade",
     "score": 79.9
   },
   {
-    "speciesName": "Castform (Sunny)",
-    "score": 79.8
+    "speciesName": "Muk (Alolan)",
+    "score": 79.9
   },
   {
-    "speciesName": "Grotle (Shadow)",
-    "score": 79.8
-  },
-  {
-    "speciesName": "Venomoth (Shadow)",
-    "score": 79.8
-  },
-  {
-    "speciesName": "Latios (Shadow)",
+    "speciesName": "Poliwrath",
     "score": 79.7
   },
   {
-    "speciesName": "Golem (Alolan)",
-    "score": 79.6
+    "speciesName": "Raticate (Alolan) (Shadow)",
+    "score": 79.7
   },
   {
-    "speciesName": "Hariyama (Shadow)",
-    "score": 79.6
-  },
-  {
-    "speciesName": "Muk (Shadow)",
-    "score": 79.6
-  },
-  {
-    "speciesName": "Bayleef",
-    "score": 79.5
-  },
-  {
-    "speciesName": "Charizard (Shadow)",
-    "score": 79.5
-  },
-  {
-    "speciesName": "Graveler (Alolan)",
-    "score": 79.5
-  },
-  {
-    "speciesName": "Raichu (Alolan)",
-    "score": 79.5
-  },
-  {
-    "speciesName": "Sealeo",
-    "score": 79.5
-  },
-  {
-    "speciesName": "Wailmer",
-    "score": 79.5
+    "speciesName": "Wormadam (Trash)",
+    "score": 79.7
   },
   {
     "speciesName": "Forretress (Shadow)",
+    "score": 79.6
+  },
+  {
+    "speciesName": "Seaking",
+    "score": 79.6
+  },
+  {
+    "speciesName": "Hypno (Shadow)",
+    "score": 79.5
+  },
+  {
+    "speciesName": "Lugia",
+    "score": 79.5
+  },
+  {
+    "speciesName": "Piloswine (Shadow)",
+    "score": 79.5
+  },
+  {
+    "speciesName": "Spinda",
+    "score": 79.5
+  },
+  {
+    "speciesName": "Heracross",
     "score": 79.4
   },
   {
-    "speciesName": "Grimer",
+    "speciesName": "Lileep",
     "score": 79.4
   },
   {
-    "speciesName": "Vileplume (Shadow)",
+    "speciesName": "Lycanroc (Midnight)",
     "score": 79.4
   },
   {
-    "speciesName": "Zebstrika",
+    "speciesName": "Melmetal",
     "score": 79.4
   },
   {
-    "speciesName": "Charjabug",
+    "speciesName": "Quilladin",
+    "score": 79.4
+  },
+  {
+    "speciesName": "Salazzle",
+    "score": 79.4
+  },
+  {
+    "speciesName": "Weezing (Galarian)",
+    "score": 79.4
+  },
+  {
+    "speciesName": "Ariados",
     "score": 79.3
   },
   {
-    "speciesName": "Grotle",
+    "speciesName": "Bronzong",
     "score": 79.3
   },
   {
     "speciesName": "Honchkrow",
+    "score": 79.3
+  },
+  {
+    "speciesName": "Fraxure",
     "score": 79.2
   },
   {
-    "speciesName": "Sandslash",
+    "speciesName": "Grimer",
     "score": 79.2
   },
   {
-    "speciesName": "Vaporeon",
+    "speciesName": "Muk (Shadow)",
     "score": 79.2
   },
   {
-    "speciesName": "Dusclops (Shadow)",
+    "speciesName": "Barbaracle",
     "score": 79.1
   },
   {
-    "speciesName": "Ivysaur",
+    "speciesName": "Florges",
     "score": 79.1
   },
   {
-    "speciesName": "Melmetal",
+    "speciesName": "Gloom (Shadow)",
     "score": 79.1
   },
   {
-    "speciesName": "Salazzle",
+    "speciesName": "Hariyama (Shadow)",
     "score": 79.1
   },
   {
-    "speciesName": "Servine",
+    "speciesName": "Pinsir",
     "score": 79.1
   },
   {
-    "speciesName": "Lileep",
+    "speciesName": "Probopass (Shadow)",
+    "score": 79.1
+  },
+  {
+    "speciesName": "Wailmer",
+    "score": 79.1
+  },
+  {
+    "speciesName": "Articuno (Shadow)",
+    "score": 79
+  },
+  {
+    "speciesName": "Gastrodon",
+    "score": 79
+  },
+  {
+    "speciesName": "Latios (Shadow)",
+    "score": 79
+  },
+  {
+    "speciesName": "Tangrowth (Shadow)",
     "score": 79
   },
   {
@@ -932,847 +996,795 @@
     "score": 78.9
   },
   {
-    "speciesName": "Farfetch'd",
+    "speciesName": "Graveler (Alolan)",
     "score": 78.9
   },
   {
-    "speciesName": "Poliwrath",
+    "speciesName": "Ivysaur",
     "score": 78.9
   },
   {
-    "speciesName": "Tentacruel",
+    "speciesName": "Raichu (Alolan)",
     "score": 78.9
   },
   {
-    "speciesName": "Venomoth",
+    "speciesName": "Swoobat",
     "score": 78.9
-  },
-  {
-    "speciesName": "Crobat",
-    "score": 78.8
-  },
-  {
-    "speciesName": "Magcargo",
-    "score": 78.8
-  },
-  {
-    "speciesName": "Muk (Alolan)",
-    "score": 78.8
-  },
-  {
-    "speciesName": "Tangrowth (Shadow)",
-    "score": 78.8
-  },
-  {
-    "speciesName": "Articuno",
-    "score": 78.7
   },
   {
     "speciesName": "Cradily (Shadow)",
-    "score": 78.7
-  },
-  {
-    "speciesName": "Druddigon",
-    "score": 78.7
-  },
-  {
-    "speciesName": "Gardevoir",
-    "score": 78.7
-  },
-  {
-    "speciesName": "Greedent",
-    "score": 78.7
-  },
-  {
-    "speciesName": "Muk",
-    "score": 78.6
-  },
-  {
-    "speciesName": "Tangrowth",
-    "score": 78.6
-  },
-  {
-    "speciesName": "Florges",
-    "score": 78.5
+    "score": 78.8
   },
   {
     "speciesName": "Grovyle",
-    "score": 78.5
-  },
-  {
-    "speciesName": "Magneton (Shadow)",
-    "score": 78.5
-  },
-  {
-    "speciesName": "Probopass (Shadow)",
-    "score": 78.5
-  },
-  {
-    "speciesName": "Vespiquen",
-    "score": 78.4
-  },
-  {
-    "speciesName": "Charizard",
-    "score": 78.3
-  },
-  {
-    "speciesName": "Seaking",
-    "score": 78.3
-  },
-  {
-    "speciesName": "Gastrodon",
-    "score": 78.2
-  },
-  {
-    "speciesName": "Sandslash (Shadow)",
-    "score": 78.2
-  },
-  {
-    "speciesName": "Ivysaur (Shadow)",
-    "score": 78.1
-  },
-  {
-    "speciesName": "Leafeon",
-    "score": 78.1
-  },
-  {
-    "speciesName": "Gloom",
-    "score": 78
-  },
-  {
-    "speciesName": "Sudowoodo",
-    "score": 78
-  },
-  {
-    "speciesName": "Tyrunt",
-    "score": 78
-  },
-  {
-    "speciesName": "Gallade",
-    "score": 77.9
-  },
-  {
-    "speciesName": "Staravia (Shadow)",
-    "score": 77.9
-  },
-  {
-    "speciesName": "Wormadam (Trash)",
-    "score": 77.9
-  },
-  {
-    "speciesName": "Chansey",
-    "score": 77.8
-  },
-  {
-    "speciesName": "Magnemite (Shadow)",
-    "score": 77.8
-  },
-  {
-    "speciesName": "Scizor (Shadow)",
-    "score": 77.8
-  },
-  {
-    "speciesName": "Dartrix",
-    "score": 77.7
-  },
-  {
-    "speciesName": "Donphan",
-    "score": 77.6
-  },
-  {
-    "speciesName": "Girafarig (Shadow)",
-    "score": 77.6
-  },
-  {
-    "speciesName": "Raticate (Alolan) (Shadow)",
-    "score": 77.6
+    "score": 78.8
   },
   {
     "speciesName": "Hydreigon",
-    "score": 77.5
+    "score": 78.8
   },
   {
-    "speciesName": "Lugia",
-    "score": 77.5
+    "speciesName": "Magneton (Shadow)",
+    "score": 78.7
   },
   {
-    "speciesName": "Decidueye",
-    "score": 77.4
+    "speciesName": "Grotle (Shadow)",
+    "score": 78.6
   },
   {
-    "speciesName": "Gallade (Shadow)",
-    "score": 77.4
+    "speciesName": "Leafeon",
+    "score": 78.6
   },
   {
-    "speciesName": "Spinda",
-    "score": 77.4
+    "speciesName": "Farfetch'd",
+    "score": 78.5
   },
   {
-    "speciesName": "Moltres (Galarian)",
-    "score": 77.3
+    "speciesName": "Vileplume (Shadow)",
+    "score": 78.5
   },
   {
-    "speciesName": "Tirtouga",
-    "score": 77.3
+    "speciesName": "Donphan",
+    "score": 78.4
   },
   {
-    "speciesName": "Avalugg",
-    "score": 77.2
+    "speciesName": "Electivire (Shadow)",
+    "score": 78.4
   },
   {
     "speciesName": "Gligar (Shadow)",
-    "score": 77.2
+    "score": 78.4
   },
   {
-    "speciesName": "Luxray",
-    "score": 77.2
-  },
-  {
-    "speciesName": "Nidorina",
-    "score": 77.2
-  },
-  {
-    "speciesName": "Hypno (Shadow)",
-    "score": 77.1
-  },
-  {
-    "speciesName": "Manectric (Shadow)",
-    "score": 77.1
-  },
-  {
-    "speciesName": "Poliwhirl (Shadow)",
-    "score": 77.1
-  },
-  {
-    "speciesName": "Bibarel",
-    "score": 77
-  },
-  {
-    "speciesName": "Staravia",
-    "score": 76.9
-  },
-  {
-    "speciesName": "Vullaby",
-    "score": 76.9
-  },
-  {
-    "speciesName": "Fraxure",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Honchkrow (Shadow)",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Ledian",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Luxio (Shadow)",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Marowak (Shadow)",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Piloswine",
-    "score": 76.8
-  },
-  {
-    "speciesName": "Articuno (Shadow)",
-    "score": 76.6
-  },
-  {
-    "speciesName": "Electrode (Shadow)",
-    "score": 76.6
-  },
-  {
-    "speciesName": "Gyarados (Shadow)",
-    "score": 76.5
-  },
-  {
-    "speciesName": "Mantine",
-    "score": 76.5
-  },
-  {
-    "speciesName": "Poliwhirl",
-    "score": 76.5
-  },
-  {
-    "speciesName": "Dusclops",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Jirachi",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Porygon2",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Torterra (Shadow)",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Victreebel",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Wobbuffet (Shadow)",
-    "score": 76.4
-  },
-  {
-    "speciesName": "Feraligatr (Shadow)",
-    "score": 76.3
-  },
-  {
-    "speciesName": "Hitmonlee",
-    "score": 76.3
-  },
-  {
-    "speciesName": "Latios",
-    "score": 76.3
-  },
-  {
-    "speciesName": "Malamar",
-    "score": 76.3
-  },
-  {
-    "speciesName": "Mawile (Shadow)",
-    "score": 76.3
-  },
-  {
-    "speciesName": "Arcanine (Shadow)",
-    "score": 76.2
-  },
-  {
-    "speciesName": "Bonsly",
-    "score": 76.2
-  },
-  {
-    "speciesName": "Leavanny",
-    "score": 76.2
-  },
-  {
-    "speciesName": "Magneton",
-    "score": 76.2
-  },
-  {
-    "speciesName": "Marowak",
-    "score": 76.2
-  },
-  {
-    "speciesName": "Nidoking (Shadow)",
-    "score": 76.1
-  },
-  {
-    "speciesName": "Sudowoodo (Shadow)",
-    "score": 76.1
-  },
-  {
-    "speciesName": "Scolipede",
-    "score": 76
-  },
-  {
-    "speciesName": "Bibarel (Shadow)",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Castform",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Emolga",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Golduck (Shadow)",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Haxorus",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Milotic",
-    "score": 75.9
-  },
-  {
-    "speciesName": "Bronzong",
-    "score": 75.8
-  },
-  {
-    "speciesName": "Magmortar (Shadow)",
-    "score": 75.8
-  },
-  {
-    "speciesName": "Mawile",
-    "score": 75.8
-  },
-  {
-    "speciesName": "Piloswine (Shadow)",
-    "score": 75.8
-  },
-  {
-    "speciesName": "Ampharos",
-    "score": 75.7
-  },
-  {
-    "speciesName": "Carracosta",
-    "score": 75.7
-  },
-  {
-    "speciesName": "Vileplume",
-    "score": 75.7
-  },
-  {
-    "speciesName": "Dewott",
-    "score": 75.6
-  },
-  {
-    "speciesName": "Floette",
-    "score": 75.6
-  },
-  {
-    "speciesName": "Hitmonlee (Shadow)",
-    "score": 75.6
-  },
-  {
-    "speciesName": "Ludicolo",
-    "score": 75.6
-  },
-  {
-    "speciesName": "Manectric",
-    "score": 75.5
-  },
-  {
-    "speciesName": "Sandshrew (Alolan) (Shadow)",
-    "score": 75.5
-  },
-  {
-    "speciesName": "Gyarados",
-    "score": 75.4
+    "speciesName": "Magmar (Shadow)",
+    "score": 78.4
   },
   {
     "speciesName": "Sandshrew (Alolan)",
-    "score": 75.4
+    "score": 78.4
+  },
+  {
+    "speciesName": "Sandslash",
+    "score": 78.4
+  },
+  {
+    "speciesName": "Tangrowth",
+    "score": 78.4
+  },
+  {
+    "speciesName": "Crobat",
+    "score": 78.3
+  },
+  {
+    "speciesName": "Sandshrew (Alolan) (Shadow)",
+    "score": 78.3
+  },
+  {
+    "speciesName": "Sudowoodo",
+    "score": 78.3
+  },
+  {
+    "speciesName": "Vaporeon",
+    "score": 78.3
+  },
+  {
+    "speciesName": "Girafarig (Shadow)",
+    "score": 78.2
+  },
+  {
+    "speciesName": "Magnemite (Shadow)",
+    "score": 78.2
+  },
+  {
+    "speciesName": "Tirtouga",
+    "score": 78.2
+  },
+  {
+    "speciesName": "Vullaby",
+    "score": 78.2
+  },
+  {
+    "speciesName": "Golem (Alolan)",
+    "score": 78
+  },
+  {
+    "speciesName": "Ivysaur (Shadow)",
+    "score": 78
+  },
+  {
+    "speciesName": "Mantine",
+    "score": 78
+  },
+  {
+    "speciesName": "Poliwhirl (Shadow)",
+    "score": 77.7
+  },
+  {
+    "speciesName": "Honchkrow (Shadow)",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Latios",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Magneton",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Malamar",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Muk",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Servine",
+    "score": 77.6
+  },
+  {
+    "speciesName": "Charjabug",
+    "score": 77.5
+  },
+  {
+    "speciesName": "Marowak (Shadow)",
+    "score": 77.2
+  },
+  {
+    "speciesName": "Electivire",
+    "score": 77.1
+  },
+  {
+    "speciesName": "Mawile (Shadow)",
+    "score": 77.1
+  },
+  {
+    "speciesName": "Poliwhirl",
+    "score": 77.1
+  },
+  {
+    "speciesName": "Bayleef",
+    "score": 77
+  },
+  {
+    "speciesName": "Magcargo",
+    "score": 77
+  },
+  {
+    "speciesName": "Oranguru",
+    "score": 77
+  },
+  {
+    "speciesName": "Glalie",
+    "score": 76.9
+  },
+  {
+    "speciesName": "Tentacruel",
+    "score": 76.9
+  },
+  {
+    "speciesName": "Dusclops",
+    "score": 76.8
+  },
+  {
+    "speciesName": "Girafarig",
+    "score": 76.8
+  },
+  {
+    "speciesName": "Golduck (Shadow)",
+    "score": 76.8
+  },
+  {
+    "speciesName": "Marowak",
+    "score": 76.8
+  },
+  {
+    "speciesName": "Electrode (Shadow)",
+    "score": 76.7
+  },
+  {
+    "speciesName": "Feraligatr (Shadow)",
+    "score": 76.7
+  },
+  {
+    "speciesName": "Mawile",
+    "score": 76.7
+  },
+  {
+    "speciesName": "Castform",
+    "score": 76.6
+  },
+  {
+    "speciesName": "Grotle",
+    "score": 76.6
+  },
+  {
+    "speciesName": "Wobbuffet (Shadow)",
+    "score": 76.6
+  },
+  {
+    "speciesName": "Bonsly",
+    "score": 76.5
+  },
+  {
+    "speciesName": "Haxorus",
+    "score": 76.5
   },
   {
     "speciesName": "Magnemite",
-    "score": 75.3
+    "score": 76.5
   },
   {
-    "speciesName": "Wailord",
-    "score": 75.3
+    "speciesName": "Rapidash (Galarian)",
+    "score": 76.5
+  },
+  {
+    "speciesName": "Scizor",
+    "score": 76.5
+  },
+  {
+    "speciesName": "Venomoth (Shadow)",
+    "score": 76.5
+  },
+  {
+    "speciesName": "Charizard (Shadow)",
+    "score": 76.4
+  },
+  {
+    "speciesName": "Carracosta",
+    "score": 76.3
+  },
+  {
+    "speciesName": "Floette",
+    "score": 76.3
+  },
+  {
+    "speciesName": "Milotic",
+    "score": 76.3
+  },
+  {
+    "speciesName": "Klefki",
+    "score": 76.2
+  },
+  {
+    "speciesName": "Magmortar (Shadow)",
+    "score": 76.2
+  },
+  {
+    "speciesName": "Sudowoodo (Shadow)",
+    "score": 76.2
+  },
+  {
+    "speciesName": "Torterra (Shadow)",
+    "score": 76.2
+  },
+  {
+    "speciesName": "Bibarel",
+    "score": 76.1
   },
   {
     "speciesName": "Dugtrio",
+    "score": 76.1
+  },
+  {
+    "speciesName": "Sandslash (Shadow)",
+    "score": 76.1
+  },
+  {
+    "speciesName": "Charizard",
+    "score": 76
+  },
+  {
+    "speciesName": "Linoone (Galarian)",
+    "score": 76
+  },
+  {
+    "speciesName": "Lugia (Shadow)",
+    "score": 75.9
+  },
+  {
+    "speciesName": "Hitmonlee",
+    "score": 75.8
+  },
+  {
+    "speciesName": "Seismitoad",
+    "score": 75.8
+  },
+  {
+    "speciesName": "Vespiquen",
+    "score": 75.8
+  },
+  {
+    "speciesName": "Bibarel (Shadow)",
+    "score": 75.7
+  },
+  {
+    "speciesName": "Durant",
+    "score": 75.7
+  },
+  {
+    "speciesName": "Mamoswine",
+    "score": 75.7
+  },
+  {
+    "speciesName": "Moltres (Galarian)",
+    "score": 75.7
+  },
+  {
+    "speciesName": "Staravia (Shadow)",
+    "score": 75.7
+  },
+  {
+    "speciesName": "Golduck",
+    "score": 75.6
+  },
+  {
+    "speciesName": "Carnivine",
+    "score": 75.5
+  },
+  {
+    "speciesName": "Staravia",
+    "score": 75.5
+  },
+  {
+    "speciesName": "Venomoth",
+    "score": 75.5
+  },
+  {
+    "speciesName": "Hitmonlee (Shadow)",
+    "score": 75.4
+  },
+  {
+    "speciesName": "Luxio (Shadow)",
+    "score": 75.4
+  },
+  {
+    "speciesName": "Mamoswine (Shadow)",
+    "score": 75.4
+  },
+  {
+    "speciesName": "Ledian",
+    "score": 75.3
+  },
+  {
+    "speciesName": "Nidorina",
+    "score": 75.3
+  },
+  {
+    "speciesName": "Rapidash",
+    "score": 75.3
+  },
+  {
+    "speciesName": "Pawniard",
     "score": 75.2
   },
   {
-    "speciesName": "Oddish (Shadow)",
+    "speciesName": "Roserade",
     "score": 75.2
   },
   {
-    "speciesName": "Cherrim (Sunshine)",
+    "speciesName": "Scolipede",
+    "score": 75.2
+  },
+  {
+    "speciesName": "Wailord",
+    "score": 75.2
+  },
+  {
+    "speciesName": "Uxie",
+    "score": 75.1
+  },
+  {
+    "speciesName": "Victreebel",
     "score": 75.1
   },
   {
     "speciesName": "Electrode",
-    "score": 75.1
-  },
-  {
-    "speciesName": "Scizor",
-    "score": 75.1
-  },
-  {
-    "speciesName": "Typhlosion",
-    "score": 75.1
-  },
-  {
-    "speciesName": "Carnivine",
     "score": 75
   },
   {
-    "speciesName": "Celebi",
+    "speciesName": "Mewtwo (Shadow)",
     "score": 75
   },
   {
-    "speciesName": "Girafarig",
-    "score": 75
-  },
-  {
-    "speciesName": "Klefki",
-    "score": 75
-  },
-  {
-    "speciesName": "Swadloon",
+    "speciesName": "Beartic",
     "score": 74.9
   },
   {
-    "speciesName": "Electabuzz (Shadow)",
-    "score": 74.8
+    "speciesName": "Crawdaunt",
+    "score": 74.9
   },
   {
-    "speciesName": "Rapidash",
-    "score": 74.8
+    "speciesName": "Drifloon",
+    "score": 74.9
   },
   {
-    "speciesName": "Golduck",
-    "score": 74.7
+    "speciesName": "Gloom",
+    "score": 74.9
   },
   {
     "speciesName": "Luxio",
-    "score": 74.7
+    "score": 74.8
   },
   {
-    "speciesName": "Nidoking",
-    "score": 74.7
+    "speciesName": "Typhlosion",
+    "score": 74.8
   },
   {
-    "speciesName": "Pumpkaboo (Super)",
+    "speciesName": "Decidueye",
     "score": 74.7
-  },
-  {
-    "speciesName": "Durant",
-    "score": 74.6
   },
   {
     "speciesName": "Feraligatr",
+    "score": 74.7
+  },
+  {
+    "speciesName": "Leavanny",
+    "score": 74.7
+  },
+  {
+    "speciesName": "Shelgon",
+    "score": 74.7
+  },
+  {
+    "speciesName": "Emolga",
     "score": 74.6
   },
   {
-    "speciesName": "Gurdurr",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Omastar (Shadow)",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Porygon2 (Shadow)",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Seismitoad",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Typhlosion (Shadow)",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Ursaring (Shadow)",
-    "score": 74.6
-  },
-  {
-    "speciesName": "Ampharos (Shadow)",
+    "speciesName": "Dewott",
     "score": 74.5
   },
   {
-    "speciesName": "Rapidash (Galarian)",
+    "speciesName": "Gurdurr",
+    "score": 74.5
+  },
+  {
+    "speciesName": "Omastar (Shadow)",
+    "score": 74.5
+  },
+  {
+    "speciesName": "Dartrix",
     "score": 74.4
   },
   {
-    "speciesName": "Swoobat",
+    "speciesName": "Lopunny",
     "score": 74.4
   },
   {
-    "speciesName": "Conkeldurr",
+    "speciesName": "Palpitoad",
+    "score": 74.4
+  },
+  {
+    "speciesName": "Electabuzz (Shadow)",
     "score": 74.3
   },
   {
-    "speciesName": "Linoone (Galarian)",
-    "score": 74.3
+    "speciesName": "Croconaw (Shadow)",
+    "score": 74.2
   },
   {
-    "speciesName": "Torterra",
-    "score": 74.3
+    "speciesName": "Exeggutor (Alolan) (Shadow)",
+    "score": 74.2
   },
   {
     "speciesName": "Golisopod",
     "score": 74.2
   },
   {
-    "speciesName": "Articuno (Galarian)",
+    "speciesName": "Ampharos",
     "score": 74.1
-  },
-  {
-    "speciesName": "Lugia (Shadow)",
-    "score": 74.1
-  },
-  {
-    "speciesName": "Palpitoad",
-    "score": 74.1
-  },
-  {
-    "speciesName": "Delcatty",
-    "score": 73.9
-  },
-  {
-    "speciesName": "Fletchinder",
-    "score": 73.9
-  },
-  {
-    "speciesName": "Pumpkaboo (Large)",
-    "score": 73.9
-  },
-  {
-    "speciesName": "Shelgon",
-    "score": 73.8
-  },
-  {
-    "speciesName": "Ursaring",
-    "score": 73.8
-  },
-  {
-    "speciesName": "Lopunny",
-    "score": 73.7
-  },
-  {
-    "speciesName": "Arcanine",
-    "score": 73.5
-  },
-  {
-    "speciesName": "Omastar",
-    "score": 73.5
-  },
-  {
-    "speciesName": "Wartortle",
-    "score": 73.5
-  },
-  {
-    "speciesName": "Crustle",
-    "score": 73.4
-  },
-  {
-    "speciesName": "Glalie",
-    "score": 73.4
-  },
-  {
-    "speciesName": "Pawniard",
-    "score": 73.4
-  },
-  {
-    "speciesName": "Crawdaunt",
-    "score": 73.3
-  },
-  {
-    "speciesName": "Croconaw (Shadow)",
-    "score": 73.2
-  },
-  {
-    "speciesName": "Growlithe (Shadow)",
-    "score": 73.2
-  },
-  {
-    "speciesName": "Oranguru",
-    "score": 73.2
-  },
-  {
-    "speciesName": "Pumpkaboo (Average)",
-    "score": 73.2
-  },
-  {
-    "speciesName": "Lumineon",
-    "score": 73.1
-  },
-  {
-    "speciesName": "Rufflet",
-    "score": 73.1
-  },
-  {
-    "speciesName": "Lileep (Shadow)",
-    "score": 73
-  },
-  {
-    "speciesName": "Spiritomb",
-    "score": 73
-  },
-  {
-    "speciesName": "Ho-Oh",
-    "score": 72.9
-  },
-  {
-    "speciesName": "Machop (Shadow)",
-    "score": 72.9
-  },
-  {
-    "speciesName": "Magmortar",
-    "score": 72.9
-  },
-  {
-    "speciesName": "Minun",
-    "score": 72.8
   },
   {
     "speciesName": "Swellow",
-    "score": 72.8
+    "score": 74.1
   },
   {
-    "speciesName": "Furret",
-    "score": 72.7
+    "speciesName": "Vileplume",
+    "score": 74.1
   },
   {
-    "speciesName": "Machop",
-    "score": 72.7
+    "speciesName": "Conkeldurr",
+    "score": 74
   },
   {
-    "speciesName": "Uxie",
-    "score": 72.7
+    "speciesName": "Fletchinder",
+    "score": 74
   },
   {
-    "speciesName": "Charmeleon (Shadow)",
-    "score": 72.6
+    "speciesName": "Pumpkaboo (Super)",
+    "score": 73.9
   },
   {
-    "speciesName": "Croconaw",
-    "score": 72.6
+    "speciesName": "Wartortle",
+    "score": 73.9
   },
   {
-    "speciesName": "Geodude (Alolan)",
-    "score": 72.6
+    "speciesName": "Ampharos (Shadow)",
+    "score": 73.8
+  },
+  {
+    "speciesName": "Celebi",
+    "score": 73.8
+  },
+  {
+    "speciesName": "Delcatty",
+    "score": 73.8
+  },
+  {
+    "speciesName": "Ludicolo",
+    "score": 73.8
+  },
+  {
+    "speciesName": "Growlithe (Shadow)",
+    "score": 73.6
+  },
+  {
+    "speciesName": "Lileep (Shadow)",
+    "score": 73.6
+  },
+  {
+    "speciesName": "Articuno (Galarian)",
+    "score": 73.5
+  },
+  {
+    "speciesName": "Oddish (Shadow)",
+    "score": 73.5
+  },
+  {
+    "speciesName": "Spiritomb",
+    "score": 73.5
   },
   {
     "speciesName": "Litleo",
-    "score": 72.6
+    "score": 73.4
+  },
+  {
+    "speciesName": "Nuzleaf (Shadow)",
+    "score": 73.4
+  },
+  {
+    "speciesName": "Omastar",
+    "score": 73.4
+  },
+  {
+    "speciesName": "Krookodile",
+    "score": 73.3
+  },
+  {
+    "speciesName": "Banette",
+    "score": 73.2
+  },
+  {
+    "speciesName": "Nidoking (Shadow)",
+    "score": 73.2
+  },
+  {
+    "speciesName": "Simisage",
+    "score": 73.2
+  },
+  {
+    "speciesName": "Cherrim (Sunshine)",
+    "score": 73.1
+  },
+  {
+    "speciesName": "Crustle",
+    "score": 73.1
+  },
+  {
+    "speciesName": "Hippowdon",
+    "score": 73
+  },
+  {
+    "speciesName": "Lumineon",
+    "score": 73
+  },
+  {
+    "speciesName": "Luxray",
+    "score": 73
+  },
+  {
+    "speciesName": "Nidoking",
+    "score": 72.9
+  },
+  {
+    "speciesName": "Swalot",
+    "score": 72.9
+  },
+  {
+    "speciesName": "Pumpkaboo (Large)",
+    "score": 72.8
+  },
+  {
+    "speciesName": "Rufflet",
+    "score": 72.8
+  },
+  {
+    "speciesName": "Typhlosion (Shadow)",
+    "score": 72.8
+  },
+  {
+    "speciesName": "Croconaw",
+    "score": 72.7
+  },
+  {
+    "speciesName": "Huntail",
+    "score": 72.7
   },
   {
     "speciesName": "Scraggy",
+    "score": 72.7
+  },
+  {
+    "speciesName": "Darumaka",
     "score": 72.6
   },
   {
     "speciesName": "Houndoom (Shadow)",
-    "score": 72.5
-  },
-  {
-    "speciesName": "Simisage",
-    "score": 72.5
-  },
-  {
-    "speciesName": "Drifloon",
-    "score": 72.4
-  },
-  {
-    "speciesName": "Darmanitan (Standard)",
-    "score": 72.3
-  },
-  {
-    "speciesName": "Hippowdon",
-    "score": 72.3
-  },
-  {
-    "speciesName": "Huntail",
-    "score": 72.2
-  },
-  {
-    "speciesName": "Infernape",
-    "score": 72.2
-  },
-  {
-    "speciesName": "Mamoswine (Shadow)",
-    "score": 72.2
-  },
-  {
-    "speciesName": "Banette",
-    "score": 72.1
-  },
-  {
-    "speciesName": "Weepinbell (Shadow)",
-    "score": 72
-  },
-  {
-    "speciesName": "Amoonguss",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Comfey",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Exeggutor (Alolan) (Shadow)",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Graveler",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Moltres",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Nuzleaf (Shadow)",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Turtwig (Shadow)",
-    "score": 71.9
-  },
-  {
-    "speciesName": "Combusken",
-    "score": 71.8
-  },
-  {
-    "speciesName": "Kingler",
-    "score": 71.8
-  },
-  {
-    "speciesName": "Darumaka",
-    "score": 71.7
-  },
-  {
-    "speciesName": "Mewtwo (Shadow)",
-    "score": 71.7
-  },
-  {
-    "speciesName": "Moltres (Shadow)",
-    "score": 71.6
-  },
-  {
-    "speciesName": "Oddish",
-    "score": 71.6
-  },
-  {
-    "speciesName": "Vikavolt",
-    "score": 71.6
-  },
-  {
-    "speciesName": "Bouffalant",
-    "score": 71.5
-  },
-  {
-    "speciesName": "Krookodile",
-    "score": 71.5
-  },
-  {
-    "speciesName": "Mamoswine",
-    "score": 71.4
+    "score": 72.6
   },
   {
     "speciesName": "Prinplup",
-    "score": 71.4
+    "score": 72.6
   },
   {
-    "speciesName": "Pumpkaboo (Small)",
-    "score": 71.4
+    "speciesName": "Swadloon",
+    "score": 72.6
   },
   {
-    "speciesName": "Armaldo (Shadow)",
-    "score": 71.3
+    "speciesName": "Bouffalant",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Charmeleon (Shadow)",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Geodude (Alolan)",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Mightyena (Shadow)",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Minun",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Porygon2",
+    "score": 72.5
+  },
+  {
+    "speciesName": "Cloyster",
+    "score": 72.4
+  },
+  {
+    "speciesName": "Torterra",
+    "score": 72.4
+  },
+  {
+    "speciesName": "Arcanine (Shadow)",
+    "score": 72.3
+  },
+  {
+    "speciesName": "Machop",
+    "score": 72.3
+  },
+  {
+    "speciesName": "Aggron (Shadow)",
+    "score": 72.1
   },
   {
     "speciesName": "Bisharp",
-    "score": 71.3
+    "score": 72.1
   },
   {
-    "speciesName": "Scyther (Shadow)",
-    "score": 71.3
+    "speciesName": "Mantyke",
+    "score": 72.1
+  },
+  {
+    "speciesName": "Graveler",
+    "score": 72
+  },
+  {
+    "speciesName": "Lairon (Shadow)",
+    "score": 72
+  },
+  {
+    "speciesName": "Magmortar",
+    "score": 72
+  },
+  {
+    "speciesName": "Nidorino",
+    "score": 72
+  },
+  {
+    "speciesName": "Nuzleaf",
+    "score": 72
+  },
+  {
+    "speciesName": "Arcanine",
+    "score": 71.9
+  },
+  {
+    "speciesName": "Claydol",
+    "score": 71.9
+  },
+  {
+    "speciesName": "Machop (Shadow)",
+    "score": 71.9
+  },
+  {
+    "speciesName": "Manectric (Shadow)",
+    "score": 71.9
+  },
+  {
+    "speciesName": "Manectric",
+    "score": 71.8
+  },
+  {
+    "speciesName": "Pumpkaboo (Average)",
+    "score": 71.8
+  },
+  {
+    "speciesName": "Slowpoke (Galarian)",
+    "score": 71.8
+  },
+  {
+    "speciesName": "Weepinbell (Shadow)",
+    "score": 71.8
+  },
+  {
+    "speciesName": "Darmanitan (Standard)",
+    "score": 71.7
+  },
+  {
+    "speciesName": "Turtwig (Shadow)",
+    "score": 71.7
   },
   {
     "speciesName": "Dustox",
+    "score": 71.6
+  },
+  {
+    "speciesName": "Furfrou",
+    "score": 71.5
+  },
+  {
+    "speciesName": "Scyther (Shadow)",
+    "score": 71.5
+  },
+  {
+    "speciesName": "Comfey",
+    "score": 71.4
+  },
+  {
+    "speciesName": "Vibrava (Shadow)",
+    "score": 71.3
+  },
+  {
+    "speciesName": "Moltres (Shadow)",
     "score": 71.2
   },
   {
@@ -1780,43 +1792,47 @@
     "score": 71.2
   },
   {
-    "speciesName": "Vibrava (Shadow)",
-    "score": 71.2
-  },
-  {
-    "speciesName": "Klinklang",
+    "speciesName": "Combusken",
     "score": 71.1
   },
   {
-    "speciesName": "Nidorino (Shadow)",
+    "speciesName": "Cryogonal",
+    "score": 71.1
+  },
+  {
+    "speciesName": "Furret",
     "score": 71
   },
   {
-    "speciesName": "Nuzleaf",
+    "speciesName": "Smoochum",
     "score": 71
   },
   {
-    "speciesName": "Swalot",
-    "score": 71
-  },
-  {
-    "speciesName": "Weepinbell",
+    "speciesName": "Amoonguss",
     "score": 70.9
   },
   {
-    "speciesName": "Aggron (Shadow)",
+    "speciesName": "Dusknoir",
+    "score": 70.9
+  },
+  {
+    "speciesName": "Staraptor",
+    "score": 70.9
+  },
+  {
+    "speciesName": "Weavile",
+    "score": 70.9
+  },
+  {
+    "speciesName": "Clamperl",
     "score": 70.8
   },
   {
-    "speciesName": "Furfrou",
+    "speciesName": "Exeggutor (Alolan)",
     "score": 70.8
   },
   {
-    "speciesName": "Kingdra",
-    "score": 70.8
-  },
-  {
-    "speciesName": "Nidorino",
+    "speciesName": "Ponyta",
     "score": 70.8
   },
   {
@@ -1824,275 +1840,291 @@
     "score": 70.8
   },
   {
-    "speciesName": "Banette (Shadow)",
+    "speciesName": "Nidorino (Shadow)",
     "score": 70.7
   },
   {
     "speciesName": "Electabuzz",
-    "score": 70.7
-  },
-  {
-    "speciesName": "Kricketune",
-    "score": 70.7
-  },
-  {
-    "speciesName": "Magmar",
-    "score": 70.7
-  },
-  {
-    "speciesName": "Magmar (Shadow)",
-    "score": 70.7
-  },
-  {
-    "speciesName": "Staraptor",
-    "score": 70.7
-  },
-  {
-    "speciesName": "Beartic",
     "score": 70.6
-  },
-  {
-    "speciesName": "Chandelure",
-    "score": 70.6
-  },
-  {
-    "speciesName": "Claydol",
-    "score": 70.6
-  },
-  {
-    "speciesName": "Entei",
-    "score": 70.6
-  },
-  {
-    "speciesName": "Growlithe",
-    "score": 70.6
-  },
-  {
-    "speciesName": "Suicune (Shadow)",
-    "score": 70.6
-  },
-  {
-    "speciesName": "Basculin",
-    "score": 70.5
-  },
-  {
-    "speciesName": "Stufful",
-    "score": 70.5
-  },
-  {
-    "speciesName": "Ponyta",
-    "score": 70.4
-  },
-  {
-    "speciesName": "Dusknoir",
-    "score": 70.3
-  },
-  {
-    "speciesName": "Incineroar",
-    "score": 70.3
-  },
-  {
-    "speciesName": "Mightyena (Shadow)",
-    "score": 70.3
-  },
-  {
-    "speciesName": "Parasect",
-    "score": 70.3
-  },
-  {
-    "speciesName": "Mantyke",
-    "score": 70.2
-  },
-  {
-    "speciesName": "Alakazam",
-    "score": 70.1
-  },
-  {
-    "speciesName": "Clamperl",
-    "score": 70.1
-  },
-  {
-    "speciesName": "Suicune",
-    "score": 70.1
-  },
-  {
-    "speciesName": "Garchomp",
-    "score": 70
-  },
-  {
-    "speciesName": "Golem",
-    "score": 70
   },
   {
     "speciesName": "Greninja",
-    "score": 69.9
-  },
-  {
-    "speciesName": "Tangela (Shadow)",
-    "score": 69.9
-  },
-  {
-    "speciesName": "Vibrava",
-    "score": 69.8
-  },
-  {
-    "speciesName": "Ho-Oh (Shadow)",
-    "score": 69.7
-  },
-  {
-    "speciesName": "Karrablast",
-    "score": 69.6
-  },
-  {
-    "speciesName": "Kingdra (Shadow)",
-    "score": 69.6
-  },
-  {
-    "speciesName": "Lairon (Shadow)",
-    "score": 69.6
-  },
-  {
-    "speciesName": "Latias (Shadow)",
-    "score": 69.6
-  },
-  {
-    "speciesName": "Camerupt",
-    "score": 69.5
-  },
-  {
-    "speciesName": "Heatmor",
-    "score": 69.5
+    "score": 70.6
   },
   {
     "speciesName": "Hippowdon (Shadow)",
-    "score": 69.5
+    "score": 70.6
   },
   {
-    "speciesName": "Monferno",
-    "score": 69.5
+    "speciesName": "Infernape",
+    "score": 70.6
   },
   {
-    "speciesName": "Slowbro (Galarian)",
-    "score": 69.4
+    "speciesName": "Mightyena",
+    "score": 70.6
   },
   {
-    "speciesName": "Alakazam (Shadow)",
-    "score": 69.3
+    "speciesName": "Incineroar",
+    "score": 70.5
   },
   {
-    "speciesName": "Torracat",
-    "score": 69.3
+    "speciesName": "Weavile (Shadow)",
+    "score": 70.5
   },
   {
-    "speciesName": "Eelektrik",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Houndoom",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Ninjask",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Rotom (Wash)",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Slowpoke",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Turtwig",
-    "score": 69.2
-  },
-  {
-    "speciesName": "Aggron",
-    "score": 69.1
-  },
-  {
-    "speciesName": "Entei (Shadow)",
-    "score": 69.1
+    "speciesName": "Basculin",
+    "score": 70.4
   },
   {
     "speciesName": "Golurk",
-    "score": 69.1
+    "score": 70.4
   },
   {
-    "speciesName": "Cloyster",
-    "score": 69
+    "speciesName": "Ho-Oh",
+    "score": 70.4
   },
   {
-    "speciesName": "Exeggutor (Alolan)",
-    "score": 69
+    "speciesName": "Aggron",
+    "score": 70.3
+  },
+  {
+    "speciesName": "Garchomp",
+    "score": 70.3
+  },
+  {
+    "speciesName": "Pumpkaboo (Small)",
+    "score": 70.3
+  },
+  {
+    "speciesName": "Armaldo (Shadow)",
+    "score": 70.2
+  },
+  {
+    "speciesName": "Espeon",
+    "score": 70.2
+  },
+  {
+    "speciesName": "Kricketune",
+    "score": 70.2
+  },
+  {
+    "speciesName": "Banette (Shadow)",
+    "score": 70.1
+  },
+  {
+    "speciesName": "Growlithe",
+    "score": 70.1
+  },
+  {
+    "speciesName": "Dusknoir (Shadow)",
+    "score": 70
+  },
+  {
+    "speciesName": "Entei (Shadow)",
+    "score": 70
+  },
+  {
+    "speciesName": "Houndoom",
+    "score": 70
+  },
+  {
+    "speciesName": "Moltres",
+    "score": 69.9
+  },
+  {
+    "speciesName": "Tranquill",
+    "score": 69.9
+  },
+  {
+    "speciesName": "Chandelure",
+    "score": 69.8
+  },
+  {
+    "speciesName": "Latias (Shadow)",
+    "score": 69.8
+  },
+  {
+    "speciesName": "Purugly",
+    "score": 69.8
+  },
+  {
+    "speciesName": "Weepinbell",
+    "score": 69.8
+  },
+  {
+    "speciesName": "Entei",
+    "score": 69.7
+  },
+  {
+    "speciesName": "Growlithe (Hisuian)",
+    "score": 69.7
+  },
+  {
+    "speciesName": "Kingdra",
+    "score": 69.7
+  },
+  {
+    "speciesName": "Metagross",
+    "score": 69.7
+  },
+  {
+    "speciesName": "Cloyster (Shadow)",
+    "score": 69.6
+  },
+  {
+    "speciesName": "Lairon",
+    "score": 69.6
+  },
+  {
+    "speciesName": "Magmar",
+    "score": 69.6
+  },
+  {
+    "speciesName": "Vikavolt",
+    "score": 69.6
+  },
+  {
+    "speciesName": "Alakazam",
+    "score": 69.5
+  },
+  {
+    "speciesName": "Klinklang",
+    "score": 69.5
+  },
+  {
+    "speciesName": "Porygon2 (Shadow)",
+    "score": 69.5
+  },
+  {
+    "speciesName": "Tangela (Shadow)",
+    "score": 69.5
+  },
+  {
+    "speciesName": "Vibrava",
+    "score": 69.5
+  },
+  {
+    "speciesName": "Alakazam (Shadow)",
+    "score": 69.4
+  },
+  {
+    "speciesName": "Oddish",
+    "score": 69.4
+  },
+  {
+    "speciesName": "Parasect",
+    "score": 69.4
+  },
+  {
+    "speciesName": "Golem",
+    "score": 69.3
+  },
+  {
+    "speciesName": "Karrablast",
+    "score": 69.3
+  },
+  {
+    "speciesName": "Kingdra (Shadow)",
+    "score": 69.3
+  },
+  {
+    "speciesName": "Tyrantrum",
+    "score": 69.3
+  },
+  {
+    "speciesName": "Raticate",
+    "score": 69.2
   },
   {
     "speciesName": "Shelgon (Shadow)",
+    "score": 69.2
+  },
+  {
+    "speciesName": "Heatmor",
+    "score": 69
+  },
+  {
+    "speciesName": "Slowbro (Galarian)",
+    "score": 69
+  },
+  {
+    "speciesName": "Torracat",
+    "score": 69
+  },
+  {
+    "speciesName": "Aron (Shadow)",
     "score": 68.9
   },
   {
-    "speciesName": "Slowpoke (Galarian)",
+    "speciesName": "Braixen",
     "score": 68.9
   },
   {
-    "speciesName": "Sharpedo",
+    "speciesName": "Corsola",
+    "score": 68.9
+  },
+  {
+    "speciesName": "Charmeleon",
     "score": 68.8
   },
   {
-    "speciesName": "Simipour",
+    "speciesName": "Staraptor (Shadow)",
     "score": 68.8
+  },
+  {
+    "speciesName": "Camerupt",
+    "score": 68.7
   },
   {
     "speciesName": "Dwebble",
     "score": 68.7
   },
   {
-    "speciesName": "Sliggoo",
+    "speciesName": "Monferno",
     "score": 68.7
   },
   {
-    "speciesName": "Braixen",
+    "speciesName": "Vanillish",
+    "score": 68.7
+  },
+  {
+    "speciesName": "Rayquaza",
     "score": 68.6
   },
   {
-    "speciesName": "Purugly",
-    "score": 68.6
-  },
-  {
-    "speciesName": "Espeon",
+    "speciesName": "Eelektrik",
     "score": 68.5
   },
   {
-    "speciesName": "Staraptor (Shadow)",
+    "speciesName": "Kingler",
     "score": 68.5
   },
   {
-    "speciesName": "Tranquill",
+    "speciesName": "Simipour",
     "score": 68.5
   },
   {
-    "speciesName": "Dusknoir (Shadow)",
+    "speciesName": "Glaceon",
     "score": 68.4
   },
   {
-    "speciesName": "Magby",
+    "speciesName": "Murkrow",
     "score": 68.4
   },
   {
-    "speciesName": "Weavile (Shadow)",
+    "speciesName": "Omanyte (Shadow)",
     "score": 68.4
   },
   {
-    "speciesName": "Emboar",
+    "speciesName": "Stufful",
+    "score": 68.4
+  },
+  {
+    "speciesName": "Metagross (Shadow)",
     "score": 68.3
   },
   {
-    "speciesName": "Klang",
-    "score": 68.3
-  },
-  {
-    "speciesName": "Amoonguss (Shadow)",
+    "speciesName": "Aerodactyl (Shadow)",
     "score": 68.2
   },
   {
@@ -2100,47 +2132,51 @@
     "score": 68.2
   },
   {
-    "speciesName": "Corsola",
+    "speciesName": "Porygon",
     "score": 68.2
   },
   {
-    "speciesName": "Masquerain",
+    "speciesName": "Pyroar",
     "score": 68.2
   },
   {
-    "speciesName": "Charmeleon",
+    "speciesName": "Darumaka (Galarian)",
     "score": 68.1
   },
   {
-    "speciesName": "Growlithe (Hisuian)",
+    "speciesName": "Kabutops",
     "score": 68.1
   },
   {
-    "speciesName": "Onix",
+    "speciesName": "Latias",
     "score": 68.1
   },
   {
-    "speciesName": "Aerodactyl (Shadow)",
-    "score": 68
+    "speciesName": "Plusle",
+    "score": 68.1
+  },
+  {
+    "speciesName": "Sharpedo",
+    "score": 68.1
   },
   {
     "speciesName": "Brionne",
     "score": 68
   },
   {
-    "speciesName": "Jolteon",
+    "speciesName": "Cinccino",
     "score": 68
   },
   {
-    "speciesName": "Kabutops",
+    "speciesName": "Graveler (Shadow)",
     "score": 68
   },
   {
-    "speciesName": "Lairon",
+    "speciesName": "Magby",
     "score": 68
   },
   {
-    "speciesName": "Mightyena",
+    "speciesName": "Masquerain",
     "score": 68
   },
   {
@@ -2148,115 +2184,151 @@
     "score": 68
   },
   {
-    "speciesName": "Weavile",
+    "speciesName": "Suicune",
     "score": 68
   },
   {
-    "speciesName": "Cinccino",
-    "score": 67.9
-  },
-  {
-    "speciesName": "Graveler (Shadow)",
-    "score": 67.9
-  },
-  {
-    "speciesName": "Porygon",
-    "score": 67.9
-  },
-  {
-    "speciesName": "Pyroar",
-    "score": 67.9
-  },
-  {
-    "speciesName": "Tyrantrum",
-    "score": 67.9
-  },
-  {
-    "speciesName": "Wormadam (Sandy)",
+    "speciesName": "Aron",
     "score": 67.9
   },
   {
     "speciesName": "Camerupt (Shadow)",
-    "score": 67.8
+    "score": 67.9
   },
   {
-    "speciesName": "Flareon",
-    "score": 67.8
+    "speciesName": "Emboar",
+    "score": 67.9
   },
   {
-    "speciesName": "Bulbasaur (Shadow)",
-    "score": 67.7
-  },
-  {
-    "speciesName": "Stantler (Shadow)",
-    "score": 67.7
-  },
-  {
-    "speciesName": "Plusle",
-    "score": 67.6
+    "speciesName": "Rotom (Wash)",
+    "score": 67.9
   },
   {
     "speciesName": "Scyther",
-    "score": 67.6
+    "score": 67.9
+  },
+  {
+    "speciesName": "Sneasel",
+    "score": 67.9
   },
   {
     "speciesName": "Stantler",
-    "score": 67.6
+    "score": 67.9
   },
   {
-    "speciesName": "Teddiursa (Shadow)",
-    "score": 67.6
+    "speciesName": "Klang",
+    "score": 67.8
   },
   {
-    "speciesName": "Armaldo",
-    "score": 67.5
+    "speciesName": "Rhyperior",
+    "score": 67.8
   },
   {
-    "speciesName": "Cryogonal",
-    "score": 67.5
-  },
-  {
-    "speciesName": "Murkrow",
-    "score": 67.4
-  },
-  {
-    "speciesName": "Raticate",
-    "score": 67.4
-  },
-  {
-    "speciesName": "Wormadam (Plant)",
-    "score": 67.4
-  },
-  {
-    "speciesName": "Pignite",
-    "score": 67.2
+    "speciesName": "Slowpoke",
+    "score": 67.8
   },
   {
     "speciesName": "Stoutland",
-    "score": 67.2
+    "score": 67.8
   },
   {
-    "speciesName": "Latias",
-    "score": 67.1
+    "speciesName": "Gothitelle",
+    "score": 67.7
   },
   {
-    "speciesName": "Tyranitar (Shadow)",
-    "score": 67.1
+    "speciesName": "Ho-Oh (Shadow)",
+    "score": 67.7
   },
   {
-    "speciesName": "Cloyster (Shadow)",
-    "score": 66.9
-  },
-  {
-    "speciesName": "Rayquaza",
-    "score": 66.9
-  },
-  {
-    "speciesName": "Omanyte (Shadow)",
-    "score": 66.8
+    "speciesName": "Jolteon",
+    "score": 67.7
   },
   {
     "speciesName": "Arcanine (Hisuian)",
+    "score": 67.6
+  },
+  {
+    "speciesName": "Flareon",
+    "score": 67.6
+  },
+  {
+    "speciesName": "Kangaskhan",
+    "score": 67.6
+  },
+  {
+    "speciesName": "Metang",
+    "score": 67.4
+  },
+  {
+    "speciesName": "Zoroark",
+    "score": 67.4
+  },
+  {
+    "speciesName": "Mr. Rime",
+    "score": 67.3
+  },
+  {
+    "speciesName": "Rhydon",
+    "score": 67.3
+  },
+  {
+    "speciesName": "Armaldo",
+    "score": 67.2
+  },
+  {
+    "speciesName": "Dugtrio (Alolan)",
+    "score": 67.2
+  },
+  {
+    "speciesName": "Teddiursa (Shadow)",
+    "score": 67.2
+  },
+  {
+    "speciesName": "Exeggcute",
+    "score": 67.1
+  },
+  {
+    "speciesName": "Pignite",
+    "score": 67.1
+  },
+  {
+    "speciesName": "Wartortle (Shadow)",
+    "score": 67.1
+  },
+  {
+    "speciesName": "Gothorita",
+    "score": 67
+  },
+  {
+    "speciesName": "Suicune (Shadow)",
+    "score": 67
+  },
+  {
+    "speciesName": "Gabite",
+    "score": 66.9
+  },
+  {
+    "speciesName": "Exeggcute (Shadow)",
+    "score": 66.8
+  },
+  {
+    "speciesName": "Lombre",
+    "score": 66.8
+  },
+  {
+    "speciesName": "Murkrow (Shadow)",
+    "score": 66.7
+  },
+  {
+    "speciesName": "Salamence (Shadow)",
+    "score": 66.7
+  },
+  {
+    "speciesName": "Sliggoo",
+    "score": 66.7
+  },
+  {
+    "speciesName": "Snover",
     "score": 66.7
   },
   {
@@ -2264,943 +2336,907 @@
     "score": 66.6
   },
   {
-    "speciesName": "Sandshrew (Shadow)",
-    "score": 66.6
-  },
-  {
-    "speciesName": "Wartortle (Shadow)",
-    "score": 66.6
-  },
-  {
-    "speciesName": "Metagross",
+    "speciesName": "Archeops",
     "score": 66.5
   },
   {
-    "speciesName": "Kangaskhan",
+    "speciesName": "Mismagius",
+    "score": 66.5
+  },
+  {
+    "speciesName": "Stantler (Shadow)",
+    "score": 66.5
+  },
+  {
+    "speciesName": "Exeggutor",
     "score": 66.4
   },
   {
-    "speciesName": "Lilligant",
+    "speciesName": "Persian (Alolan)",
     "score": 66.4
   },
   {
-    "speciesName": "Skrelp",
+    "speciesName": "Wormadam (Sandy)",
+    "score": 66.4
+  },
+  {
+    "speciesName": "Tyranitar (Shadow)",
     "score": 66.3
   },
   {
-    "speciesName": "Dugtrio (Alolan)",
+    "speciesName": "Eelektross",
     "score": 66.2
   },
   {
-    "speciesName": "Rhyperior",
+    "speciesName": "Garbodor",
     "score": 66.2
+  },
+  {
+    "speciesName": "Yanmega",
+    "score": 66.2
+  },
+  {
+    "speciesName": "Frillish",
+    "score": 66.1
+  },
+  {
+    "speciesName": "Hippopotas",
+    "score": 66.1
+  },
+  {
+    "speciesName": "Lilligant",
+    "score": 66.1
+  },
+  {
+    "speciesName": "Misdreavus (Shadow)",
+    "score": 66.1
   },
   {
     "speciesName": "Quilava",
     "score": 66.1
   },
   {
-    "speciesName": "Exeggutor",
+    "speciesName": "Golett",
     "score": 66
   },
   {
-    "speciesName": "Rhydon",
-    "score": 66
-  },
-  {
-    "speciesName": "Sandshrew",
-    "score": 66
-  },
-  {
-    "speciesName": "Smoochum",
-    "score": 66
-  },
-  {
-    "speciesName": "Lombre",
+    "speciesName": "Frogadier",
     "score": 65.9
   },
   {
-    "speciesName": "Aron",
+    "speciesName": "Slowbro",
+    "score": 65.9
+  },
+  {
+    "speciesName": "Togetic",
+    "score": 65.9
+  },
+  {
+    "speciesName": "Chimecho",
     "score": 65.8
   },
   {
-    "speciesName": "Aron (Shadow)",
+    "speciesName": "Seel",
     "score": 65.8
-  },
-  {
-    "speciesName": "Chinchou",
-    "score": 65.8
-  },
-  {
-    "speciesName": "Glaceon",
-    "score": 65.8
-  },
-  {
-    "speciesName": "Misdreavus (Shadow)",
-    "score": 65.8
-  },
-  {
-    "speciesName": "Garbodor",
-    "score": 65.7
-  },
-  {
-    "speciesName": "Murkrow (Shadow)",
-    "score": 65.7
-  },
-  {
-    "speciesName": "Archen",
-    "score": 65.6
-  },
-  {
-    "speciesName": "Sunflora",
-    "score": 65.6
-  },
-  {
-    "speciesName": "Vanillish",
-    "score": 65.6
-  },
-  {
-    "speciesName": "Simisear",
-    "score": 65.5
   },
   {
     "speciesName": "Stunky (Shadow)",
+    "score": 65.8
+  },
+  {
+    "speciesName": "Amoonguss (Shadow)",
+    "score": 65.7
+  },
+  {
+    "speciesName": "Espurr",
+    "score": 65.7
+  },
+  {
+    "speciesName": "Skrelp",
+    "score": 65.7
+  },
+  {
+    "speciesName": "Sunflora",
+    "score": 65.7
+  },
+  {
+    "speciesName": "Exeggutor (Shadow)",
+    "score": 65.6
+  },
+  {
+    "speciesName": "Ninjask",
+    "score": 65.6
+  },
+  {
+    "speciesName": "Slowbro (Shadow)",
+    "score": 65.6
+  },
+  {
+    "speciesName": "Teddiursa",
+    "score": 65.6
+  },
+  {
+    "speciesName": "Geodude (Shadow)",
+    "score": 65.5
+  },
+  {
+    "speciesName": "Metang (Shadow)",
+    "score": 65.5
+  },
+  {
+    "speciesName": "Sandshrew (Shadow)",
+    "score": 65.5
+  },
+  {
+    "speciesName": "Slowking (Shadow)",
+    "score": 65.5
+  },
+  {
+    "speciesName": "Toucannon",
+    "score": 65.5
+  },
+  {
+    "speciesName": "Wormadam (Plant)",
     "score": 65.5
   },
   {
     "speciesName": "Golem (Shadow)",
-    "score": 65.3
-  },
-  {
-    "speciesName": "Hippopotas",
-    "score": 65.3
-  },
-  {
-    "speciesName": "Seel",
-    "score": 65.3
-  },
-  {
-    "speciesName": "Exeggutor (Shadow)",
-    "score": 65.2
-  },
-  {
-    "speciesName": "Geodude (Shadow)",
-    "score": 65.2
-  },
-  {
-    "speciesName": "Gothitelle",
-    "score": 65.2
-  },
-  {
-    "speciesName": "Metagross (Shadow)",
-    "score": 65.2
-  },
-  {
-    "speciesName": "Sawk",
-    "score": 65.2
-  },
-  {
-    "speciesName": "Archeops",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Delphox",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Gabite",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Mismagius",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Porygon-Z",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Teddiursa",
-    "score": 65.1
-  },
-  {
-    "speciesName": "Bulbasaur",
-    "score": 65
+    "score": 65.4
   },
   {
     "speciesName": "Liepard (Shadow)",
-    "score": 65
+    "score": 65.4
   },
   {
-    "speciesName": "Omanyte",
-    "score": 65
+    "speciesName": "Sandshrew",
+    "score": 65.4
   },
   {
-    "speciesName": "Salamence (Shadow)",
-    "score": 65
+    "speciesName": "Slowking",
+    "score": 65.3
   },
   {
-    "speciesName": "Sneasel",
-    "score": 65
+    "speciesName": "Slowpoke (Shadow)",
+    "score": 65.3
   },
   {
     "speciesName": "Aerodactyl",
+    "score": 65.2
+  },
+  {
+    "speciesName": "Omanyte",
+    "score": 65.1
+  },
+  {
+    "speciesName": "Sneasel (Shadow)",
+    "score": 65
+  },
+  {
+    "speciesName": "Ursaring",
+    "score": 65
+  },
+  {
+    "speciesName": "Simisear",
     "score": 64.9
   },
   {
-    "speciesName": "Eelektross",
+    "speciesName": "Snover (Shadow)",
     "score": 64.9
   },
   {
-    "speciesName": "Frogadier",
+    "speciesName": "Unfezant",
     "score": 64.9
   },
   {
-    "speciesName": "Octillery",
-    "score": 64.9
-  },
-  {
-    "speciesName": "Persian (Alolan)",
-    "score": 64.9
-  },
-  {
-    "speciesName": "Togetic",
-    "score": 64.9
-  },
-  {
-    "speciesName": "Mr. Rime",
+    "speciesName": "Dugtrio (Shadow)",
     "score": 64.8
   },
   {
-    "speciesName": "Golett",
+    "speciesName": "Rhyhorn",
+    "score": 64.8
+  },
+  {
+    "speciesName": "Ursaluna",
     "score": 64.7
   },
   {
-    "speciesName": "Heliolisk",
+    "speciesName": "Delphox",
     "score": 64.5
   },
   {
-    "speciesName": "Tyranitar",
+    "speciesName": "Onix",
     "score": 64.5
   },
   {
-    "speciesName": "Metang",
+    "speciesName": "Meowstic (Female)",
+    "score": 64.4
+  },
+  {
+    "speciesName": "Sawk",
+    "score": 64.4
+  },
+  {
+    "speciesName": "Boldore",
+    "score": 64.3
+  },
+  {
+    "speciesName": "Misdreavus",
+    "score": 64.3
+  },
+  {
+    "speciesName": "Weezing (Shadow)",
     "score": 64.3
   },
   {
     "speciesName": "Mienshao",
-    "score": 64.3
-  },
-  {
-    "speciesName": "Slowpoke (Shadow)",
-    "score": 64.3
-  },
-  {
-    "speciesName": "Boldore",
     "score": 64.1
   },
   {
-    "speciesName": "Darumaka (Galarian)",
+    "speciesName": "Ursaring (Shadow)",
     "score": 64.1
-  },
-  {
-    "speciesName": "Gothorita",
-    "score": 64.1
-  },
-  {
-    "speciesName": "Raticate (Shadow)",
-    "score": 64
-  },
-  {
-    "speciesName": "Toucannon",
-    "score": 64
-  },
-  {
-    "speciesName": "Dugtrio (Shadow)",
-    "score": 63.8
-  },
-  {
-    "speciesName": "Frillish",
-    "score": 63.8
-  },
-  {
-    "speciesName": "Pancham",
-    "score": 63.8
-  },
-  {
-    "speciesName": "Unfezant",
-    "score": 63.8
-  },
-  {
-    "speciesName": "Rhyhorn",
-    "score": 63.7
-  },
-  {
-    "speciesName": "Slowbro",
-    "score": 63.7
-  },
-  {
-    "speciesName": "Slowbro (Shadow)",
-    "score": 63.7
-  },
-  {
-    "speciesName": "Weezing (Shadow)",
-    "score": 63.7
-  },
-  {
-    "speciesName": "Misdreavus",
-    "score": 63.6
-  },
-  {
-    "speciesName": "Slowking",
-    "score": 63.6
-  },
-  {
-    "speciesName": "Tauros",
-    "score": 63.6
-  },
-  {
-    "speciesName": "Aipom (Shadow)",
-    "score": 63.5
-  },
-  {
-    "speciesName": "Slowking (Shadow)",
-    "score": 63.5
-  },
-  {
-    "speciesName": "Yanma",
-    "score": 63.5
-  },
-  {
-    "speciesName": "Elekid",
-    "score": 63.4
-  },
-  {
-    "speciesName": "Snover",
-    "score": 63.3
-  },
-  {
-    "speciesName": "Hippopotas (Shadow)",
-    "score": 63.2
-  },
-  {
-    "speciesName": "Porygon-Z (Shadow)",
-    "score": 63.2
-  },
-  {
-    "speciesName": "Chimecho",
-    "score": 63.1
-  },
-  {
-    "speciesName": "Geodude",
-    "score": 63.1
-  },
-  {
-    "speciesName": "Lampent",
-    "score": 63.1
-  },
-  {
-    "speciesName": "Chespin",
-    "score": 63
-  },
-  {
-    "speciesName": "Espurr",
-    "score": 63
-  },
-  {
-    "speciesName": "Trapinch (Shadow)",
-    "score": 63
-  },
-  {
-    "speciesName": "Rotom (Mow)",
-    "score": 62.9
-  },
-  {
-    "speciesName": "Sneasel (Shadow)",
-    "score": 62.9
-  },
-  {
-    "speciesName": "Oricorio (Sensu)",
-    "score": 62.8
-  },
-  {
-    "speciesName": "Houndour (Shadow)",
-    "score": 62.7
-  },
-  {
-    "speciesName": "Maractus",
-    "score": 62.7
-  },
-  {
-    "speciesName": "Loudred (Shadow)",
-    "score": 62.6
-  },
-  {
-    "speciesName": "Phanpy",
-    "score": 62.6
-  },
-  {
-    "speciesName": "Weezing",
-    "score": 62.5
-  },
-  {
-    "speciesName": "Metang (Shadow)",
-    "score": 62.3
-  },
-  {
-    "speciesName": "Liepard",
-    "score": 62.2
-  },
-  {
-    "speciesName": "Meowstic (Female)",
-    "score": 62.2
-  },
-  {
-    "speciesName": "Roggenrola",
-    "score": 62.2
-  },
-  {
-    "speciesName": "Yanmega",
-    "score": 62.2
-  },
-  {
-    "speciesName": "Exeggcute (Shadow)",
-    "score": 62.1
-  },
-  {
-    "speciesName": "Roselia",
-    "score": 62.1
-  },
-  {
-    "speciesName": "Whirlipede",
-    "score": 62.1
-  },
-  {
-    "speciesName": "Deerling",
-    "score": 62
-  },
-  {
-    "speciesName": "Kabuto",
-    "score": 62
-  },
-  {
-    "speciesName": "Snover (Shadow)",
-    "score": 62
-  },
-  {
-    "speciesName": "Rowlet",
-    "score": 61.9
-  },
-  {
-    "speciesName": "Slowking (Galarian)",
-    "score": 61.8
-  },
-  {
-    "speciesName": "Illumise",
-    "score": 61.7
   },
   {
     "speciesName": "Lunatone",
-    "score": 61.7
+    "score": 64
   },
   {
     "speciesName": "Solrock",
-    "score": 61.7
+    "score": 64
   },
   {
-    "speciesName": "Ambipom (Shadow)",
-    "score": 61.6
+    "speciesName": "Hippopotas (Shadow)",
+    "score": 63.9
   },
   {
-    "speciesName": "Krokorok",
-    "score": 61.6
+    "speciesName": "Tyranitar",
+    "score": 63.9
   },
   {
-    "speciesName": "Stunky",
-    "score": 61.6
+    "speciesName": "Aipom (Shadow)",
+    "score": 63.8
   },
   {
-    "speciesName": "Braviary",
-    "score": 61.5
+    "speciesName": "Bulbasaur (Shadow)",
+    "score": 63.8
   },
   {
-    "speciesName": "Buneary",
-    "score": 61.5
+    "speciesName": "Oricorio (Sensu)",
+    "score": 63.8
   },
   {
-    "speciesName": "Dodrio",
-    "score": 61.5
+    "speciesName": "Heliolisk",
+    "score": 63.7
   },
   {
-    "speciesName": "Exeggcute",
-    "score": 61.5
-  },
-  {
-    "speciesName": "Mismagius (Shadow)",
-    "score": 61.5
-  },
-  {
-    "speciesName": "Oricorio (Pom-Pom)",
-    "score": 61.5
-  },
-  {
-    "speciesName": "Arbok",
-    "score": 61.4
-  },
-  {
-    "speciesName": "Houndour",
-    "score": 61.4
+    "speciesName": "Raticate (Shadow)",
+    "score": 63.7
   },
   {
     "speciesName": "Meowstic (Male)",
+    "score": 63.6
+  },
+  {
+    "speciesName": "Mr. Mime (Galarian)",
+    "score": 63.6
+  },
+  {
+    "speciesName": "Pancham",
+    "score": 63.6
+  },
+  {
+    "speciesName": "Chespin",
+    "score": 63.4
+  },
+  {
+    "speciesName": "Chinchou",
+    "score": 63.3
+  },
+  {
+    "speciesName": "Darmanitan (Galarian)",
+    "score": 63.1
+  },
+  {
+    "speciesName": "Tauros",
+    "score": 63.1
+  },
+  {
+    "speciesName": "Weezing",
+    "score": 63.1
+  },
+  {
+    "speciesName": "Kabuto",
+    "score": 63
+  },
+  {
+    "speciesName": "Buneary",
+    "score": 62.9
+  },
+  {
+    "speciesName": "Liepard",
+    "score": 62.9
+  },
+  {
+    "speciesName": "Loudred (Shadow)",
+    "score": 62.9
+  },
+  {
+    "speciesName": "Bulbasaur",
+    "score": 62.8
+  },
+  {
+    "speciesName": "Geodude",
+    "score": 62.8
+  },
+  {
+    "speciesName": "Lycanroc (Midday)",
+    "score": 62.8
+  },
+  {
+    "speciesName": "Ursaluna (Shadow)",
+    "score": 62.8
+  },
+  {
+    "speciesName": "Lampent",
+    "score": 62.7
+  },
+  {
+    "speciesName": "Phanpy",
+    "score": 62.7
+  },
+  {
+    "speciesName": "Yanma",
+    "score": 62.7
+  },
+  {
+    "speciesName": "Mismagius (Shadow)",
+    "score": 62.6
+  },
+  {
+    "speciesName": "Deerling",
+    "score": 62.5
+  },
+  {
+    "speciesName": "Dodrio",
+    "score": 62.4
+  },
+  {
+    "speciesName": "Houndour (Shadow)",
+    "score": 62.4
+  },
+  {
+    "speciesName": "Roggenrola",
+    "score": 62.4
+  },
+  {
+    "speciesName": "Stunky",
+    "score": 62.4
+  },
+  {
+    "speciesName": "Bergmite",
+    "score": 62.3
+  },
+  {
+    "speciesName": "Elekid",
+    "score": 62.2
+  },
+  {
+    "speciesName": "Oricorio (Pom-Pom)",
+    "score": 62.2
+  },
+  {
+    "speciesName": "Persian (Shadow)",
+    "score": 62.2
+  },
+  {
+    "speciesName": "Exploud (Shadow)",
+    "score": 61.9
+  },
+  {
+    "speciesName": "Braviary",
+    "score": 61.8
+  },
+  {
+    "speciesName": "Octillery",
+    "score": 61.8
+  },
+  {
+    "speciesName": "Roselia",
+    "score": 61.8
+  },
+  {
+    "speciesName": "Salamence",
+    "score": 61.8
+  },
+  {
+    "speciesName": "Trapinch",
+    "score": 61.8
+  },
+  {
+    "speciesName": "Slowking (Galarian)",
+    "score": 61.7
+  },
+  {
+    "speciesName": "Trapinch (Shadow)",
+    "score": 61.7
+  },
+  {
+    "speciesName": "Persian",
+    "score": 61.6
+  },
+  {
+    "speciesName": "Ambipom (Shadow)",
+    "score": 61.5
+  },
+  {
+    "speciesName": "Archen",
+    "score": 61.5
+  },
+  {
+    "speciesName": "Krokorok",
+    "score": 61.5
+  },
+  {
+    "speciesName": "Illumise",
     "score": 61.4
+  },
+  {
+    "speciesName": "Mr. Mime",
+    "score": 61.3
+  },
+  {
+    "speciesName": "Porygon (Shadow)",
+    "score": 61.3
   },
   {
     "speciesName": "Skorupi (Shadow)",
     "score": 61.3
   },
   {
-    "speciesName": "Swanna (Shadow)",
+    "speciesName": "Trumbeak",
+    "score": 61.3
+  },
+  {
+    "speciesName": "Arbok",
     "score": 61.2
   },
   {
-    "speciesName": "Arbok (Shadow)",
-    "score": 61
+    "speciesName": "Eevee",
+    "score": 61.2
   },
   {
-    "speciesName": "Darmanitan (Galarian)",
-    "score": 60.9
+    "speciesName": "Houndour",
+    "score": 61.2
+  },
+  {
+    "speciesName": "Starmie",
+    "score": 61
   },
   {
     "speciesName": "Exploud",
     "score": 60.9
   },
   {
+    "speciesName": "Flaaffy (Shadow)",
+    "score": 60.9
+  },
+  {
     "speciesName": "Flaaffy",
-    "score": 60.7
+    "score": 60.8
+  },
+  {
+    "speciesName": "Loudred",
+    "score": 60.8
   },
   {
     "speciesName": "Oricorio (Baile)",
-    "score": 60.7
+    "score": 60.8
   },
   {
     "speciesName": "Popplio",
+    "score": 60.8
+  },
+  {
+    "speciesName": "Grumpig",
     "score": 60.7
   },
   {
-    "speciesName": "Exploud (Shadow)",
-    "score": 60.5
-  },
-  {
-    "speciesName": "Persian (Shadow)",
-    "score": 60.5
-  },
-  {
-    "speciesName": "Bergmite",
-    "score": 60.4
+    "speciesName": "Maractus",
+    "score": 60.7
   },
   {
     "speciesName": "Drilbur",
+    "score": 60.6
+  },
+  {
+    "speciesName": "Fearow",
+    "score": 60.6
+  },
+  {
+    "speciesName": "Pidgeotto",
+    "score": 60.6
+  },
+  {
+    "speciesName": "Absol",
+    "score": 60.5
+  },
+  {
+    "speciesName": "Arbok (Shadow)",
+    "score": 60.5
+  },
+  {
+    "speciesName": "Swanna (Shadow)",
+    "score": 60.5
+  },
+  {
+    "speciesName": "Blissey",
     "score": 60.4
   },
   {
-    "speciesName": "Flaaffy (Shadow)",
+    "speciesName": "Rotom (Mow)",
     "score": 60.4
-  },
-  {
-    "speciesName": "Salamence",
-    "score": 60.4
-  },
-  {
-    "speciesName": "Mankey",
-    "score": 60.3
-  },
-  {
-    "speciesName": "Porygon (Shadow)",
-    "score": 60.3
   },
   {
     "speciesName": "Rampardos",
     "score": 60.3
   },
   {
-    "speciesName": "Volbeat",
+    "speciesName": "Whirlipede",
     "score": 60.3
   },
   {
-    "speciesName": "Floatzel",
+    "speciesName": "Rowlet",
     "score": 60.2
-  },
-  {
-    "speciesName": "Loudred",
-    "score": 60.2
-  },
-  {
-    "speciesName": "Eevee",
-    "score": 60.1
-  },
-  {
-    "speciesName": "Mr. Mime (Galarian)",
-    "score": 60.1
-  },
-  {
-    "speciesName": "Shellos",
-    "score": 60
-  },
-  {
-    "speciesName": "Absol",
-    "score": 59.9
-  },
-  {
-    "speciesName": "Trumbeak",
-    "score": 59.9
-  },
-  {
-    "speciesName": "Persian",
-    "score": 59.8
-  },
-  {
-    "speciesName": "Mothim",
-    "score": 59.7
   },
   {
     "speciesName": "Skorupi",
-    "score": 59.4
-  },
-  {
-    "speciesName": "Trapinch",
-    "score": 59.4
-  },
-  {
-    "speciesName": "Watchog (Shadow)",
-    "score": 59.3
-  },
-  {
-    "speciesName": "Fearow",
-    "score": 59.2
-  },
-  {
-    "speciesName": "Blissey",
-    "score": 59.1
-  },
-  {
-    "speciesName": "Lycanroc (Midday)",
-    "score": 59.1
-  },
-  {
-    "speciesName": "Pidgeotto",
-    "score": 59.1
-  },
-  {
-    "speciesName": "Snubbull (Shadow)",
-    "score": 59.1
-  },
-  {
-    "speciesName": "Mr. Mime",
-    "score": 59
-  },
-  {
-    "speciesName": "Nosepass",
-    "score": 59
-  },
-  {
-    "speciesName": "Absol (Shadow)",
-    "score": 58.9
-  },
-  {
-    "speciesName": "Grumpig",
-    "score": 58.4
-  },
-  {
-    "speciesName": "Starmie",
-    "score": 58.4
-  },
-  {
-    "speciesName": "Sawsbuck",
-    "score": 58.1
-  },
-  {
-    "speciesName": "Snubbull",
-    "score": 58.1
-  },
-  {
-    "speciesName": "Pupitar (Shadow)",
-    "score": 57.9
-  },
-  {
-    "speciesName": "Aipom",
-    "score": 57.8
+    "score": 60.1
   },
   {
     "speciesName": "Beheeyem",
-    "score": 57.8
+    "score": 60
   },
   {
-    "speciesName": "Watchog",
-    "score": 57.6
+    "speciesName": "Mankey",
+    "score": 60
   },
   {
-    "speciesName": "Goldeen",
-    "score": 57.5
+    "speciesName": "Volbeat",
+    "score": 60
   },
   {
-    "speciesName": "Pineco (Shadow)",
-    "score": 57.5
+    "speciesName": "Shellos",
+    "score": 59.9
+  },
+  {
+    "speciesName": "Watchog (Shadow)",
+    "score": 59.9
+  },
+  {
+    "speciesName": "Floatzel",
+    "score": 59.8
+  },
+  {
+    "speciesName": "Absol (Shadow)",
+    "score": 59.5
+  },
+  {
+    "speciesName": "Mothim",
+    "score": 59.5
+  },
+  {
+    "speciesName": "Nosepass",
+    "score": 59.5
+  },
+  {
+    "speciesName": "Turtwig",
+    "score": 59.5
+  },
+  {
+    "speciesName": "Pupitar (Shadow)",
+    "score": 59.3
+  },
+  {
+    "speciesName": "Snubbull (Shadow)",
+    "score": 59.3
+  },
+  {
+    "speciesName": "Jynx",
+    "score": 59.1
   },
   {
     "speciesName": "Oricorio (Pa'u)",
-    "score": 57.4
+    "score": 59.1
+  },
+  {
+    "speciesName": "Porygon-Z",
+    "score": 59.1
+  },
+  {
+    "speciesName": "Sigilyph",
+    "score": 58.8
+  },
+  {
+    "speciesName": "Sawsbuck",
+    "score": 58.6
+  },
+  {
+    "speciesName": "Shiinotic",
+    "score": 58.6
+  },
+  {
+    "speciesName": "Porygon-Z (Shadow)",
+    "score": 58.5
+  },
+  {
+    "speciesName": "Watchog",
+    "score": 58.4
+  },
+  {
+    "speciesName": "Hoopa",
+    "score": 58.3
+  },
+  {
+    "speciesName": "Xatu",
+    "score": 58.3
+  },
+  {
+    "speciesName": "Elgyem",
+    "score": 58.2
+  },
+  {
+    "speciesName": "Goldeen",
+    "score": 57.8
+  },
+  {
+    "speciesName": "Nosepass (Shadow)",
+    "score": 57.8
   },
   {
     "speciesName": "Herdier",
-    "score": 57.1
+    "score": 57.7
   },
   {
-    "speciesName": "Clawitzer",
-    "score": 56.9
+    "speciesName": "Aipom",
+    "score": 57.6
+  },
+  {
+    "speciesName": "Drowzee (Shadow)",
+    "score": 57.6
   },
   {
     "speciesName": "Cubone (Shadow)",
-    "score": 56.9
+    "score": 57.5
+  },
+  {
+    "speciesName": "Drowzee",
+    "score": 57.5
+  },
+  {
+    "speciesName": "Snubbull",
+    "score": 57.5
+  },
+  {
+    "speciesName": "Seadra (Shadow)",
+    "score": 57.4
+  },
+  {
+    "speciesName": "Mesprit",
+    "score": 57.3
+  },
+  {
+    "speciesName": "Piplup",
+    "score": 57.1
   },
   {
     "speciesName": "Totodile (Shadow)",
     "score": 56.8
   },
   {
-    "speciesName": "Seadra (Shadow)",
-    "score": 56.6
-  },
-  {
-    "speciesName": "Sigilyph",
-    "score": 56.6
-  },
-  {
-    "speciesName": "Hoopa",
-    "score": 56.4
-  },
-  {
-    "speciesName": "Xatu",
-    "score": 56.3
-  },
-  {
-    "speciesName": "Ambipom",
-    "score": 56.2
+    "speciesName": "Cacturne",
+    "score": 56.7
   },
   {
     "speciesName": "Chatot",
-    "score": 56
-  },
-  {
-    "speciesName": "Jynx",
-    "score": 56
-  },
-  {
-    "speciesName": "Clauncher",
-    "score": 55.9
-  },
-  {
-    "speciesName": "Elgyem",
-    "score": 55.9
-  },
-  {
-    "speciesName": "Nosepass (Shadow)",
-    "score": 55.9
-  },
-  {
-    "speciesName": "Pupitar",
-    "score": 55.9
-  },
-  {
-    "speciesName": "Accelgor",
-    "score": 55.7
-  },
-  {
-    "speciesName": "Beautifly",
-    "score": 55.7
-  },
-  {
-    "speciesName": "Cubone",
-    "score": 55.7
-  },
-  {
-    "speciesName": "Piplup",
-    "score": 55.7
-  },
-  {
-    "speciesName": "Cacturne",
-    "score": 55.3
-  },
-  {
-    "speciesName": "Mesprit",
-    "score": 55.3
+    "score": 56.6
   },
   {
     "speciesName": "Gumshoos",
-    "score": 55.1
+    "score": 56.5
   },
   {
-    "speciesName": "Noivern",
-    "score": 55.1
+    "speciesName": "Clawitzer",
+    "score": 56.4
   },
   {
-    "speciesName": "Drowzee (Shadow)",
-    "score": 55
+    "speciesName": "Pineco (Shadow)",
+    "score": 56.2
+  },
+  {
+    "speciesName": "Pupitar",
+    "score": 56.2
+  },
+  {
+    "speciesName": "Ambipom",
+    "score": 55.8
+  },
+  {
+    "speciesName": "Beautifly",
+    "score": 55.8
+  },
+  {
+    "speciesName": "Cubone",
+    "score": 55.8
+  },
+  {
+    "speciesName": "Clauncher",
+    "score": 55.5
   },
   {
     "speciesName": "Totodile",
+    "score": 55.1
+  },
+  {
+    "speciesName": "Vanilluxe",
     "score": 55
   },
   {
-    "speciesName": "Drowzee",
+    "speciesName": "Musharna",
+    "score": 54.7
+  },
+  {
+    "speciesName": "Noivern",
     "score": 54.6
   },
   {
-    "speciesName": "Swanna",
-    "score": 54.4
-  },
-  {
-    "speciesName": "Swirlix",
-    "score": 54.2
+    "speciesName": "Flabebe",
+    "score": 54.3
   },
   {
     "speciesName": "Koffing",
-    "score": 54.1
+    "score": 54.3
   },
   {
-    "speciesName": "Gorebyss",
+    "speciesName": "Swanna",
     "score": 54
   },
   {
-    "speciesName": "Flabebe",
-    "score": 53.7
+    "speciesName": "Swirlix",
+    "score": 54
+  },
+  {
+    "speciesName": "Azelf",
+    "score": 53.9
   },
   {
     "speciesName": "Cacturne (Shadow)",
-    "score": 53.5
+    "score": 53.9
   },
   {
-    "speciesName": "Throh",
+    "speciesName": "Koffing (Shadow)",
+    "score": 53.7
+  },
+  {
+    "speciesName": "Gorebyss",
     "score": 53.4
+  },
+  {
+    "speciesName": "Butterfree",
+    "score": 53.3
+  },
+  {
+    "speciesName": "Krabby",
+    "score": 53.2
   },
   {
     "speciesName": "Seadra",
     "score": 53.1
   },
   {
-    "speciesName": "Musharna",
+    "speciesName": "Ferroseed",
     "score": 53
   },
   {
-    "speciesName": "Koffing (Shadow)",
-    "score": 52.9
-  },
-  {
-    "speciesName": "Krabby",
-    "score": 52.7
-  },
-  {
-    "speciesName": "Ferroseed",
-    "score": 52.6
-  },
-  {
-    "speciesName": "Butterfree",
+    "speciesName": "Throh",
     "score": 52.5
   },
   {
     "speciesName": "Axew",
+    "score": 52.3
+  },
+  {
+    "speciesName": "Accelgor",
     "score": 52.2
   },
   {
-    "speciesName": "Cherrim (Overcast)",
-    "score": 52.1
-  },
-  {
-    "speciesName": "Vanilluxe",
+    "speciesName": "Anorith (Shadow)",
     "score": 52
   },
   {
-    "speciesName": "Anorith (Shadow)",
-    "score": 51.9
-  },
-  {
-    "speciesName": "Azelf",
-    "score": 51.8
-  },
-  {
-    "speciesName": "Pineco",
-    "score": 51.7
-  },
-  {
     "speciesName": "Meltan",
-    "score": 50.8
-  },
-  {
-    "speciesName": "Deoxys (Speed)",
-    "score": 50.1
-  },
-  {
-    "speciesName": "Anorith",
-    "score": 50
-  },
-  {
-    "speciesName": "Tentacool",
-    "score": 49.9
+    "score": 51.5
   },
   {
     "speciesName": "Audino",
-    "score": 49.8
-  },
-  {
-    "speciesName": "Corphish",
-    "score": 49
-  },
-  {
-    "speciesName": "Timburr",
-    "score": 48.4
+    "score": 51.1
   },
   {
     "speciesName": "Ponyta (Galarian)",
-    "score": 47.7
+    "score": 51.1
   },
   {
-    "speciesName": "Reuniclus",
-    "score": 43.3
+    "speciesName": "Pineco",
+    "score": 50.8
   },
   {
-    "speciesName": "Munna",
-    "score": 42.5
+    "speciesName": "Cherrim (Overcast)",
+    "score": 50.7
   },
   {
-    "speciesName": "Solosis",
-    "score": 42.5
+    "speciesName": "Deoxys (Speed)",
+    "score": 50.5
+  },
+  {
+    "speciesName": "Tentacool",
+    "score": 49.5
+  },
+  {
+    "speciesName": "Anorith",
+    "score": 49.4
+  },
+  {
+    "speciesName": "Corphish",
+    "score": 49.3
+  },
+  {
+    "speciesName": "Kadabra",
+    "score": 48.1
+  },
+  {
+    "speciesName": "Timburr",
+    "score": 48.1
+  },
+  {
+    "speciesName": "Kadabra (Shadow)",
+    "score": 45.1
   },
   {
     "speciesName": "Duosion",
-    "score": 42.3
+    "score": 43.8
+  },
+  {
+    "speciesName": "Solosis",
+    "score": 43.7
+  },
+  {
+    "speciesName": "Munna",
+    "score": 43.1
+  },
+  {
+    "speciesName": "Reuniclus",
+    "score": 43.1
   },
   {
     "speciesName": "Clefairy",
-    "score": 41
+    "score": 41.9
   },
   {
     "speciesName": "Mienfoo",
-    "score": 40.4
+    "score": 40.9
   },
   {
     "speciesName": "Spoink",
-    "score": 39.8
+    "score": 40.9
   },
   {
     "speciesName": "Unown",
-    "score": 37.8
+    "score": 39.4
   },
   {
     "speciesName": "Shaymin (Land)",
-    "score": 36.6
+    "score": 37
   },
   {
     "speciesName": "Slaking",
-    "score": 26.9
+    "score": 27.8
   }
 ]

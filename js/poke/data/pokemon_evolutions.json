@@ -247,6 +247,12 @@
     ]
   },
   {
+    "speciesName": "Growlithe",
+    "evolutions": [
+      "Arcanine"
+    ]
+  },
+  {
     "speciesName": "Poliwag",
     "evolutions": [
       "Poliwhirl"
@@ -777,6 +783,18 @@
     "speciesName": "Snubbull",
     "evolutions": [
       "Granbull"
+    ]
+  },
+  {
+    "speciesName": "Qwilfish",
+    "evolutions": [
+      "Overqwil"
+    ]
+  },
+  {
+    "speciesName": "Sneasel",
+    "evolutions": [
+      "Sneasler"
     ]
   },
   {
@@ -2434,19 +2452,6 @@
     "speciesName": "Hakamo-o",
     "evolutions": [
       "Kommo-o"
-    ]
-  },
-  {
-    "speciesName": "Cosmog",
-    "evolutions": [
-      "Cosmoem"
-    ]
-  },
-  {
-    "speciesName": "Cosmoem",
-    "evolutions": [
-      "Solgaleo",
-      "Lunala"
     ]
   },
   {
