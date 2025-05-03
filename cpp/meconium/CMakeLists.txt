@@ -9,13 +9,19 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 # Specify the source files for your executable
-set(MY_SRC main.cpp)
+set(SOURCES
+    src/main.cpp
+    src/Meconium.cpp
+)
 
 # Define the executable target (use lowercase for the binary name)
 set(EXECUTABLE_NAME "meconium")
 
 # Create the executable
-add_executable(${EXECUTABLE_NAME} ${MY_SRC})
+add_executable(${EXECUTABLE_NAME} ${SOURCES})
+
+# Add includes
+target_include_directories(${EXECUTABLE_NAME} PRIVATE src)
 
 # Link the SDL2 libraries
 target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARIES})
