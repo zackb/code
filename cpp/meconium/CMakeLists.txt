@@ -2,7 +2,17 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Meconium)
 
-set(CMAKE_CXX_STANDARD 17)
+# Use C++20 without any compiler specific extensions.
+set(CMAKE_CXX_STANDARD 20 CACHE STRING "")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# We don't use modules, so avoid using unrecognised compiler-specific commands that cmake produces when they are enabled.
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+
+# Use LTO for Release builds only.
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG FALSE)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 
 # Find the SDL2 package
 find_package(SDL2 REQUIRED)
