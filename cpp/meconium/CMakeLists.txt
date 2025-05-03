@@ -31,7 +31,7 @@ set(EXECUTABLE_NAME "meconium")
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 # Add includes
-target_include_directories(${EXECUTABLE_NAME} PRIVATE src)
+target_include_directories(${EXECUTABLE_NAME} PRIVATE include)
 
 # Link the SDL2 libraries
 target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARIES})
