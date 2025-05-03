@@ -29,26 +29,30 @@ bool Meconium::init()
         return false;
     }
 
+    isRunning = true;
+
     return true;
 }
 
-void Meconium::run()
+void Meconium::update()
+{}
+
+void Meconium::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue color
     SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue color
     SDL_RenderPresent(renderer);
 
+}
+
+void Meconium::handleEvent()
+{
     SDL_Event event;
-    bool running = true;
-    while (running)
+    SDL_PollEvent(&event);
+    switch (event.type)
     {
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                running = false;
-            }
-        }
+    case SDL_QUIT:
+        isRunning = false;
     }
 }
 
