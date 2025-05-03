@@ -10,3 +10,4 @@ release:
 
 clean:
 	rm -rf build
+
