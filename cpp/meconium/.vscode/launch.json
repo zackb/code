@@ -5,7 +5,7 @@
       "name": "Run Meconium",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/meconium",
+      "program": "${workspaceFolder}/build/Meconium.app/Contents/MacOS/meconium",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
