@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "ECS.h"
 
 class Meconium 
 {
@@ -14,4 +15,12 @@ class Meconium
         SDL_Window *window;
         SDL_Renderer *renderer;
         bool isRunning = false;
+        
+
+        // ecs
+        std::vector<std::shared_ptr<Entity>> entities;
+        std::vector<std::shared_ptr<Entity>> activeEntities;
+        std::shared_ptr<Entity> player;
+        std::unique_ptr<InputSystem> inputSystem;
+        std::unique_ptr<MovementSystem> movementSystem;
 };
