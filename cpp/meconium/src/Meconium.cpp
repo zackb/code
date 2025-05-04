@@ -5,6 +5,21 @@
 
 bool Meconium::init()
 {
+
+    // Initialize ECS components, systems, and entities
+
+    // Create a player entity
+    player = std::make_unique<Entity>(1);
+    player->addPosition(100, 100);
+    player->addVelocity(0, 0);
+    player->addInputControl();
+    entities.push_back(player);
+
+    // Create input and movement systems
+    inputSystem = std::make_unique<InputSystem>();
+    movementSystem = std::make_unique<MovementSystem>();
+
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
@@ -35,14 +50,28 @@ bool Meconium::init()
 }
 
 void Meconium::update()
-{}
+{
+    movementSystem->update(entities);
+}
 
 void Meconium::render()
 {
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue color
-    SDL_RenderPresent(renderer);
+    // Set background clear color (black)
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer); // Clears screen with black
 
+    // Render player
+    for (auto &entity : entities)
+    {
+        if (entity->hasPosition())
+        {
+            SDL_Rect playerRect = {entity->position->x, entity->position->y, 50, 50};
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Red color
+            SDL_RenderFillRect(renderer, &playerRect);
+        }
+    }
+
+    SDL_RenderPresent(renderer);
 }
 
 void Meconium::handleEvent()
@@ -53,6 +82,8 @@ void Meconium::handleEvent()
     {
     case SDL_QUIT:
         isRunning = false;
+    default:
+        inputSystem->update(entities, event);
     }
 }
 
