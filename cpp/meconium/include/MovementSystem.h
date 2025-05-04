@@ -14,8 +14,8 @@ class MovementSystem {
                     auto& input = *entity->inputControl;
     
                     // Update velocity based on input
-                    velocity.vx = (input.right - input.left) * 5;
-                    velocity.vy = (input.down - input.up) * 5;
+                    velocity.vx = (input.right - input.left) * 15;
+                    velocity.vy = (input.down - input.up) * 15;
     
                     // Update position based on velocity
                     position.x += velocity.vx;
