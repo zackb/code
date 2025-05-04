@@ -27,7 +27,7 @@ bool Meconium::init()
     }
 
     window = SDL_CreateWindow(
-        "Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+        "Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
     if (!window)
     {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
