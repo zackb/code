@@ -21,6 +21,6 @@ class Meconium
         std::vector<std::shared_ptr<Entity>> entities;
         std::vector<std::shared_ptr<Entity>> activeEntities;
         std::shared_ptr<Entity> player;
-        std::unique_ptr<InputSystem> inputSystem;
-        std::unique_ptr<MovementSystem> movementSystem;
+        InputSystem inputSystem;
+        MovementSystem movementSystem;
 };

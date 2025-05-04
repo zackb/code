@@ -15,11 +15,6 @@ bool Meconium::init()
     player->addInputControl();
     entities.push_back(player);
 
-    // Create input and movement systems
-    inputSystem = std::make_unique<InputSystem>();
-    movementSystem = std::make_unique<MovementSystem>();
-
-
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
@@ -51,7 +46,7 @@ bool Meconium::init()
 
 void Meconium::update()
 {
-    movementSystem->update(entities);
+    movementSystem.update(entities);
 }
 
 void Meconium::render()
@@ -83,7 +78,7 @@ void Meconium::handleEvent()
     case SDL_QUIT:
         isRunning = false;
     default:
-        inputSystem->update(entities, event);
+        inputSystem.update(entities, event);
     }
 }
 
