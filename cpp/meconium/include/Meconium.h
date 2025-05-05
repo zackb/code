@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include "ECS.h"
+#include "ecs/ECS.h"
 
 class Meconium 
 {
@@ -20,7 +20,7 @@ class Meconium
         // ecs
         std::vector<std::shared_ptr<Entity>> entities;
         std::vector<std::shared_ptr<Entity>> activeEntities;
-        std::shared_ptr<Entity> player;
         InputSystem inputSystem;
         MovementSystem movementSystem;
+        RenderSystem renderSystem;
 };

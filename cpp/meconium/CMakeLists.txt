@@ -16,7 +16,15 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 
 # Find the SDL2 package
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+
+# Find the SDL2_image package
+find_package(SDL2_image REQUIRED)
+
+include_directories(
+    ${SDL2_INCLUDE_DIRS}
+    ${SDL2_IMAGE_INCLUDE_DIRS}
+)
+
 
 # Specify the source files for your executable
 set(SOURCES
@@ -34,7 +42,10 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 target_include_directories(${EXECUTABLE_NAME} PRIVATE include)
 
 # Link the SDL2 libraries
-target_link_libraries(${EXECUTABLE_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${EXECUTABLE_NAME}
+    ${SDL2_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+)
 
 # Set the MacOSX bundle properties (capitalize the app bundle name)
 set(APP_BUNDLE_NAME "Meconium")
