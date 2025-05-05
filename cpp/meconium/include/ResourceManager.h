@@ -13,4 +13,4 @@ class ResourceManager
             SDL_FreeSurface(surface);
             return texture;
         }
-}
+};
