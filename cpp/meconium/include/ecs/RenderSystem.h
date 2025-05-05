@@ -15,7 +15,17 @@ class RenderSystem
 
                 if (entity->hasSprite())
                 {
-                    // render sprite
+                    auto& pos = entity->position;
+                    auto& sprite = entity->sprite;
+    
+                    SDL_Rect dstRect = {
+                        static_cast<int>(pos->x),
+                        static_cast<int>(pos->y),
+                        sprite->width,
+                        sprite->height
+                    };
+    
+                    SDL_RenderCopy(renderer, sprite->texture, NULL, &dstRect);
                 }
                 else
                 {

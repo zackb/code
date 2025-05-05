@@ -53,6 +53,7 @@ target_link_libraries(${EXECUTABLE_NAME}
 
 # Set the MacOSX bundle properties (capitalize the app bundle name)
 set(APP_BUNDLE_NAME "Meconium")
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")  # universal build
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE
     BUNDLE TRUE
@@ -60,7 +61,19 @@ set_target_properties(${EXECUTABLE_NAME} PROPERTIES
     MACOSX_BUNDLE_BUNDLE_NAME ${APP_BUNDLE_NAME}
     MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+    RESOURCE "${CMAKE_SOURCE_DIR}/assets"
     # MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/customtemplate.plist.in
+)
+
+# Copy assets into the bundle
+set(ASSETS_DESTINATION "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Resources/assets")
+
+add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${ASSETS_DESTINATION}"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets"
+        "${ASSETS_DESTINATION}"
+    COMMENT "Copying assets to app bundle Resources folder"
 )
 
 # Set the third-party frameworks and libraries to be bundled

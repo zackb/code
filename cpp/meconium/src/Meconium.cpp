@@ -7,19 +7,6 @@
 bool Meconium::init()
 {
 
-    // Initialize ECS components, systems, and entities
-    // Create a player entity
-    std::shared_ptr<Entity> player = std::make_unique<Entity>(1);
-    player->addPosition(100, 100);
-    player->addVelocity(0, 0);
-    player->addInputControl();
-
-    std::shared_ptr<Sprite> sprite = std::make_unique<Sprite>();
-    sprite->texture = ResourceManager::loadTexture(renderer, "assets/player.png");
-    player->addSprite(std::move(sprite));
-
-    entities.push_back(player);
-
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
@@ -43,6 +30,27 @@ bool Meconium::init()
         SDL_Quit();
         return false;
     }
+
+    // init sdl2_image
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+        std::cerr << "IMG_Init failed: " << IMG_GetError() << std::endl;
+        return false;
+    }
+
+    // Initialize ECS components, systems, and entities
+    // Create a player entity
+    std::shared_ptr<Entity> player = std::make_unique<Entity>(1);
+    player->addPosition(100, 100);
+    player->addVelocity(0, 0);
+    player->addInputControl();
+
+    std::shared_ptr<Sprite> sprite = std::make_unique<Sprite>();
+    sprite->texture = ResourceManager::loadTexture(renderer, "assets/player.png");
+    sprite->height = 400;
+    sprite->width = 400;
+    player->addSprite(std::move(sprite));
+
+    entities.push_back(player);
 
     isRunning = true;
 
@@ -86,5 +94,6 @@ void Meconium::shutdown()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
 }
