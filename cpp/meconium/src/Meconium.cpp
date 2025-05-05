@@ -1,4 +1,5 @@
 #include "Meconium.h"
+#include "ResourceManager.h"
 #include <SDL.h>
 #include <iostream>
 
@@ -7,12 +8,16 @@ bool Meconium::init()
 {
 
     // Initialize ECS components, systems, and entities
-
     // Create a player entity
-    player = std::make_unique<Entity>(1);
+    std::shared_ptr<Entity> player = std::make_unique<Entity>(1);
     player->addPosition(100, 100);
     player->addVelocity(0, 0);
     player->addInputControl();
+
+    std::shared_ptr<Sprite> sprite = std::make_unique<Sprite>();
+    sprite->texture = ResourceManager::loadTexture(renderer, "assets/player.png");
+    player->addSprite(std::move(sprite));
+
     entities.push_back(player);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -58,12 +63,7 @@ void Meconium::render()
     // Render player
     for (auto &entity : entities)
     {
-        if (entity->hasPosition())
-        {
-            SDL_Rect playerRect = {entity->position->x, entity->position->y, 50, 50};
-            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Red color
-            SDL_RenderFillRect(renderer, &playerRect);
-        }
+        renderSystem.render(renderer, entities);
     }
 
     SDL_RenderPresent(renderer);
