@@ -10,17 +10,20 @@ class RenderSystem
         {
             for (auto entity : entities)
             {
-                if (!entity->hasPosition())
-                    continue;
-
-                if (entity->hasSprite())
+                auto position = entity->getComponent<Position>();
+                auto sprite = entity->getComponent<Sprite>();
+                if (!position)
                 {
-                    auto& pos = entity->position;
-                    auto& sprite = entity->sprite;
+                    continue;
+                }
+
+                if (sprite)
+                {
+                    auto& pos = *position;
     
                     SDL_Rect dstRect = {
-                        static_cast<int>(pos->x),
-                        static_cast<int>(pos->y),
+                        static_cast<int>(pos.x),
+                        static_cast<int>(pos.y),
                         sprite->width,
                         sprite->height
                     };
@@ -29,7 +32,7 @@ class RenderSystem
                 }
                 else
                 {
-                    SDL_Rect entityRect = {entity->position->x, entity->position->y, 50, 50};
+                    SDL_Rect entityRect = {position->x, position->y, 50, 50};
                     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
                     SDL_RenderFillRect(renderer, &entityRect);
                 }

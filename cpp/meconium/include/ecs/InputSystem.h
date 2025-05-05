@@ -3,14 +3,15 @@
 #include <SDL.h>
 #include <vector>
 #include <memory>
-#include "Entity.h"
+#include "ECS.h"
+#include "InputControl.h"
 
 class InputSystem {
     public:
         void update(std::vector<std::shared_ptr<Entity>>& entities, SDL_Event& e) {
             for (auto& entity : entities) {
-                if (entity->hasInputControl()) {
-                    auto& input = *entity->inputControl;
+                if (auto inputPtr = entity->getComponent<InputControl>()) {
+                    auto& input = *inputPtr;
                     input.up = input.down = input.left = input.right = false;
     
                     if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {

@@ -1,27 +1,36 @@
 #pragma once
-#include <memory>
-#include "Position.h"
-#include "Velocity.h"
-#include "Sprite.h"
-#include "InputControl.h"
 
-class Entity {
+#include <iostream>
+#include <unordered_map>
+#include <memory>
+#include <typeindex>
+#include <typeinfo>
+
+class Entity
+{
 public:
     int id;
-    std::shared_ptr<Position> position;
-    std::shared_ptr<Velocity> velocity;
-    std::shared_ptr<InputControl> inputControl;
-    std::shared_ptr<Sprite> sprite;
 
     Entity(int id_) : id(id_) {}
 
-    bool hasPosition() { return position != nullptr; }
-    bool hasVelocity() { return velocity != nullptr; }
-    bool hasInputControl() { return inputControl != nullptr; }
-    bool hasSprite() { return sprite != nullptr; }
+    template <typename T>
+    void addComponent(std::shared_ptr<T> component)
+    {
+        components[std::type_index(typeid(T))] = std::static_pointer_cast<void>(component);
+    }
 
-    void addPosition(int x, int y) { position = std::make_shared<Position>(Position{x, y}); }
-    void addVelocity(int vx, int vy) { velocity = std::make_shared<Velocity>(Velocity{vx, vy}); }
-    void addInputControl() { inputControl = std::make_shared<InputControl>(); }
-    void addSprite(std::shared_ptr<Sprite> s) { sprite = s; }
+    // Get a component of type T
+    template <typename T>
+    std::shared_ptr<T> getComponent()
+    {
+        auto it = components.find(std::type_index(typeid(T)));
+        if (it != components.end())
+        {
+            return std::static_pointer_cast<T>(it->second);
+        }
+        return nullptr;
+    }
+
+private:
+    std::unordered_map<std::type_index, std::shared_ptr<void>> components;
 };

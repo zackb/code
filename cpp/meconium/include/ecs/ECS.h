@@ -5,5 +5,6 @@
 #include "Velocity.h"
 #include "Sprite.h"
 #include "InputSystem.h"
+#include "InputControl.h"
 #include "MovementSystem.h"
 #include "RenderSystem.h"
