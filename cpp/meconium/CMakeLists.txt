@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Meconium)
 
+# Use our cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+
 # Use C++20 without any compiler specific extensions.
 set(CMAKE_CXX_STANDARD 20 CACHE STRING "")
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
