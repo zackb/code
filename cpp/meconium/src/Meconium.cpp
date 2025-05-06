@@ -4,6 +4,8 @@
 #include <iostream>
 
 
+Size Meconium::windowSize;
+
 bool Meconium::init()
 {
 
@@ -37,17 +39,21 @@ bool Meconium::init()
         return false;
     }
 
+    SDL_GetWindowSize(window, 
+        &Meconium::windowSize.width, 
+        &Meconium::windowSize.height);
+
     // Initialize ECS components, systems, and entities
     // Create a player entity
     std::shared_ptr<Entity> player = std::make_unique<Entity>(1);
-    player->addComponent(std::make_shared<Position>(100, 100));
+    player->addComponent(std::make_shared<Position>(100, MovementSystem::groundLevel(Meconium::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
     std::shared_ptr<Sprite> sprite = std::make_unique<Sprite>();
     sprite->texture = ResourceManager::loadTexture(renderer, "assets/player.png");
-    sprite->height = 400;
-    sprite->width = 400;
+    sprite->height = 50;
+    sprite->width = 50;
     player->addComponent<Sprite>(std::move(sprite));
 
     entities.push_back(player);
@@ -62,7 +68,7 @@ void Meconium::update()
     const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     inputSystem.update(entities, keyboardState);
 
-    movementSystem.update(entities);
+    movementSystem.update(entities, Meconium::windowSize);
 }
 
 void Meconium::render()
