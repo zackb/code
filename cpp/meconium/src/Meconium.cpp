@@ -45,15 +45,12 @@ bool Meconium::init()
 
     // Initialize ECS components, systems, and entities
     // Create a player entity
-    std::shared_ptr<Entity> player = std::make_unique<Entity>(1);
+    std::shared_ptr<Entity> player = std::make_shared<Entity>(1);
     player->addComponent(std::make_shared<Position>(100, MovementSystem::groundLevel(Meconium::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
-    std::shared_ptr<Sprite> sprite = std::make_unique<Sprite>();
-    sprite->texture = ResourceManager::loadTexture(renderer, "assets/player.png");
-    sprite->height = 50;
-    sprite->width = 50;
+    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite(renderer, "assets/player.png", 100, 100);
     player->addComponent<Sprite>(std::move(sprite));
 
     entities.push_back(player);
