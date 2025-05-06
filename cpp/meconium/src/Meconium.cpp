@@ -1,10 +1,14 @@
-#include "Meconium.h"
-#include "ResourceManager.h"
 #include <SDL.h>
 #include <iostream>
+#include <algorithm>
 
+#include "Meconium.h"
+#include "ResourceManager.h"
+#include "Context.h"
 
-Size Meconium::windowSize;
+Size Context::windowSize;
+SDL_Renderer* Context::renderer;
+SDL_Window* Context::window;
 
 bool Meconium::init()
 {
@@ -15,20 +19,20 @@ bool Meconium::init()
         return false;
     }
 
-    window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
+    Context::window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
 
-    if (!window)
+    if (!Context::window)
     {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!renderer)
+    Context::renderer = SDL_CreateRenderer(Context::window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!Context::renderer)
     {
         std::cerr << "CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
+        SDL_DestroyWindow(Context::window);
         SDL_Quit();
         return false;
     }
@@ -39,22 +43,22 @@ bool Meconium::init()
         return false;
     }
 
-    SDL_GetWindowSize(window, 
-        &Meconium::windowSize.width, 
-        &Meconium::windowSize.height);
+    SDL_GetWindowSize(Context::window, 
+        &Context::windowSize.width, 
+        &Context::windowSize.height);
 
 
     // load tileMap
-    tileMap = TileMap::load(renderer, "assets/map.csv", "assets/tilesheet.png");
+    tileMap = TileMap::load("assets/map.csv", "assets/tilesheet.png");
 
     // Initialize ECS components, systems, and entities
     // Create a player entity
-    std::shared_ptr<Entity> player = std::make_shared<Entity>(1);
-    player->addComponent(std::make_shared<Position>(100, MovementSystem::groundLevel(Meconium::windowSize)));
+    player = std::make_shared<Entity>(1);
+    player->addComponent(std::make_shared<Position>(100, MovementSystem::groundLevel(Context::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
-    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite(renderer, "assets/player.png", 100, 100);
+    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player.png", 100, 100);
     player->addComponent<Sprite>(std::move(sprite));
 
     entities.push_back(player);
@@ -69,22 +73,29 @@ void Meconium::update()
     const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     inputSystem.update(entities, keyboardState);
 
-    movementSystem.update(entities, Meconium::windowSize);
+    movementSystem.update(entities);
+
+    auto& playerPos = *player->getComponent<Position>();
+    // Update camera position based on player position
+    Camera& camera = Camera::getInstance();
+    camera.x = playerPos.x - Context::windowSize.width / 2;
+    camera.y = playerPos.y - Context::windowSize.height / 2;
+
+    // Ensure camera doesn't go out of bounds
+    camera.x = std::max(0, std::min(camera.x, tileMap->mapWidth * tileMap->tileSize - Context::windowSize.width));
+    camera.y = std::max(0, std::min(camera.y, tileMap->mapHeight * tileMap->tileSize - Context::windowSize.height));
 }
 
 void Meconium::render()
 {
     // Set background clear color (black)
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer); // Clears screen with black
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
+    SDL_RenderClear(Context::renderer); // Clears screen with black
 
-    // Render player
-    for (auto &entity : entities)
-    {
-        renderSystem.render(renderer, entities, *tileMap, Meconium::windowSize);
-    }
+    // Render entities
+    renderSystem.render(entities, *tileMap);
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(Context::renderer);
 }
 
 void Meconium::handleEvent()
@@ -100,8 +111,8 @@ void Meconium::handleEvent()
 
 void Meconium::shutdown()
 {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(Context::renderer);
+    SDL_DestroyWindow(Context::window);
     IMG_Quit();
     SDL_Quit();
 }

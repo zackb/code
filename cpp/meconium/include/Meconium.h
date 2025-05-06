@@ -14,18 +14,14 @@ class Meconium
         void render();
         void handleEvent();
         void shutdown();
-        static Size windowSize;
 
     private:
-        SDL_Window *window;
-        SDL_Renderer *renderer;
         std::unique_ptr<TileMap> tileMap;
         bool isRunning = false;
-        
 
         // ecs
         std::vector<std::shared_ptr<Entity>> entities;
-        std::vector<std::shared_ptr<Entity>> activeEntities;
+        std::shared_ptr<Entity> player;
         InputSystem inputSystem;
         MovementSystem movementSystem;
         RenderSystem renderSystem;

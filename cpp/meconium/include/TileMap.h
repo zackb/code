@@ -11,33 +11,38 @@ class TileMap
 public:
     SDL_Texture *texture = nullptr;
     int tileSize = 70;
-    int mapHeight = 20;
-    int mapWidth = 89;
+    int mapHeight = 0;
+    int mapWidth = 0;
 
-    static std::unique_ptr<TileMap> load(SDL_Renderer* renderer, const std::string& mapPath, const std::string& texturePath)
+    static std::unique_ptr<TileMap> load(const std::string& mapPath, const std::string& texturePath)
     {
         auto tileMap = std::make_unique<TileMap>();
-
+    
         std::ifstream file(mapPath);
         std::string line;
-        int row = 0;
-
+    
         while (std::getline(file, line))
         {
             std::stringstream ss(line);
             std::string val;
             std::vector<int> rowVec;
-
+    
             while (std::getline(ss, val, ','))
             {
                 rowVec.push_back(std::stoi(val));
             }
-
+    
+            if (tileMap->mapWidth == 0) {
+                tileMap->mapWidth = rowVec.size();
+            } else if (rowVec.size() != tileMap->mapWidth) {
+                throw std::runtime_error("Inconsistent row width in map file");
+            }
+    
             tileMap->map.push_back(std::move(rowVec));
-            row++;
         }
-
-        tileMap->texture = ResourceManager::loadTexture(renderer, texturePath);
+    
+        tileMap->mapHeight = tileMap->map.size();
+        tileMap->texture = ResourceManager::loadTexture(texturePath);
         return tileMap;
     }
 
