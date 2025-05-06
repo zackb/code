@@ -22,7 +22,7 @@ bool Meconium::init()
         return false;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer)
     {
         std::cerr << "CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -59,6 +59,9 @@ bool Meconium::init()
 
 void Meconium::update()
 {
+    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+    inputSystem.update(entities, keyboardState);
+
     movementSystem.update(entities);
 }
 
@@ -85,8 +88,6 @@ void Meconium::handleEvent()
     {
     case SDL_QUIT:
         isRunning = false;
-    default:
-        inputSystem.update(entities, event);
     }
 }
 
