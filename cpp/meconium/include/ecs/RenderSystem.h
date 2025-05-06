@@ -50,15 +50,21 @@ public:
 private:
     void renderTileMap(TileMap& tileMap, Camera& camera)
     {
-        for (int row = 0; row < tileMap.mapHeight; ++row)
+
+        // render only tiles that are on-screen
+        int startCol = std::max(0, camera.x / tileMap.tileSize);
+        int startRow = std::max(0, camera.y / tileMap.tileSize);
+        int endCol = std::min(tileMap.mapWidth, (camera.x + Context::windowSize.width) / tileMap.tileSize + 1);
+        int endRow = std::min(tileMap.mapHeight, (camera.y + Context::windowSize.height) / tileMap.tileSize + 1);
+
+        for (int row = startRow; row < endRow; ++row)
         {
-            for (int col = 0; col < tileMap.mapWidth; ++col)
+            for (int col = startCol; col < endCol; ++col)
             {
                 int tileID = tileMap.at(row, col);
                 if (tileID < 0)
                     continue;
 
-                std::cout << "Camera x y " << camera.x << " " << camera.y << std::endl;
                 SDL_Rect src = tileMap.getTileSrcRect(tileID);
                 SDL_Rect dst = {
                     col * tileMap.tileSize - camera.x,
@@ -66,7 +72,7 @@ private:
                     tileMap.tileSize,
                     tileMap.tileSize};
 
-                SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
+                    SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
             }
         }
     }

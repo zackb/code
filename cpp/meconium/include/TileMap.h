@@ -51,9 +51,8 @@ public:
     }
 
     SDL_Rect getTileSrcRect(int tileID) {
-        int tilesPerRow = mapWidth / tileSize;
-        int row = tileID / tilesPerRow;
-        int col = tileID % tilesPerRow;
+        int row = tileID / mapWidth;
+        int col = tileID % mapWidth;
     
         SDL_Rect src = { col * tileSize, row * tileSize, tileSize, tileSize };
         return src;
