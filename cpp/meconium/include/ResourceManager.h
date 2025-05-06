@@ -3,12 +3,14 @@
 #include <SDL.h>
 #include <iostream>
 
+#include "Context.h"
+
 class ResourceManager
 {
 public:
-    static std::shared_ptr<Sprite> loadSprite(SDL_Renderer *renderer, std::string filePath, int maxWidth, int maxHeight) noexcept
+    static std::shared_ptr<Sprite> loadSprite(std::string filePath, int maxWidth, int maxHeight) noexcept
     {
-        SDL_Texture *tex = loadTexture(renderer, filePath);
+        SDL_Texture *tex = loadTexture(filePath);
         if (!tex)
         {
             std::cerr << "failed to load texture for sprite" << std::endl;
@@ -37,9 +39,9 @@ public:
         return sprite;
     }
 
-    static SDL_Texture *loadTexture(SDL_Renderer *renderer, std::string filePath) noexcept
+    static SDL_Texture *loadTexture(std::string filePath) noexcept
     {
-        if (!renderer) {
+        if (!Context::renderer) {
             std::cerr << "Renderer is NULL before loadTexture!\n";
         }
 
@@ -50,7 +52,7 @@ public:
             return nullptr;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(Context::renderer, surface);
         SDL_FreeSurface(surface);
         if (!texture)
         {
