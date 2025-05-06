@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "ecs/ECS.h"
 #include "Size.h"
+#include "TileMap.h"
 
 class Meconium 
 {
@@ -18,6 +19,7 @@ class Meconium
     private:
         SDL_Window *window;
         SDL_Renderer *renderer;
+        std::unique_ptr<TileMap> tileMap;
         bool isRunning = false;
         
 

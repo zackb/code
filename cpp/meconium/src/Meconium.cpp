@@ -43,6 +43,10 @@ bool Meconium::init()
         &Meconium::windowSize.width, 
         &Meconium::windowSize.height);
 
+
+    // load tileMap
+    tileMap = TileMap::load(renderer, "assets/map.csv", "assets/tilesheet.png");
+
     // Initialize ECS components, systems, and entities
     // Create a player entity
     std::shared_ptr<Entity> player = std::make_shared<Entity>(1);
@@ -77,7 +81,7 @@ void Meconium::render()
     // Render player
     for (auto &entity : entities)
     {
-        renderSystem.render(renderer, entities);
+        renderSystem.render(renderer, entities, *tileMap, Meconium::windowSize);
     }
 
     SDL_RenderPresent(renderer);
