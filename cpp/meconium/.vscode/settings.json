@@ -1,4 +1,17 @@
 {
+"cmake.debugConfig": {
+    "type": "cppdbg",
+    "MIMode": "gdb",
+    "miDebuggerPath": "/usr/local/bin/gdb",
+    "externalConsole": true,
+    "setupCommands": [
+      {
+        "description": "Enable pretty-printing for gdb",
+        "text": "-enable-pretty-printing",
+        "ignoreFailures": true
+      }
+    ]
+  },
   "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
   "files.associations": {
     "iostream": "cpp",
