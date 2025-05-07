@@ -47,7 +47,7 @@ public:
             }
 
             // Jump logic
-            if (input->justPressed(InputKey::JUMP) && position->onGround)
+            if (input->isDown(InputKey::JUMP) && position->onGround)
             {
                 velocity->vy = JUMP_FORCE;
                 position->onGround = false;
@@ -61,9 +61,9 @@ public:
                     velocity->vy = MAX_FALL_SPEED;
             }
 
-            // Update position
-            position->x += velocity->vx;
-            position->y += velocity->vy;
+            // Update position in CollisionSystem
+            // position->x += velocity->vx;
+            // position->y += velocity->vy;
         }
     }
 };
