@@ -1,12 +1,17 @@
 #pragma once
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <iostream>
 
+#include "Animation.h"
 #include "Context.h"
 
 class ResourceManager
 {
+private:
+    static std::unordered_map<std::string, SDL_Texture*> textures;
+
 public:
     static std::shared_ptr<Sprite> loadSprite(std::string filePath, int maxWidth, int maxHeight) noexcept
     {
@@ -41,6 +46,11 @@ public:
 
     static SDL_Texture *loadTexture(std::string filePath) noexcept
     {
+        // Check if we already loaded this texture
+        if (const auto it = textures.find(filePath); it != textures.end()) {
+            return it->second;
+        }
+
         if (!Context::renderer) {
             std::cerr << "Renderer is NULL before loadTexture!\n";
         }
@@ -58,7 +68,65 @@ public:
         {
             std::cerr << "SDL_CreateTextureFromSurface failed: " << SDL_GetError() << std::endl;
         }
+        // Cache the texture
+        textures[filePath] = texture;
 
         return texture;
+    }
+
+       static std::shared_ptr<Animation> createAnimation(const std::string& name, bool looping = true)
+    {
+        return std::make_shared<Animation>(name, looping);
+    }
+
+    static std::shared_ptr<AnimationComponent> createPlayerAnimations(std::string &spriteSheetPath, int frameWidth, int frameHeight)
+    {
+        SDL_Texture* texture = loadTexture(spriteSheetPath);
+        if (!texture) {
+            return nullptr;
+        }
+
+        auto animComponent = std::make_shared<AnimationComponent>();
+
+        // Create idle animation (example: first row in sprite sheet)
+        auto idleAnim = createAnimation("idle", true);
+        idleAnim->addFrame({0, 0, frameWidth, frameHeight}, 200);
+        idleAnim->addFrame({frameWidth, 0, frameWidth, frameHeight}, 200);
+        idleAnim->addFrame({frameWidth*2, 0, frameWidth, frameHeight}, 200);
+        idleAnim->addFrame({frameWidth*3, 0, frameWidth, frameHeight}, 200);
+        animComponent->addAnimation(AnimationState::IDLE, idleAnim);
+
+        // Create walking animation (example: second row in sprite sheet)
+        auto walkAnim = createAnimation("walk", true);
+        walkAnim->addFrame({0, frameHeight, frameWidth, frameHeight}, 100);
+        walkAnim->addFrame({frameWidth, frameHeight, frameWidth, frameHeight}, 100);
+        walkAnim->addFrame({frameWidth*2, frameHeight, frameWidth, frameHeight}, 100);
+        walkAnim->addFrame({frameWidth*3, frameHeight, frameWidth, frameHeight}, 100);
+        walkAnim->addFrame({frameWidth*4, frameHeight, frameWidth, frameHeight}, 100);
+        walkAnim->addFrame({frameWidth*5, frameHeight, frameWidth, frameHeight}, 100);
+        animComponent->addAnimation(AnimationState::WALKING, walkAnim);
+
+        // Create jumping animation (example: third row in sprite sheet)
+        auto jumpAnim = createAnimation("jump", false);
+        jumpAnim->addFrame({0, frameHeight*2, frameWidth, frameHeight}, 150);
+        jumpAnim->addFrame({frameWidth, frameHeight*2, frameWidth, frameHeight}, 150);
+        jumpAnim->addFrame({frameWidth*2, frameHeight*2, frameWidth, frameHeight}, 150);
+        animComponent->addAnimation(AnimationState::JUMPING, jumpAnim);
+
+        // Create falling animation (example: fourth row in sprite sheet)
+        auto fallAnim = createAnimation("fall", true);
+        fallAnim->addFrame({0, frameHeight*3, frameWidth, frameHeight}, 150);
+        fallAnim->addFrame({frameWidth, frameHeight*3, frameWidth, frameHeight}, 150);
+        animComponent->addAnimation(AnimationState::FALLING, fallAnim);
+
+        return animComponent;
+    }
+
+    static void cleanup()
+    {
+        for (auto& pair : textures) {
+            SDL_DestroyTexture(pair.second);
+        }
+        textures.clear();
     }
 };
