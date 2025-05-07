@@ -98,7 +98,10 @@ public:
         return TileType::Empty;
     }
 
-
+    bool inBounds(int x, int y) const
+    {
+        return x >= 0 && x < mapWidth && y >= 0 && y < mapHeight;
+    }
 
 private:
     std::vector<std::vector<int>> map;
