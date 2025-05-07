@@ -58,7 +58,7 @@ bool Meconium::init()
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
-    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player.png", 100, 100);
+    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player.png", 70, 70);
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
     player->addComponent<Sprite>(std::move(sprite));
 
@@ -78,6 +78,7 @@ void Meconium::update()
     collisionSystem.update(entities, *tileMap);
 
     auto& playerPos = *player->getComponent<Position>();
+
     // Update camera position based on player position
     Camera& camera = Camera::getInstance();
     camera.x = playerPos.x - Context::windowSize.width / 2;

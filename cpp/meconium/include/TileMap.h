@@ -8,6 +8,13 @@
 
 #include "ResourceManager.h"
 
+enum class TileType {
+    Empty,
+    Solid,
+    RampLeft,
+    RampRight
+};
+
 class TileMap
 {
 public:
@@ -79,9 +86,21 @@ public:
         return solidTiles.count(tileID) > 0;
     }
 
+    TileType getTileType(int tileID) const {
+        if (tileID == 0) return TileType::Solid;
+        if (tileID == 7) return TileType::Solid;
+        if (tileID == 14) return TileType::Solid;
+        if (tileID == 28) return TileType::Solid;
+        if (tileID == 33) return TileType::Solid;
+
+        if (tileID == 18) return TileType::RampLeft;
+        if (tileID == 25) return TileType::RampRight;
+        return TileType::Empty;
+    }
+
 
 
 private:
     std::vector<std::vector<int>> map;
-    std::unordered_set<int> solidTiles = {0, 33, 7, 18, 28, 25};
+    std::unordered_set<int> solidTiles = {0, 14, 33, 7, 28, 25};
 };
