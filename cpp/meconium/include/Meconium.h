@@ -1,29 +1,30 @@
 #pragma once
 
-#include <SDL.h>
+#include "GameTime.h"
 #include "ecs/ECS.h"
-#include "Size.h"
 #include "TileMap.h"
 
-class Meconium 
-{
-    public:
-        bool init();
-        bool running() { return isRunning; };
-        void update();
-        void render();
-        void handleEvent();
-        void shutdown();
+class Meconium {
 
-    private:
-        std::unique_ptr<TileMap> tileMap;
-        bool isRunning = false;
+public:
+    bool init();
+    bool running() const { return isRunning; };
+    void update();
+    void render();
+    void handleEvent();
+    void shutdown();
 
-        // ecs
-        std::vector<std::shared_ptr<Entity>> entities;
-        std::shared_ptr<Entity> player;
-        InputSystem inputSystem;
-        MovementSystem movementSystem;
-        RenderSystem renderSystem;
-        CollisionSystem collisionSystem;
+private:
+    bool isRunning = false;
+    std::unique_ptr<TileMap> tileMap;
+
+    // ecs
+    std::shared_ptr<Entity> player;
+    std::vector<std::shared_ptr<Entity> > entities;
+    InputSystem inputSystem;
+    MovementSystem movementSystem;
+    RenderSystem renderSystem;
+    CollisionSystem collisionSystem;
+    AnimationSystem animationSystem;
+    GameTime& gameTime = GameTime::getInstance();
 };

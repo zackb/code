@@ -25,7 +25,7 @@ public:
     int tilesheetWidth = 0;  // Width of tilesheet in pixels
 
 
-    static std::unique_ptr<TileMap> load(const std::string& mapPath, const std::string& texturePath)
+    static std::unique_ptr<TileMap> load(const std::string mapPath, std::string texturePath)
     {
         auto tileMap = std::make_unique<TileMap>();
     

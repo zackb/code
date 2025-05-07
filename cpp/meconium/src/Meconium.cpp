@@ -10,6 +10,9 @@ Size Context::windowSize;
 SDL_Renderer* Context::renderer;
 SDL_Window* Context::window;
 
+// TODO: how???
+std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
+
 bool Meconium::init()
 {
 
@@ -71,11 +74,16 @@ bool Meconium::init()
 
 void Meconium::update()
 {
+    // Update game time
+    gameTime.update();
+    int deltaTime = gameTime.getDeltaTime();
+
     const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     inputSystem.update(entities, keyboardState);
 
     movementSystem.update(entities);
     collisionSystem.update(entities, *tileMap);
+    animationSystem.update(entities, deltaTime);
 
     auto& playerPos = *player->getComponent<Position>();
 
