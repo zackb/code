@@ -25,4 +25,5 @@ class Meconium
         InputSystem inputSystem;
         MovementSystem movementSystem;
         RenderSystem renderSystem;
+        CollisionSystem collisionSystem;
 };

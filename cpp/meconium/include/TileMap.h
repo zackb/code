@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <unordered_set>
 
 #include "ResourceManager.h"
 
@@ -74,8 +75,13 @@ public:
         return src;
     }
 
+    bool isSolidTile(int tileID) const {
+        return solidTiles.count(tileID) > 0;
+    }
+
 
 
 private:
     std::vector<std::vector<int>> map;
+    std::unordered_set<int> solidTiles = {0, 33, 7, 18, 28, 25};
 };
