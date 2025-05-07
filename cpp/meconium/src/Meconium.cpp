@@ -54,11 +54,12 @@ bool Meconium::init()
     // Initialize ECS components, systems, and entities
     // Create a player entity
     player = std::make_shared<Entity>(1);
-    player->addComponent(std::make_shared<Position>(100, MovementSystem::groundLevel(Context::windowSize)));
+    player->addComponent(std::make_shared<Position>(100, 0));// MovementSystem::groundLevel(Context::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
     std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player.png", 100, 100);
+    player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
     player->addComponent<Sprite>(std::move(sprite));
 
     entities.push_back(player);
@@ -74,6 +75,7 @@ void Meconium::update()
     inputSystem.update(entities, keyboardState);
 
     movementSystem.update(entities);
+    collisionSystem.update(entities, *tileMap);
 
     auto& playerPos = *player->getComponent<Position>();
     // Update camera position based on player position
