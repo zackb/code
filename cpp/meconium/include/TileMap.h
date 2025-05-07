@@ -3,6 +3,7 @@
 #include <memory>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 
 #include "ResourceManager.h"
 
@@ -18,7 +19,12 @@ public:
     {
         auto tileMap = std::make_unique<TileMap>();
     
-        std::ifstream file(mapPath);
+        std::string realPath = mapPath;
+        if (!std::filesystem::exists(realPath)) {
+            realPath = "../Resources/" + mapPath;
+        }
+
+        std::ifstream file(realPath);
         std::string line;
     
         while (std::getline(file, line))
