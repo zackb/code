@@ -12,8 +12,10 @@ class TileMap
 public:
     SDL_Texture *texture = nullptr;
     int tileSize = 70;
-    int mapHeight = 0;
-    int mapWidth = 0;
+    int mapHeight = 0; // rows
+    int mapWidth = 0; // cols
+    int tilesheetWidth = 0;  // Width of tilesheet in pixels
+
 
     static std::unique_ptr<TileMap> load(const std::string& mapPath, const std::string& texturePath)
     {
@@ -48,7 +50,14 @@ public:
         }
     
         tileMap->mapHeight = tileMap->map.size();
+
         tileMap->texture = ResourceManager::loadTexture(texturePath);
+
+        // Query texture width
+        int w = 0, h = 0;
+        SDL_QueryTexture(tileMap->texture, NULL, NULL, &w, &h);
+        tileMap->tilesheetWidth = w;
+
         return tileMap;
     }
 
@@ -57,12 +66,14 @@ public:
     }
 
     SDL_Rect getTileSrcRect(int tileID) {
-        int row = tileID / mapWidth;
-        int col = tileID % mapWidth;
-    
+        int tilesPerRow = tilesheetWidth / tileSize;
+        int row = tileID / tilesPerRow;
+        int col = tileID % tilesPerRow;
+
         SDL_Rect src = { col * tileSize, row * tileSize, tileSize, tileSize };
         return src;
     }
+
 
 
 private:
