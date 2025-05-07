@@ -10,9 +10,6 @@ Size Context::windowSize;
 SDL_Renderer *Context::renderer;
 SDL_Window *Context::window;
 
-// TODO: how???
-std::unordered_map<std::string, SDL_Texture *> ResourceManager::textures;
-
 bool Meconium::init() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
@@ -113,6 +110,7 @@ void Meconium::handleEvent() {
 }
 
 void Meconium::shutdown() {
+    ResourceManager::cleanup();
     SDL_DestroyRenderer(Context::renderer);
     SDL_DestroyWindow(Context::window);
     IMG_Quit();
