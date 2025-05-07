@@ -14,6 +14,10 @@ public:
             if (!position || !velocity || !size)
                 continue;
 
+            // Save original position
+            int originalX = position->x;
+            int originalY = position->y;
+
             SDL_Rect futureRect = {
                 position->x + velocity->vx,
                 position->y + velocity->vy,
@@ -21,10 +25,12 @@ public:
                 size->height};
 
             resolveTileCollisions(futureRect, velocity, position, size, tileMap);
-            
-            // Update position
-            position->x += velocity->vx;
-            position->y += velocity->vy;
+
+            // If no collisions modified position, apply velocity as normal
+            if (position->x == originalX && position->y == originalY) {
+                position->x += velocity->vx;
+                position->y += velocity->vy;
+            }
 
             // fell off the world
             if (position->y > tileMap.mapHeight * tileMap.tileSize * 2) {
@@ -163,11 +169,10 @@ private:
         }
 
         int rampTopY = tileRect.y + rampHeight - size->height;
-        // int playerFeet = position->y + size->height;
+        int playerFeet = position->y + size->height;
+        int rampY = tileRect.y + rampHeight;
 
-        //if (playerFeet >= rampTopY - 1 && playerFeet <= tileRect.y + tileSize)
-        if (position->y + size->height > rampTopY &&
-            position->y + size->height <= tileRect.y + tileSize)
+        if (playerFeet > rampY - 5 && playerFeet <= tileRect.y + tileSize)
         {
             // Snap to ramp surface
             position->y = rampTopY;
