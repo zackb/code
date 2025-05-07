@@ -172,7 +172,7 @@ private:
         int playerFeet = position->y + size->height;
         int rampY = tileRect.y + rampHeight;
 
-        if (playerFeet > rampY - 5 && playerFeet <= tileRect.y + tileSize)
+        if (playerFeet > rampY /*- 5 */ && playerFeet <= tileRect.y + tileSize)
         {
             // Snap to ramp surface
             position->y = rampTopY;
