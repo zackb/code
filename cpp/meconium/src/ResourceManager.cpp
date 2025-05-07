@@ -59,8 +59,8 @@ SDL_Texture* ResourceManager::loadTexture(std::string filePath) {
 }
 
 std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
-    std::string &spriteSheetPath, int frameWidth,
-    int frameHeight) {
+    std::string &spriteSheetPath, const int frameWidth,
+    const int frameHeight) {
     SDL_Texture *texture = loadTexture(spriteSheetPath);
     if (!texture) {
         return nullptr;
