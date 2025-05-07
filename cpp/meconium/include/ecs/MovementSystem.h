@@ -72,8 +72,6 @@ public:
                 velocity->vy = 0;
                 position->onGround = true;
             }
-            std::cout << "Player Position: " << position->x << ", " << position->y << std::endl;
-
         }
     }
 };
