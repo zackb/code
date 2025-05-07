@@ -72,7 +72,7 @@ private:
                     tileMap.tileSize,
                     tileMap.tileSize};
 
-                    SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
+                SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
             }
         }
     }
