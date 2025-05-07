@@ -21,6 +21,10 @@ public:
                 size->height};
 
             resolveTileCollisions(futureRect, velocity, position, size, tileMap);
+            
+            // Update position
+            position->x += velocity->vx;
+            position->y += velocity->vy;
 
             // fell off the world
             if (position->y > tileMap.mapHeight * tileMap.tileSize * 2) {
@@ -107,19 +111,27 @@ private:
             }
             else if (velocity->vy < 0)
             { // Jumping
-                position->y = tileRect.y + tileRect.h;
-                velocity->vy = 0;
+              // Don't force position->y unless there's an actual ceiling
+                // If you always "resolve upward", you cancel jumping
+                // Make sure this only applies if we hit the ceiling
+                if (position->y < tileRect.y + tileRect.h)
+                {
+                    position->y = tileRect.y + tileRect.h;
+                    velocity->vy = 0;
+                }
             }
         }
         else // Horizontal collision
         {
             if (velocity->vx > 0)
             { // Moving right
-                position->x = tileRect.x - size->width;
+                if (intersection.w >= 4)
+                    position->x = tileRect.x - size->width;
             }
             else if (velocity->vx < 0)
             { // Moving left
-                position->x = tileRect.x + tileRect.w;
+                if (intersection.w >= 4)
+                    position->x = tileRect.x + tileRect.w;
             }
             velocity->vx = 0;
         }
@@ -134,6 +146,7 @@ private:
     {
         int tileSize = tileMap.tileSize;
         int playerMidX = position->x + size->width / 2;
+
         int relX = playerMidX - tileRect.x;
 
         if (relX < 0 || relX >= tileSize)
@@ -150,7 +163,9 @@ private:
         }
 
         int rampTopY = tileRect.y + rampHeight - size->height;
+        // int playerFeet = position->y + size->height;
 
+        //if (playerFeet >= rampTopY - 1 && playerFeet <= tileRect.y + tileSize)
         if (position->y + size->height > rampTopY &&
             position->y + size->height <= tileRect.y + tileSize)
         {
