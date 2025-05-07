@@ -4,14 +4,14 @@
 
 #include <SDL.h>
 
-class Sprite : public Component
-{
+class Sprite : public Component {
 public:
     SDL_Texture *texture = nullptr;
     int width = 0;
     int height = 0;
     bool flipX;
     bool flipY;
+
     ~Sprite() override {
         if (texture) {
             SDL_DestroyTexture(texture);

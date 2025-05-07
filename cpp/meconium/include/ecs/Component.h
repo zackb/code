@@ -1,7 +1,6 @@
 #pragma once
 
-class Component
-{
+class Component {
 public:
     virtual ~Component() = default;
 };

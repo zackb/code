@@ -7,33 +7,29 @@
 #include "Context.h"
 
 Size Context::windowSize;
-SDL_Renderer* Context::renderer;
-SDL_Window* Context::window;
+SDL_Renderer *Context::renderer;
+SDL_Window *Context::window;
 
 // TODO: how???
-std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
+std::unordered_map<std::string, SDL_Texture *> ResourceManager::textures;
 
-bool Meconium::init()
-{
-
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
+bool Meconium::init() {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
-    Context::window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
+    Context::window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800,
+                                       SDL_WINDOW_SHOWN);
 
-    if (!Context::window)
-    {
+    if (!Context::window) {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return false;
     }
 
     Context::renderer = SDL_CreateRenderer(Context::window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!Context::renderer)
-    {
+    if (!Context::renderer) {
         std::cerr << "CreateRenderer Error: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(Context::window);
         SDL_Quit();
@@ -46,9 +42,9 @@ bool Meconium::init()
         return false;
     }
 
-    SDL_GetWindowSize(Context::window, 
-        &Context::windowSize.width, 
-        &Context::windowSize.height);
+    SDL_GetWindowSize(Context::window,
+                      &Context::windowSize.width,
+                      &Context::windowSize.height);
 
 
     // load tileMap
@@ -57,7 +53,7 @@ bool Meconium::init()
     // Initialize ECS components, systems, and entities
     // Create a player entity
     player = std::make_shared<Entity>(1);
-    player->addComponent(std::make_shared<Position>(100, 0));// MovementSystem::groundLevel(Context::windowSize)));
+    player->addComponent(std::make_shared<Position>(100, 0)); // MovementSystem::groundLevel(Context::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
@@ -72,23 +68,22 @@ bool Meconium::init()
     return true;
 }
 
-void Meconium::update()
-{
+void Meconium::update() {
     // Update game time
     gameTime.update();
     int deltaTime = gameTime.getDeltaTime();
 
-    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+    const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
     inputSystem.update(entities, keyboardState);
 
     movementSystem.update(entities);
     collisionSystem.update(entities, *tileMap);
     animationSystem.update(entities, deltaTime);
 
-    auto& playerPos = *player->getComponent<Position>();
+    auto &playerPos = *player->getComponent<Position>();
 
     // Update camera position based on player position
-    Camera& camera = Camera::getInstance();
+    Camera &camera = Camera::getInstance();
     camera.x = playerPos.x - Context::windowSize.width / 2;
     camera.y = playerPos.y - Context::windowSize.height / 2;
 
@@ -97,8 +92,7 @@ void Meconium::update()
     camera.y = std::max(0, std::min(camera.y, tileMap->mapHeight * tileMap->tileSize - Context::windowSize.height));
 }
 
-void Meconium::render()
-{
+void Meconium::render() {
     // Set background clear color (black)
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer); // Clears screen with black
@@ -109,19 +103,16 @@ void Meconium::render()
     SDL_RenderPresent(Context::renderer);
 }
 
-void Meconium::handleEvent()
-{
+void Meconium::handleEvent() {
     SDL_Event event;
     SDL_PollEvent(&event);
-    switch (event.type)
-    {
-    case SDL_QUIT:
-        isRunning = false;
+    switch (event.type) {
+        case SDL_QUIT:
+            isRunning = false;
     }
 }
 
-void Meconium::shutdown()
-{
+void Meconium::shutdown() {
     SDL_DestroyRenderer(Context::renderer);
     SDL_DestroyWindow(Context::window);
     IMG_Quit();

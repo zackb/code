@@ -2,10 +2,11 @@
 
 #include "Component.h"
 
-class Position : public Component
-{
+class Position : public Component {
 public:
     int x, y;
     bool onGround = true;
-    Position(int initX, int initY) : x(initX), y(initY) {}
+
+    Position(int initX, int initY) : x(initX), y(initY) {
+    }
 };

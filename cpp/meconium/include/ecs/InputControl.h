@@ -7,7 +7,8 @@ struct InputAction {
     bool isPressed = false;
     bool wasPressed = false;
 
-    InputAction(SDL_Scancode scancode) : key(scancode) {}
+    InputAction(SDL_Scancode scancode) : key(scancode) {
+    }
 
     void update(const Uint8 *keyboardState) {
         wasPressed = isPressed;
@@ -30,10 +31,8 @@ enum class InputKey {
     JUMP
 };
 
-class InputControl : public Component
-{
+class InputControl : public Component {
 public:
-
     std::unordered_map<InputKey, InputAction> actions;
 
     InputControl() {
@@ -43,17 +42,17 @@ public:
     }
 
     void update(const Uint8 *keyboardState) {
-        for (auto& [name, action] : actions) {
+        for (auto &[name, action]: actions) {
             action.update(keyboardState);
         }
     }
 
-    bool isDown(InputKey key) const {
+    bool isDown(const InputKey key) const {
         auto it = actions.find(key);
         return it != actions.end() && it->second.isPressed;
     }
 
-    bool justPressed(InputKey key) const {
+    bool justPressed(const InputKey key) const {
         auto it = actions.find(key);
         return it != actions.end() && it->second.justPressed();
     }
