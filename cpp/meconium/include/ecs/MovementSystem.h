@@ -64,14 +64,6 @@ public:
             // Update position
             position->x += velocity->vx;
             position->y += velocity->vy;
-
-            // Ground collision
-            if (position->y >= GROUND_LEVEL)
-            {
-                position->y = GROUND_LEVEL;
-                velocity->vy = 0;
-                position->onGround = true;
-            }
         }
     }
 };
