@@ -1,7 +1,6 @@
 #include "Meconium.h"
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char *argv[]) {
     auto meconium = Meconium();
 
     if (!meconium.init()) {
@@ -13,8 +12,7 @@ int main(int argc, char* argv[]) {
     Uint32 frameStart;
     int frameTime;
 
-    while (meconium.running())
-    {
+    while (meconium.running()) {
         frameStart = SDL_GetTicks();
 
         meconium.handleEvent();
@@ -31,4 +29,3 @@ int main(int argc, char* argv[]) {
 
     return EXIT_SUCCESS;
 }
-
