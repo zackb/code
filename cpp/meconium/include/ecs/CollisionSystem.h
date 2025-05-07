@@ -53,10 +53,10 @@ private:
                                TileMap &tileMap)
     {
         // Calculate the tile boundaries to check (slightly expanded to catch edge cases)
-        int startX = (rect.x - 1) / tileMap.tileSize;
-        int endX = (rect.x + rect.w) / tileMap.tileSize;
-        int startY = (rect.y - 1) / tileMap.tileSize;
-        int endY = (rect.y + rect.h) / tileMap.tileSize;
+        int startX = (rect.x - 2) / tileMap.tileSize;
+        int endX = (rect.x + rect.w + 2) / tileMap.tileSize;
+        int startY = (rect.y - 2) / tileMap.tileSize;
+        int endY = (rect.y + rect.h + 2) / tileMap.tileSize;
 
         position->onGround = false;
 
@@ -106,6 +106,11 @@ private:
         float bestRampY = std::numeric_limits<float>::max();
         bool foundRamp = false;
 
+        // Check all candidate ramp tiles with a wider range
+        // Expand the search slightly to catch adjacent ramps
+        startX = std::max(0, startX - 1);
+        endX = std::min(tileMap.mapWidth - 1, endX + 1);
+
         // Check all candidate ramp tiles
         for (int y = startY; y <= endY; ++y)
         {
@@ -128,12 +133,16 @@ private:
                     // Find where player would be on this ramp
                     float rampY = calculateRampY(position, velocity, size, type, tileRect, tileMap);
 
-                    // Check if player is within horizontal bounds of this ramp
-                    int playerMidX = position->x + size->width / 2;
-                    if (playerMidX >= tileRect.x && playerMidX < tileRect.x + tileRect.w) {
+                    // Use a more generous horizontal bounds check for ramps
+                    // This helps catch the case when moving between adjacent ramps
+                    int playerLeft = position->x;
+                    int playerRight = position->x + size->width;
+                    bool horizontalOverlap = (playerRight > tileRect.x && playerLeft < tileRect.x + tileRect.w);
+
+                    if (horizontalOverlap) {
                         // If player's feet are below the ramp surface and this is the highest ramp found
                         int playerFeet = position->y + size->height;
-                        if (playerFeet > rampY && playerFeet <= tileRect.y + tileRect.h && rampY < bestRampY) {
+                        if (playerFeet > rampY && playerFeet <= tileRect.y + tileRect.h + 5 && rampY < bestRampY) {
                             bestRampY = rampY;
                             foundRamp = true;
                         }
@@ -164,18 +173,14 @@ private:
         // Ensure relX is within bounds
         relX = std::max(0, std::min(relX, tileSize - 1));
 
-        float rampHeightRatio = 0;
+        float rampHeight = 0;
         if (rampType == TileType::RampRight) {
-            // For RampLeft, height decreases from left to right
-            // At x=0, height=tileSize, at x=tileSize, height=0
-            rampHeightRatio = 1.0f - (float)relX / tileSize;
+            rampHeight = tileSize - relX;
         } else if (rampType == TileType::RampLeft) {
-            // For RampRight, height increases from left to right
-            // At x=0, height=0, at x=tileSize, height=tileSize
-            rampHeightRatio = (float)relX / tileSize;
+            rampHeight = relX;
         }
 
-        return tileRect.y + (1.0f - rampHeightRatio) * tileSize;
+        return tileRect.y + tileSize - rampHeight;
     }
 
     void handleSolidCollision(SDL_Rect &rect,
