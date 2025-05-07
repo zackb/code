@@ -54,9 +54,17 @@ bool Meconium::init() {
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
+    // Create player sprite and animations
+    const int frameWidth = 70;
+    const int frameHeight = 70;
+
     std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player.png", 70, 70);
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
     player->addComponent<Sprite>(std::move(sprite));
+
+    // Add animation component
+    // auto animComponent = ResourceManager::createPlayerAnimations("assets/player_spritesheet.png", frameWidth, frameHeight);
+    // player->addComponent<AnimationComponent>(animComponent);
 
     entities.push_back(player);
 
