@@ -35,12 +35,14 @@ public:
                 dstRect.w = sprite->width;
                 dstRect.h = sprite->height;
 
-                SDL_Rect srcRect = {0, 0, sprite->width, sprite->height};
+                SDL_Rect srcRect;
+                SDL_Rect* srcRectPtr = nullptr;
 
                 // Check if entity has an animation component
                 auto animation = entity->getComponent<AnimationComponent>();
                 if (animation) {
                     srcRect = animation->getCurrentFrame();
+                    srcRectPtr = &srcRect;
                 }
 
                 // Apply flip if needed
@@ -48,8 +50,7 @@ public:
                 if (sprite->flipX) flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
                 if (sprite->flipY) flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
 
-                // SDL_RenderCopyEx(Context::renderer, sprite->texture, &srcRect, &dstRect, 0, nullptr, flip);
-                SDL_RenderCopy(Context::renderer, sprite->texture, NULL, &dstRect);
+                SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
             }
             else
             {
