@@ -73,6 +73,13 @@ bool Meconium::init() {
 
     entities.push_back(player);
 
+    // add camera
+    auto cameraEntity = std::make_shared<Entity>(2);
+    cameraEntity->addComponent<Position>(std::make_shared<Position>(0, 0));
+    cameraEntity->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
+    cameraEntity->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 1.0f)); // smooth follow
+    entities.push_back(cameraEntity);
+
     isRunning = true;
 
     return true;
@@ -89,17 +96,7 @@ void Meconium::update() {
     movementSystem.update(entities);
     collisionSystem.update(entities, *tileMap);
     animationSystem.update(entities, deltaTime);
-
-    auto& playerPos = *player->getComponent<Position>();
-
-    // Update camera position based on player position
-    Camera& camera = Camera::getInstance();
-    camera.x = playerPos.x - Context::windowSize.width / 2;
-    camera.y = playerPos.y - Context::windowSize.height / 2;
-
-    // Ensure camera doesn't go out of bounds
-    camera.x = std::max(0, std::min(camera.x, tileMap->mapWidth * tileMap->tileSize - Context::windowSize.width));
-    camera.y = std::max(0, std::min(camera.y, tileMap->mapHeight * tileMap->tileSize - Context::windowSize.height));
+    cameraSystem.update(entities, *tileMap);
 }
 
 void Meconium::render() {

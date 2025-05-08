@@ -25,6 +25,10 @@ public:
         return nullptr;
     }
 
+    template <typename T> bool hasComponent() const {
+        return components.contains(std::type_index(typeid(T)));
+    }
+
 private:
     std::unordered_map<std::type_index, std::shared_ptr<void>> components;
 };

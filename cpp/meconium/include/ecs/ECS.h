@@ -12,3 +12,5 @@
 #include "Size.h"
 #include "Sprite.h"
 #include "Velocity.h"
+#include "CameraComponent.h"
+#include "CameraSystem.h"
