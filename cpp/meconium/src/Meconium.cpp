@@ -77,7 +77,7 @@ bool Meconium::init() {
     auto cameraEntity = std::make_shared<Entity>(2);
     cameraEntity->addComponent<Position>(std::make_shared<Position>(0, 0));
     cameraEntity->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
-    cameraEntity->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 1.0f)); // smooth follow
+    cameraEntity->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 0.2f)); // smooth follow
     entities.push_back(cameraEntity);
 
     isRunning = true;
