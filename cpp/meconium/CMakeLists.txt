@@ -32,15 +32,16 @@ include_directories(
 
 # Specify the source files for your executable
 set(SOURCES
-    src/main.cpp
-    src/Meconium.cpp
-    src/ResourceManager.cpp
+        src/main.cpp
+        src/Meconium.cpp
+        src/ResourceManager.cpp
         src/ecs/Animation.cpp
         src/ecs/AnimationSystem.cpp
         src/ecs/MovementSystem.cpp
         src/ecs/RenderSystem.cpp
         src/ecs/CollisionSystem.cpp
         src/TileMap.cpp
+        src/FileUtils.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)
