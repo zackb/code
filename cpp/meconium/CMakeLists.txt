@@ -40,6 +40,7 @@ set(SOURCES
         src/ecs/MovementSystem.cpp
         src/ecs/RenderSystem.cpp
         src/ecs/CollisionSystem.cpp
+        src/TileMap.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)
