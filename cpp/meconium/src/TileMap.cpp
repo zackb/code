@@ -3,13 +3,17 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <unistd.h>
+
+#include "FileUtils.h"
 
 std::unique_ptr<TileMap> TileMap::load(const std::string mapPath, std::string texturePath) {
     auto tileMap = std::make_unique<TileMap>();
 
-    std::string realPath = mapPath;
+    std::string realPath = resolveAssetPath(mapPath);
+
     if (!std::filesystem::exists(realPath)) {
-        realPath = "../Resources/" + mapPath;
+        std::cerr << "Failed to load map from file: " + realPath << std::endl;
     }
 
     std::ifstream file(realPath);
@@ -45,7 +49,7 @@ std::unique_ptr<TileMap> TileMap::load(const std::string mapPath, std::string te
     return tileMap;
 }
 
-SDL_Rect TileMap::getTileSrcRect(int tileID) {
+SDL_Rect TileMap::getTileSrcRect(const int tileID) const {
     int tilesPerRow = tilesheetWidth / tileSize;
     int row = tileID / tilesPerRow;
     int col = tileID % tilesPerRow;

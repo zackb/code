@@ -27,7 +27,7 @@ public:
         return map.at(row).at(col);
     }
 
-    SDL_Rect getTileSrcRect(int tileID);
+    SDL_Rect getTileSrcRect(int tileID) const;
 
     bool isSolidTile(int tileID) const {
         return solidTiles.count(tileID) > 0;
