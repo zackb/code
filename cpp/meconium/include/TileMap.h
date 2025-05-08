@@ -1,9 +1,6 @@
 #pragma once
 #include <SDL.h>
 #include <memory>
-#include <sstream>
-#include <fstream>
-#include <filesystem>
 #include <unordered_set>
 
 #include "ResourceManager.h"
