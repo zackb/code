@@ -1,4 +1,4 @@
-#include "../../include/ecs/Animation.h"
+#include "ecs/Animation.h"
 
 void Animation::addFrame(const SDL_Rect srcRect, const int duration) {
     frames.push_back({srcRect, duration});
@@ -35,4 +35,34 @@ void Animation::reset() {
     currentFrame = 0;
     timer = 0;
     finished = false;
+}
+
+void AnimationComponent::addAnimation(const AnimationState state, const std::shared_ptr<Animation>& animation) {
+    animations[state] = animation;
+    if (!currentAnimation) {
+        currentAnimation = animation;
+    }
+}
+void AnimationComponent::setState(const AnimationState state) {
+    if (currentState != state) {
+        auto it = animations.find(state);
+        if (it != animations.end()) {
+            currentState = state;
+            currentAnimation = it->second;
+            currentAnimation->reset();
+        }
+    }
+}
+
+void AnimationComponent::update(const int deltaTime) const {
+    if (currentAnimation) {
+        currentAnimation->update(deltaTime);
+    }
+}
+
+SDL_Rect AnimationComponent::getCurrentFrame() const {
+    if (currentAnimation) {
+        return currentAnimation->getCurrentFrame();
+    }
+    return {0, 0, 0, 0};
 }
