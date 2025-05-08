@@ -21,7 +21,7 @@ struct InputAction {
 
 enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP };
 
-class InputControl : public Component {
+class InputControl final : public Component {
 public:
     std::unordered_map<InputKey, InputAction> actions;
 
