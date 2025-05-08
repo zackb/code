@@ -26,5 +26,6 @@ private:
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;
+    CameraSystem cameraSystem;
     GameTime& gameTime = GameTime::getInstance();
 };
