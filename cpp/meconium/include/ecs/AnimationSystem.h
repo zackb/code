@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Entity.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
 class AnimationSystem {
 

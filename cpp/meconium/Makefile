@@ -8,6 +8,13 @@ release:
 	cmake --preset release
 	cmake --build --preset release
 
+.PHONY: format
+fmt:
+	@echo "Formatting code with clang-format..."
+	@find . \( -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" -o -name "*.c" -o -name "*.h" \) -print0 | \
+	xargs -0 -n 1 clang-format -i
+	@echo "Done."
+
 clean:
 	rm -rf build
 

@@ -1,17 +1,12 @@
 #pragma once
 
 #include <SDL.h>
-#include <vector>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
-enum class AnimationState {
-    IDLE,
-    WALKING,
-    JUMPING,
-    FALLING
-};
+enum class AnimationState { IDLE, WALKING, JUMPING, FALLING };
 
 struct AnimationFrame {
     SDL_Rect srcRect;
@@ -21,7 +16,6 @@ struct AnimationFrame {
 class Animation {
 
 public:
-
     Animation(const std::string& name, bool looping = true)
         : name(name), looping(looping), currentFrame(0), timer(0), finished(false) {}
 
@@ -33,13 +27,9 @@ public:
 
     void reset();
 
-    bool isFinished() const {
-        return finished;
-    }
+    bool isFinished() const { return finished; }
 
-    const std::string& getName() const {
-        return name;
-    }
+    const std::string& getName() const { return name; }
 
 private:
     std::string name;
@@ -62,9 +52,7 @@ public:
 
     SDL_Rect getCurrentFrame() const;
 
-    AnimationState getCurrentState() const {
-        return currentState;
-    }
+    AnimationState getCurrentState() const { return currentState; }
 
 private:
     std::map<AnimationState, std::shared_ptr<Animation>> animations;

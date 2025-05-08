@@ -1,6 +1,6 @@
 #pragma once
-#include <SDL.h>
 #include "Size.h"
+#include <SDL.h>
 
 class Context {
 

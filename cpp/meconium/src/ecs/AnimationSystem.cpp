@@ -4,7 +4,8 @@
 void AnimationSystem::update(const std::vector<std::shared_ptr<Entity>>& entities, const int deltaTime) {
     for (auto& entity : entities) {
         const auto animation = entity->getComponent<AnimationComponent>();
-        if (!animation) continue;
+        if (!animation)
+            continue;
 
         // Update animation timing
         animation->update(deltaTime);
@@ -13,7 +14,8 @@ void AnimationSystem::update(const std::vector<std::shared_ptr<Entity>>& entitie
         auto position = entity->getComponent<Position>();
         auto velocity = entity->getComponent<Velocity>();
 
-        if (!position || !velocity) continue;
+        if (!position || !velocity)
+            continue;
 
         // Determine animation state
         if (!position->onGround) {

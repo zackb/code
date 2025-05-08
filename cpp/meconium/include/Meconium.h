@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GameTime.h"
-#include "ecs/ECS.h"
 #include "TileMap.h"
+#include "ecs/ECS.h"
 
 class Meconium {
 
@@ -20,11 +20,11 @@ private:
 
     // ecs
     std::shared_ptr<Entity> player;
-    std::vector<std::shared_ptr<Entity> > entities;
+    std::vector<std::shared_ptr<Entity>> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;
-    GameTime &gameTime = GameTime::getInstance();
+    GameTime& gameTime = GameTime::getInstance();
 };
