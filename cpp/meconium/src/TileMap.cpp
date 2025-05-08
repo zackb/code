@@ -1,5 +1,9 @@
 #include "TileMap.h"
 
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 std::unique_ptr<TileMap> TileMap::load(const std::string mapPath, std::string texturePath) {
     auto tileMap = std::make_unique<TileMap>();
 
