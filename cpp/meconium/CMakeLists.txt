@@ -42,9 +42,7 @@ set(SOURCES
         src/ecs/CollisionSystem.cpp
         src/TileMap.cpp
         src/FileUtils.cpp
-        include/ecs/CameraSystem.h
         src/ecs/CameraSystem.cpp
-        include/ecs/CameraComponent.h
 )
 
 # Define the executable target (use lowercase for the binary name)
