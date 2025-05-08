@@ -34,6 +34,7 @@ include_directories(
 set(SOURCES
     src/main.cpp
     src/Meconium.cpp
+    src/ResourceManager.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

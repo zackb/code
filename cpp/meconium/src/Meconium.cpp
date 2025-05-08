@@ -56,9 +56,9 @@ bool Meconium::init() {
 
     // Create player sprite and animations
     /* Urchin
+    constexpr int frameWidth = 70;
+    constexpr int frameHeight = 70;
     std::shared_ptr<Sprite> sprite = ResourceManager::loadSpriteScaled("assets/player.png", 70, 70);
-    player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
-    player->addComponent<Sprite>(std::move(sprite));
     */
 
     constexpr int frameWidth = 190;
