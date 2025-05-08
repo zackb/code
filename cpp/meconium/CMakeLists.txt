@@ -36,6 +36,10 @@ set(SOURCES
     src/Meconium.cpp
     src/ResourceManager.cpp
         src/ecs/Animation.cpp
+        src/ecs/AnimationSystem.cpp
+        src/ecs/MovementSystem.cpp
+        src/ecs/RenderSystem.cpp
+        src/ecs/CollisionSystem.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

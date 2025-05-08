@@ -10,3 +10,4 @@
 #include "RenderSystem.h"
 #include "CollisionSystem.h"
 #include "AnimationSystem.h"
+#include "Animation.h"
