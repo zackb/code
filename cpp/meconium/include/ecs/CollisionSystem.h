@@ -86,6 +86,25 @@ private:
                 }
             }
         }
+
+
+        // Fallback check for ground stability when standing still
+        if (!position->onGround && velocity->vy == 0) {
+            int feetY = position->y + size->height;
+            int tileXLeft = position->x / tileMap.tileSize;
+            int tileXRight = (position->x + size->width - 1) / tileMap.tileSize;
+            int tileYBelow = feetY / tileMap.tileSize;
+
+            for (int tx = tileXLeft; tx <= tileXRight; ++tx) {
+                int tileID = tileMap.at(tileYBelow, tx);
+                if (tileMap.getTileType(tileID) == TileType::Solid) {
+                    int tileTop = tileYBelow * tileMap.tileSize;
+                    if (feetY >= tileTop - 1 && feetY <= tileTop + 3) {
+                        position->onGround = true;
+                    }
+                }
+            }
+        }
     }
 
     // New method to handle all ramp collisions at once
@@ -148,6 +167,36 @@ private:
             position->y = bestRampY - size->height;
             velocity->vy = 0;
             position->onGround = true;
+        }
+
+        // Fallback: stabilize on ramp if standing still near the surface
+        if (!position->onGround && velocity->vy == 0) {
+            for (int y = startY; y <= endY; ++y) {
+                for (int x = startX; x <= endX; ++x) {
+                    if (x < 0 || y < 0 || x >= tileMap.mapWidth || y >= tileMap.mapHeight)
+                        continue;
+
+                    int tileID = tileMap.at(y, x);
+                    TileType type = tileMap.getTileType(tileID);
+
+                    if (type == TileType::RampLeft || type == TileType::RampRight) {
+                        SDL_Rect tileRect = {
+                            x * tileMap.tileSize,
+                            y * tileMap.tileSize,
+                            tileMap.tileSize,
+                            tileMap.tileSize
+                        };
+
+                        float rampY = calculateRampY(position, velocity, size, type, tileRect, tileMap);
+                        int playerFeet = position->y + size->height;
+
+                        if (playerFeet >= rampY - 1 && playerFeet <= rampY + 3) {
+                            position->onGround = true;
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
 
