@@ -54,36 +54,13 @@ class AnimationComponent {
 public:
     AnimationComponent() : currentState(AnimationState::IDLE) {}
 
-    void addAnimation(const AnimationState state, const std::shared_ptr<Animation>& animation) {
-        animations[state] = animation;
-        if (!currentAnimation) {
-            currentAnimation = animation;
-        }
-    }
+    void addAnimation(const AnimationState state, const std::shared_ptr<Animation>& animation);
 
-    void setState(const AnimationState state) {
-        if (currentState != state) {
-            auto it = animations.find(state);
-            if (it != animations.end()) {
-                currentState = state;
-                currentAnimation = it->second;
-                currentAnimation->reset();
-            }
-        }
-    }
+    void setState(const AnimationState state);
 
-    void update(const int deltaTime) const {
-        if (currentAnimation) {
-            currentAnimation->update(deltaTime);
-        }
-    }
+    void update(const int deltaTime) const;
 
-    SDL_Rect getCurrentFrame() const {
-        if (currentAnimation) {
-            return currentAnimation->getCurrentFrame();
-        }
-        return {0, 0, 0, 0};
-    }
+    SDL_Rect getCurrentFrame() const;
 
     AnimationState getCurrentState() const {
         return currentState;
