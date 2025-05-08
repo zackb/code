@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 #include <iostream>
 
-#include "Animation.h"
+#include "ecs/Animation.h"
 #include "Context.h"
 #include "ecs/Sprite.h"
 
