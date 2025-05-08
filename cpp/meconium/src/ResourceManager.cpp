@@ -107,9 +107,10 @@ std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
     animComponent->addAnimation(AnimationState::JUMPING, jumpAnim);
 
     // Create falling animation (example: fourth row in sprite sheet)
+    // TODO: this should be row 4 (frameHeight * 3)
     auto fallAnim = createAnimation("fall", true);
-    fallAnim->addFrame({0, frameHeight * 3, frameWidth, frameHeight}, 150);
-    fallAnim->addFrame({frameWidth, frameHeight * 3, frameWidth, frameHeight}, 150);
+    fallAnim->addFrame({0, frameHeight * 2, frameWidth, frameHeight}, 150);
+    fallAnim->addFrame({frameWidth, frameHeight * 2, frameWidth, frameHeight}, 150);
     animComponent->addAnimation(AnimationState::FALLING, fallAnim);
 
     return animComponent;
