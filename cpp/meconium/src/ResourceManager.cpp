@@ -2,7 +2,15 @@
 
 std::unordered_map<std::string, SDL_Texture *> ResourceManager::textures;
 
-std::shared_ptr<Sprite> ResourceManager::loadSprite(std::string filePath, int maxWidth, int maxHeight) {
+std::shared_ptr<Sprite> ResourceManager::loadSprite(const std::string& path, int frameWidth, int frameHeight) {
+    SDL_Texture* texture = loadTexture(path);
+    if (!texture) {
+        return nullptr;
+    }
+    return std::make_shared<Sprite>(texture, frameWidth, frameHeight);
+}
+
+std::shared_ptr<Sprite> ResourceManager::loadSpriteScaled(const std::string& filePath, int maxWidth, int maxHeight) {
     SDL_Texture *tex = ResourceManager::loadTexture(filePath);
     if (!tex) {
         std::cerr << "failed to load texture for sprite" << std::endl;
@@ -31,7 +39,7 @@ std::shared_ptr<Sprite> ResourceManager::loadSprite(std::string filePath, int ma
     return sprite;
 }
 
-SDL_Texture* ResourceManager::loadTexture(std::string filePath) {
+SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
     // Check if we already loaded this texture
     if (const auto it = textures.find(filePath); it != textures.end()) {
         return it->second;
@@ -59,7 +67,7 @@ SDL_Texture* ResourceManager::loadTexture(std::string filePath) {
 }
 
 std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
-    std::string &spriteSheetPath, const int frameWidth,
+    const std::string& spriteSheetPath, const int frameWidth,
     const int frameHeight) {
     SDL_Texture *texture = loadTexture(spriteSheetPath);
     if (!texture) {
@@ -84,6 +92,8 @@ std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
     walkAnim->addFrame({frameWidth * 3, frameHeight, frameWidth, frameHeight}, 100);
     walkAnim->addFrame({frameWidth * 4, frameHeight, frameWidth, frameHeight}, 100);
     walkAnim->addFrame({frameWidth * 5, frameHeight, frameWidth, frameHeight}, 100);
+    walkAnim->addFrame({frameWidth * 6, frameHeight, frameWidth, frameHeight}, 100);
+    walkAnim->addFrame({frameWidth * 7, frameHeight, frameWidth, frameHeight}, 100);
     animComponent->addAnimation(AnimationState::WALKING, walkAnim);
 
     // Create jumping animation (example: third row in sprite sheet)
@@ -91,6 +101,9 @@ std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
     jumpAnim->addFrame({0, frameHeight * 2, frameWidth, frameHeight}, 150);
     jumpAnim->addFrame({frameWidth, frameHeight * 2, frameWidth, frameHeight}, 150);
     jumpAnim->addFrame({frameWidth * 2, frameHeight * 2, frameWidth, frameHeight}, 150);
+    jumpAnim->addFrame({frameWidth * 3, frameHeight * 2, frameWidth, frameHeight}, 150);
+    jumpAnim->addFrame({frameWidth * 4, frameHeight * 2, frameWidth, frameHeight}, 150);
+    jumpAnim->addFrame({frameWidth * 5, frameHeight * 2, frameWidth, frameHeight}, 150);
     animComponent->addAnimation(AnimationState::JUMPING, jumpAnim);
 
     // Create falling animation (example: fourth row in sprite sheet)
