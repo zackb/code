@@ -62,7 +62,7 @@ bool Meconium::init() {
     */
 
     constexpr int frameWidth = 190;
-    constexpr int frameHeight = 300;
+    constexpr int frameHeight = 260;
     std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player_spritesheet.png", frameWidth, frameHeight);
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
     player->addComponent<Sprite>(std::move(sprite));

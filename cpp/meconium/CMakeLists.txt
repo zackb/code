@@ -35,6 +35,7 @@ set(SOURCES
     src/main.cpp
     src/Meconium.cpp
     src/ResourceManager.cpp
+        src/ecs/Animation.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

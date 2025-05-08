@@ -19,46 +19,19 @@ struct AnimationFrame {
 };
 
 class Animation {
+
 public:
+
     Animation(const std::string& name, bool looping = true)
         : name(name), looping(looping), currentFrame(0), timer(0), finished(false) {}
 
-    void addFrame(const SDL_Rect srcRect, const int duration) {
-        frames.push_back({srcRect, duration});
-    }
+    void addFrame(const SDL_Rect srcRect, const int duration);
 
-    void update(const int deltaTime) {
-        if (frames.empty() || finished) return;
+    void update(const int deltaTime);
 
-        timer += deltaTime;
+    SDL_Rect getCurrentFrame() const;
 
-        if (timer >= frames[currentFrame].duration) {
-            timer -= frames[currentFrame].duration;
-            currentFrame++;
-
-            if (currentFrame >= frames.size()) {
-                if (looping) {
-                    currentFrame = 0;
-                } else {
-                    currentFrame = frames.size() - 1;
-                    finished = true;
-                }
-            }
-        }
-    }
-
-    SDL_Rect getCurrentFrame() const {
-        if (frames.empty()) {
-            return {0, 0, 0, 0};
-        }
-        return frames[currentFrame].srcRect;
-    }
-
-    void reset() {
-        currentFrame = 0;
-        timer = 0;
-        finished = false;
-    }
+    void reset();
 
     bool isFinished() const {
         return finished;
