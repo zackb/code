@@ -1,53 +1,37 @@
 #include "ecs/CameraSystem.h"
 #include "ecs/ECS.h"
 
+#include "ecs/CameraSystem.h"
+#include "ecs/ECS.h"
+#include <algorithm>
+#include <cmath>
+
 void CameraSystem::update(std::vector<std::shared_ptr<Entity>>& entities, const TileMap& map) const {
     for (auto& e : entities) {
-        if (!e->hasComponent<CameraComponent>())
+        if (!e->hasComponent<CameraComponent>() || !e->hasComponent<FollowComponent>())
             continue;
 
         auto camPos = e->getComponent<Position>();
         auto camComp = e->getComponent<CameraComponent>();
+        auto follow = e->getComponent<FollowComponent>();
 
-        if (e->hasComponent<FollowComponent>()) {
-            auto follow = e->getComponent<FollowComponent>();
-            if (auto target = follow->target.lock()) {
-                auto targetPos = target->getComponent<Position>();
+        if (auto target = follow->target.lock()) {
+            auto targetPos = target->getComponent<Position>();
 
-                // Define dead zone size
-                int deadZoneWidth = camComp->viewportWidth / 4;
-                int deadZoneHeight = camComp->viewportHeight / 3;
+            // Desired camera position: center target in view
+            float desiredX = targetPos->x - camComp->viewportWidth / 2.0f;
+            float desiredY = targetPos->y - camComp->viewportHeight / 2.0f;
 
-                // Calculate dead zone bounds in world space
-                int deadZoneLeft = camPos->x + (camComp->viewportWidth - deadZoneWidth) / 2;
-                int deadZoneRight = deadZoneLeft + deadZoneWidth;
-                int deadZoneTop = camPos->y + (camComp->viewportHeight - deadZoneHeight) / 2;
-                int deadZoneBottom = deadZoneTop + deadZoneHeight;
+            // Smooth follow (lerp toward desired position)
+            camPos->x += (desiredX - camPos->x) * follow->lerpFactor;
+            camPos->y += (desiredY - camPos->y) * follow->lerpFactor;
 
-                float targetX = camPos->x;
-                float targetY = camPos->y;
+            // Clamp to map bounds (integer math)
+            int maxX = std::max(0, map.mapWidth * map.tileSize - camComp->viewportWidth);
+            int maxY = std::max(0, map.mapHeight * map.tileSize - camComp->viewportHeight);
 
-                // Only move camera if target is outside dead zone
-                if (targetPos->x < deadZoneLeft) {
-                    targetX -= (deadZoneLeft - targetPos->x);
-                } else if (targetPos->x > deadZoneRight) {
-                    targetX += (targetPos->x - deadZoneRight);
-                }
-
-                if (targetPos->y < deadZoneTop) {
-                    targetY -= (deadZoneTop - targetPos->y);
-                } else if (targetPos->y > deadZoneBottom) {
-                    targetY += (targetPos->y - deadZoneBottom);
-                }
-
-                // Smooth follow (lerp toward adjusted target position)
-                camPos->x += (targetX - camPos->x) * follow->lerpFactor;
-                camPos->y += (targetY - camPos->y) * follow->lerpFactor;
-            }
+            camPos->x = std::clamp(static_cast<int>(std::round(camPos->x)), 0, maxX);
+            camPos->y = std::clamp(static_cast<int>(std::round(camPos->y)), 0, maxY);
         }
-
-        // Clamp to map bounds
-        camPos->x = std::max(0, std::min(camPos->x, map.mapWidth * map.tileSize - camComp->viewportWidth));
-        camPos->y = std::max(0, std::min(camPos->y, map.mapHeight * map.tileSize - camComp->viewportHeight));
     }
 }
