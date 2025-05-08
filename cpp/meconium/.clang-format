@@ -1,0 +1,43 @@
+# Use the latest known style as a base
+BasedOnStyle: LLVM
+
+# --- Braces ---
+BreakBeforeBraces: Attach         # Keep opening brace on the same line (not Allman)
+
+# --- Pointer/Reference style ---
+PointerAlignment: Left            # int* ptr, std::string& ref
+
+# --- Indentation ---
+IndentWidth: 4                    # 4-space indent
+TabWidth: 4
+UseTab: Never
+
+# --- Line Length ---
+ColumnLimit: 120
+
+# --- Namespace formatting ---
+NamespaceIndentation: All         # Indent contents of namespaces
+
+# --- Include sorting ---
+SortIncludes: true
+IncludeBlocks: Preserve           # Keep include blocks together (e.g., system vs local)
+
+# --- Constructor initializer formatting ---
+BreakConstructorInitializersBeforeComma: true
+
+# --- Function arguments ---
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackParameters: false          # Don't cram parameters on one line
+BinPackArguments: false
+
+# --- Trailing commas ---
+Cpp11BracedListStyle: true
+
+# --- Misc ---
+DerivePointerAlignment: false     # Don't auto-detect * or & style — use what we said
+AlignAfterOpenBracket: Align      # Align parameters/args nicely
+SpacesInContainerLiterals: true   # std::vector<int> v = { 1, 2, 3 };
+
+# --- Comments ---
+IndentWrappedFunctionNames: true
+
