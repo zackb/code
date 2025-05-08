@@ -9,9 +9,12 @@ public:
     SDL_Texture *texture = nullptr;
     int width = 0;
     int height = 0;
-    bool flipX;
-    bool flipY;
+    bool flipX = false;
+    bool flipY = false;
 
+    Sprite() = default;
+    Sprite(SDL_Texture *texture, int width, int height)
+        : texture(texture), width(width), height(height) {}
     ~Sprite() override {
         if (texture) {
             SDL_DestroyTexture(texture);
