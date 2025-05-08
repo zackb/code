@@ -15,9 +15,7 @@ public:
         lastTime = currentTime;
     }
 
-    int getDeltaTime() const {
-        return deltaTime;
-    }
+    int getDeltaTime() const { return deltaTime; }
 
 private:
     GameTime() : lastTime(SDL_GetTicks()), deltaTime(0) {}

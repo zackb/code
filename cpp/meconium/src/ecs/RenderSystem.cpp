@@ -1,11 +1,11 @@
 #include "ecs/ECS.h"
 
-void RenderSystem::render(const std::vector<std::shared_ptr<Entity> > &entities, TileMap &tileMap) {
-    Camera &camera = Camera::getInstance();
+void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
+    Camera& camera = Camera::getInstance();
 
     renderTileMap(tileMap, camera);
 
-    for (auto entity: entities) {
+    for (auto entity : entities) {
         auto position = entity->getComponent<Position>();
         auto sprite = entity->getComponent<Sprite>();
         if (!position) {
@@ -13,7 +13,7 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity> > &entities,
         }
 
         if (sprite) {
-            auto &pos = *position;
+            auto& pos = *position;
 
             SDL_Rect dstRect;
             dstRect.x = pos.x - camera.x; // Apply camera offset
@@ -22,7 +22,7 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity> > &entities,
             dstRect.h = sprite->height;
 
             SDL_Rect srcRect;
-            SDL_Rect *srcRectPtr = nullptr;
+            SDL_Rect* srcRectPtr = nullptr;
 
             // Check if entity has an animation component
             auto animation = entity->getComponent<AnimationComponent>();
@@ -33,8 +33,10 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity> > &entities,
 
             // Apply flip if needed
             SDL_RendererFlip flip = SDL_FLIP_NONE;
-            if (sprite->flipX) flip = (SDL_RendererFlip) (flip | SDL_FLIP_HORIZONTAL);
-            if (sprite->flipY) flip = (SDL_RendererFlip) (flip | SDL_FLIP_VERTICAL);
+            if (sprite->flipX)
+                flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
+            if (sprite->flipY)
+                flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
 
             SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
         } else {
@@ -45,7 +47,7 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity> > &entities,
     }
 }
 
-void RenderSystem::renderTileMap(TileMap &tileMap, Camera &camera) {
+void RenderSystem::renderTileMap(TileMap& tileMap, Camera& camera) {
     // render only tiles that are on-screen
     int startCol = std::max(0, camera.x / tileMap.tileSize);
     int startRow = std::max(0, camera.y / tileMap.tileSize);
@@ -59,12 +61,10 @@ void RenderSystem::renderTileMap(TileMap &tileMap, Camera &camera) {
                 continue;
 
             SDL_Rect src = tileMap.getTileSrcRect(tileID);
-            SDL_Rect dst = {
-                col * tileMap.tileSize - camera.x,
-                row * tileMap.tileSize - camera.y,
-                tileMap.tileSize,
-                tileMap.tileSize
-            };
+            SDL_Rect dst = {col * tileMap.tileSize - camera.x,
+                            row * tileMap.tileSize - camera.y,
+                            tileMap.tileSize,
+                            tileMap.tileSize};
 
             SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
         }

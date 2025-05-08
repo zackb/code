@@ -1,11 +1,10 @@
 #include "ecs/Animation.h"
 
-void Animation::addFrame(const SDL_Rect srcRect, const int duration) {
-    frames.push_back({srcRect, duration});
-}
+void Animation::addFrame(const SDL_Rect srcRect, const int duration) { frames.push_back({srcRect, duration}); }
 
 void Animation::update(const int deltaTime) {
-    if (frames.empty() || finished) return;
+    if (frames.empty() || finished)
+        return;
 
     timer += deltaTime;
 

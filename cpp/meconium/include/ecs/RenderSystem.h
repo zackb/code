@@ -1,16 +1,16 @@
 #pragma once
 
-#include <SDL.h>
-#include "TileMap.h"
-#include "Context.h"
-#include "Camera.h"
-#include "Size.h"
 #include "Animation.h"
+#include "Camera.h"
+#include "Context.h"
+#include "Size.h"
+#include "TileMap.h"
+#include <SDL.h>
 
 class RenderSystem {
 public:
-    void render(const std::vector<std::shared_ptr<Entity> > &entities, TileMap &tileMap);
+    void render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap);
 
 private:
-    void renderTileMap(TileMap &tileMap, Camera &camera);
+    void renderTileMap(TileMap& tileMap, Camera& camera);
 };

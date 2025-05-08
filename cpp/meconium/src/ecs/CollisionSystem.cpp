@@ -1,7 +1,7 @@
 #include "ecs/ECS.h"
 
-void CollisionSystem::update(std::vector<std::shared_ptr<Entity> > &entities, TileMap &tileMap) {
-    for (auto &entity: entities) {
+void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
+    for (auto& entity : entities) {
         auto position = entity->getComponent<Position>();
         auto velocity = entity->getComponent<Velocity>();
         auto size = entity->getComponent<Size>();
@@ -14,12 +14,7 @@ void CollisionSystem::update(std::vector<std::shared_ptr<Entity> > &entities, Ti
         int originalY = position->y;
 
         // Create future position rectangle
-        SDL_Rect futureRect = {
-            position->x + velocity->vx,
-            position->y + velocity->vy,
-            size->width,
-            size->height
-        };
+        SDL_Rect futureRect = {position->x + velocity->vx, position->y + velocity->vy, size->width, size->height};
 
         resolveTileCollisions(futureRect, velocity, position, size, tileMap);
 
@@ -44,11 +39,11 @@ void CollisionSystem::update(std::vector<std::shared_ptr<Entity> > &entities, Ti
     }
 }
 
-void CollisionSystem::resolveTileCollisions(SDL_Rect &rect,
-                                            std::shared_ptr<Velocity> &velocity,
-                                            std::shared_ptr<Position> &position,
-                                            std::shared_ptr<Size> &size,
-                                            TileMap &tileMap) {
+void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
+                                            std::shared_ptr<Velocity>& velocity,
+                                            std::shared_ptr<Position>& position,
+                                            std::shared_ptr<Size>& size,
+                                            TileMap& tileMap) {
     // Calculate the tile boundaries to check (slightly expanded to catch edge cases)
     int startX = (rect.x - 2) / tileMap.tileSize;
     int endX = (rect.x + rect.w + 2) / tileMap.tileSize;
@@ -72,11 +67,7 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect &rect,
 
                 if (type == TileType::Solid) {
                     SDL_Rect tileRect = {
-                        x * tileMap.tileSize,
-                        y * tileMap.tileSize,
-                        tileMap.tileSize,
-                        tileMap.tileSize
-                    };
+                        x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
 
                     SDL_Rect intersection;
                     if (SDL_IntersectRect(&rect, &tileRect, &intersection)) {
@@ -88,12 +79,15 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect &rect,
     }
 }
 
-void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position> &position,
-                                              std::shared_ptr<Velocity> &velocity,
-                                              std::shared_ptr<Size> &size,
-                                              SDL_Rect &rect,
-                                              int startX, int endX, int startY, int endY,
-                                              TileMap &tileMap) {
+void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position>& position,
+                                              std::shared_ptr<Velocity>& velocity,
+                                              std::shared_ptr<Size>& size,
+                                              SDL_Rect& rect,
+                                              int startX,
+                                              int endX,
+                                              int startY,
+                                              int endY,
+                                              TileMap& tileMap) {
     // These will hold the best ramp collision info
     float bestRampY = std::numeric_limits<float>::max();
     bool foundRamp = false;
@@ -113,12 +107,7 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position> &positio
             TileType type = tileMap.getTileType(tileID);
 
             if (type == TileType::RampLeft || type == TileType::RampRight) {
-                SDL_Rect tileRect = {
-                    x * tileMap.tileSize,
-                    y * tileMap.tileSize,
-                    tileMap.tileSize,
-                    tileMap.tileSize
-                };
+                SDL_Rect tileRect = {x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
 
                 // Find where player would be on this ramp
                 float rampY = calculateRampY(position, velocity, size, type, tileRect, tileMap);
@@ -150,12 +139,12 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position> &positio
     }
 }
 
-float CollisionSystem::calculateRampY(std::shared_ptr<Position> &position,
-                     std::shared_ptr<Velocity> &velocity,
-                     std::shared_ptr<Size> &size,
-                     TileType rampType,
-                     SDL_Rect tileRect,
-                     TileMap &tileMap) {
+float CollisionSystem::calculateRampY(std::shared_ptr<Position>& position,
+                                      std::shared_ptr<Velocity>& velocity,
+                                      std::shared_ptr<Size>& size,
+                                      TileType rampType,
+                                      SDL_Rect tileRect,
+                                      TileMap& tileMap) {
     int tileSize = tileMap.tileSize;
     int playerMidX = position->x + size->width / 2;
     int relX = playerMidX - tileRect.x;
@@ -173,12 +162,12 @@ float CollisionSystem::calculateRampY(std::shared_ptr<Position> &position,
     return tileRect.y + tileSize - rampHeight;
 }
 
-void CollisionSystem::handleSolidCollision(SDL_Rect &rect,
-                          std::shared_ptr<Velocity> &velocity,
-                          std::shared_ptr<Position> &position,
-                          std::shared_ptr<Size> &size,
-                          SDL_Rect tileRect,
-                          SDL_Rect &intersection) {
+void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
+                                           std::shared_ptr<Velocity>& velocity,
+                                           std::shared_ptr<Position>& position,
+                                           std::shared_ptr<Size>& size,
+                                           SDL_Rect tileRect,
+                                           SDL_Rect& intersection) {
     // Use intersection data to determine which side collided
 
     // First, handle vertical collisions (they typically have priority)
@@ -211,10 +200,7 @@ void CollisionSystem::handleSolidCollision(SDL_Rect &rect,
     }
 }
 
-
-bool CollisionSystem::isGrounded(const Position &position,
-                const Size &size,
-                const TileMap &tileMap) const {
+bool CollisionSystem::isGrounded(const Position& position, const Size& size, const TileMap& tileMap) const {
     SDL_Rect feetRect = {
         position.x,
         position.y + size.height,

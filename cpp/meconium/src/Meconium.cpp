@@ -1,15 +1,15 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
+#include "Context.h"
 #include "Meconium.h"
 #include "ResourceManager.h"
-#include "Context.h"
 
 Size Context::windowSize;
-SDL_Renderer *Context::renderer;
-SDL_Window *Context::window;
+SDL_Renderer* Context::renderer;
+SDL_Window* Context::window;
 
 bool Meconium::init() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -17,8 +17,8 @@ bool Meconium::init() {
         return false;
     }
 
-    Context::window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800,
-                                       SDL_WINDOW_SHOWN);
+    Context::window =
+        SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
 
     if (!Context::window) {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -40,10 +40,7 @@ bool Meconium::init() {
         return false;
     }
 
-    SDL_GetWindowSize(Context::window,
-                      &Context::windowSize.width,
-                      &Context::windowSize.height);
-
+    SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
     tileMap = TileMap::load("assets/map.csv", "assets/tilesheet.png");
@@ -64,12 +61,14 @@ bool Meconium::init() {
 
     constexpr int frameWidth = 190;
     constexpr int frameHeight = 260;
-    std::shared_ptr<Sprite> sprite = ResourceManager::loadSprite("assets/player_spritesheet.png", frameWidth, frameHeight);
+    std::shared_ptr<Sprite> sprite =
+        ResourceManager::loadSprite("assets/player_spritesheet.png", frameWidth, frameHeight);
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
     player->addComponent<Sprite>(std::move(sprite));
 
     // Add animation component
-    auto animComponent = ResourceManager::createPlayerAnimations("assets/player_spritesheet.png", frameWidth, frameHeight);
+    auto animComponent =
+        ResourceManager::createPlayerAnimations("assets/player_spritesheet.png", frameWidth, frameHeight);
     player->addComponent<AnimationComponent>(animComponent);
 
     entities.push_back(player);
@@ -84,17 +83,17 @@ void Meconium::update() {
     gameTime.update();
     int deltaTime = gameTime.getDeltaTime();
 
-    const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
+    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
     inputSystem.update(entities, keyboardState);
 
     movementSystem.update(entities);
     collisionSystem.update(entities, *tileMap);
     animationSystem.update(entities, deltaTime);
 
-    auto &playerPos = *player->getComponent<Position>();
+    auto& playerPos = *player->getComponent<Position>();
 
     // Update camera position based on player position
-    Camera &camera = Camera::getInstance();
+    Camera& camera = Camera::getInstance();
     camera.x = playerPos.x - Context::windowSize.width / 2;
     camera.y = playerPos.y - Context::windowSize.height / 2;
 
@@ -118,8 +117,8 @@ void Meconium::handleEvent() {
     SDL_Event event;
     SDL_PollEvent(&event);
     switch (event.type) {
-        case SDL_QUIT:
-            isRunning = false;
+    case SDL_QUIT:
+        isRunning = false;
     }
 }
 

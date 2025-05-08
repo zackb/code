@@ -7,29 +7,19 @@ struct InputAction {
     bool isPressed = false;
     bool wasPressed = false;
 
-    InputAction(SDL_Scancode scancode) : key(scancode) {
-    }
+    InputAction(SDL_Scancode scancode) : key(scancode) {}
 
-    void update(const Uint8 *keyboardState) {
+    void update(const Uint8* keyboardState) {
         wasPressed = isPressed;
         isPressed = keyboardState[key];
     }
 
-    bool justPressed() const {
-        return isPressed && !wasPressed;
-    }
+    bool justPressed() const { return isPressed && !wasPressed; }
 
-    bool justReleased() const {
-        return !isPressed && wasPressed;
-    }
+    bool justReleased() const { return !isPressed && wasPressed; }
 };
 
-
-enum class InputKey {
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    JUMP
-};
+enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP };
 
 class InputControl : public Component {
 public:
@@ -41,8 +31,8 @@ public:
         actions.emplace(InputKey::JUMP, InputAction(SDL_SCANCODE_UP));
     }
 
-    void update(const Uint8 *keyboardState) {
-        for (auto &[name, action]: actions) {
+    void update(const Uint8* keyboardState) {
+        for (auto& [name, action] : actions) {
             action.update(keyboardState);
         }
     }

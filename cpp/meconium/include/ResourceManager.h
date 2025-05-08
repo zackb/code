@@ -8,13 +8,12 @@
 
 class ResourceManager {
 
-  private:
+private:
     static std::unordered_map<std::string, SDL_Texture*> textures;
 
-  public:
+public:
     static std::shared_ptr<Sprite> loadSprite(const std::string& filePath, int maxWidth, int maxHeight);
     static std::shared_ptr<Sprite> loadSpriteScaled(const std::string& filePath, int maxWidth, int maxHeight);
-
     static SDL_Texture* loadTexture(const std::string& filePath);
 
     static std::shared_ptr<Animation> createAnimation(const std::string& name, bool looping = true) {
@@ -23,5 +22,6 @@ class ResourceManager {
 
     static std::shared_ptr<AnimationComponent>
         createPlayerAnimations(const std::string& spriteSheetPath, int frameWidth, int frameHeight);
+
     static void cleanup();
 };

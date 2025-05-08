@@ -1,13 +1,12 @@
 #include "ecs/ECS.h"
 
-void MovementSystem::update(const std::vector<std::shared_ptr<Entity> > &entities) const {
+void MovementSystem::update(const std::vector<std::shared_ptr<Entity>>& entities) const {
     const float GRAVITY = 1.0f;
     const float JUMP_FORCE = -20.0f;
     const float MAX_FALL_SPEED = 30.0f;
     const int GROUND_LEVEL = MovementSystem::groundLevel(Context::windowSize);
 
-
-    for (auto &entity: entities) {
+    for (auto& entity : entities) {
         auto position = entity->getComponent<Position>();
         auto velocity = entity->getComponent<Velocity>();
         auto input = entity->getComponent<InputControl>();
@@ -18,10 +17,12 @@ void MovementSystem::update(const std::vector<std::shared_ptr<Entity> > &entitie
 
         if (input->isDown(InputKey::MOVE_LEFT)) {
             velocity->vx = -5;
-            if (sprite) sprite->flipX = true;
+            if (sprite)
+                sprite->flipX = true;
         } else if (input->isDown(InputKey::MOVE_RIGHT)) {
             velocity->vx = 5;
-            if (sprite) sprite->flipX = false;
+            if (sprite)
+                sprite->flipX = false;
         } else {
             velocity->vx = 0;
         }
