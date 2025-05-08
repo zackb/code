@@ -1,6 +1,9 @@
 #include "ResourceManager.h"
 
-std::unordered_map<std::string, SDL_Texture *> ResourceManager::textures;
+#include "Context.h"
+#include <SDL_image.h>
+
+std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
 
 std::shared_ptr<Sprite> ResourceManager::loadSprite(const std::string& path, int frameWidth, int frameHeight) {
     SDL_Texture* texture = loadTexture(path);
@@ -11,7 +14,7 @@ std::shared_ptr<Sprite> ResourceManager::loadSprite(const std::string& path, int
 }
 
 std::shared_ptr<Sprite> ResourceManager::loadSpriteScaled(const std::string& filePath, int maxWidth, int maxHeight) {
-    SDL_Texture *tex = ResourceManager::loadTexture(filePath);
+    SDL_Texture* tex = ResourceManager::loadTexture(filePath);
     if (!tex) {
         std::cerr << "failed to load texture for sprite" << std::endl;
         return nullptr;
@@ -49,13 +52,13 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
         std::cerr << "Renderer is NULL before loadTexture!\n";
     }
 
-    SDL_Surface *surface = IMG_Load(filePath.c_str());
+    SDL_Surface* surface = IMG_Load(filePath.c_str());
     if (!surface) {
         std::cerr << "IMG_Load failed: " << IMG_GetError() << std::endl;
         return nullptr;
     }
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(Context::renderer, surface);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(Context::renderer, surface);
     SDL_FreeSurface(surface);
     if (!texture) {
         std::cerr << "SDL_CreateTextureFromSurface failed: " << SDL_GetError() << std::endl;
@@ -66,10 +69,10 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
     return texture;
 }
 
-std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
-    const std::string& spriteSheetPath, const int frameWidth,
-    const int frameHeight) {
-    SDL_Texture *texture = loadTexture(spriteSheetPath);
+std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(const std::string& spriteSheetPath,
+                                                                            const int frameWidth,
+                                                                            const int frameHeight) {
+    SDL_Texture* texture = loadTexture(spriteSheetPath);
     if (!texture) {
         return nullptr;
     }
@@ -117,7 +120,7 @@ std::shared_ptr<AnimationComponent> ResourceManager::createPlayerAnimations(
 }
 
 void ResourceManager::cleanup() {
-    for (auto &pair: textures) {
+    for (auto& pair : textures) {
         SDL_DestroyTexture(pair.second);
     }
     textures.clear();
