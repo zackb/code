@@ -1,7 +1,5 @@
 #pragma once
 
-#include "systems/InputSystem.h"
-#include "systems/MovementSystem.h"
 #include "components/Animation.h"
 #include "components/CameraComponent.h"
 #include "components/Collider.h"
@@ -13,4 +11,6 @@
 #include "systems/AnimationSystem.h"
 #include "systems/CameraSystem.h"
 #include "systems/CollisionSystem.h"
+#include "systems/InputSystem.h"
+#include "systems/MovementSystem.h"
 #include "systems/RenderSystem.h"
