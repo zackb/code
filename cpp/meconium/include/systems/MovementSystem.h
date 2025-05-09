@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Entity.h"
-#include "Size.h"
+#include "entity/Entity.h"
 
 #include <memory>
 #include <vector>

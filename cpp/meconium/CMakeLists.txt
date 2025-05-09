@@ -35,14 +35,14 @@ set(SOURCES
         src/main.cpp
         src/Meconium.cpp
         src/ResourceManager.cpp
-        src/ecs/Animation.cpp
-        src/ecs/AnimationSystem.cpp
-        src/ecs/MovementSystem.cpp
-        src/ecs/RenderSystem.cpp
-        src/ecs/CollisionSystem.cpp
+        src/components/Animation.cpp
+        src/systems/AnimationSystem.cpp
+        src/systems/MovementSystem.cpp
+        src/systems/RenderSystem.cpp
+        src/systems/CollisionSystem.cpp
         src/TileMap.cpp
         src/FileUtils.cpp
-        src/ecs/CameraSystem.cpp
+        src/systems/CameraSystem.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

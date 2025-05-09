@@ -1,7 +1,7 @@
 #pragma once
 
+#include "ECS.h"
 #include "TileMap.h"
-#include "ecs/ECS.h"
 #include <vector>
 
 class CameraSystem {

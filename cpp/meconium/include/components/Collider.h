@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <memory>
 
-class Collider : public Component {
+class Collider final : public Component {
 public:
     int offsetX = 0, offsetY = 0;
     int width = 0, height = 0;

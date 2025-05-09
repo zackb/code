@@ -3,8 +3,8 @@
 #include <SDL.h>
 #include <iostream>
 
-#include "ecs/Animation.h"
-#include "ecs/Sprite.h"
+#include "components/Animation.h"
+#include "components/Sprite.h"
 
 class ResourceManager {
 

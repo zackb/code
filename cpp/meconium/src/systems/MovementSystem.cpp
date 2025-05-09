@@ -1,4 +1,4 @@
-#include "ecs/ECS.h"
+#include "ECS.h"
 
 void MovementSystem::update(const std::vector<std::shared_ptr<Entity>>& entities) const {
     const float GRAVITY = 1.0f;

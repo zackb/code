@@ -48,18 +48,19 @@ bool Meconium::init() {
     // Initialize ECS components, systems, and entities
 
     // Create a player entity
-    player = std::make_shared<Entity>(1);
-    player->addComponent(std::make_shared<Velocity>(0, 0));
-    player->addComponent(std::make_shared<InputControl>());
-
-    // Load player sprite
+    // Load sprite
     constexpr int frameWidth = 56;
     constexpr int frameHeight = 56;
     std::shared_ptr<Sprite> sprite =
         ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight);
 
-    // Add Size
-    player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
+    player = std::make_shared<Entity>(1);
+
+    // Add velocity
+    player->addComponent(std::make_shared<Velocity>(0, 0));
+
+    // Add input control to the player
+    player->addComponent(std::make_shared<InputControl>());
 
     // Add Collision box
     player->addComponent(std::make_shared<Collider>(15, 0, sprite->width - 30, sprite->height));
@@ -71,6 +72,7 @@ bool Meconium::init() {
     player->addComponent<Sprite>(std::move(sprite));
 
     // Add animation component
+    // TODO: createAnimation(sprite)?
     auto animComponent =
         ResourceManager::createPlayerAnimations("assets/blue_spritesheet.png", frameWidth, frameHeight);
     player->addComponent<AnimationComponent>(animComponent);
