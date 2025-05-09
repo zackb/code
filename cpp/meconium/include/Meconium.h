@@ -4,6 +4,8 @@
 #include "TileMap.h"
 #include "ecs/ECS.h"
 
+#define DEBUG true
+
 class Meconium {
 
 public:
@@ -20,6 +22,7 @@ private:
 
     // ecs
     std::shared_ptr<Entity> player;
+    std::shared_ptr<Entity> camera;
     std::vector<std::shared_ptr<Entity>> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;

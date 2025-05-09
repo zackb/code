@@ -65,7 +65,7 @@ bool Meconium::init() {
     player->addComponent(std::make_shared<Collider>(0, 0, sprite->width, sprite->height));
 
     // Add Transform
-    player->addComponent(std::make_shared<Transform>(100, 0, 2.0));
+    player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
 
     // Add Sprite
     player->addComponent<Sprite>(std::move(sprite));
@@ -78,11 +78,11 @@ bool Meconium::init() {
     entities.push_back(player);
 
     // add camera
-    auto cameraEntity = std::make_shared<Entity>(2);
-    cameraEntity->addComponent<Transform>(std::make_shared<Transform>(0, 0));
-    cameraEntity->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
-    cameraEntity->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 0.2f)); // smooth follow
-    entities.push_back(cameraEntity);
+    camera = std::make_shared<Entity>(2);
+    camera->addComponent<Transform>(std::make_shared<Transform>(0, 0));
+    camera->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
+    camera->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 0.2f)); // smooth follow
+    entities.push_back(camera);
 
     isRunning = true;
 
@@ -107,6 +107,24 @@ void Meconium::render() {
     // Set background clear color (black)
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer); // Clears screen with black
+
+#ifdef DEBUG
+    auto collider = player->getComponent<Collider>();
+    auto transform = player->getComponent<Transform>();
+    auto camPos = camera->getComponent<Transform>();
+
+    SDL_Rect r = collider->getBounds(transform);
+    SDL_Rect hitBox = {
+        r.x  - camPos->x,
+        r.y - camPos->y,
+        r.w,
+        r.h
+    };
+
+    SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // Red color
+    SDL_RenderDrawRect(Context::renderer, &hitBox);
+#endif
+
 
     // Render entities
     renderSystem.render(entities, *tileMap);

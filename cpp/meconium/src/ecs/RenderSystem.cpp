@@ -70,10 +70,9 @@ void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
 
 std::shared_ptr<Entity> RenderSystem::findActiveCamera(const std::vector<std::shared_ptr<Entity>>& entities) const {
     for (const auto& entity : entities) {
-        if (entity->hasComponent<CameraComponent>() &&
-            entity->hasComponent<Transform>()) {
+        if (entity->hasComponent<CameraComponent>() && entity->hasComponent<Transform>()) {
             return entity;
-            }
+        }
     }
     std::cerr << "Failed to find camera" << std::endl;
     return nullptr;
