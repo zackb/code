@@ -14,11 +14,9 @@ public:
         : offsetX(offsetX), offsetY(offsetY), width(width), height(height) {}
 
     SDL_Rect getBounds(const std::shared_ptr<Transform>& transform) const {
-        return SDL_Rect{
-            static_cast<int>(transform->x + offsetX * transform->scaleX),
-            static_cast<int>(transform->y + offsetY * transform->scaleY),
-            static_cast<int>(width * transform->scaleX),
-            static_cast<int>(height * transform->scaleY)
-        };
+        return SDL_Rect{static_cast<int>(transform->x + offsetX * transform->scaleX),
+                        static_cast<int>(transform->y + offsetY * transform->scaleY),
+                        static_cast<int>(width * transform->scaleX),
+                        static_cast<int>(height * transform->scaleY)};
     }
 };
