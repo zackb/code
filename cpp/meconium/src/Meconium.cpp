@@ -46,25 +46,28 @@ bool Meconium::init() {
     tileMap = TileMap::load("assets/map.csv", "assets/tilesheet.png");
 
     // Initialize ECS components, systems, and entities
+
     // Create a player entity
     player = std::make_shared<Entity>(1);
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
-    // Create player sprite and animations
-    /* Urchin
-    constexpr int frameWidth = 70;
-    constexpr int frameHeight = 70;
-    std::shared_ptr<Sprite> sprite = ResourceManager::loadSpriteScaled("assets/player.png", 70, 70);
-    */
-
+    // Load player sprite
     constexpr int frameWidth = 56;
     constexpr int frameHeight = 56;
     std::shared_ptr<Sprite> sprite =
         ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight);
+
+    // Add Size
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
+
+    // Add Collision box
     player->addComponent(std::make_shared<Collider>(0, 0, sprite->width, sprite->height));
+
+    // Add Transform
     player->addComponent(std::make_shared<Transform>(100, 0, 2.0));
+
+    // Add Sprite
     player->addComponent<Sprite>(std::move(sprite));
 
     // Add animation component
