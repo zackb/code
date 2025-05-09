@@ -70,8 +70,8 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
 }
 
 std::shared_ptr<AnimationComponent> ResourceManager::createDudePlayerAnimations(const std::string& spriteSheetPath,
-                                                                            const int frameWidth,
-                                                                            const int frameHeight) {
+                                                                                const int frameWidth,
+                                                                                const int frameHeight) {
     SDL_Texture* texture = loadTexture(spriteSheetPath);
     if (!texture) {
         return nullptr;

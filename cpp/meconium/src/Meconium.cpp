@@ -62,7 +62,7 @@ bool Meconium::init() {
     player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
 
     // Add Collision box
-    player->addComponent(std::make_shared<Collider>(0, 0, sprite->width, sprite->height));
+    player->addComponent(std::make_shared<Collider>(15, 0, sprite->width - 30, sprite->height));
 
     // Add Transform
     player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
@@ -80,7 +80,8 @@ bool Meconium::init() {
     // add camera
     camera = std::make_shared<Entity>(2);
     camera->addComponent<Transform>(std::make_shared<Transform>(0, 0));
-    camera->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
+    camera->addComponent<CameraComponent>(
+        std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
     camera->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 0.2f)); // smooth follow
     entities.push_back(camera);
 
@@ -114,17 +115,11 @@ void Meconium::render() {
     auto camPos = camera->getComponent<Transform>();
 
     SDL_Rect r = collider->getBounds(transform);
-    SDL_Rect hitBox = {
-        r.x  - camPos->x,
-        r.y - camPos->y,
-        r.w,
-        r.h
-    };
+    SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
 
     SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // Red color
     SDL_RenderDrawRect(Context::renderer, &hitBox);
 #endif
-
 
     // Render entities
     renderSystem.render(entities, *tileMap);
