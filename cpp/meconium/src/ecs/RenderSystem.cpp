@@ -20,8 +20,8 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, 
             SDL_Rect dstRect;
             dstRect.x = pos.x - camPos->x; // Apply camera offset
             dstRect.y = pos.y - camPos->y; // Apply camera offset
-            dstRect.w = sprite->width;
-            dstRect.h = sprite->height;
+            dstRect.w = static_cast<int>(sprite->width * sprite->scale);
+            dstRect.h = static_cast<int>(sprite->height * sprite->scale);
 
             SDL_Rect srcRect;
             SDL_Rect* srcRectPtr = nullptr;
