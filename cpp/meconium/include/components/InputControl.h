@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Component.h"
+#include <SDL.h>
+
+#include <unordered_map>
 
 struct InputAction {
     SDL_Scancode key;

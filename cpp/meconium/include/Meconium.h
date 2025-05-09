@@ -1,8 +1,8 @@
 #pragma once
 
+#include "ECS.h"
 #include "GameTime.h"
 #include "TileMap.h"
-#include "ecs/ECS.h"
 
 #define DEBUG true
 

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "InputControl.h"
+#include "components/InputControl.h"
+#include "entity/Entity.h"
+
 #include <SDL.h>
 #include <memory>
 #include <vector>

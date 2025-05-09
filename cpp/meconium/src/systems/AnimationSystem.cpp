@@ -1,5 +1,4 @@
-#include "ecs/AnimationSystem.h"
-#include "ecs/ECS.h"
+#include "ECS.h"
 
 void AnimationSystem::update(const std::vector<std::shared_ptr<Entity>>& entities, const int deltaTime) {
     for (auto& entity : entities) {

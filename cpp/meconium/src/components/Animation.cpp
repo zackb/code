@@ -1,4 +1,4 @@
-#include "ecs/Animation.h"
+#include "components/Animation.h"
 
 void Animation::addFrame(const SDL_Rect srcRect, const int duration) { frames.push_back({srcRect, duration}); }
 

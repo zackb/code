@@ -1,8 +1,5 @@
-#include "ecs/CameraSystem.h"
-#include "ecs/ECS.h"
+#include "ECS.h"
 
-#include "ecs/CameraSystem.h"
-#include "ecs/ECS.h"
 #include <algorithm>
 #include <cmath>
 

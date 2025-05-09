@@ -1,7 +1,5 @@
-#include "ecs/CollisionSystem.h"
-
+#include "ECS.h"
 #include "Context.h"
-#include "ecs/ECS.h"
 
 void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
     for (auto& entity : entities) {
