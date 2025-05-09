@@ -5,6 +5,10 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, 
     auto camera = findActiveCamera(entities);
     auto camPos = camera->getComponent<Transform>();
 
+    // Render the parallax background layers first
+    renderParallaxBackground(*camPos);
+
+    // then the map
     renderTileMap(tileMap, *camPos);
 
     for (auto entity : entities) {
@@ -65,6 +69,37 @@ void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
 
             SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
         }
+    }
+}
+
+void RenderSystem::renderParallaxBackground(Transform& camera) {
+    std::vector<ParallaxLayer> layers = {
+        {ResourceManager::loadTexture("assets/map_1/background_layer_1.png"), 0.3f},  // Farthest layer
+        {ResourceManager::loadTexture("assets/map_1/background_layer_2.png"), 0.5f},  // Middle layer
+        {ResourceManager::loadTexture("assets/map_1/background_layer_3.png"), 0.8f},  // Foreground layer
+    };
+
+    for (auto& layer : layers) {
+        renderLayer(layer, camera);
+    }
+}
+
+void RenderSystem::renderLayer(const ParallaxLayer& layer, const Transform& camera) {
+    int textureW, textureH;
+    SDL_QueryTexture(layer.texture, nullptr, nullptr, &textureW, &textureH);
+
+    // Horizontal scroll only
+    float scrollX = camera.x * layer.speed;
+    int startX = static_cast<int>(scrollX) % Context::windowSize.width;
+    if (startX < 0) startX += Context::windowSize.width;
+
+    // Stretch the image vertically to window height and horizontally to one segment width
+    int scaledW = Context::windowSize.width;
+    int scaledH = Context::windowSize.height;
+
+    for (int x = -startX; x < Context::windowSize.width; x += scaledW) {
+        SDL_Rect dst = {x, 0, scaledW, scaledH};
+        SDL_RenderCopy(Context::renderer, layer.texture, nullptr, &dst);
     }
 }
 
