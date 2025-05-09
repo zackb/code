@@ -1,4 +1,6 @@
 #include "ecs/CollisionSystem.h"
+
+#include "Context.h"
 #include "ecs/ECS.h"
 
 void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
@@ -14,8 +16,9 @@ void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, Til
         int originalX = transform->x;
         int originalY = transform->y;
 
-        // Future collision rect based on velocity
         SDL_Rect currentRect = collider->getBounds(transform);
+
+        // Future collision rect based on velocity
         SDL_Rect futureRect = {
             currentRect.x + velocity->vx,
             currentRect.y + velocity->vy,
