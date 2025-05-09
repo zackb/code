@@ -5,12 +5,12 @@
 
 void CameraSystem::update(std::vector<std::shared_ptr<Entity>>& entities, const TileMap& map) const {
     for (auto& e : entities) {
-        if (!e->hasComponent<CameraComponent>() || !e->hasComponent<FollowComponent>())
+        if (!e->hasComponent<Camera>() || !e->hasComponent<Follow>())
             continue;
 
         auto camPos = e->getComponent<Transform>();
-        auto camComp = e->getComponent<CameraComponent>();
-        auto follow = e->getComponent<FollowComponent>();
+        auto camComp = e->getComponent<Camera>();
+        auto follow = e->getComponent<Follow>();
 
         if (auto target = follow->target.lock()) {
             auto targetPos = target->getComponent<Transform>();

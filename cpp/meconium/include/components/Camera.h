@@ -4,12 +4,12 @@
 
 #include <memory>
 
-struct CameraComponent {
+struct Camera {
     int viewportWidth;
     int viewportHeight;
 };
 
-struct FollowComponent {
+struct Follow {
     std::weak_ptr<Entity> target; // the entity this camera follows
     float lerpFactor = 1.0f;      // 1.0 = instant, 0.1 = slow follow
 };
