@@ -4,7 +4,7 @@
 #include "GameTime.h"
 #include "TileMap.h"
 
-#define DEBUG true
+// #define DEBUG
 
 class Meconium {
 

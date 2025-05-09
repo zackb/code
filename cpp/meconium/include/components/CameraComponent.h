@@ -1,5 +1,7 @@
 #pragma once
 
+#include "entity/Entity.h"
+
 #include <memory>
 
 struct CameraComponent {
