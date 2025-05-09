@@ -59,16 +59,16 @@ bool Meconium::init() {
     std::shared_ptr<Sprite> sprite = ResourceManager::loadSpriteScaled("assets/player.png", 70, 70);
     */
 
-    constexpr int frameWidth = 190;
-    constexpr int frameHeight = 260;
+    constexpr int frameWidth = 56;
+    constexpr int frameHeight = 56;
     std::shared_ptr<Sprite> sprite =
-        ResourceManager::loadSprite("assets/player_spritesheet.png", frameWidth, frameHeight);
-    player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
+        ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight, 2.0);
+    player->addComponent(std::make_shared<Size>(sprite->width * sprite->scale, sprite->height * sprite->scale));
     player->addComponent<Sprite>(std::move(sprite));
 
     // Add animation component
     auto animComponent =
-        ResourceManager::createPlayerAnimations("assets/player_spritesheet.png", frameWidth, frameHeight);
+        ResourceManager::createPlayerAnimations("assets/blue_spritesheet.png", frameWidth, frameHeight);
     player->addComponent<AnimationComponent>(animComponent);
 
     entities.push_back(player);
