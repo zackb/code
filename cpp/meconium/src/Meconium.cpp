@@ -43,7 +43,7 @@ bool Meconium::init() {
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
-    tileMap = TileMap::load("assets/map.csv", "assets/tilesheet.png");
+    tileMap = TileMap::load("assets/map_1/map.csv", "assets/map_1/tilesheet.png");
 
     // Initialize ECS components, systems, and entities
 
