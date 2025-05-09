@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/Animation.h"
-#include "components/CameraComponent.h"
+#include "components/Camera.h"
 #include "components/Collider.h"
 #include "components/InputControl.h"
 #include "components/Sprite.h"
