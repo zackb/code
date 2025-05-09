@@ -1,0 +1,12 @@
+{
+  "tilemap": "maps/level1.csv",
+  "tileset": "tilesets/overworld1_tiles.json",
+
+  "background": {
+    "layers": [
+      { "texture": "textures/background1/background_layer_1.png", "speed": 0.3 },
+      { "texture": "textures/background1/background_layer_2.png", "speed": 0.5 },
+      { "texture": "textures/background1/background_layer_3.png", "speed": 0.8 }
+    ]
+  }
+}
