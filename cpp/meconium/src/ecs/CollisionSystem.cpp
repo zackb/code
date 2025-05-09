@@ -1,62 +1,66 @@
+#include "ecs/CollisionSystem.h"
 #include "ecs/ECS.h"
 
 void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
     for (auto& entity : entities) {
-        auto position = entity->getComponent<Position>();
+        auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
-        auto size = entity->getComponent<Size>();
+        auto collider = entity->getComponent<Collider>();
 
-        if (!position || !velocity || !size)
+        if (!transform || !velocity || !collider)
             continue;
 
         // Save original position
-        int originalX = position->x;
-        int originalY = position->y;
+        int originalX = transform->x;
+        int originalY = transform->y;
 
-        // Create future position rectangle
-        SDL_Rect futureRect = {position->x + velocity->vx, position->y + velocity->vy, size->width, size->height};
+        // Future collision rect based on velocity
+        SDL_Rect currentRect = collider->getBounds(transform);
+        SDL_Rect futureRect = {
+            currentRect.x + velocity->vx,
+            currentRect.y + velocity->vy,
+            currentRect.w,
+            currentRect.h
+        };
 
-        resolveTileCollisions(futureRect, velocity, position, size, tileMap);
+        resolveTileCollisions(futureRect, velocity, transform, collider, tileMap);
 
-        // If no collisions modified position, apply velocity as normal
-        if (position->x == originalX && position->y == originalY) {
-            position->x += velocity->vx;
-            position->y += velocity->vy;
+        // If position hasn't changed, apply velocity directly
+        if (transform->x == originalX && transform->y == originalY) {
+            transform->x += velocity->vx;
+            transform->y += velocity->vy;
         }
 
-        // Post-collision grounding check
-        position->onGround = isGrounded(*position, *size, tileMap);
+        // Grounded check
+        transform->onGround = isGrounded(*transform, *collider, tileMap);
 
-        // fell off the world
-        if (position->y > tileMap.mapHeight * tileMap.tileSize * 2) {
+        // Respawn if fallen
+        if (transform->y > tileMap.mapHeight * tileMap.tileSize * 2) {
             std::cout << "fell off" << std::endl;
-            position->x = 100; // respawn X
-            position->y = 100; // respawn Y
+            transform->x = 100;
+            transform->y = 100;
             velocity->vx = 0;
             velocity->vy = 0;
-            position->onGround = false;
+            transform->onGround = false;
         }
     }
 }
 
 void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                                             std::shared_ptr<Velocity>& velocity,
-                                            std::shared_ptr<Position>& position,
-                                            std::shared_ptr<Size>& size,
+                                            std::shared_ptr<Transform>& transform,
+                                            std::shared_ptr<Collider>& collider,
                                             TileMap& tileMap) {
-    // Calculate the tile boundaries to check (slightly expanded to catch edge cases)
     int startX = (rect.x - 2) / tileMap.tileSize;
     int endX = (rect.x + rect.w + 2) / tileMap.tileSize;
     int startY = (rect.y - 2) / tileMap.tileSize;
     int endY = (rect.y + rect.h + 2) / tileMap.tileSize;
 
-    position->onGround = false;
+    transform->onGround = false;
 
-    // First handle ramp collisions - they take priority
-    handleAllRampCollisions(position, velocity, size, rect, startX, endX, startY, endY, tileMap);
+    handleAllRampCollisions(transform, velocity, collider, rect, startX, endX, startY, endY, tileMap);
 
-    // Only check for solid collisions if we're not already on ground from a ramp
-    if (!position->onGround) {
+    if (!transform->onGround) {
         for (int y = startY; y <= endY; ++y) {
             for (int x = startX; x <= endX; ++x) {
                 if (x < 0 || y < 0 || x >= tileMap.mapWidth || y >= tileMap.mapHeight)
@@ -66,12 +70,12 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                 TileType type = tileMap.getTileType(tileID);
 
                 if (type == TileType::Solid) {
-                    SDL_Rect tileRect = {
-                        x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
+                    SDL_Rect tileRect = {x * tileMap.tileSize, y * tileMap.tileSize,
+                                         tileMap.tileSize, tileMap.tileSize};
 
                     SDL_Rect intersection;
                     if (SDL_IntersectRect(&rect, &tileRect, &intersection)) {
-                        handleSolidCollision(rect, velocity, position, size, tileRect, intersection);
+                        handleSolidCollision(rect, velocity, transform, collider, tileRect, intersection);
                     }
                 }
             }
@@ -79,25 +83,21 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
     }
 }
 
-void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position>& position,
+void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Transform>& transform,
                                               std::shared_ptr<Velocity>& velocity,
-                                              std::shared_ptr<Size>& size,
+                                              std::shared_ptr<Collider>& collider,
                                               SDL_Rect& rect,
                                               int startX,
                                               int endX,
                                               int startY,
                                               int endY,
                                               TileMap& tileMap) {
-    // These will hold the best ramp collision info
     float bestRampY = std::numeric_limits<float>::max();
     bool foundRamp = false;
 
-    // Check all candidate ramp tiles with a wider range
-    // Expand the search slightly to catch adjacent ramps
     startX = std::max(0, startX - 1);
     endX = std::min(tileMap.mapWidth - 1, endX + 1);
 
-    // Check all candidate ramp tiles
     for (int y = startY; y <= endY; ++y) {
         for (int x = startX; x <= endX; ++x) {
             if (x < 0 || y < 0 || x >= tileMap.mapWidth || y >= tileMap.mapHeight)
@@ -107,105 +107,93 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Position>& positio
             TileType type = tileMap.getTileType(tileID);
 
             if (type == TileType::RampLeft || type == TileType::RampRight) {
-                SDL_Rect tileRect = {x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
+                SDL_Rect tileRect = {x * tileMap.tileSize, y * tileMap.tileSize,
+                                     tileMap.tileSize, tileMap.tileSize};
 
-                // Find where player would be on this ramp
-                float rampY = calculateRampY(position, velocity, size, type, tileRect, tileMap);
+                float rampY = calculateRampY(transform, collider, type, tileRect, tileMap);
 
-                // Use a more generous horizontal bounds check for ramps
-                // This helps catch the case when moving between adjacent ramps
-                int playerLeft = position->x;
-                int playerRight = position->x + size->width;
+                SDL_Rect bounds = collider->getBounds(transform);
+                int playerLeft = bounds.x;
+                int playerRight = bounds.x + bounds.w;
                 bool horizontalOverlap = (playerRight > tileRect.x && playerLeft < tileRect.x + tileRect.w);
 
-                if (horizontalOverlap) {
-                    // If player's feet are below the ramp surface and this is the highest ramp found
-                    int playerFeet = position->y + size->height;
-                    if (playerFeet > rampY && playerFeet <= tileRect.y + tileRect.h + 5 && rampY < bestRampY) {
-                        bestRampY = rampY;
-                        foundRamp = true;
-                    }
+                int playerFeet = bounds.y + bounds.h;
+                if (horizontalOverlap && playerFeet > rampY &&
+                    playerFeet <= tileRect.y + tileRect.h + 5 && rampY < bestRampY) {
+                    bestRampY = rampY;
+                    foundRamp = true;
                 }
             }
         }
     }
 
-    // Apply the best ramp collision if one was found
     if (foundRamp && velocity->vy >= 0) {
-        // Only snap to ramp when falling or running
-        position->y = bestRampY - size->height;
+        SDL_Rect bounds = collider->getBounds(transform);
+        transform->y = bestRampY - bounds.h;
         velocity->vy = 0;
-        position->onGround = true;
+        transform->onGround = true;
     }
 }
 
-float CollisionSystem::calculateRampY(std::shared_ptr<Position>& position,
-                                      std::shared_ptr<Velocity>& velocity,
-                                      std::shared_ptr<Size>& size,
+float CollisionSystem::calculateRampY(std::shared_ptr<Transform>& transform,
+                                      std::shared_ptr<Collider>& collider,
                                       TileType rampType,
                                       SDL_Rect tileRect,
                                       TileMap& tileMap) {
-    int tileSize = tileMap.tileSize;
-    int playerMidX = position->x + size->width / 2;
+    SDL_Rect bounds = collider->getBounds(transform);
+    int playerMidX = bounds.x + bounds.w / 2;
     int relX = playerMidX - tileRect.x;
 
-    // Ensure relX is within bounds
-    relX = std::max(0, std::min(relX, tileSize - 1));
+    relX = std::max(0, std::min(relX, tileMap.tileSize - 1));
 
-    float rampHeight = 0;
-    if (rampType == TileType::RampRight) {
-        rampHeight = tileSize - relX;
-    } else if (rampType == TileType::RampLeft) {
-        rampHeight = relX;
-    }
+    float rampHeight = (rampType == TileType::RampRight)
+                           ? tileMap.tileSize - relX
+                           : relX;
 
-    return tileRect.y + tileSize - rampHeight;
+    return tileRect.y + tileMap.tileSize - rampHeight;
 }
 
 void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
                                            std::shared_ptr<Velocity>& velocity,
-                                           std::shared_ptr<Position>& position,
-                                           std::shared_ptr<Size>& size,
+                                           std::shared_ptr<Transform>& transform,
+                                           std::shared_ptr<Collider>& collider,
                                            SDL_Rect tileRect,
                                            SDL_Rect& intersection) {
-    // Use intersection data to determine which side collided
+    SDL_Rect bounds = collider->getBounds(transform);
 
-    // First, handle vertical collisions (they typically have priority)
     if (intersection.h <= intersection.w) {
         if (rect.y + rect.h - intersection.h <= tileRect.y) {
-            // Top collision - player's feet hit ground
-            position->y = tileRect.y - size->height;
+            transform->y = tileRect.y - bounds.h;
             velocity->vy = 0;
-            position->onGround = true;
+            transform->onGround = true;
         } else if (rect.y >= tileRect.y + tileRect.h - intersection.h) {
-            // Bottom collision - player's head hit ceiling
-            position->y = tileRect.y + tileRect.h;
+            transform->y = tileRect.y + tileRect.h;
             velocity->vy = 0;
         }
-    }
-    // Only handle horizontal collisions if there wasn't a stronger vertical collision
-    else if (intersection.w < intersection.h) {
-        // Only consider significant horizontal overlaps (prevents "teleporting")
+    } else if (intersection.w < intersection.h) {
         if (intersection.w >= 4) {
             if (rect.x + rect.w - intersection.w <= tileRect.x) {
-                // Right collision
-                position->x = tileRect.x - size->width;
+                transform->x = tileRect.x - bounds.w;
                 velocity->vx = 0;
             } else if (rect.x >= tileRect.x + tileRect.w - intersection.w) {
-                // Left collision
-                position->x = tileRect.x + tileRect.w;
+                transform->x = tileRect.x + tileRect.w;
                 velocity->vx = 0;
             }
         }
     }
 }
 
-bool CollisionSystem::isGrounded(const Position& position, const Size& size, const TileMap& tileMap) const {
+bool CollisionSystem::isGrounded(const Transform& transform,
+                                 const Collider& collider,
+                                 const TileMap& tileMap) const {
+    auto transformPtr = std::make_shared<Transform>(transform);
+    SDL_Rect bounds = collider.getBounds(transformPtr);
+
     SDL_Rect feetRect = {
-        position.x,
-        position.y + size.height,
-        size.width,
-        2 // check just below the feet
+        bounds.x,
+        bounds.y + bounds.h,
+        bounds.w,
+        2
     };
 
     int startX = feetRect.x / tileMap.tileSize;
@@ -221,9 +209,8 @@ bool CollisionSystem::isGrounded(const Position& position, const Size& size, con
             int tileID = tileMap.at(y, x);
             TileType type = tileMap.getTileType(tileID);
 
-            if (type == TileType::Solid || type == TileType::RampLeft || type == TileType::RampRight) {
+            if (type == TileType::Solid || type == TileType::RampLeft || type == TileType::RampRight)
                 return true;
-            }
         }
     }
 

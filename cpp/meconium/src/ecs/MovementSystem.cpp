@@ -6,7 +6,7 @@ void MovementSystem::update(const std::vector<std::shared_ptr<Entity>>& entities
     const float MAX_FALL_SPEED = 30.0f;
 
     for (auto& entity : entities) {
-        auto position = entity->getComponent<Position>();
+        auto position = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
         auto input = entity->getComponent<InputControl>();
         auto sprite = entity->getComponent<Sprite>();

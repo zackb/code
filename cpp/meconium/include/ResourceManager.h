@@ -12,7 +12,7 @@ private:
     static std::unordered_map<std::string, SDL_Texture*> textures;
 
 public:
-    static std::shared_ptr<Sprite> loadSprite(const std::string& filePath, int maxWidth, int maxHeight, float scale = 1.0);
+    static std::shared_ptr<Sprite> loadSprite(const std::string& path, int frameWidth, int frameHeight);
     static std::shared_ptr<Sprite> loadSpriteScaled(const std::string& filePath, int maxWidth, int maxHeight);
     static SDL_Texture* loadTexture(const std::string& filePath);
 

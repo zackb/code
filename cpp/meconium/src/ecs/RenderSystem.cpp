@@ -3,25 +3,24 @@
 
 void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
     auto camera = findActiveCamera(entities);
-    auto camPos = camera->getComponent<Position>();
+    auto camPos = camera->getComponent<Transform>();
 
     renderTileMap(tileMap, *camPos);
 
     for (auto entity : entities) {
-        auto position = entity->getComponent<Position>();
+        auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
-        if (!position) {
+        if (!transform) {
             continue;
         }
 
         if (sprite) {
-            auto& pos = *position;
 
             SDL_Rect dstRect;
-            dstRect.x = pos.x - camPos->x; // Apply camera offset
-            dstRect.y = pos.y - camPos->y; // Apply camera offset
-            dstRect.w = static_cast<int>(sprite->width * sprite->scale);
-            dstRect.h = static_cast<int>(sprite->height * sprite->scale);
+            dstRect.x = transform->x - camPos->x; // Apply camera offset
+            dstRect.y = transform->y - camPos->y; // Apply camera offset
+            dstRect.w = static_cast<int>(sprite->width * transform->scaleX);
+            dstRect.h = static_cast<int>(sprite->height * transform->scaleY);
 
             SDL_Rect srcRect;
             SDL_Rect* srcRectPtr = nullptr;
@@ -45,7 +44,7 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, 
     }
 }
 
-void RenderSystem::renderTileMap(TileMap& tileMap, Position& camera) {
+void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
     // render only tiles that are on-screen
     int startCol = std::max(0, camera.x / tileMap.tileSize);
     int startRow = std::max(0, camera.y / tileMap.tileSize);
@@ -72,7 +71,7 @@ void RenderSystem::renderTileMap(TileMap& tileMap, Position& camera) {
 std::shared_ptr<Entity> RenderSystem::findActiveCamera(const std::vector<std::shared_ptr<Entity>>& entities) const {
     for (const auto& entity : entities) {
         if (entity->hasComponent<CameraComponent>() &&
-            entity->hasComponent<Position>()) {
+            entity->hasComponent<Transform>()) {
             return entity;
             }
     }
