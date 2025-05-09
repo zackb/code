@@ -48,7 +48,6 @@ bool Meconium::init() {
     // Initialize ECS components, systems, and entities
     // Create a player entity
     player = std::make_shared<Entity>(1);
-    player->addComponent(std::make_shared<Position>(100, 0)); // MovementSystem::groundLevel(Context::windowSize)));
     player->addComponent(std::make_shared<Velocity>(0, 0));
     player->addComponent(std::make_shared<InputControl>());
 
@@ -62,8 +61,10 @@ bool Meconium::init() {
     constexpr int frameWidth = 56;
     constexpr int frameHeight = 56;
     std::shared_ptr<Sprite> sprite =
-        ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight, 2.0);
-    player->addComponent(std::make_shared<Size>(sprite->width * sprite->scale, sprite->height * sprite->scale));
+        ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight);
+    player->addComponent(std::make_shared<Size>(sprite->width, sprite->height));
+    player->addComponent(std::make_shared<Collider>(0, 0, sprite->width, sprite->height));
+    player->addComponent(std::make_shared<Transform>(100, 0, 2.0));
     player->addComponent<Sprite>(std::move(sprite));
 
     // Add animation component
@@ -75,7 +76,7 @@ bool Meconium::init() {
 
     // add camera
     auto cameraEntity = std::make_shared<Entity>(2);
-    cameraEntity->addComponent<Position>(std::make_shared<Position>(0, 0));
+    cameraEntity->addComponent<Transform>(std::make_shared<Transform>(0, 0));
     cameraEntity->addComponent<CameraComponent>(std::make_shared<CameraComponent>(Context::windowSize.width, Context::windowSize.height));
     cameraEntity->addComponent<FollowComponent>(std::make_shared<FollowComponent>(player, 0.2f)); // smooth follow
     entities.push_back(cameraEntity);

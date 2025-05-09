@@ -5,12 +5,12 @@
 
 std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
 
-std::shared_ptr<Sprite> ResourceManager::loadSprite(const std::string& path, int frameWidth, int frameHeight, float scale) {
+std::shared_ptr<Sprite> ResourceManager::loadSprite(const std::string& path, int frameWidth, int frameHeight) {
     SDL_Texture* texture = loadTexture(path);
     if (!texture) {
         return nullptr;
     }
-    return std::make_shared<Sprite>(texture, frameWidth, frameHeight, scale);
+    return std::make_shared<Sprite>(texture, frameWidth, frameHeight);
 }
 
 std::shared_ptr<Sprite> ResourceManager::loadSpriteScaled(const std::string& filePath, int maxWidth, int maxHeight) {

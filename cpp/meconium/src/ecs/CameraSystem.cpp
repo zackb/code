@@ -11,12 +11,12 @@ void CameraSystem::update(std::vector<std::shared_ptr<Entity>>& entities, const 
         if (!e->hasComponent<CameraComponent>() || !e->hasComponent<FollowComponent>())
             continue;
 
-        auto camPos = e->getComponent<Position>();
+        auto camPos = e->getComponent<Transform>();
         auto camComp = e->getComponent<CameraComponent>();
         auto follow = e->getComponent<FollowComponent>();
 
         if (auto target = follow->target.lock()) {
-            auto targetPos = target->getComponent<Position>();
+            auto targetPos = target->getComponent<Transform>();
 
             // Desired camera position: center target in view
             float desiredX = targetPos->x - camComp->viewportWidth / 2.0f;

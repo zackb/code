@@ -1,4 +1,6 @@
 #pragma once
+
+#include "TileMap.h"
 #include "ecs/ECS.h"
 #include <vector>
 

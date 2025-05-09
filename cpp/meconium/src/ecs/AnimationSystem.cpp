@@ -11,7 +11,7 @@ void AnimationSystem::update(const std::vector<std::shared_ptr<Entity>>& entitie
         animation->update(deltaTime);
 
         // Update animation state based on entity state
-        auto position = entity->getComponent<Position>();
+        auto position = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
 
         if (!position || !velocity)

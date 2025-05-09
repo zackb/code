@@ -1,8 +1,8 @@
 #pragma once
-#include "Position.h"
-#include "Size.h"
+#include "Collider.h"
 #include "TileMap.h"
 #include "Velocity.h"
+#include "ecs/Entity.h"
 
 class CollisionSystem {
 public:
@@ -11,33 +11,31 @@ public:
 private:
     void resolveTileCollisions(SDL_Rect& rect,
                                std::shared_ptr<Velocity>& velocity,
-                               std::shared_ptr<Position>& position,
-                               std::shared_ptr<Size>& size,
+                               std::shared_ptr<Transform>& transform,
+                               std::shared_ptr<Collider>& collider,
                                TileMap& tileMap);
 
-    void handleAllRampCollisions(std::shared_ptr<Position>& position,
+    void handleAllRampCollisions(std::shared_ptr<Transform>& transform,
                                  std::shared_ptr<Velocity>& velocity,
-                                 std::shared_ptr<Size>& size,
+                                 std::shared_ptr<Collider>& collider,
                                  SDL_Rect& rect,
                                  int startX,
                                  int endX,
                                  int startY,
                                  int endY,
                                  TileMap& tileMap);
+    void handleSolidCollision(SDL_Rect& rect,
+                              std::shared_ptr<Velocity>& velocity,
+                              std::shared_ptr<Transform>& transform,
+                              std::shared_ptr<Collider>& collider,
+                              SDL_Rect tileRect,
+                              SDL_Rect& intersection);
 
-    float calculateRampY(std::shared_ptr<Position>& position,
-                         std::shared_ptr<Velocity>& velocity,
-                         std::shared_ptr<Size>& size,
+    float calculateRampY(std::shared_ptr<Transform>& transform,
+                         std::shared_ptr<Collider>& collider,
                          TileType rampType,
                          SDL_Rect tileRect,
                          TileMap& tileMap);
 
-    void handleSolidCollision(SDL_Rect& rect,
-                              std::shared_ptr<Velocity>& velocity,
-                              std::shared_ptr<Position>& position,
-                              std::shared_ptr<Size>& size,
-                              SDL_Rect tileRect,
-                              SDL_Rect& intersection);
-
-    bool isGrounded(const Position& position, const Size& size, const TileMap& tileMap) const;
+    bool isGrounded(const Transform& transform, const Collider& collider, const TileMap& tileMap) const;
 };
