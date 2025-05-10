@@ -1,4 +1,4 @@
 - TileMap -> component
-- Background -> component
+* Background -> component
 - code cleanup
 - add Debug component
