@@ -16,8 +16,8 @@ struct AnimationFrame {
 class Animation {
 
 public:
-    Animation(const std::string& name, bool looping = true)
-        : name(name), looping(looping), currentFrame(0), timer(0), finished(false) {}
+    explicit Animation(const bool looping = true)
+        : looping(looping), currentFrame(0), timer(0), finished(false) {}
 
     void addFrame(const SDL_Rect srcRect, const int duration);
 
@@ -29,10 +29,7 @@ public:
 
     bool isFinished() const { return finished; }
 
-    const std::string& getName() const { return name; }
-
 private:
-    std::string name;
     std::vector<AnimationFrame> frames;
     bool looping;
     size_t currentFrame;

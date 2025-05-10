@@ -108,7 +108,6 @@ inline void from_json(const nlohmann::json& j, TileSetDefinition& def) {
 }
 
 inline void from_json(const nlohmann::json& j, AnimationDefinition& anim) {
-    anim.name = j.at("name").get<std::string>();
     anim.row = j.at("row").get<int>();
     anim.frameCount = j.at("frameCount").get<int>();
     anim.looping = j.at("looping").get<bool>();
