@@ -50,6 +50,7 @@ bool Meconium::init() {
     tileMap = level.createTileMap();
 
     // Initialize ECS components, systems, and entities
+    entities = std::make_shared<Entities>();
 
     // Create a player entity
 
@@ -78,7 +79,7 @@ bool Meconium::init() {
     player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
 
     // Add player to the entities list
-    entities.push_back(player);
+    entities->add(player);
 
     // add camera
     camera = std::make_shared<Entity>(2);
@@ -86,12 +87,12 @@ bool Meconium::init() {
     camera->addComponent<Camera>(
         std::make_shared<Camera>(Context::windowSize.width, Context::windowSize.height));
     camera->addComponent<Follow>(std::make_shared<Follow>(player, 0.2f)); // smooth follow
-    entities.push_back(camera);
+    entities->add(camera);
 
     // add paralax background
     auto bk = std::make_shared<Entity>(3);
     bk->addComponent<ParallaxBackground>(level.createBackground());
-    entities.push_back(bk);
+    entities->add(bk);
 
     isRunning = true;
 
@@ -104,11 +105,20 @@ void Meconium::update() {
     int deltaTime = gameTime.getDeltaTime();
 
     const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
+    // Handle input first to affect movement
     inputSystem.update(entities, keyboardState);
 
+    // Apply movement based on input
     movementSystem.update(entities);
+
+    // Handle collisions after movement
     collisionSystem.update(entities, *tileMap);
+
+    // Update animations based on state
     animationSystem.update(entities, deltaTime);
+
+    // Update camera after movement and collision
     cameraSystem.update(entities, *tileMap);
 }
 

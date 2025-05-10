@@ -1,12 +1,13 @@
 #pragma once
-#include "../components/TileMap.h"
+
+#include "components/TileMap.h"
 #include "components/Collider.h"
 #include "components/Velocity.h"
 #include "entity/Entity.h"
 
 class CollisionSystem {
 public:
-    void update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap);
+    void update(const std::shared_ptr<Entities>& entities, TileMap& tileMap);
 
 private:
     void resolveTileCollisions(SDL_Rect& rect,

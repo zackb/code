@@ -24,7 +24,7 @@ private:
     std::shared_ptr<Entity> player;
     // TODO: remove after moving Debug to component
     std::shared_ptr<Entity> camera;
-    std::vector<std::shared_ptr<Entity>> entities;
+    std::shared_ptr<Entities> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;
     RenderSystem renderSystem;

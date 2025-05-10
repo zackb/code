@@ -1,11 +1,11 @@
 #include "ECS.h"
 
-void MovementSystem::update(const std::vector<std::shared_ptr<Entity>>& entities) const {
+void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
     const float GRAVITY = 1.0f;
     const float JUMP_FORCE = -20.0f;
     const float MAX_FALL_SPEED = 30.0f;
 
-    for (auto& entity : entities) {
+    for (auto& entity : *entities) {
         auto position = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
         auto input = entity->getComponent<InputControl>();

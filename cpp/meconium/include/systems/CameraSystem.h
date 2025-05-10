@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../components/TileMap.h"
-#include "ECS.h"
-#include <vector>
+#include "components/TileMap.h"
 
 class CameraSystem {
 public:
-    void update(std::vector<std::shared_ptr<Entity>>& entities, const TileMap& map) const;
+    void update(const std::shared_ptr<Entities>& entities, const TileMap& map) const;
 };

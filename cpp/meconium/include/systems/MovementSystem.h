@@ -7,5 +7,5 @@
 
 class MovementSystem {
 public:
-    void update(const std::vector<std::shared_ptr<Entity>>& entities) const;
+    void update(const std::shared_ptr<Entities>& entities) const;
 };

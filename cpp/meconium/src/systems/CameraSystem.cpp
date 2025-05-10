@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
-void CameraSystem::update(std::vector<std::shared_ptr<Entity>>& entities, const TileMap& map) const {
-    for (auto& e : entities) {
+void CameraSystem::update(const std::shared_ptr<Entities>& entities, const TileMap& map) const {
+    for (auto& e : *entities) {
         if (!e->hasComponent<Camera>() || !e->hasComponent<Follow>())
             continue;
 
