@@ -1,0 +1,3 @@
+- TileMap -> component
+- Background -> component
+- code cleanup
