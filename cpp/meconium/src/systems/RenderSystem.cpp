@@ -1,13 +1,15 @@
 #include "Context.h"
 #include "ECS.h"
 #include "ResourceManager.h"
+#include "components/Background.h"
 
 void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
     auto camera = findActiveCamera(entities);
     auto camPos = camera->getComponent<Transform>();
 
     // Render the parallax background layers first
-    renderParallaxBackground(*camPos);
+    auto background = findBackground(entities);
+    renderParallaxBackground(*background, *camPos);
 
     // then the map
     renderTileMap(tileMap, *camPos);
@@ -73,19 +75,14 @@ void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
     }
 }
 
-void RenderSystem::renderParallaxBackground(Transform& camera) {
-    std::vector<ParallaxLayer> layers = {
-        {ResourceManager::loadTexture("assets/map_1/background_layer_1.png"), 0.3f},  // Farthest layer
-        {ResourceManager::loadTexture("assets/map_1/background_layer_2.png"), 0.5f},  // Middle layer
-        {ResourceManager::loadTexture("assets/map_1/background_layer_3.png"), 0.8f},  // Foreground layer
-    };
-
-    for (auto& layer : layers) {
-        renderLayer(layer, camera);
+void RenderSystem::renderParallaxBackground(Entity& background, const Transform& camera) const {
+    auto para = background.getComponent<ParallaxBackground>();
+    for (auto& layer : para->getLayers()) {
+        renderLayer(*layer, camera);
     }
 }
 
-void RenderSystem::renderLayer(const ParallaxLayer& layer, const Transform& camera) {
+void RenderSystem::renderLayer(const Background& layer, const Transform& camera) const {
     int textureW, textureH;
     SDL_QueryTexture(layer.texture, nullptr, nullptr, &textureW, &textureH);
 
@@ -111,5 +108,15 @@ std::shared_ptr<Entity> RenderSystem::findActiveCamera(const std::vector<std::sh
         }
     }
     std::cerr << "Failed to find camera" << std::endl;
+    return nullptr;
+}
+
+std::shared_ptr<Entity> RenderSystem::findBackground(const std::vector<std::shared_ptr<Entity>>& entities) const {
+    for (const auto& entity : entities) {
+        if (entity->hasComponent<ParallaxBackground>()) {
+            return entity;
+        }
+    }
+    std::cerr << "Failed to find background " << std::endl;
     return nullptr;
 }

@@ -1,7 +1,9 @@
 #include "ResourceManager.h"
 
 #include "Context.h"
+
 #include <SDL_image.h>
+#include <iostream>
 
 std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
 

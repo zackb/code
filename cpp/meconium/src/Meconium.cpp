@@ -88,6 +88,11 @@ bool Meconium::init() {
     camera->addComponent<Follow>(std::make_shared<Follow>(player, 0.2f)); // smooth follow
     entities.push_back(camera);
 
+    // add paralax background
+    auto bk = std::make_shared<Entity>(3);
+    bk->addComponent<ParallaxBackground>(level.createBackground());
+    entities.push_back(bk);
+
     isRunning = true;
 
     return true;
