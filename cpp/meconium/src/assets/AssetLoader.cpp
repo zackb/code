@@ -1,21 +1,7 @@
 #include "assets/AssetLoader.h"
 
+#include <iostream>
 #include <sstream>
-
-std::shared_ptr<SpriteSheetDefinition> AssetLoader::loadSpriteSheet(std::string filePath) {
-    return loadJson<SpriteSheetDefinition>(filePath);
-}
-
-std::shared_ptr<TileSetDefinition> AssetLoader::loadTileSet(std::string filePath) {
-    return loadJson<TileSetDefinition>(filePath);
-}
-
-std::shared_ptr<MapDefinition> AssetLoader::loadMap(std::string filePath) {
-    return loadJson<MapDefinition>(filePath);
-}
-std::shared_ptr<LevelDefinition> AssetLoader::loadLevel(std::string filePath) {
-    return loadJson<LevelDefinition>(filePath);
-}
 
 std::vector<std::vector<int>> AssetLoader::loadMapCSV(std::string filePath) {
     std::vector<std::vector<int>> map;

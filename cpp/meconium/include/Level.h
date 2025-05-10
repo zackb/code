@@ -1,4 +1,5 @@
 #pragma once
+#include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 
 class Level {
@@ -9,9 +10,15 @@ public:
 
     // build the TileMap component
     std::shared_ptr<TileMap> createTileMap() {
-        TileSheetDefinition tileSheetDef = AssetLoader::loadTileSheet(levelDef->tileset);
+        TileSetDefinition tileSetDef = AssetLoader::loadTileSheet(levelDef->tileset);
+        auto mapData = AssetLoader::loadMapCSV(levelDef->tilemap);
 
-        TileMap::load(levelDef->tilemap, tileSheetDef);
+        SDL_Texture* texture = ResourceManager::loadTexture(tileSetDef.texture);
+        TileMap tileMap(texture, std::make_shared<TileSetDefinition>(tileSetDef), mapData);
+        tileMap.tileSetDefinition = tileSetDef;
+        tileMap.map = mapData;
+
+        return std::make_shared<TileMap>(tileMap);
     }
 
 private:
