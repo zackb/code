@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TileMap.h"
+#include "../components/TileMap.h"
 
 struct ParallaxLayer {
     SDL_Texture* texture;

@@ -2,7 +2,7 @@
 
 #include "ECS.h"
 #include "GameTime.h"
-#include "TileMap.h"
+#include "components/TileMap.h"
 
 // #define DEBUG
 
