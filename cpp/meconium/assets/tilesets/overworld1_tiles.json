@@ -7,8 +7,12 @@
     "0": { "type": "solid" },
     "7": { "type": "solid" },
     "14": { "type": "solid" },
+    "23": { "type": "solid" },
+    "24": { "type": "solid" },
     "28": { "type": "solid" },
+    "32": { "type": "solid" },
     "33": { "type": "solid" },
+    "46": { "type": "solid" },
     "18": { "type": "ramp_left" },
     "25": { "type": "ramp_right" }
   }
