@@ -4,10 +4,24 @@
 
 class Level {
 public:
-    Level(std::string filePath) { levelDef = AssetLoader::loadLevel(filePath); }
+    explicit Level(const std::string& filePath) { levelDef = AssetLoader::loadLevel(filePath); }
+
+    // TODO: move to impl file
+    std::shared_ptr<Sprite> createSprite(const std::string& playerPath) const {
+        return createSprite(AssetLoader::loadSpriteSheet(playerPath));
+    }
+
+    std::shared_ptr<Sprite> createSprite(const std::shared_ptr<SpriteSheetDefinition> spriteDef) const {
+        Sprite sprite;
+        // TODO: where to resolveAssetPath (loadJson, loadTexture, create*)?
+        sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef->texture);
+        sprite.height = spriteDef->tileHeight;
+        sprite.width = spriteDef->tileWidth;
+        return std::make_shared<Sprite>(sprite);
+    }
 
     // build the TileMap component
-    std::shared_ptr<TileMap> createTileMap() {
+    std::shared_ptr<TileMap> createTileMap() const {
         auto tileSetDef = AssetLoader::loadTileSet(levelDef->tileset);
         auto mapData = AssetLoader::loadMapCSV(levelDef->tilemap);
 
@@ -17,7 +31,7 @@ public:
         return std::make_shared<TileMap>(tileMap);
     }
 
-    static std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef) {
+    std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef) const {
 
         auto animComponent = std::make_shared<AnimationComponent>();
         for (auto it : spriteDef.animations) {

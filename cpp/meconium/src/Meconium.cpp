@@ -57,16 +57,12 @@ bool Meconium::init() {
 
     // Load sprite
     // Add Sprite
-    auto spriteDef =  AssetLoader::loadSpriteSheet("assets/sprites/player.json");
-    Sprite sprite;
-    sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef->texture);
-    sprite.height = spriteDef->tileHeight;
-    sprite.width = spriteDef->tileWidth;
-    player->addComponent<Sprite>(std::make_shared<Sprite>(sprite));
-
+    auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");
+    auto sprite = level.createSprite(spriteDef);
+    player->addComponent<Sprite>(sprite);
 
     // Add animation component
-    auto animComponent = Level::createAnimation(*spriteDef);
+    auto animComponent = level.createAnimation(*spriteDef);
     player->addComponent<AnimationComponent>(animComponent);
 
     // Add velocity
@@ -76,12 +72,12 @@ bool Meconium::init() {
     player->addComponent(std::make_shared<InputControl>());
 
     // Add Collision box
-    player->addComponent(std::make_shared<Collider>(15, 0, sprite.width - 30, sprite.height));
+    player->addComponent(std::make_shared<Collider>(15, 0, sprite->width - 30, sprite->height));
 
     // Add Transform
     player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
 
-
+    // Add player to the entities list
     entities.push_back(player);
 
     // add camera
