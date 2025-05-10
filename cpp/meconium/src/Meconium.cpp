@@ -5,7 +5,10 @@
 
 #include "Context.h"
 #include "Meconium.h"
+
+#include "Level.h"
 #include "ResourceManager.h"
+#include "assets/AssetLoader.h"
 
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
@@ -43,7 +46,8 @@ bool Meconium::init() {
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
-    tileMap = TileMap::load("assets/map_1/map.csv", "assets/map_1/tilesheet.png");
+    auto level = Level("assets/maps/level1.json");
+    tileMap = level.createTileMap();
 
     // Initialize ECS components, systems, and entities
 

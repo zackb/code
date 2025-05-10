@@ -18,7 +18,7 @@ public:
 
 private:
     bool isRunning = false;
-    std::unique_ptr<TileMap> tileMap;
+    std::shared_ptr<TileMap> tileMap;
 
     // ecs
     std::shared_ptr<Entity> player;

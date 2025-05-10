@@ -3,25 +3,26 @@
 #include "FileUtils.h"
 #include "json.hpp"
 
-#include <string>
 #include <fstream>
+#include <iostream>
+#include <string>
 
 class AssetLoader {
 public:
     static std::vector<std::vector<int>> loadMapCSV(std::string filePath);
 
-    std::shared_ptr<SpriteSheetDefinition> loadSpriteSheet(std::string filePath) {
+    static std::shared_ptr<SpriteSheetDefinition> loadSpriteSheet(std::string filePath) {
         return loadJson<SpriteSheetDefinition>(filePath);
     }
 
-    std::shared_ptr<TileSetDefinition> loadTileSet(std::string filePath) {
+    static std::shared_ptr<TileSetDefinition> loadTileSet(std::string filePath) {
         return loadJson<TileSetDefinition>(filePath);
     }
 
-    std::shared_ptr<MapDefinition> loadMap(std::string filePath) {
+    static std::shared_ptr<MapDefinition> loadMap(std::string filePath) {
         return loadJson<MapDefinition>(filePath);
     }
-    std::shared_ptr<LevelDefinition> loadLevel(std::string filePath) {
+    static std::shared_ptr<LevelDefinition> loadLevel(std::string filePath) {
         return loadJson<LevelDefinition>(filePath);
     }
 
@@ -32,6 +33,12 @@ public:
         }
         nlohmann::json j;
         file >> j;
-        return std::make_shared<T>(j.get<T>());
+        try {
+            return std::make_shared<T>(j.get<T>());
+        } catch (const std::exception& e) {
+            std::cerr << "Error parsing JSON for type " << typeid(T).name() << ": " << e.what() << std::endl;
+            throw;
+        }
+
     }
 };
