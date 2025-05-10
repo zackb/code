@@ -15,10 +15,5 @@ public:
     Sprite() = default;
     Sprite(SDL_Texture* texture, int width, int height) : texture(texture), width(width), height(height) {}
 
-    ~Sprite() override {
-        if (texture) {
-            SDL_DestroyTexture(texture);
-            texture = nullptr;
-        }
-    }
+    ~Sprite() override = default;
 };

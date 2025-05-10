@@ -5,7 +5,10 @@
 
 #include "Context.h"
 #include "Meconium.h"
+
+#include "Level.h"
 #include "ResourceManager.h"
+#include "assets/AssetLoader.h"
 
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
@@ -43,18 +46,24 @@ bool Meconium::init() {
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
-    tileMap = TileMap::load("assets/map_1/map.csv", "assets/map_1/tilesheet.png");
+    auto level = Level("assets/maps/level1.json");
+    tileMap = level.createTileMap();
 
     // Initialize ECS components, systems, and entities
 
     // Create a player entity
-    // Load sprite
-    constexpr int frameWidth = 56;
-    constexpr int frameHeight = 56;
-    std::shared_ptr<Sprite> sprite =
-        ResourceManager::loadSprite("assets/blue_spritesheet.png", frameWidth, frameHeight);
 
     player = std::make_shared<Entity>(1);
+
+    // Load sprite
+    // Add Sprite
+    auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");
+    auto sprite = level.createSprite(spriteDef);
+    player->addComponent<Sprite>(sprite);
+
+    // Add animation component
+    auto animComponent = level.createAnimation(*spriteDef);
+    player->addComponent<AnimationComponent>(animComponent);
 
     // Add velocity
     player->addComponent(std::make_shared<Velocity>(0, 0));
@@ -68,15 +77,7 @@ bool Meconium::init() {
     // Add Transform
     player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
 
-    // Add Sprite
-    player->addComponent<Sprite>(std::move(sprite));
-
-    // Add animation component
-    // TODO: createAnimation(sprite)?
-    auto animComponent =
-        ResourceManager::createPlayerAnimations("assets/blue_spritesheet.png", frameWidth, frameHeight);
-    player->addComponent<AnimationComponent>(animComponent);
-
+    // Add player to the entities list
     entities.push_back(player);
 
     // add camera
@@ -86,6 +87,11 @@ bool Meconium::init() {
         std::make_shared<Camera>(Context::windowSize.width, Context::windowSize.height));
     camera->addComponent<Follow>(std::make_shared<Follow>(player, 0.2f)); // smooth follow
     entities.push_back(camera);
+
+    // add paralax background
+    auto bk = std::make_shared<Entity>(3);
+    bk->addComponent<ParallaxBackground>(level.createBackground());
+    entities.push_back(bk);
 
     isRunning = true;
 
