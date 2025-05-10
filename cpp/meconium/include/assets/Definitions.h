@@ -1,5 +1,4 @@
 #pragma once
-#include "../components/TileMap.h"
 #include "json.hpp"
 
 #include <string>
@@ -22,8 +21,9 @@ struct SpriteSheetDefinition {
     std::vector<AnimationDefinition> animations;
 };
 
-
 // Tileset
+enum class TileType { Empty, Solid, RampLeft, RampRight };
+
 struct TileDefinition {
     int id;
     TileType type;
@@ -63,11 +63,28 @@ struct LevelDefinition {
 };
 
 inline TileType tileTypeFromString(const std::string& str) {
-        if (str == "solid") return TileType::Solid;
-        if (str == "ramp_left") return TileType::RampLeft;
-        if (str == "ramp_right") return TileType::RampRight;
-        return TileType::Empty;
-    }
+    if (str == "solid")
+        return TileType::Solid;
+    if (str == "ramp_left")
+        return TileType::RampLeft;
+    if (str == "ramp_right")
+        return TileType::RampRight;
+    return TileType::Empty;
+}
+
+inline void from_json(const nlohmann::json& j, BackgroundLayerDefinition& layer) {
+    layer.texture = j.at("texture").get<std::string>();
+    layer.speed = j.at("speed").get<float>();
+}
+
+inline void from_json(const nlohmann::json& j, BackgroundDefinition& def) {
+    def.layers = j.at("layers").get<std::vector<BackgroundLayerDefinition>>();
+}
+
+inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
+    def.tilemap = j.at("tilemap").get<std::string>();
+    def.tileset = j.at("tileset").get<std::string>();
+    def.background = j.at("background").get<BackgroundDefinition>();
 }
 
 inline void from_json(const nlohmann::json& j, TileDefinition& tile) {
@@ -75,7 +92,7 @@ inline void from_json(const nlohmann::json& j, TileDefinition& tile) {
     tile.type = tileTypeFromString(j.at("type").get<std::string>());
 }
 
-inline void from_json(const nlohmann::json& j, TileSheetDefinition& def) {
+inline void from_json(const nlohmann::json& j, TileSetDefinition& def) {
     def.texture = j.at("texture").get<std::string>();
     def.tileWidth = j.at("tileWidth").get<int>();
     def.tileHeight = j.at("tileHeight").get<int>();

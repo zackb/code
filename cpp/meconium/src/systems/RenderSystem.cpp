@@ -1,5 +1,6 @@
 #include "Context.h"
 #include "ECS.h"
+#include "ResourceManager.h"
 
 void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
     auto camera = findActiveCamera(entities);
@@ -50,10 +51,10 @@ void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, 
 
 void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
     // render only tiles that are on-screen
-    int startCol = std::max(0, camera.x / tileMap.tileSize);
-    int startRow = std::max(0, camera.y / tileMap.tileSize);
-    int endCol = std::min(tileMap.mapWidth, (camera.x + Context::windowSize.width) / tileMap.tileSize + 1);
-    int endRow = std::min(tileMap.mapHeight, (camera.y + Context::windowSize.height) / tileMap.tileSize + 1);
+    int startCol = std::max(0, camera.x / tileMap.tileWidth());
+    int startRow = std::max(0, camera.y / tileMap.tileHeight());
+    int endCol = std::min(tileMap.mapWidth, (camera.x + Context::windowSize.width) / tileMap.tileWidth() + 1);
+    int endRow = std::min(tileMap.mapHeight, (camera.y + Context::windowSize.height) / tileMap.tileHeight() + 1);
 
     for (int row = startRow; row < endRow; ++row) {
         for (int col = startCol; col < endCol; ++col) {
@@ -62,10 +63,10 @@ void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
                 continue;
 
             SDL_Rect src = tileMap.getTileSrcRect(tileID);
-            SDL_Rect dst = {col * tileMap.tileSize - camera.x,
-                            row * tileMap.tileSize - camera.y,
-                            tileMap.tileSize,
-                            tileMap.tileSize};
+            SDL_Rect dst = {col * tileMap.tileWidth() - camera.x,
+                            row * tileMap.tileHeight() - camera.y,
+                            tileMap.tileWidth(),
+                            tileMap.tileHeight()};
 
             SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
         }

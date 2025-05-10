@@ -24,8 +24,8 @@ void CameraSystem::update(std::vector<std::shared_ptr<Entity>>& entities, const 
             camPos->y += (desiredY - camPos->y) * follow->lerpFactor;
 
             // Clamp to map bounds (integer math)
-            int maxX = std::max(0, map.mapWidth * map.tileSize - camComp->viewportWidth);
-            int maxY = std::max(0, map.mapHeight * map.tileSize - camComp->viewportHeight);
+            int maxX = std::max(0, map.mapWidth * map.tileWidth() - camComp->viewportWidth);
+            int maxY = std::max(0, map.mapHeight * map.tileHeight() - camComp->viewportHeight);
 
             camPos->x = std::clamp(static_cast<int>(std::round(camPos->x)), 0, maxX);
             camPos->y = std::clamp(static_cast<int>(std::round(camPos->y)), 0, maxY);
