@@ -32,7 +32,7 @@ void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, Til
         transform->onGround = isGrounded(*transform, *collider, tileMap);
 
         // Respawn if fallen
-        if (transform->y > tileMap.mapHeight * tileMap.tileSize * 2) {
+        if (transform->y > tileMap.mapHeight * tileMap.tileHeight() * 2) {
             std::cout << "fell off" << std::endl;
             transform->x = 100;
             transform->y = 100;
@@ -48,10 +48,10 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                                             std::shared_ptr<Transform>& transform,
                                             std::shared_ptr<Collider>& collider,
                                             TileMap& tileMap) {
-    int startX = (rect.x - 2) / tileMap.tileSize;
-    int endX = (rect.x + rect.w + 2) / tileMap.tileSize;
-    int startY = (rect.y - 2) / tileMap.tileSize;
-    int endY = (rect.y + rect.h + 2) / tileMap.tileSize;
+    int startX = (rect.x - 2) / tileMap.tileWidth();
+    int endX = (rect.x + rect.w + 2) / tileMap.tileWidth();
+    int startY = (rect.y - 2) / tileMap.tileHeight();
+    int endY = (rect.y + rect.h + 2) / tileMap.tileHeight();
 
     transform->onGround = false;
 
@@ -68,7 +68,7 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
 
                 if (type == TileType::Solid) {
                     SDL_Rect tileRect = {
-                        x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
+                        x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
                     SDL_Rect intersection;
                     if (SDL_IntersectRect(&rect, &tileRect, &intersection)) {
@@ -104,7 +104,7 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Transform>& transf
             TileType type = tileMap.getTileType(tileID);
 
             if (type == TileType::RampLeft || type == TileType::RampRight) {
-                SDL_Rect tileRect = {x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize};
+                SDL_Rect tileRect = {x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
                 float rampY = calculateRampY(transform, collider, type, tileRect, tileMap);
 
@@ -140,11 +140,11 @@ float CollisionSystem::calculateRampY(std::shared_ptr<Transform>& transform,
     int playerMidX = bounds.x + bounds.w / 2;
     int relX = playerMidX - tileRect.x;
 
-    relX = std::max(0, std::min(relX, tileMap.tileSize - 1));
+    relX = std::max(0, std::min(relX, tileMap.tileWidth() - 1));
 
-    float rampHeight = (rampType == TileType::RampRight) ? tileMap.tileSize - relX : relX;
+    float rampHeight = (rampType == TileType::RampRight) ? tileMap.tileHeight() - relX : relX;
 
-    return tileRect.y + tileMap.tileSize - rampHeight;
+    return tileRect.y + tileMap.tileHeight() - rampHeight;
 }
 
 void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
@@ -183,10 +183,10 @@ bool CollisionSystem::isGrounded(const Transform& transform, const Collider& col
 
     SDL_Rect feetRect = {bounds.x, bounds.y + bounds.h, bounds.w, 2};
 
-    int startX = feetRect.x / tileMap.tileSize;
-    int endX = (feetRect.x + feetRect.w - 1) / tileMap.tileSize;
-    int startY = feetRect.y / tileMap.tileSize;
-    int endY = (feetRect.y + feetRect.h - 1) / tileMap.tileSize;
+    int startX = feetRect.x / tileMap.tileWidth();
+    int endX = (feetRect.x + feetRect.w - 1) / tileMap.tileWidth();
+    int startY = feetRect.y / tileMap.tileHeight();
+    int endY = (feetRect.y + feetRect.h - 1) / tileMap.tileHeight();
 
     for (int y = startY; y <= endY; ++y) {
         for (int x = startX; x <= endX; ++x) {

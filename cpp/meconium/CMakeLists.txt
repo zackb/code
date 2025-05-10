@@ -40,9 +40,10 @@ set(SOURCES
         src/systems/MovementSystem.cpp
         src/systems/RenderSystem.cpp
         src/systems/CollisionSystem.cpp
-        src/TileMap.cpp
+        src/components/TileMap.cpp
         src/FileUtils.cpp
         src/systems/CameraSystem.cpp
+        src/assets/AssetLoader.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

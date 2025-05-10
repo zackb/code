@@ -1,0 +1,16 @@
+{
+  "texture": "textures/overworld1.png",
+  "offset": { "x": 0, "y": 0 },
+  "tileWidth": 70,
+  "tileHeight": 70,
+  "tiles": {
+    "0": { "type": "solid" },
+    "7": { "type": "solid" },
+    "14": { "type": "solid" },
+    "28": { "type": "solid" },
+    "33": { "type": "solid" },
+    "18": { "type": "ramp_left" },
+    "25": { "type": "ramp_right" }
+  }
+}
+

@@ -2,7 +2,7 @@
 
 #include "ECS.h"
 #include "GameTime.h"
-#include "TileMap.h"
+#include "components/TileMap.h"
 
 // #define DEBUG
 
@@ -18,10 +18,11 @@ public:
 
 private:
     bool isRunning = false;
-    std::unique_ptr<TileMap> tileMap;
+    std::shared_ptr<TileMap> tileMap;
 
     // ecs
     std::shared_ptr<Entity> player;
+    // TODO: remove after moving Debug to component
     std::shared_ptr<Entity> camera;
     std::vector<std::shared_ptr<Entity>> entities;
     InputSystem inputSystem;
