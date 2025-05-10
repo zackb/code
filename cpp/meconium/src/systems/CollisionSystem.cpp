@@ -1,4 +1,3 @@
-#include "Context.h"
 #include "ECS.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
