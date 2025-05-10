@@ -72,9 +72,10 @@ inline TileType tileTypeFromString(const std::string& str) {
     return TileType::Empty;
 }
 
-inline void from_json(const nlohmann::json& j, BackgroundLayerDefinition& layer) {
-    layer.texture = j.at("texture").get<std::string>();
-    layer.speed = j.at("speed").get<float>();
+
+inline void from_json(const nlohmann::json& j, BackgroundLayerDefinition& def) {
+    def.texture = j.at("texture").get<std::string>();
+    def.speed = j.at("speed").get<float>();
 }
 
 inline void from_json(const nlohmann::json& j, BackgroundDefinition& def) {
@@ -96,7 +97,14 @@ inline void from_json(const nlohmann::json& j, TileSetDefinition& def) {
     def.texture = j.at("texture").get<std::string>();
     def.tileWidth = j.at("tileWidth").get<int>();
     def.tileHeight = j.at("tileHeight").get<int>();
-    def.tiles = j.at("tiles").get<std::vector<TileDefinition>>();
+
+    const auto& tilesJson = j.at("tiles");
+    for (auto it = tilesJson.begin(); it != tilesJson.end(); ++it) {
+        TileDefinition tile;
+        tile.id = std::stoi(it.key());
+        tile.type = tileTypeFromString(it.value().at("type").get<std::string>());
+        def.tiles.push_back(tile);
+    }
 }
 
 inline void from_json(const nlohmann::json& j, AnimationDefinition& anim) {

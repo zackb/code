@@ -40,7 +40,13 @@ public:
 
     bool isSolidTile(int tileID) const { return getTileType(tileID) == TileType::Solid; }
 
-    TileType getTileType(const int tileID) const { return tileTypes.at(tileID); }
+    TileType getTileType(const int tileID) const {
+        if (!tileTypes.contains(tileID)) {
+            return TileType::Empty;
+        }
+
+        return tileTypes.at(tileID);
+    }
 
     // bool inBounds(int x, int y) const { return x >= 0 && x < mapWidth && y >= 0 && y < mapHeight; }
 
