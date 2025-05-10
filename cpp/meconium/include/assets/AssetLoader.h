@@ -19,9 +19,7 @@ public:
         return loadJson<TileSetDefinition>(filePath);
     }
 
-    static std::shared_ptr<MapDefinition> loadMap(std::string filePath) {
-        return loadJson<MapDefinition>(filePath);
-    }
+    static std::shared_ptr<MapDefinition> loadMap(std::string filePath) { return loadJson<MapDefinition>(filePath); }
     static std::shared_ptr<LevelDefinition> loadLevel(std::string filePath) {
         return loadJson<LevelDefinition>(filePath);
     }
@@ -39,6 +37,5 @@ public:
             std::cerr << "Error parsing JSON for type " << typeid(T).name() << ": " << e.what() << std::endl;
             throw;
         }
-
     }
 };

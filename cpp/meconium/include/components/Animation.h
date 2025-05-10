@@ -16,8 +16,7 @@ struct AnimationFrame {
 class Animation {
 
 public:
-    explicit Animation(const bool looping = true)
-        : looping(looping), currentFrame(0), timer(0), finished(false) {}
+    explicit Animation(const bool looping = true) : looping(looping), currentFrame(0), timer(0), finished(false) {}
 
     void addFrame(const SDL_Rect srcRect, const int duration);
 

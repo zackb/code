@@ -2,7 +2,6 @@
 
 #include "ResourceManager.h"
 
-
 SDL_Rect TileMap::getTileSrcRect(const int tileID) const {
     int tileSize = tileSetDefinition->tileWidth;
     int tilesPerRow = tilesheetWidth / tileSize;

@@ -89,7 +89,8 @@ void RenderSystem::renderLayer(const Background& layer, const Transform& camera)
     // Horizontal scroll only
     float scrollX = camera.x * layer.speed;
     int startX = static_cast<int>(scrollX) % Context::windowSize.width;
-    if (startX < 0) startX += Context::windowSize.width;
+    if (startX < 0)
+        startX += Context::windowSize.width;
 
     // Stretch the image vertically to window height and horizontally to one segment width
     int scaledW = Context::windowSize.width;

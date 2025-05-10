@@ -104,7 +104,8 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Transform>& transf
             TileType type = tileMap.getTileType(tileID);
 
             if (type == TileType::RampLeft || type == TileType::RampRight) {
-                SDL_Rect tileRect = {x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
+                SDL_Rect tileRect = {
+                    x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
                 float rampY = calculateRampY(transform, collider, type, tileRect, tileMap);
 

@@ -79,8 +79,7 @@ public:
         return result;
     }
 
-    template <typename Component>
-    std::shared_ptr<Entity> findEntityWithComponent() {
+    template <typename Component> std::shared_ptr<Entity> findEntityWithComponent() {
         for (auto& entity : *this) {
             if (entity->hasComponent<Component>()) {
                 return entity;
