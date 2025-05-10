@@ -20,10 +20,9 @@ public:
 
 class ParallaxBackground final : public Component {
 public:
-    explicit ParallaxBackground(const std::vector<std::shared_ptr<Background>>& backgrounds) : backgrounds(backgrounds) {}
-    std::vector<std::shared_ptr<Background>> getLayers() {
-        return backgrounds;
-    }
+    explicit ParallaxBackground(const std::vector<std::shared_ptr<Background>>& backgrounds)
+        : backgrounds(backgrounds) {}
+    std::vector<std::shared_ptr<Background>> getLayers() { return backgrounds; }
 
 private:
     std::vector<std::shared_ptr<Background>> backgrounds;

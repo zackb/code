@@ -72,7 +72,6 @@ inline TileType tileTypeFromString(const std::string& str) {
     return TileType::Empty;
 }
 
-
 inline void from_json(const nlohmann::json& j, BackgroundLayerDefinition& def) {
     def.texture = j.at("texture").get<std::string>();
     def.speed = j.at("speed").get<float>();

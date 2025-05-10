@@ -38,8 +38,9 @@ public:
         for (auto it : spriteDef.animations) {
             auto anim = std::make_shared<Animation>(it.looping);
             for (int i = 0; i < it.frameCount; i++) {
-                anim->addFrame({spriteDef.tileWidth * i, it.row * spriteDef.tileHeight, spriteDef.tileWidth, spriteDef.tileHeight},
-                               it.duration);
+                anim->addFrame(
+                    {spriteDef.tileWidth * i, it.row * spriteDef.tileHeight, spriteDef.tileWidth, spriteDef.tileHeight},
+                    it.duration);
             }
 
             AnimationState state = AnimationState::IDLE;

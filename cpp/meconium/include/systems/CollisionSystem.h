@@ -1,7 +1,7 @@
 #pragma once
 
-#include "components/TileMap.h"
 #include "components/Collider.h"
+#include "components/TileMap.h"
 #include "components/Velocity.h"
 #include "entity/Entity.h"
 
