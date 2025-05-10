@@ -53,7 +53,6 @@ bool Meconium::init() {
     entities = std::make_shared<Entities>();
 
     // Create a player entity
-
     player = std::make_shared<Entity>(1);
 
     // Load sprite
@@ -153,7 +152,7 @@ void Meconium::handleEvent() {
     }
 }
 
-void Meconium::shutdown() {
+void Meconium::shutdown() const {
     ResourceManager::cleanup();
     SDL_DestroyRenderer(Context::renderer);
     SDL_DestroyWindow(Context::window);

@@ -14,7 +14,7 @@ public:
     void update();
     void render();
     void handleEvent();
-    void shutdown();
+    void shutdown() const;
 
 private:
     bool isRunning = false;
