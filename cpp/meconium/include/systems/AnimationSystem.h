@@ -2,10 +2,9 @@
 
 #include "entity/Entity.h"
 #include <memory>
-#include <vector>
 
 class AnimationSystem {
 
 public:
-    void update(const std::vector<std::shared_ptr<Entity>>& entities, const int deltaTime);
+    void update(const std::shared_ptr<Entities>& entities, const int deltaTime) const;
 };

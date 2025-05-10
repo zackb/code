@@ -1,7 +1,8 @@
 #include "ECS.h"
 
-void AnimationSystem::update(const std::vector<std::shared_ptr<Entity>>& entities, const int deltaTime) {
-    for (auto& entity : entities) {
+void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const int deltaTime) const {
+
+    for (auto& entity : *entities) {
         const auto animation = entity->getComponent<AnimationComponent>();
         if (!animation)
             continue;

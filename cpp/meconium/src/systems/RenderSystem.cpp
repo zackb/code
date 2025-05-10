@@ -3,18 +3,18 @@
 #include "ResourceManager.h"
 #include "components/Background.h"
 
-void RenderSystem::render(const std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
-    auto camera = findActiveCamera(entities);
+void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+    auto camera = entities->findEntityWithComponent<Camera>();
     auto camPos = camera->getComponent<Transform>();
 
     // Render the parallax background layers first
-    auto background = findBackground(entities);
+    auto background = entities->findEntityWithComponent<ParallaxBackground>();
     renderParallaxBackground(*background, *camPos);
 
     // then the map
     renderTileMap(tileMap, *camPos);
 
-    for (auto entity : entities) {
+    for (auto entity : *entities) {
         auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
         if (!transform) {
@@ -99,24 +99,4 @@ void RenderSystem::renderLayer(const Background& layer, const Transform& camera)
         SDL_Rect dst = {x, 0, scaledW, scaledH};
         SDL_RenderCopy(Context::renderer, layer.texture, nullptr, &dst);
     }
-}
-
-std::shared_ptr<Entity> RenderSystem::findActiveCamera(const std::vector<std::shared_ptr<Entity>>& entities) const {
-    for (const auto& entity : entities) {
-        if (entity->hasComponent<Camera>() && entity->hasComponent<Transform>()) {
-            return entity;
-        }
-    }
-    std::cerr << "Failed to find camera" << std::endl;
-    return nullptr;
-}
-
-std::shared_ptr<Entity> RenderSystem::findBackground(const std::vector<std::shared_ptr<Entity>>& entities) const {
-    for (const auto& entity : entities) {
-        if (entity->hasComponent<ParallaxBackground>()) {
-            return entity;
-        }
-    }
-    std::cerr << "Failed to find background " << std::endl;
-    return nullptr;
 }

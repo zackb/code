@@ -1,8 +1,8 @@
 #include "Context.h"
 #include "ECS.h"
 
-void CollisionSystem::update(std::vector<std::shared_ptr<Entity>>& entities, TileMap& tileMap) {
-    for (auto& entity : entities) {
+void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+    for (auto& entity : *entities) {
         auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
         auto collider = entity->getComponent<Collider>();
