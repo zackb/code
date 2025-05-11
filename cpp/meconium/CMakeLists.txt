@@ -62,69 +62,70 @@ target_link_libraries(${EXECUTABLE_NAME}
 )
 
 # Set the MacOSX bundle properties (capitalize the app bundle name)
-set(APP_BUNDLE_NAME "Meconium")
-set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")  # universal build
-set_target_properties(${EXECUTABLE_NAME} PROPERTIES
-    MACOSX_BUNDLE TRUE
-    BUNDLE TRUE
-    MACOSX_BUNDLE_GUI_IDENTIFIER net.jeedup.${APP_BUNDLE_NAME}
-    MACOSX_BUNDLE_BUNDLE_NAME ${APP_BUNDLE_NAME}
-    MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-    RESOURCE "${CMAKE_SOURCE_DIR}/assets"
-    # MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/customtemplate.plist.in
-)
+if (APPLE)
+    set(APP_BUNDLE_NAME "Meconium")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")  # universal build
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+        MACOSX_BUNDLE TRUE
+        BUNDLE TRUE
+        MACOSX_BUNDLE_GUI_IDENTIFIER net.jeedup.${APP_BUNDLE_NAME}
+        MACOSX_BUNDLE_BUNDLE_NAME ${APP_BUNDLE_NAME}
+        MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+        RESOURCE "${CMAKE_SOURCE_DIR}/assets"
+        # MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/customtemplate.plist.in
+    )
+    # Copy assets into the bundle
+    set(ASSETS_DESTINATION "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Resources/assets")
 
-# Copy assets into the bundle
-set(ASSETS_DESTINATION "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Resources/assets")
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${ASSETS_DESTINATION}"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets"
+            "${ASSETS_DESTINATION}"
+        COMMENT "Copying assets to app bundle Resources folder"
+    )
 
-add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory "${ASSETS_DESTINATION}"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/assets"
-        "${ASSETS_DESTINATION}"
-    COMMENT "Copying assets to app bundle Resources folder"
-)
+    # Set the third-party frameworks and libraries to be bundled
+    # set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
+    # set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
+    set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
+    set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
+    set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
 
-# Set the third-party frameworks and libraries to be bundled
-# set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
-# set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
-set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
-set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
-set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
+    # Create a "Frameworks" directory in the bundle
+    file(MAKE_DIRECTORY ${MY_FRAMEWORKS_DIR})
 
-# Create a "Frameworks" directory in the bundle
-file(MAKE_DIRECTORY ${MY_FRAMEWORKS_DIR})
+    # Copy SDL2.dylib to the Frameworks folder in the app bundle
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${MY_SDL2_LIB_DIR}/libSDL2-2.0.0.dylib
+            ${MY_FRAMEWORKS_DIR}/libSDL2-2.0.0.dylib
+    )
 
-# Copy SDL2.dylib to the Frameworks folder in the app bundle
-add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        ${MY_SDL2_LIB_DIR}/libSDL2-2.0.0.dylib
-        ${MY_FRAMEWORKS_DIR}/libSDL2-2.0.0.dylib
-)
+    # Copy SDL2_image.dylib to the Frameworks folder in the app bundle
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
+            ${MY_FRAMEWORKS_DIR}/libSDL2_image-2.0.0.dylib
+    )
 
-# Copy SDL2_image.dylib to the Frameworks folder in the app bundle
-add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
-        ${MY_FRAMEWORKS_DIR}/libSDL2_image-2.0.0.dylib
-)
+    # Automatically adjust the library path using install_name_tool
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND install_name_tool -change
+            ${MY_SDL2_LIB_DIR}/libSDL2-2.0.0.dylib
+            @executable_path/../Frameworks/libSDL2-2.0.0.dylib
+            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+    )
 
-# Automatically adjust the library path using install_name_tool
-add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
-    COMMAND install_name_tool -change
-        ${MY_SDL2_LIB_DIR}/libSDL2-2.0.0.dylib
-        @executable_path/../Frameworks/libSDL2-2.0.0.dylib
-        ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
-)
-
-# And for sdl2_image
-add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
-    COMMAND install_name_tool -change
-        ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
-        @executable_path/../Frameworks/libSDL2_image-2.0.0.dylib
-        ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
-)
+    # And for sdl2_image
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND install_name_tool -change
+            ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
+            @executable_path/../Frameworks/libSDL2_image-2.0.0.dylib
+            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+    )
+endif()
 
 # clean
 add_custom_target(clean_bundle
