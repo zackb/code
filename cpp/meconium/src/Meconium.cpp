@@ -82,7 +82,7 @@ bool Meconium::init() {
     entities->add(player);
 
     // add camera
-    camera = std::make_shared<Entity>(2);
+    auto camera = std::make_shared<Entity>(2);
     camera->addComponent<Transform>(0, 0);
     camera->addComponent<Camera>(Context::windowSize.width, Context::windowSize.height);
     camera->addComponent<Follow>(player, 0.2f); // smooth follow
@@ -97,6 +97,7 @@ bool Meconium::init() {
     auto debug = std::make_shared<Entity>(4);
     debug->addComponent<Debug>();
     debug->addComponent<InputControl>();
+    entities->add(debug);
 
     isRunning = true;
 
@@ -131,20 +132,11 @@ void Meconium::render() {
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer); // Clears screen with black
 
-#ifdef DEBUG
-    auto collider = player->getComponent<Collider>();
-    auto transform = player->getComponent<Transform>();
-    auto camPos = camera->getComponent<Transform>();
-
-    SDL_Rect r = collider->getBounds(transform);
-    SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
-
-    SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // Red color
-    SDL_RenderDrawRect(Context::renderer, &hitBox);
-#endif
-
     // Render entities
     renderSystem.render(entities, *tileMap);
+
+    // Check debugging
+    debugSystem.update(entities);
 
     SDL_RenderPresent(Context::renderer);
 }
