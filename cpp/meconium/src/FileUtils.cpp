@@ -2,10 +2,12 @@
 
 #include <filesystem>
 #include <string>
+#include <unistd.h>
+#include <limits.h> // for PATH_MAX
+#include <iostream>
 
 #if __APPLE__
 #include <mach-o/dyld.h>
-#include <unistd.h>
 #endif
 
 std::string getExecutablePath() {
@@ -55,6 +57,30 @@ std::string resolveAssetPath(const std::string& relativePath) {
     }
 #endif
 
-    // 4. Fallback: return unchanged and let caller handle error
+    // 4. Running in IDE (vscode, codeblocks)
+    std::string cmakeBuildPath = "../../" + relativePath;
+    if (fs::exists(cmakeBuildPath)) {
+        return cmakeBuildPath;
+    }
+
+    // 5. Running in IDE w/o assets (vscode, codeblocks)
+    std::string cmakeBuildPathAssets = "../../assets/" + relativePath;
+    if (fs::exists(cmakeBuildPathAssets)) {
+        return cmakeBuildPathAssets;
+    }
+
+
+    // 5. Fallback: return unchanged and let caller handle error
     return relativePath;
+}
+
+std::string getCwd() {
+    char pwd [PATH_MAX];
+
+    if (getcwd(pwd, sizeof(pwd)) == nullptr) {
+        std::cerr << "cannot getcwd" << std::endl;
+        return {};
+    }
+
+    return std::string(pwd);
 }
