@@ -9,6 +9,7 @@
 #include "Level.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
+#include "components/Debug.h"
 
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
@@ -66,31 +67,36 @@ bool Meconium::init() {
     player->addComponent<AnimationComponent>(animComponent);
 
     // Add velocity
-    player->addComponent(std::make_shared<Velocity>(0, 0));
+    player->addComponent<Velocity>(0, 0);
 
     // Add input control to the player
-    player->addComponent(std::make_shared<InputControl>());
+    player->addComponent<InputControl>();
 
     // Add Collision box
-    player->addComponent(std::make_shared<Collider>(15, 0, sprite->width - 30, sprite->height));
+    player->addComponent<Collider>(15, 0, sprite->width - 30, sprite->height);
 
     // Add Transform
-    player->addComponent(std::make_shared<Transform>(0, 0, 2.0));
+    player->addComponent<Transform>(0, 0, 2.0);
 
     // Add player to the entities list
     entities->add(player);
 
     // add camera
     camera = std::make_shared<Entity>(2);
-    camera->addComponent<Transform>(std::make_shared<Transform>(0, 0));
-    camera->addComponent<Camera>(std::make_shared<Camera>(Context::windowSize.width, Context::windowSize.height));
-    camera->addComponent<Follow>(std::make_shared<Follow>(player, 0.2f)); // smooth follow
+    camera->addComponent<Transform>(0, 0);
+    camera->addComponent<Camera>(Context::windowSize.width, Context::windowSize.height);
+    camera->addComponent<Follow>(player, 0.2f); // smooth follow
     entities->add(camera);
 
     // add paralax background
     auto bk = std::make_shared<Entity>(3);
     bk->addComponent<ParallaxBackground>(level.createBackground());
     entities->add(bk);
+
+    // add debugging
+    auto debug = std::make_shared<Entity>(4);
+    debug->addComponent<Debug>();
+    debug->addComponent<InputControl>();
 
     isRunning = true;
 
