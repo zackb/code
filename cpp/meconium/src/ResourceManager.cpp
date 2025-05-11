@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 
 #include "Context.h"
+#include "FileUtils.h"
 
 #include <SDL_image.h>
 #include <iostream>
@@ -8,8 +9,9 @@
 std::unordered_map<std::string, SDL_Texture*> ResourceManager::textures;
 
 SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
+    std::string path = resolveAssetPath(filePath);
     // Check if we already loaded this texture
-    if (const auto it = textures.find(filePath); it != textures.end()) {
+    if (const auto it = textures.find(path); it != textures.end()) {
         return it->second;
     }
 
@@ -17,7 +19,7 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
         std::cerr << "Renderer is NULL before loadTexture!\n";
     }
 
-    SDL_Surface* surface = IMG_Load(filePath.c_str());
+    SDL_Surface* surface = IMG_Load(path.c_str());
     if (!surface) {
         std::cerr << "IMG_Load failed: " << IMG_GetError() << std::endl;
         return nullptr;
@@ -29,7 +31,7 @@ SDL_Texture* ResourceManager::loadTexture(const std::string& filePath) {
         std::cerr << "SDL_CreateTextureFromSurface failed: " << SDL_GetError() << std::endl;
     }
     // Cache the texture
-    textures[filePath] = texture;
+    textures[path] = texture;
 
     return texture;
 }

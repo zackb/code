@@ -63,8 +63,17 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return cmakeBuildPath;
     }
 
+    cmakeBuildPath = "../" + relativePath;
+    if (fs::exists(cmakeBuildPath)) {
+        return cmakeBuildPath;
+    }
+
     // 5. Running in IDE w/o assets (vscode, codeblocks)
     std::string cmakeBuildPathAssets = "../../assets/" + relativePath;
+    if (fs::exists(cmakeBuildPathAssets)) {
+        return cmakeBuildPathAssets;
+    }
+    cmakeBuildPathAssets = "../assets/" + relativePath;
     if (fs::exists(cmakeBuildPathAssets)) {
         return cmakeBuildPathAssets;
     }
