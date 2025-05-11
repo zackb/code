@@ -4,18 +4,34 @@
 #include "components/Camera.h"
 #include "components/Collider.h"
 #include "components/Debug.h"
+#include "components/InputControl.h"
+
 #include <iostream>
 
 void DebugSystem::update(const std::shared_ptr<Entities>& entities) const {
-    auto debug = entities->findFirstComponent<Debug>();
-    if (!debug || !debug->enabled) {
+    auto entity = entities->findEntityWithComponent<Debug>();
+    if (!entity) {
         return;
     }
+    auto debug = entity->getComponent<Debug>();
+    auto input = entity->getComponent<InputControl>();
+
+    // check if we should toggle debugging
+    if (input->justPressed(InputKey::DEBUG)) {
+        debug->enabled = !debug->enabled;
+    }
+
+    if (!debug->enabled) {
+        return;
+    }
+
+    // find the player
     auto player = entities->findEntityWithComponent<Collider>();
     if (!player) {
         std::cerr << "could not find player" << std::endl;
     }
 
+    // find the tntities and components we're interested in
     auto camera = entities->findEntityWithComponent<Camera>();
     auto collider = player->getComponent<Collider>();
     auto transform = player->getComponent<Transform>();

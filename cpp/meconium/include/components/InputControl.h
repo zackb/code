@@ -22,7 +22,7 @@ struct InputAction {
     bool justReleased() const { return !isPressed && wasPressed; }
 };
 
-enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP };
+enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP, DEBUG };
 
 class InputControl final : public Component {
 public:
@@ -32,6 +32,7 @@ public:
         actions.emplace(InputKey::MOVE_LEFT, InputAction(SDL_SCANCODE_LEFT));
         actions.emplace(InputKey::MOVE_RIGHT, InputAction(SDL_SCANCODE_RIGHT));
         actions.emplace(InputKey::JUMP, InputAction(SDL_SCANCODE_UP));
+        actions.emplace(InputKey::DEBUG, InputAction(SDL_SCANCODE_D));
     }
 
     void update(const Uint8* keyboardState) {
