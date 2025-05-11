@@ -15,7 +15,14 @@ class Entity {
 public:
     int id;
 
-    Entity(int id_) : id(id_) {}
+    explicit Entity(int id_) : id(id_) {}
+
+    template <typename T, typename... Args>
+    std::shared_ptr<T> addComponent(Args&&... args) {
+        auto component = std::make_shared<T>(std::forward<Args>(args)...);
+        components[std::type_index(typeid(T))] = std::static_pointer_cast<void>(component);
+        return component;
+    }
 
     template <typename T> void addComponent(std::shared_ptr<T> component) {
         components[std::type_index(typeid(T))] = std::static_pointer_cast<void>(component);
