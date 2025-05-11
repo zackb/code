@@ -3,8 +3,7 @@
 #include "ECS.h"
 #include "GameTime.h"
 #include "components/TileMap.h"
-
-// #define DEBUG
+#include "systems/DebugSystem.h"
 
 class Meconium {
 
@@ -22,8 +21,6 @@ private:
 
     // ecs
     std::shared_ptr<Entity> player;
-    // TODO: remove after moving Debug to component
-    std::shared_ptr<Entity> camera;
     std::shared_ptr<Entities> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;
@@ -31,5 +28,6 @@ private:
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;
     CameraSystem cameraSystem;
+    DebugSystem debugSystem;
     GameTime& gameTime = GameTime::getInstance();
 };
