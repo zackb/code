@@ -125,6 +125,7 @@ void CollisionSystem::handleAllRampCollisions(std::shared_ptr<Transform>& transf
 
     if (foundRamp && velocity->vy >= 0) {
         SDL_Rect bounds = collider->getBounds(transform);
+        // TODO:? transform->y = bestRampY - (collider->offsetY + collider->height) * transform->scaleY;
         transform->y = bestRampY - bounds.h;
         velocity->vy = 0;
         transform->onGround = true;
@@ -157,6 +158,7 @@ void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
 
     if (intersection.h <= intersection.w) {
         if (rect.y + rect.h - intersection.h <= tileRect.y) {
+            // TODO: ? transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
             transform->y = tileRect.y - bounds.h;
             velocity->vy = 0;
             transform->onGround = true;
