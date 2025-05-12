@@ -101,16 +101,9 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                 } else if (type == TileType::RampRight) {
                     rampY = tileRect.y + static_cast<int>(tileRect.h * percent);
                 }
-
                 if (velocity->vy >= 0 && rect.y + rect.h >= rampY && rect.y < rampY) {
-                    // Handle player moving downwards on the ramp
                     transform->y = rampY - (collider->offsetY + collider->height) * transform->scaleY;
                     velocity->vy = 0;
-                    transform->onGround = true;
-                } else if (velocity->vy < 0 && rect.y < rampY + tileRect.h && rect.y + rect.h > rampY) {
-                    // Handle player moving upwards on the ramp
-                    velocity->vy = 0;
-                    transform->y = rampY + tileRect.h - collider->offsetY * transform->scaleY;
                     transform->onGround = true;
                 }
             }
