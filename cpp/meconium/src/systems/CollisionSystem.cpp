@@ -1,4 +1,6 @@
+#include "Context.h"
 #include "ECS.h"
+#include "systems/DebugSystem.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     for (auto& entity : *entities) {
@@ -49,10 +51,18 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
     transform->onGround = false;
 
     // find the rectangle we need to search for tiles
+
     int startX = (rect.x - 2) / tileMap.tileWidth();
     int endX = (rect.x + rect.w + 2) / tileMap.tileWidth();
     int startY = (rect.y - 2) / tileMap.tileHeight();
     int endY = (rect.y + rect.h + 2) / tileMap.tileHeight();
+
+    DebugSystem::rectToDraw = {
+        startX * tileMap.tileWidth(),
+        startY * tileMap.tileHeight(),
+        (endX - startX + 1) * tileMap.tileWidth(),
+        (endY - startY + 1) * tileMap.tileHeight()
+    };
 
     // get all tiles next to the player up and down left and right
     for (int y = startY; y <= endY; ++y) {
@@ -68,15 +78,21 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
             if (type == TileType::Solid) {
                 SDL_Rect tileRect = {
                     x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
-                // check for vertical collision
-                if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y + tileRect.h) {
+
+                bool horizontalOverlap = rect.x < tileRect.x + tileRect.w && rect.x + rect.w > tileRect.x;
+
+                // check for vertical collisinos
+                if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y && horizontalOverlap) {
                     // collided vertically with this tile going downward
-                    std::cout << "collision" << std::endl;
-                    transform->onGround = true;
                     velocity->vy = 0;
+                    transform->onGround = true;
                     transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
-                } else {
-                    std::cout << "no collision" << std::endl;
+                    return;
+                } else if (velocity->vy < 0 && rect.y <= tileRect.y + tileRect.h && rect.y + rect.h >= tileRect.y && horizontalOverlap) {
+                    // Collided vertically with this tile going upward
+                    velocity->vy = 0;
+                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
+                    return;
                 }
             }
         }
