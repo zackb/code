@@ -73,7 +73,7 @@ bool Meconium::init() {
     player->addComponent<InputControl>();
 
     // Add Collision box
-    player->addComponent<Collider>(15, 0, sprite->width - 30, sprite->height);
+    player->addComponent<Collider>(15, 20, sprite->width - 30, sprite->height - 20);
 
     // Add Transform
     player->addComponent<Transform>(0, 0, 2.0);

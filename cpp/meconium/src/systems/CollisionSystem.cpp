@@ -90,7 +90,7 @@ void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
                           SDL_Rect& intersection) {
     transform->onGround = true;
     // transform->x = tileRect.x;
-    transform->y = transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
-    velocity->vx = 0;
+    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
+    // velocity->vx = 0;
     velocity->vy = 0;
 }
