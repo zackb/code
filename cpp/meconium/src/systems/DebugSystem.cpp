@@ -5,10 +5,11 @@
 #include "components/Collider.h"
 #include "components/Debug.h"
 #include "components/InputControl.h"
+#include "components/TileMap.h"
 
 #include <iostream>
 
-void DebugSystem::update(const std::shared_ptr<Entities>& entities) const {
+void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_ptr<TileMap>& tileMap) const {
     auto entity = entities->findEntityWithComponent<Debug>();
     if (!entity) {
         return;
@@ -41,7 +42,20 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities) const {
     SDL_Rect r = collider->getBounds(transform);
     SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
 
-    SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // Red color
+    SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // red color
     SDL_RenderDrawRect(Context::renderer, &hitBox);
 
+    // draw rects around each tile of the tilemap
+    SDL_SetRenderDrawColor(Context::renderer, 0, 255, 0, 255); // green color
+    for (int i = 0; i < tileMap->mapWidth; i++) {
+        for (int j = 0; j < tileMap->mapHeight; j++) {
+            SDL_Rect rect = {
+                i * tileMap->tileWidth() - camPos->x,
+                j  * tileMap->tileHeight() - camPos->y,
+                tileMap->tileWidth(),
+                tileMap->tileHeight()
+            };
+            SDL_RenderDrawRect(Context::renderer, &rect);
+        }
+    }
 }
