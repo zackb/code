@@ -40,8 +40,9 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
                                                   TileMap& tileMap) {
 
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y) {
+        // confirm vertical overlap
         if (rect.y + rect.h > tileRect.y && rect.y < tileRect.y + tileRect.h) {
-            // vertical overlap confirmed, now check X direction
+            // now check X direction
             if (velocity->vx > 0 && rect.x + rect.w > tileRect.x && rect.x < tileRect.x) {
                 // moving right
                 velocity->vx = 0;
@@ -64,18 +65,48 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                                                 TileMap& tileMap) {
     transform->onGround = false;
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y) {
+        TileType type = tileMap.getTileType(tileMap.at(y, x));
+
+        // confirm horizontal overlap confirmed
         if (rect.x + rect.w > tileRect.x && rect.x < tileRect.x + tileRect.w) {
-            // horizontal overlap confirmed, now check Y direction
-            if (velocity->vy >= 0 && rect.y + rect.h >= tileRect.y && rect.y < tileRect.y) {
-                // moving down
-                velocity->vy = 0;
-                transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
-                transform->onGround = true;
-            } else if (velocity->vy < 0 && rect.y < tileRect.y + tileRect.h &&
-                       rect.y + rect.h > tileRect.y + tileRect.h) {
-                // moving up
-                velocity->vy = 0;
-                transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
+            // first check solids
+            if (type == TileType::Solid) {
+                // now check Y direction
+                if (velocity->vy >= 0 && rect.y + rect.h >= tileRect.y && rect.y < tileRect.y) {
+                    // moving down
+                    velocity->vy = 0;
+                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
+                    transform->onGround = true;
+                } else if (velocity->vy < 0 && rect.y < tileRect.y + tileRect.h &&
+                           rect.y + rect.h > tileRect.y + tileRect.h) {
+                    // moving up
+                    velocity->vy = 0;
+                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
+                }
+            } else if (type == TileType::RampLeft || type == TileType::RampRight) {
+                // Ramp handling (left and right)
+
+                // Middle of the player
+                int localX = rect.x + rect.w / 2 - tileRect.x;
+                float percent = static_cast<float>(localX) / tileRect.w;
+                int rampY = 0;
+
+                if (type == TileType::RampLeft) {
+                    rampY = tileRect.y + tileRect.h - static_cast<int>(tileRect.h * percent);
+                } else if (type == TileType::RampRight) {
+                    rampY = tileRect.y + static_cast<int>(tileRect.h * percent);
+                }
+
+                if (velocity->vy >= 0 && rect.y + rect.h >= rampY && rect.y < rampY) {
+                    // Handle player moving downwards on the ramp
+                    transform->y = rampY - (collider->offsetY + collider->height) * transform->scaleY;
+                    velocity->vy = 0;
+                    transform->onGround = true;
+                } else if (velocity->vy < 0 && rect.y < rampY + tileRect.h && rect.y + rect.h > rampY) {
+                    // Handle player moving upwards on the ramp
+                    velocity->vy = 0;
+                    transform->y = rampY + tileRect.h - collider->offsetY * transform->scaleY;
+                }
             }
         }
     });
@@ -98,7 +129,10 @@ void CollisionSystem::forEachNearbySolidTile(
                 continue;
 
             int tileID = tileMap.at(y, x);
-            if (tileMap.getTileType(tileID) != TileType::Solid)
+            TileType type = tileMap.getTileType(tileID);
+
+            // Only consider solid tiles or ramps
+            if (type != TileType::Solid && type != TileType::RampLeft && type != TileType::RampRight)
                 continue;
 
             SDL_Rect tileRect = {
