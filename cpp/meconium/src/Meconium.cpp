@@ -136,7 +136,7 @@ void Meconium::render() {
     renderSystem.render(entities, *tileMap);
 
     // Check debugging
-    debugSystem.update(entities);
+    debugSystem.update(entities, tileMap);
 
     SDL_RenderPresent(Context::renderer);
 }
