@@ -40,7 +40,6 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
                                                   TileMap& tileMap) {
 
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
-        // TODO: IDK
         if (type != TileType::Solid) {
             return;
         }
