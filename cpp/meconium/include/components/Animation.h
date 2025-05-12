@@ -40,11 +40,11 @@ class AnimationComponent {
 public:
     AnimationComponent() : currentState(AnimationState::IDLE) {}
 
-    void addAnimation(const AnimationState state, const std::shared_ptr<Animation>& animation);
+    void addAnimation(AnimationState state, const std::shared_ptr<Animation>& animation);
 
-    void setState(const AnimationState state);
+    void setState(AnimationState state);
 
-    void update(const int deltaTime) const;
+    void update(int deltaTime) const;
 
     SDL_Rect getCurrentFrame() const;
 
