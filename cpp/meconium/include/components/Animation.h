@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 enum class AnimationState { IDLE, WALKING, JUMPING, FALLING };
