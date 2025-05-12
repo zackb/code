@@ -1,10 +1,10 @@
 #include "FileUtils.h"
 
 #include <filesystem>
+#include <iostream>
+#include <limits.h> // for PATH_MAX
 #include <string>
 #include <unistd.h>
-#include <limits.h> // for PATH_MAX
-#include <iostream>
 
 #if __APPLE__
 #include <mach-o/dyld.h>
@@ -78,13 +78,12 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return cmakeBuildPathAssets;
     }
 
-
     // 5. Fallback: return unchanged and let caller handle error
     return relativePath;
 }
 
 std::string getCwd() {
-    char pwd [PATH_MAX];
+    char pwd[PATH_MAX];
 
     if (getcwd(pwd, sizeof(pwd)) == nullptr) {
         std::cerr << "cannot getcwd" << std::endl;

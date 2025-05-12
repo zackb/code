@@ -9,7 +9,6 @@
 
 #include <iostream>
 
-SDL_Rect DebugSystem::rectToDraw;
 void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_ptr<TileMap>& tileMap) const {
     auto entity = entities->findEntityWithComponent<Debug>();
     if (!entity) {
@@ -50,19 +49,11 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
     SDL_SetRenderDrawColor(Context::renderer, 0, 255, 0, 255); // green color
     for (int i = 0; i < tileMap->mapWidth; i++) {
         for (int j = 0; j < tileMap->mapHeight; j++) {
-            SDL_Rect rect = {
-                i * tileMap->tileWidth() - camPos->x,
-                j  * tileMap->tileHeight() - camPos->y,
-                tileMap->tileWidth(),
-                tileMap->tileHeight()
-            };
+            SDL_Rect rect = {i * tileMap->tileWidth() - camPos->x,
+                             j * tileMap->tileHeight() - camPos->y,
+                             tileMap->tileWidth(),
+                             tileMap->tileHeight()};
             SDL_RenderDrawRect(Context::renderer, &rect);
         }
-    }
-
-    // TODO: REMOVE
-    if (rectToDraw.x != 0) {
-        SDL_SetRenderDrawColor(Context::renderer, 0, 0, 255, 255); // blue box
-        SDL_RenderDrawRect(Context::renderer, &rectToDraw);
     }
 }
