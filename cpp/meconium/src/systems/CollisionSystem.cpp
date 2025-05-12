@@ -66,28 +66,28 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
 
             // only look at solid tiles
             if (type == TileType::Solid) {
-                // check and see if the collision rect intersects with the tile rect
                 SDL_Rect tileRect = {
                     x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
-
-                SDL_Rect intersection;
-                if (SDL_IntersectRect(&rect, &tileRect, &intersection)) {
-                    std::cout << "collision detected" << std::endl;
-                    // the collision rect intersects with tile rect
-                    handleSolidCollision(rect, velocity, transform, collider, tileRect, intersection);
+                // check for vertical collision
+                if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y + tileRect.h) {
+                    // collided vertically with this tile going downward
+                    std::cout << "collision" << std::endl;
+                    transform->onGround = true;
+                    velocity->vy = 0;
+                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
                 } else {
-                    std::cout << "collision not detected" << std::endl;
+                    std::cout << "no collision" << std::endl;
                 }
             }
         }
     }
 }
 void CollisionSystem::handleSolidCollision(SDL_Rect& rect,
-                          std::shared_ptr<Velocity>& velocity,
-                          std::shared_ptr<Transform>& transform,
-                          std::shared_ptr<Collider>& collider,
-                          SDL_Rect tileRect,
-                          SDL_Rect& intersection) {
+                                           std::shared_ptr<Velocity>& velocity,
+                                           std::shared_ptr<Transform>& transform,
+                                           std::shared_ptr<Collider>& collider,
+                                           SDL_Rect tileRect,
+                                           SDL_Rect& intersection) {
     transform->onGround = true;
     // transform->x = tileRect.x;
     transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
