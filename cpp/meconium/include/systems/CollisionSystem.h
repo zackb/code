@@ -15,16 +15,17 @@ private:
                                      std::shared_ptr<Transform>& transform,
                                      std::shared_ptr<Collider>& collider,
                                      TileMap& tileMap);
-
+    
     void resolveVerticalCollisions(SDL_Rect& rect,
                                    std::shared_ptr<Velocity>& velocity,
                                    std::shared_ptr<Transform>& transform,
                                    std::shared_ptr<Collider>& collider,
                                    TileMap& tileMap);
+    
 
-
-    static void forEachNearbySolidTile(const SDL_Rect& rect,
-                                       const TileMap& tileMap,
-                                const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY)>& callback);
+    static void forEachNearbySolidTile(
+        const SDL_Rect& rect,
+        const TileMap& tileMap,
+        const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback);
 
 };

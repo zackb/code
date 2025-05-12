@@ -39,7 +39,11 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
                                                   std::shared_ptr<Collider>& collider,
                                                   TileMap& tileMap) {
 
-    forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y) {
+    forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
+        // TODO: IDK
+        if (type != TileType::Solid) {
+            return;
+        }
         // confirm vertical overlap
         if (rect.y + rect.h > tileRect.y && rect.y < tileRect.y + tileRect.h) {
             // now check X direction
@@ -64,9 +68,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                                                 std::shared_ptr<Collider>& collider,
                                                 TileMap& tileMap) {
     transform->onGround = false;
-    forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y) {
-        TileType type = tileMap.getTileType(tileMap.at(y, x));
-
+    forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
         // confirm horizontal overlap confirmed
         if (rect.x + rect.w > tileRect.x && rect.x < tileRect.x + tileRect.w) {
             // first check solids
@@ -117,7 +119,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
 void CollisionSystem::forEachNearbySolidTile(
     const SDL_Rect& rect,
     const TileMap& tileMap,
-    const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY)>& callback) {
+    const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback) {
     int startX = (rect.x - 2) / tileMap.tileWidth();
     int endX = (rect.x + rect.w + 2) / tileMap.tileWidth();
     int startY = (rect.y - 2) / tileMap.tileHeight();
@@ -138,7 +140,7 @@ void CollisionSystem::forEachNearbySolidTile(
             SDL_Rect tileRect = {
                 x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
-            callback(tileRect, x, y);
+            callback(tileRect, x, y, type);
         }
     }
 }
