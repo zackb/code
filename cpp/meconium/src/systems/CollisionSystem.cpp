@@ -80,22 +80,7 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                     x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
                 bool horizontalOverlap = rect.x < tileRect.x + tileRect.w && rect.x + rect.w > tileRect.x;
-
                 bool verticalOverlap = rect.y < tileRect.y + tileRect.h && rect.y + rect.h > tileRect.y;
-
-                // check for vertical collisinos
-                if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y && horizontalOverlap) {
-                    // collided vertically with this tile going downward
-                    velocity->vy = 0;
-                    transform->onGround = true;
-                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
-                    return;
-                } else if (velocity->vy < 0 && rect.y <= tileRect.y + tileRect.h && rect.y + rect.h >= tileRect.y && horizontalOverlap) {
-                    // Collided vertically with this tile going upward
-                    velocity->vy = 0;
-                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
-                    return;
-                }
 
                 // check for horizontal collisions
                 if (velocity->vx > 0 && rect.x + rect.w >= tileRect.x && rect.x < tileRect.x && verticalOverlap) {
@@ -106,6 +91,18 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                     // Collided while moving left
                     velocity->vx = 0;
                     transform->x = tileRect.x + tileRect.w - collider->offsetX * transform->scaleX;
+                }
+
+                // check for vertical collisinos
+                if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y && horizontalOverlap) {
+                    // collided vertically with this tile going downward
+                    velocity->vy = 0;
+                    transform->onGround = true;
+                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
+                } else if (velocity->vy < 0 && rect.y <= tileRect.y + tileRect.h && rect.y + rect.h >= tileRect.y && horizontalOverlap) {
+                    // Collided vertically with this tile going upward
+                    velocity->vy = 0;
+                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
                 }
             }
         }
