@@ -90,7 +90,10 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
 
                 // Middle of the player
                 int localX = rect.x + rect.w / 2 - tileRect.x;
+
+                // Calculate percent across tile
                 float percent = static_cast<float>(localX) / tileRect.w;
+
                 int rampY = 0;
 
                 if (type == TileType::RampLeft) {
@@ -108,6 +111,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                     // Handle player moving upwards on the ramp
                     velocity->vy = 0;
                     transform->y = rampY + tileRect.h - collider->offsetY * transform->scaleY;
+                    transform->onGround = true;
                 }
             }
         }
