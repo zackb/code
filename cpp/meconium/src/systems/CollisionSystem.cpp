@@ -81,6 +81,8 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
 
                 bool horizontalOverlap = rect.x < tileRect.x + tileRect.w && rect.x + rect.w > tileRect.x;
 
+                bool verticalOverlap = rect.y < tileRect.y + tileRect.h && rect.y + rect.h > tileRect.y;
+
                 // check for vertical collisinos
                 if (rect.y + rect.h >= tileRect.y && rect.y <= tileRect.y && horizontalOverlap) {
                     // collided vertically with this tile going downward
@@ -93,6 +95,17 @@ void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                     velocity->vy = 0;
                     transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
                     return;
+                }
+
+                // check for horizontal collisions
+                if (velocity->vx > 0 && rect.x + rect.w >= tileRect.x && rect.x < tileRect.x && verticalOverlap) {
+                    // Collided while moving right
+                    velocity->vx = 0;
+                    transform->x = tileRect.x - (collider->offsetX + collider->width) * transform->scaleX;
+                } else if (velocity->vx < 0 && rect.x <= tileRect.x + tileRect.w && rect.x + rect.w > tileRect.x && verticalOverlap) {
+                    // Collided while moving left
+                    velocity->vx = 0;
+                    transform->x = tileRect.x + tileRect.w - collider->offsetX * transform->scaleX;
                 }
             }
         }
