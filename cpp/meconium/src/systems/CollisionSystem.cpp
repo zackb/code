@@ -2,6 +2,7 @@
 #include "ECS.h"
 #include "systems/DebugSystem.h"
 
+
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     for (auto& entity : *entities) {
         auto transform = entity->getComponent<Transform>();
@@ -11,25 +12,17 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         if (!transform || !velocity || !collider)
             continue;
 
-        // Save original position
-        int originalX = transform->x;
-        int originalY = transform->y;
+        // --- HORIZONTAL COLLISION PASS ---
+        SDL_Rect boundsX = collider->getBounds(transform);
+        boundsX.x += velocity->vx;
+        resolveHorizontalCollisions(boundsX, velocity, transform, collider, tileMap);
 
-        SDL_Rect currentRect = collider->getBounds(transform);
+        // --- VERTICAL COLLISION PASS ---
+        SDL_Rect boundsY = collider->getBounds(transform); // refresh bounds after possible X change
+        boundsY.y += velocity->vy;
+        resolveVerticalCollisions(boundsY, velocity, transform, collider, tileMap);
 
-        // Future collision rect based on velocity
-        SDL_Rect futureRect = {
-            currentRect.x + velocity->vx, currentRect.y + velocity->vy, currentRect.w, currentRect.h};
-
-        resolveTileCollisions(futureRect, velocity, transform, collider, tileMap);
-
-        // If position hasn't changed, apply velocity directly
-        if (transform->x == originalX && transform->y == originalY) {
-            transform->x += velocity->vx;
-            transform->y += velocity->vy;
-        }
-
-        // Respawn if fallen
+        // --- FALL OFF MAP CHECK ---
         if (transform->y > tileMap.mapHeight * tileMap.tileHeight() * 2) {
             std::cout << "fell off" << std::endl;
             transform->x = 100;
@@ -40,6 +33,98 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         }
     }
 }
+
+void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
+                                                  std::shared_ptr<Velocity>& velocity,
+                                                  std::shared_ptr<Transform>& transform,
+                                                  std::shared_ptr<Collider>& collider,
+                                                  TileMap& tileMap) {
+    int startX = (rect.x - 2) / tileMap.tileWidth();
+    int endX   = (rect.x + rect.w + 2) / tileMap.tileWidth();
+    int startY = (rect.y - 2) / tileMap.tileHeight();
+    int endY   = (rect.y + rect.h + 2) / tileMap.tileHeight();
+
+    for (int y = startY; y <= endY; ++y) {
+        for (int x = startX; x <= endX; ++x) {
+            if (x < 0 || y < 0 || x >= tileMap.mapWidth || y >= tileMap.mapHeight)
+                continue;
+
+            int tileID = tileMap.at(y, x);
+            if (tileMap.getTileType(tileID) != TileType::Solid)
+                continue;
+
+            SDL_Rect tileRect = {
+                x * tileMap.tileWidth(),
+                y * tileMap.tileHeight(),
+                tileMap.tileWidth(),
+                tileMap.tileHeight()
+            };
+
+            if (rect.y + rect.h > tileRect.y && rect.y < tileRect.y + tileRect.h) {
+                // vertical overlap confirmed, now check X direction
+                if (velocity->vx > 0 && rect.x + rect.w > tileRect.x && rect.x < tileRect.x) {
+                    // moving right
+                    velocity->vx = 0;
+                    transform->x = tileRect.x - (collider->offsetX + collider->width) * transform->scaleX;
+                } else if (velocity->vx < 0 && rect.x < tileRect.x + tileRect.w && rect.x + rect.w > tileRect.x + tileRect.w) {
+                    // moving left
+                    velocity->vx = 0;
+                    transform->x = tileRect.x + tileRect.w - collider->offsetX * transform->scaleX;
+                }
+            }
+        }
+    }
+
+    transform->x += velocity->vx;
+}
+
+void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
+                                                std::shared_ptr<Velocity>& velocity,
+                                                std::shared_ptr<Transform>& transform,
+                                                std::shared_ptr<Collider>& collider,
+                                                TileMap& tileMap) {
+    transform->onGround = false;
+
+    int startX = (rect.x - 2) / tileMap.tileWidth();
+    int endX   = (rect.x + rect.w + 2) / tileMap.tileWidth();
+    int startY = (rect.y - 2) / tileMap.tileHeight();
+    int endY   = (rect.y + rect.h + 2) / tileMap.tileHeight();
+
+    for (int y = startY; y <= endY; ++y) {
+        for (int x = startX; x <= endX; ++x) {
+            if (x < 0 || y < 0 || x >= tileMap.mapWidth || y >= tileMap.mapHeight)
+                continue;
+
+            int tileID = tileMap.at(y, x);
+            if (tileMap.getTileType(tileID) != TileType::Solid)
+                continue;
+
+            SDL_Rect tileRect = {
+                x * tileMap.tileWidth(),
+                y * tileMap.tileHeight(),
+                tileMap.tileWidth(),
+                tileMap.tileHeight()
+            };
+
+            if (rect.x + rect.w > tileRect.x && rect.x < tileRect.x + tileRect.w) {
+                // horizontal overlap confirmed, now check Y direction
+                if (velocity->vy >= 0 && rect.y + rect.h >= tileRect.y && rect.y < tileRect.y) {
+                    // moving down
+                    velocity->vy = 0;
+                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
+                    transform->onGround = true;
+                } else if (velocity->vy < 0 && rect.y < tileRect.y + tileRect.h && rect.y + rect.h > tileRect.y + tileRect.h) {
+                    // moving up
+                    velocity->vy = 0;
+                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
+                }
+            }
+        }
+    }
+
+    transform->y += velocity->vy;
+}
+
 
 void CollisionSystem::resolveTileCollisions(SDL_Rect& rect,
                                             std::shared_ptr<Velocity>& velocity,

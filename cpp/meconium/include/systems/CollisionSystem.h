@@ -8,8 +8,18 @@
 class CollisionSystem {
 public:
     void update(const std::shared_ptr<Entities>& entities, TileMap& tileMap);
+    void resolveHorizontalCollisions(SDL_Rect& rect,
+                                     std::shared_ptr<Velocity>& velocity,
+                                     std::shared_ptr<Transform>& transform,
+                                     std::shared_ptr<Collider>& collider,
+                                     TileMap& tileMap);
 
 private:
+    void resolveVerticalCollisions(SDL_Rect& rect,
+                                   std::shared_ptr<Velocity>& velocity,
+                                   std::shared_ptr<Transform>& transform,
+                                   std::shared_ptr<Collider>& collider,
+                                   TileMap& tileMap);
     void resolveTileCollisions(SDL_Rect& rect,
                                std::shared_ptr<Velocity>& velocity,
                                std::shared_ptr<Transform>& transform,
