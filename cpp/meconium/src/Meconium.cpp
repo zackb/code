@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include <algorithm>
 #include <iostream>
 
 #include "Context.h"
