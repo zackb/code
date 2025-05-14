@@ -3,18 +3,32 @@
 #include "Component.h"
 #include <SDL.h>
 
+#include <SDL_scancode.h>
 #include <unordered_map>
+#include <vector>
 
 struct InputAction {
     SDL_Scancode key;
     bool isPressed = false;
     bool wasPressed = false;
+    std::vector<SDL_Scancode> requiredModifiers;
 
     InputAction(SDL_Scancode scancode) : key(scancode) {}
 
+    void addModifier(SDL_Scancode mod) { requiredModifiers.push_back(mod); }
+
     void update(const Uint8* keyboardState) {
         wasPressed = isPressed;
-        isPressed = keyboardState[key];
+        bool keyDown = keyboardState[key];
+
+        // all modifiers must be down
+        bool modifiersHeld = true;
+        for (SDL_Scancode code : requiredModifiers) {
+            if (!keyboardState[code]) {
+                modifiersHeld = false;
+            }
+        }
+        isPressed = keyDown && modifiersHeld;
     }
 
     bool justPressed() const { return isPressed && !wasPressed; }
@@ -32,7 +46,11 @@ public:
         actions.emplace(InputKey::MOVE_LEFT, InputAction(SDL_SCANCODE_LEFT));
         actions.emplace(InputKey::MOVE_RIGHT, InputAction(SDL_SCANCODE_RIGHT));
         actions.emplace(InputKey::JUMP, InputAction(SDL_SCANCODE_UP));
-        actions.emplace(InputKey::DEBUG, InputAction(SDL_SCANCODE_D));
+
+        // debug command
+        InputAction debugAction(SDL_SCANCODE_D);
+        debugAction.addModifier(SDL_SCANCODE_LGUI);
+        actions.emplace(InputKey::DEBUG, std::move(debugAction));
     }
 
     void update(const Uint8* keyboardState) {
