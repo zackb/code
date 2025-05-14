@@ -4,11 +4,12 @@
   "tileWidth": 70,
   "tileHeight": 70,
   "tiles": {
-    "0": { "type": "solid" },
+    "0": { "type": "empty" },
     "7": { "type": "solid" },
     "14": { "type": "solid" },
     "23": { "type": "solid" },
     "28": { "type": "solid" },
+    "31": { "type": "solid" },
     "32": { "type": "solid" },
     "33": { "type": "solid" },
     "46": { "type": "solid" },

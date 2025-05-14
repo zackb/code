@@ -2,7 +2,7 @@
 
 void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
     const float GRAVITY = 1.0f;
-    const float JUMP_FORCE = -20.0f;
+    const float JUMP_FORCE = -22.0f;
     const float MAX_FALL_SPEED = 30.0f;
 
     for (auto& entity : *entities) {
