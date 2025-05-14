@@ -4,6 +4,7 @@
 #include "GameTime.h"
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
+#include "systems/StateSystem.h"
 
 class Meconium {
 
@@ -24,6 +25,7 @@ private:
     std::shared_ptr<Entities> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;
+    StateSystem stateSystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;

@@ -45,6 +45,7 @@ set(SOURCES
         src/systems/CameraSystem.cpp
         src/assets/AssetLoader.cpp
         src/systems/DebugSystem.cpp
+        src/systems/StateSystem.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)
