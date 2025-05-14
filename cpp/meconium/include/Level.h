@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Background.h"
@@ -52,6 +53,8 @@ public:
                 state = AnimationState::JUMPING;
             else if (it.name == "fall")
                 state = AnimationState::FALLING;
+            else if (it.name == "attack")
+                state = AnimationState::ATTACKING;
             else
                 std::cerr << "Unknown animation state: " << it.name << std::endl;
 

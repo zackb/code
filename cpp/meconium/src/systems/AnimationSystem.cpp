@@ -1,4 +1,5 @@
 #include "ECS.h"
+#include "components/InputControl.h"
 
 void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const int deltaTime) const {
 
@@ -26,8 +27,11 @@ void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const in
                 animation->setState(AnimationState::FALLING);
             }
         } else {
-            // On the ground - idle or walking
-            if (velocity->vx != 0) {
+            auto input = entity->getComponent<InputControl>();
+            if (input && input->isDown(InputKey::ATTACK)) {
+                animation->setState(AnimationState::ATTACKING);
+            } else if (velocity->vx != 0) {
+                // On the ground - idle or walking
                 animation->setState(AnimationState::WALKING);
             } else {
                 animation->setState(AnimationState::IDLE);

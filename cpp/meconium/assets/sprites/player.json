@@ -5,9 +5,15 @@
   "animations": {
     "idle": {
       "row": 0,
-      "frameCount": 4,
+      "frameCount": 6,
       "looping": true,
       "duration": 200
+    },
+    "attack": {
+      "row": 1,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 100
     },
     "walk": {
       "row": 2,

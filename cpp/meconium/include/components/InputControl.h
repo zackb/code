@@ -36,16 +36,21 @@ struct InputAction {
     bool justReleased() const { return !isPressed && wasPressed; }
 };
 
-enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP, DEBUG };
+enum class InputKey { MOVE_LEFT, MOVE_RIGHT, JUMP, ATTACK, DEBUG };
 
 class InputControl final : public Component {
 public:
     std::unordered_map<InputKey, InputAction> actions;
 
     InputControl() {
+
+        // move
         actions.emplace(InputKey::MOVE_LEFT, InputAction(SDL_SCANCODE_LEFT));
         actions.emplace(InputKey::MOVE_RIGHT, InputAction(SDL_SCANCODE_RIGHT));
         actions.emplace(InputKey::JUMP, InputAction(SDL_SCANCODE_UP));
+
+        // actions
+        actions.emplace(InputKey::ATTACK, InputAction(SDL_SCANCODE_SPACE));
 
         // debug command
         InputAction debugAction(SDL_SCANCODE_D);

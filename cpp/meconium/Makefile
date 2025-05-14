@@ -3,12 +3,12 @@ default: debug
 debug:
 	cmake --preset debug
 	cmake --build --preset debug
-	ln -s build/debug/compile_commands.json
+	ln -sf build/debug/compile_commands.json
 
 release:
 	cmake --preset release
 	cmake --build --preset release
-	ln -s build/release/compile_commands.json
+	ln -sf build/release/compile_commands.json
 
 .PHONY: format
 fmt:
