@@ -9,6 +9,7 @@
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
+#include "components/State.h"
 
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
@@ -77,6 +78,9 @@ bool Meconium::init() {
     // Add Transform
     player->addComponent<Transform>(0, 0, 2.0);
 
+    // Add State
+    player->addComponent<State>();
+
     // Add player to the entities list
     entities->add(player);
 
@@ -108,13 +112,16 @@ void Meconium::update() {
     gameTime.update();
     int deltaTime = gameTime.getDeltaTime();
 
-    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+    const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
 
     // Handle input first to affect movement
     inputSystem.update(entities, keyboardState);
 
     // Apply movement based on input
     movementSystem.update(entities);
+
+    // Transition state
+    stateSystem.update(entities, deltaTime);
 
     // Handle collisions after movement
     collisionSystem.update(entities, *tileMap);
