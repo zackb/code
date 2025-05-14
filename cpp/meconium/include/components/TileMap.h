@@ -3,7 +3,6 @@
 #include "components/Component.h"
 #include <SDL.h>
 #include <memory>
-#include <unordered_set>
 
 // Tilesheet + map.csv
 class TileMap final : public Component {
