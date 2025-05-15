@@ -51,7 +51,7 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
     }
 }
 
-void RenderSystem::renderTileMap(TileMap& tileMap, Transform& camera) {
+void RenderSystem::renderTileMap(const TileMap& tileMap, const Transform& camera) {
     // render only tiles that are on-screen
     int startCol = std::max(0, camera.x / tileMap.tileWidth());
     int startRow = std::max(0, camera.y / tileMap.tileHeight());
