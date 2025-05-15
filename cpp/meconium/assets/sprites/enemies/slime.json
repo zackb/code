@@ -1,0 +1,37 @@
+{
+  "texture": "textures/blair",
+  "tileWidth": 56,
+  "tileHeight": 56,
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 200
+    },
+    "attack": {
+      "row": 1,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 100
+    },
+    "walk": {
+      "row": 2,
+      "frameCount": 8,
+      "looping": true,
+      "duration": 100
+    },
+    "jump": {
+      "row": 3,
+      "frameCount": 8,
+      "looping": false,
+      "duration": 150
+    },
+    "fall": {
+      "row": 4,
+      "frameCount": 8,
+      "looping": false,
+      "duration": 100
+    }
+  }
+}

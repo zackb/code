@@ -16,5 +16,14 @@
       { "texture": "textures/background2/_02_trees and bushes.png", "speed": 0.8 },
       { "texture": "textures/background2/_01_ground.png", "speed": 0.95 }
     ]
-  }
+  },
+  "enemies" :[
+      {
+          "type": "slime",
+          "sprite": "sprites/enemies/slime.json",
+          "x": 1200,
+          "y": 100,
+          "triggerX": 1000
+      }
+  ]
 }
