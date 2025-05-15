@@ -58,6 +58,9 @@ bool Meconium::init() {
     // Create a player entity
     player = std::make_shared<Entity>(1);
 
+    // Tag as player entity
+    player->addComponent<PlayerTag>();
+
     // Load sprite
     // Add Sprite
     auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");

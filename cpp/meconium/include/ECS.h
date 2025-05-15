@@ -5,6 +5,7 @@
 #include "components/Collider.h"
 #include "components/InputControl.h"
 #include "components/Sprite.h"
+#include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
 #include "entity/Entity.h"
