@@ -35,11 +35,12 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     auto animation = level->createAnimation(*enemy->sprite);
 
     entity->addComponent<Sprite>(sprite);
-    // TODO:
-    // entity->addComponent<AnimationComponent>(animation);
-    entity->addComponent<Transform>(enemy->x, enemy->y);
-    entity->addComponent<Velocity>();
-    entity->addComponent<Collider>(0, 0, 100, 100);
+    entity->addComponent<AnimationComponent>(animation);
+    // TODO: add scale to prefab
+    entity->addComponent<Transform>(enemy->x, enemy->y, 2.0);
     entity->getComponent<Transform>()->onGround = false;
+    entity->addComponent<Velocity>();
+    // TODO: add collider to prefab
+    entity->addComponent<Collider>(sprite->width / 4, sprite->height / 4, sprite->width / 2, sprite->height / 2);
     entities->add(entity);
 }

@@ -75,7 +75,7 @@ public:
         return nullptr;
     }
 
-    // Find all entities with a specific component
+    // Find all components in all entities
     template <typename T> std::vector<std::shared_ptr<T>> findAllComponents() {
         std::vector<std::shared_ptr<T>> result;
         auto& index = componentIndex<T>();

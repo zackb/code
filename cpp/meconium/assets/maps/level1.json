@@ -20,10 +20,10 @@
   "enemies" :[
       {
           "type": "slime",
-          "sprite": "sprites/enemies/slime.json",
-          "x": 1200,
+          "sprite": "sprites/enemies/archer.json",
+          "x": 200,
           "y": 100,
-          "triggerX": 1000
+          "triggerX": 200
       }
   ]
 }
