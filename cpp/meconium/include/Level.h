@@ -2,14 +2,24 @@
 
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
+#include "assets/Definitions.h"
 #include "components/Background.h"
 
+enum class Facing { LEFT, RIGHT };
+
 struct Enemy {
-    std::shared_ptr<Sprite> sprite;
+    std::string type;
+    const std::shared_ptr<SpriteSheetDefinition> sprite;
     int x, y;
     int triggerX;
     bool hasSpawned = false;
+    Facing facing = Facing::LEFT;
+
+    Enemy(std::string t, std::shared_ptr<SpriteSheetDefinition> s, int x_, int y_, int trigger)
+        : type(t), sprite(std::move(s)), x(x_), y(y_), triggerX(trigger) {}
 };
+
+using Enemies = std::vector<std::shared_ptr<Enemy>>;
 
 class Level {
 public:
@@ -81,12 +91,11 @@ public:
         return std::make_shared<ParallaxBackground>(backgrounds);
     }
 
-    std::vector<std::shared_ptr<Enemy>> createEnemies() const {
-        std::vector<std::shared_ptr<Enemy>> enemies;
+    Enemies createEnemies() const {
+        Enemies enemies;
         for (auto e : levelDef->enemies) {
-            Enemy enemy;
-            enemy.sprite = createSprite(e.sprite);
-            enemy.x = e.x;
+            auto sprite = AssetLoader::loadSpriteSheet(e.sprite);
+            Enemy enemy(e.type, sprite, e.x, e.y, e.triggerX);
             enemies.push_back(std::make_shared<Enemy>(enemy));
         }
 

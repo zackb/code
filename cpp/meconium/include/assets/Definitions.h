@@ -58,6 +58,7 @@ struct BackgroundDefinition {
 // Enemy
 
 struct EnemyDefinition {
+    std::string type;
     std::string sprite;
     int x;
     int y;
@@ -92,6 +93,7 @@ inline void from_json(const nlohmann::json& j, BackgroundDefinition& def) {
 }
 
 inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
+    e.type = j.at("type").get<std::string>();
     e.sprite = j.at("sprite").get<std::string>();
     e.x = j.at("x").get<int>();
     e.y = j.at("y").get<int>();
