@@ -10,12 +10,12 @@
 #include <iostream>
 
 void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_ptr<TileMap>& tileMap) const {
-    auto entity = entities->findEntityWithComponent<Debug>();
-    if (!entity) {
+    auto debugEntity = entities->findEntityWithComponent<Debug>();
+    if (!debugEntity) {
         return;
     }
-    auto debug = entity->getComponent<Debug>();
-    auto input = entity->getComponent<InputControl>();
+    auto debug = debugEntity->getComponent<Debug>();
+    auto input = debugEntity->getComponent<InputControl>();
 
     // check if we should toggle debugging
     if (input->justPressed(InputKey::DEBUG)) {
@@ -26,24 +26,24 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
         return;
     }
 
-    // find the player
-    auto player = entities->findEntityWithComponent<Collider>();
-    if (!player) {
-        std::cerr << "could not find player" << std::endl;
-    }
-
-    // find the tntities and components we're interested in
+    // camera info
     auto camera = entities->findEntityWithComponent<Camera>();
-    auto collider = player->getComponent<Collider>();
-    auto transform = player->getComponent<Transform>();
     auto camPos = camera->getComponent<Transform>();
 
-    // Draw a rect around the player's hit box
-    SDL_Rect r = collider->getBounds(transform);
-    SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
+    // for every entity with a collider, draw a rect around it
+    for (auto& entity : *entities) {
+        auto collider = entity->getComponent<Collider>();
+        auto transform = entity->getComponent<Transform>();
+        if (!collider || !transform)
+            continue;
 
-    SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // red color
-    SDL_RenderDrawRect(Context::renderer, &hitBox);
+        // Draw a rect around the player's hit box
+        SDL_Rect r = collider->getBounds(transform);
+        SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
+
+        SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // red color
+        SDL_RenderDrawRect(Context::renderer, &hitBox);
+    }
 
     // draw rects around each tile of the tilemap
     SDL_SetRenderDrawColor(Context::renderer, 0, 255, 0, 255); // green color
