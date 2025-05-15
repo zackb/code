@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "components/State.h"
+
 void SpawnerSystem::update(const std::shared_ptr<Entities>& entities,
                            const Enemies& enemies,
                            const std::shared_ptr<Level>& level) const {
@@ -34,13 +36,20 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     auto sprite = level->createSprite(*enemy->sprite);
     auto animation = level->createAnimation(*enemy->sprite);
 
-    entity->addComponent<Sprite>(sprite);
     entity->addComponent<AnimationComponent>(animation);
+    entity->addComponent<Sprite>(sprite);
+    entity->addComponent<State>();
+    entity->getComponent<State>()->currentAction = Action::IDLE;
+    if (enemy->facing == Facing::LEFT) {
+        // start all sprites facing right
+        entity->getComponent<Sprite>()->flipX = true;
+    }
     // TODO: add scale to prefab
     entity->addComponent<Transform>(enemy->x, enemy->y, 2.0);
     entity->getComponent<Transform>()->onGround = false;
     entity->addComponent<Velocity>();
     // TODO: add collider to prefab
     entity->addComponent<Collider>(sprite->width / 4, sprite->height / 4, sprite->width / 2, sprite->height / 2);
+    entity->addComponent<EnemyTag>();
     entities->add(entity);
 }

@@ -13,7 +13,7 @@ struct Enemy {
     int x, y;
     int triggerX;
     bool hasSpawned = false;
-    Facing facing = Facing::LEFT;
+    Facing facing = Facing::RIGHT;
 
     Enemy(std::string t, std::shared_ptr<SpriteSheetDefinition> s, int x_, int y_, int trigger)
         : type(t), sprite(std::move(s)), x(x_), y(y_), triggerX(trigger) {}
@@ -78,6 +78,7 @@ public:
             animComponent->addAnimation(state, anim);
         }
 
+        animComponent->init();
         return animComponent;
     }
 

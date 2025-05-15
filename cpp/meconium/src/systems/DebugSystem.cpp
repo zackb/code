@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include "components/Tag.h"
+
 void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_ptr<TileMap>& tileMap) const {
     auto debugEntity = entities->findEntityWithComponent<Debug>();
     if (!debugEntity) {
@@ -55,5 +57,12 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
                              tileMap->tileHeight()};
             SDL_RenderDrawRect(Context::renderer, &rect);
         }
+    }
+
+    // print player position
+    auto player = entities->findEntityWithComponent<PlayerTag>();
+    if (player) {
+        auto playerPos = player->getComponent<Transform>();
+        std::cout << "Player position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
     }
 }

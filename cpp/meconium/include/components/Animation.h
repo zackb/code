@@ -39,6 +39,7 @@ class AnimationComponent {
 public:
     AnimationComponent() : currentState(AnimationState::IDLE) {}
 
+    void init();
     void addAnimation(AnimationState state, const std::shared_ptr<Animation>& animation);
 
     void setState(AnimationState state);

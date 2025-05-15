@@ -19,11 +19,11 @@
   },
   "enemies" :[
       {
-          "type": "slime",
+          "type": "archer",
           "sprite": "sprites/enemies/archer.json",
-          "x": 200,
-          "y": 100,
-          "triggerX": 200
+          "x": 1200,
+          "y": 1200,
+          "triggerX": 500
       }
   ]
 }
