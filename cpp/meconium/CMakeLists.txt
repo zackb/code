@@ -47,6 +47,8 @@ set(SOURCES
         src/systems/DebugSystem.cpp
         src/systems/StateSystem.cpp
         src/systems/SpawnerSystem.cpp
+        src/systems/EnemyStateSystem.cpp
+        include/systems/EnemyStateSystem.h
 )
 
 # Define the executable target (use lowercase for the binary name)
@@ -90,10 +92,10 @@ if (APPLE)
     )
 
     # Set the third-party frameworks and libraries to be bundled
-    # set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
-    # set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
-    set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
-    set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
+    set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
+    set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
+    # set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
+    # set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
     set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
 
     # Create a "Frameworks" directory in the bundle
