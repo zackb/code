@@ -128,11 +128,11 @@ void Meconium::update() {
     // Apply movement based on input
     movementSystem.update(entities);
 
+    // Handle enemy AI
+    enemyAISystem.update(entities);
+
     // Transition state
     stateSystem.update(entities, deltaTime);
-
-    // Transition enemy state
-    enemyStateSystem.update(entities);
 
     // Handle collisions after movement
     collisionSystem.update(entities, *tileMap);
@@ -145,6 +145,14 @@ void Meconium::update() {
 
     // Spawn enemies if we should
     spawnerSystem.update(entities, enemies, level);
+
+    for (auto& e : *entities) {
+        if (e->hasComponent<EnemyTag>()) {
+            auto pos = e->getComponent<Transform>();
+            auto vel = e->getComponent<Velocity>();
+            auto st = e->getComponent<State>();
+        }
+    }
 }
 
 void Meconium::render() {

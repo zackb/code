@@ -3,11 +3,16 @@
 #include "components/Component.h"
 
 enum class Action {
+    // Shared
     IDLE,
     WALKING,
     JUMPING,
     FALLING,
     ATTACKING,
+
+    // Enemy only
+    PATROLLING,
+    CHASING,
 };
 
 struct State final : Component {

@@ -39,7 +39,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
-    entity->getComponent<State>()->currentAction = Action::IDLE;
+    entity->getComponent<State>()->currentAction = Action::PATROLLING;
     if (enemy->facing == Facing::LEFT) {
         // start all sprites facing right
         entity->getComponent<Sprite>()->flipX = true;
