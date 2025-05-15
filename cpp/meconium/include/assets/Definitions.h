@@ -55,11 +55,21 @@ struct BackgroundDefinition {
     std::vector<BackgroundLayerDefinition> layers;
 };
 
+// Enemy
+
+struct EnemyDefinition {
+    std::string sprite;
+    int x;
+    int y;
+    int triggerX;
+};
+
 // Level
 struct LevelDefinition {
     std::string tilemap;
     std::string tileset;
     BackgroundDefinition background;
+    std::vector<EnemyDefinition> enemies;
 };
 
 inline TileType tileTypeFromString(const std::string& str) {
@@ -81,10 +91,18 @@ inline void from_json(const nlohmann::json& j, BackgroundDefinition& def) {
     def.layers = j.at("layers").get<std::vector<BackgroundLayerDefinition>>();
 }
 
+inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
+    e.sprite = j.at("sprite").get<std::string>();
+    e.x = j.at("x").get<int>();
+    e.y = j.at("y").get<int>();
+    e.triggerX = j.at("triggerX").get<int>();
+}
+
 inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
     def.tilemap = j.at("tilemap").get<std::string>();
     def.tileset = j.at("tileset").get<std::string>();
     def.background = j.at("background").get<BackgroundDefinition>();
+    def.enemies = j.value("enemies", std::vector<EnemyDefinition>{});
 }
 
 inline void from_json(const nlohmann::json& j, TileDefinition& tile) {

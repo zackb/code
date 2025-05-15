@@ -4,6 +4,13 @@
 #include "assets/AssetLoader.h"
 #include "components/Background.h"
 
+struct Enemy {
+    std::shared_ptr<Sprite> sprite;
+    int x, y;
+    int triggerX;
+    bool hasSpawned = false;
+};
+
 class Level {
 public:
     explicit Level(const std::string& filePath) { levelDef = AssetLoader::loadLevel(filePath); }
@@ -15,7 +22,6 @@ public:
 
     std::shared_ptr<Sprite> createSprite(const std::shared_ptr<SpriteSheetDefinition> spriteDef) const {
         Sprite sprite;
-        // TODO: where to resolveAssetPath (loadJson, loadTexture, create*)?
         sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef->texture);
         sprite.height = spriteDef->tileHeight;
         sprite.width = spriteDef->tileWidth;
@@ -73,6 +79,18 @@ public:
             backgrounds.push_back(std::make_shared<Background>(background));
         }
         return std::make_shared<ParallaxBackground>(backgrounds);
+    }
+
+    std::vector<std::shared_ptr<Enemy>> createEnemies() const {
+        std::vector<std::shared_ptr<Enemy>> enemies;
+        for (auto e : levelDef->enemies) {
+            Enemy enemy;
+            enemy.sprite = createSprite(e.sprite);
+            enemy.x = e.x;
+            enemies.push_back(std::make_shared<Enemy>(enemy));
+        }
+
+        return enemies;
     }
 
 private:
