@@ -31,7 +31,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
                                const std::shared_ptr<Enemy>& enemy,
                                const std::shared_ptr<Level>& level) const {
     auto entity = std::make_shared<Entity>(99);
-    auto sprite = level->createSprite(enemy->sprite);
+    auto sprite = level->createSprite(*enemy->sprite);
     auto animation = level->createAnimation(*enemy->sprite);
 
     entity->addComponent<Sprite>(sprite);
