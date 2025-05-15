@@ -1,7 +1,7 @@
 {
-  "texture": "textures/blair",
-  "tileWidth": 56,
-  "tileHeight": 56,
+  "texture": "textures/blair.png",
+  "tileWidth": 100,
+  "tileHeight": 100,
   "animations": {
     "idle": {
       "row": 0,

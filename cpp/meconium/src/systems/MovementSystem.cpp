@@ -11,32 +11,35 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
         auto input = entity->getComponent<InputControl>();
         auto sprite = entity->getComponent<Sprite>();
 
-        if (!position || !velocity || !input)
+        if (!position || !velocity)
             continue;
 
-        if (input->isDown(InputKey::MOVE_LEFT)) {
-            velocity->vx = -5;
-            if (sprite)
-                sprite->flipX = true;
-        } else if (input->isDown(InputKey::MOVE_RIGHT)) {
-            velocity->vx = 5;
-            if (sprite)
-                sprite->flipX = false;
-        } else {
-            velocity->vx = 0;
-        }
-
-        // Jump logic
-        if (input->isDown(InputKey::JUMP) && position->onGround) {
-            velocity->vy = JUMP_FORCE;
-            position->onGround = false;
-        }
 
         // Apply gravity
         if (!position->onGround) {
             velocity->vy += GRAVITY;
             if (velocity->vy > MAX_FALL_SPEED)
                 velocity->vy = MAX_FALL_SPEED;
+        }
+
+        if (input) {
+            if (input->isDown(InputKey::MOVE_LEFT)) {
+                velocity->vx = -5;
+                if (sprite)
+                    sprite->flipX = true;
+            } else if (input->isDown(InputKey::MOVE_RIGHT)) {
+                velocity->vx = 5;
+                if (sprite)
+                    sprite->flipX = false;
+            } else {
+                velocity->vx = 0;
+            }
+
+            // Jump logic
+            if (input->isDown(InputKey::JUMP) && position->onGround) {
+                velocity->vy = JUMP_FORCE;
+                position->onGround = false;
+            }
         }
 
         // Update position in CollisionSystem

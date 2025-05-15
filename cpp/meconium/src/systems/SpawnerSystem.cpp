@@ -35,7 +35,11 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     auto animation = level->createAnimation(*enemy->sprite);
 
     entity->addComponent<Sprite>(sprite);
-    entity->addComponent<AnimationComponent>(animation);
+    // TODO:
+    // entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Transform>(enemy->x, enemy->y);
+    entity->addComponent<Velocity>();
+    entity->addComponent<Collider>(0, 0, 100, 100);
+    entity->getComponent<Transform>()->onGround = false;
     entities->add(entity);
 }
