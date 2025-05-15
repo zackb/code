@@ -5,7 +5,6 @@
 #include "Context.h"
 #include "Meconium.h"
 
-#include "Level.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
@@ -52,6 +51,9 @@ bool Meconium::init() {
 
     // Initialize ECS components, systems, and entities
     entities = std::make_shared<Entities>();
+
+    // Initialize enemies
+    enemies = level.createEnemies();
 
     // Create a player entity
     player = std::make_shared<Entity>(1);
@@ -132,6 +134,9 @@ void Meconium::update() {
 
     // Update camera after movement and collision
     cameraSystem.update(entities, *tileMap);
+
+    // Spawn enemies if we should
+    spawnerSystem.update(entities, enemies);
 }
 
 void Meconium::render() {

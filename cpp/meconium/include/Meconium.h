@@ -2,8 +2,10 @@
 
 #include "ECS.h"
 #include "GameTime.h"
+#include "Level.h"
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
+#include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
 class Meconium {
@@ -19,6 +21,7 @@ public:
 private:
     bool isRunning = false;
     std::shared_ptr<TileMap> tileMap;
+    Enemies enemies;
 
     // ecs
     std::shared_ptr<Entity> player;
@@ -26,6 +29,7 @@ private:
     InputSystem inputSystem;
     MovementSystem movementSystem;
     StateSystem stateSystem;
+    SpawnerSystem spawnerSystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;
