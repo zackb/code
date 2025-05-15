@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <memory>
 
 #include "Context.h"
 #include "Meconium.h"
@@ -46,14 +47,14 @@ bool Meconium::init() {
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
-    auto level = Level("assets/maps/level1.json");
-    tileMap = level.createTileMap();
+    level = std::make_shared<Level>("assets/maps/level1.json");
+    tileMap = level->createTileMap();
 
     // Initialize ECS components, systems, and entities
     entities = std::make_shared<Entities>();
 
     // Initialize enemies
-    enemies = level.createEnemies();
+    enemies = level->createEnemies();
 
     // Create a player entity
     player = std::make_shared<Entity>(1);
@@ -64,11 +65,11 @@ bool Meconium::init() {
     // Load sprite
     // Add Sprite
     auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");
-    auto sprite = level.createSprite(spriteDef);
+    auto sprite = level->createSprite(spriteDef);
     player->addComponent<Sprite>(sprite);
 
     // Add animation component
-    auto animComponent = level.createAnimation(*spriteDef);
+    auto animComponent = level->createAnimation(*spriteDef);
     player->addComponent<AnimationComponent>(animComponent);
 
     // Add velocity
@@ -82,6 +83,7 @@ bool Meconium::init() {
     player->addComponent<Collider>(15, 25, sprite->width - 30, sprite->height - 25);
 
     // Add Transform
+    // TODO: add scale to prefab
     player->addComponent<Transform>(0, 0, 2.0);
 
     // Add State
@@ -99,7 +101,7 @@ bool Meconium::init() {
 
     // add paralax background
     auto bk = std::make_shared<Entity>(3);
-    bk->addComponent<ParallaxBackground>(level.createBackground());
+    bk->addComponent<ParallaxBackground>(level->createBackground());
     entities->add(bk);
 
     // add debugging
@@ -139,7 +141,7 @@ void Meconium::update() {
     cameraSystem.update(entities, *tileMap);
 
     // Spawn enemies if we should
-    spawnerSystem.update(entities, enemies);
+    spawnerSystem.update(entities, enemies, level);
 }
 
 void Meconium::render() {
