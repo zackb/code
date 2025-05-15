@@ -1,5 +1,7 @@
 #include "ECS.h"
 
+// Handles both physics as well as player input
+// TOOD: separate into Physics and InputSystem
 void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
     const float GRAVITY = 1.0f;
     const float JUMP_FORCE = -22.0f;

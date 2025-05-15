@@ -47,8 +47,7 @@ set(SOURCES
         src/systems/DebugSystem.cpp
         src/systems/StateSystem.cpp
         src/systems/SpawnerSystem.cpp
-        src/systems/EnemyStateSystem.cpp
-        include/systems/EnemyStateSystem.h
+        src/systems/EnemyAISystem.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

@@ -5,7 +5,7 @@
 #include "Level.h"
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
-#include "systems/EnemyStateSystem.h"
+#include "systems/EnemyAISystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
@@ -31,8 +31,8 @@ private:
     InputSystem inputSystem;
     MovementSystem movementSystem;
     StateSystem stateSystem;
-    EnemyStateSystem enemyStateSystem;
     SpawnerSystem spawnerSystem;
+    EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     AnimationSystem animationSystem;

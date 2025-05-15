@@ -1,9 +1,8 @@
 #include "ECS.h"
 #include "components/State.h"
 
-void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const int deltaTime) const {
-
-    for (auto& entity : *entities) {
+void AnimationSystem::update(const std::shared_ptr<Entities> &entities, const int deltaTime) const {
+    for (auto &entity: *entities) {
         const auto animation = entity->getComponent<AnimationComponent>();
         if (!animation)
             continue;
@@ -17,24 +16,26 @@ void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const in
             continue;
 
         switch (state->currentAction) {
-        case Action::IDLE:
-            animation->setState(AnimationState::IDLE);
-            break;
-        case Action::WALKING:
-            animation->setState(AnimationState::WALKING);
-            break;
-        case Action::JUMPING:
-            animation->setState(AnimationState::JUMPING);
-            break;
-        case Action::FALLING:
-            animation->setState(AnimationState::FALLING);
-            break;
-        case Action::ATTACKING:
-            animation->setState(AnimationState::ATTACKING);
-            break;
-        default:
-            std::cerr << "Unknown action! " << std::endl;
-            break;
+            case Action::IDLE:
+                animation->setState(AnimationState::IDLE);
+                break;
+            case Action::WALKING:
+            case Action::PATROLLING:
+            case Action::CHASING:
+                animation->setState(AnimationState::WALKING);
+                break;
+            case Action::JUMPING:
+                animation->setState(AnimationState::JUMPING);
+                break;
+            case Action::FALLING:
+                animation->setState(AnimationState::FALLING);
+                break;
+            case Action::ATTACKING:
+                animation->setState(AnimationState::ATTACKING);
+                break;
+            default:
+                std::cerr << "Unknown action! " << std::endl;
+                break;
         }
     }
 }
