@@ -20,6 +20,7 @@ public:
 
 private:
     bool isRunning = false;
+    std::shared_ptr<Level> level;
     std::shared_ptr<TileMap> tileMap;
     Enemies enemies;
 
