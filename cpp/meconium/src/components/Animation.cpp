@@ -65,3 +65,8 @@ SDL_Rect AnimationComponent::getCurrentFrame() const {
     }
     return {0, 0, 0, 0};
 }
+
+void AnimationComponent::init() {
+    setState(AnimationState::WALKING);
+    setState(AnimationState::IDLE);
+}

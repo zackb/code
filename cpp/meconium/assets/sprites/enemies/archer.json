@@ -5,7 +5,7 @@
   "animations": {
     "idle": {
       "row": 5,
-      "frameCount": 5,
+      "frameCount": 4,
       "looping": true,
       "duration": 200
     },

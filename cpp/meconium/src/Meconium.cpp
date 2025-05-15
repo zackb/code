@@ -131,6 +131,9 @@ void Meconium::update() {
     // Transition state
     stateSystem.update(entities, deltaTime);
 
+    // Transition enemy state
+    enemyStateSystem.update(entities);
+
     // Handle collisions after movement
     collisionSystem.update(entities, *tileMap);
 
