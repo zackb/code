@@ -27,14 +27,15 @@ public:
 
     // TODO: move to impl file
     std::shared_ptr<Sprite> createSprite(const std::string& playerPath) const {
-        return createSprite(AssetLoader::loadSpriteSheet(playerPath));
+        auto sheet = AssetLoader::loadSpriteSheet(playerPath);
+        return createSprite(*sheet);
     }
 
-    std::shared_ptr<Sprite> createSprite(const std::shared_ptr<SpriteSheetDefinition> spriteDef) const {
+    std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef) const {
         Sprite sprite;
-        sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef->texture);
-        sprite.height = spriteDef->tileHeight;
-        sprite.width = spriteDef->tileWidth;
+        sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef.texture);
+        sprite.height = spriteDef.tileHeight;
+        sprite.width = spriteDef.tileWidth;
         return std::make_shared<Sprite>(sprite);
     }
 

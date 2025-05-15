@@ -65,7 +65,7 @@ bool Meconium::init() {
     // Load sprite
     // Add Sprite
     auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");
-    auto sprite = level->createSprite(spriteDef);
+    auto sprite = level->createSprite(*spriteDef);
     player->addComponent<Sprite>(sprite);
 
     // Add animation component
