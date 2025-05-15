@@ -4,5 +4,5 @@
 
 class EnemyStateSystem {
 public:
-    void update(const std::shared_ptr<Entities> &entities);
+    void update(const std::shared_ptr<Entities>& entities);
 };

@@ -15,5 +15,5 @@ public:
 private:
     void renderParallaxBackground(Entity& background, const Transform& camera) const;
     void renderLayer(const Background& layer, const Transform& camera) const;
-    void renderTileMap(TileMap& tileMap, Transform& camera);
+    void renderTileMap(const TileMap& tileMap, const Transform& camera);
 };

@@ -6,10 +6,9 @@
 #include "components/Transform.h"
 #include "components/Velocity.h"
 
-
 // gravity is applied in MovementSystem
-void EnemyAISystem::update(const std::shared_ptr<Entities> &entities) const {
-    for (const auto& entity: *entities) {
+void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
+    for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
             continue;
 
@@ -31,35 +30,35 @@ void EnemyAISystem::update(const std::shared_ptr<Entities> &entities) const {
         // "x": 1200,
         // "y": 1200,
         switch (state->currentAction) {
-            case Action::IDLE:
-                // TODO: direction should be centralized (Facing component?)
-                // to support sprites facing different directions
-                if (playerPos->x > position->x) {
-                    state->facingRight = true;
-                    sprite->flipX = false;
-                } else {
+        case Action::IDLE:
+            // TODO: direction should be centralized (Facing component?)
+            // to support sprites facing different directions
+            if (playerPos->x > position->x) {
+                state->facingRight = true;
+                sprite->flipX = false;
+            } else {
+                state->facingRight = false;
+                sprite->flipX = true;
+            }
+            break;
+        case Action::PATROLLING:
+            if (state->facingRight) {
+                velocity->vx = 2; // TODO: prefab?
+                if (position->x >= 1400) {
                     state->facingRight = false;
                     sprite->flipX = true;
                 }
-                break;
-            case Action::PATROLLING:
-                if (state->facingRight) {
-                    velocity->vx = 2; // TODO: prefab?
-                    if (position->x >= 1400) {
-                        state->facingRight = false;
-                        sprite->flipX = true;
-                    }
-                } else {
-                    velocity->vx = -2;
-                    if (position->x <= 800) {
-                        state->facingRight = true;
-                        sprite->flipX = false;
-                    }
+            } else {
+                velocity->vx = -2;
+                if (position->x <= 800) {
+                    state->facingRight = true;
+                    sprite->flipX = false;
                 }
-                break;
-            default:
-                std::cerr << "unknown enemy action" << std::endl;
-                break;
+            }
+            break;
+        default:
+            std::cerr << "unknown enemy action" << std::endl;
+            break;
         }
     }
 }

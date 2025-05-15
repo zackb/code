@@ -16,7 +16,6 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
         if (!position || !velocity)
             continue;
 
-
         // Apply gravity
         if (!position->onGround) {
             velocity->vy += GRAVITY;
