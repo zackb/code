@@ -1,4 +1,5 @@
 #pragma once
+#include "components/EnemyBehavior.h"
 #include "json.hpp"
 
 #include <string>
@@ -56,6 +57,11 @@ struct BackgroundDefinition {
 };
 
 // Enemy
+struct PatrolDefinition {
+    int left;
+    int right;
+    float speed;
+};
 
 struct EnemyDefinition {
     std::string type;
@@ -63,6 +69,8 @@ struct EnemyDefinition {
     int x;
     int y;
     int triggerX;
+    EnemyBehavior behavior;
+    std::optional<PatrolDefinition> patrol;
 };
 
 // Level
@@ -92,12 +100,34 @@ inline void from_json(const nlohmann::json& j, BackgroundDefinition& def) {
     def.layers = j.at("layers").get<std::vector<BackgroundLayerDefinition>>();
 }
 
+inline void from_json(const nlohmann::json& j, PatrolDefinition& p) {
+    j.at("left").get_to(p.left);
+    j.at("right").get_to(p.right);
+    j.at("speed").get_to(p.speed);
+}
+
 inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
     e.type = j.at("type").get<std::string>();
     e.sprite = j.at("sprite").get<std::string>();
     e.x = j.at("x").get<int>();
     e.y = j.at("y").get<int>();
     e.triggerX = j.at("triggerX").get<int>();
+    auto bs = j.at("behavior").get<std::string>();
+
+    if (bs == "idle") {
+        e.behavior = EnemyBehavior::IDLE;
+    } else if (bs == "patrol") {
+        e.behavior = EnemyBehavior::PATROL;
+    } else if (bs == "chase") {
+        e.behavior = EnemyBehavior::CHASE;
+    } else {
+        throw std::runtime_error("Unknown enemy behavior: " + bs);
+    }
+    if (j.contains("patrol") && !j.at("patrol").is_null()) {
+        e.patrol = j.at("patrol").get<PatrolDefinition>();
+    } else {
+        e.patrol = std::nullopt;
+    }
 }
 
 inline void from_json(const nlohmann::json& j, LevelDefinition& def) {

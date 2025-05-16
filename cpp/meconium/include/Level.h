@@ -8,15 +8,9 @@
 enum class Facing { LEFT, RIGHT };
 
 struct Enemy {
-    std::string type;
-    const std::shared_ptr<SpriteSheetDefinition> sprite;
-    int x, y;
-    int triggerX;
+    EnemyDefinition def;
+    std::shared_ptr<SpriteSheetDefinition> spriteSheet;
     bool hasSpawned = false;
-    Facing facing = Facing::RIGHT;
-
-    Enemy(std::string t, std::shared_ptr<SpriteSheetDefinition> s, int x_, int y_, int trigger)
-        : type(t), sprite(std::move(s)), x(x_), y(y_), triggerX(trigger) {}
 };
 
 using Enemies = std::vector<std::shared_ptr<Enemy>>;
@@ -96,11 +90,10 @@ public:
     Enemies createEnemies() const {
         Enemies enemies;
         for (auto e : levelDef->enemies) {
-            auto sprite = AssetLoader::loadSpriteSheet(e.sprite);
-            Enemy enemy(e.type, sprite, e.x, e.y, e.triggerX);
+            auto spriteSheet = AssetLoader::loadSpriteSheet(e.sprite);
+            Enemy enemy{e, spriteSheet};
             enemies.push_back(std::make_shared<Enemy>(enemy));
         }
-
         return enemies;
     }
 

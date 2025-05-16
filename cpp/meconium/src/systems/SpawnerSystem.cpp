@@ -22,7 +22,7 @@ void SpawnerSystem::update(const std::shared_ptr<Entities>& entities,
     for (auto enemy : enemies) {
         if (enemy->hasSpawned)
             continue;
-        if (pos->x >= enemy->triggerX) {
+        if (pos->x >= enemy->def.triggerX) {
             spawnEnemy(entities, enemy, level);
             enemy->hasSpawned = true;
         }
@@ -33,19 +33,30 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
                                const std::shared_ptr<Enemy>& enemy,
                                const std::shared_ptr<Level>& level) const {
     auto entity = std::make_shared<Entity>(99);
-    auto sprite = level->createSprite(*enemy->sprite);
-    auto animation = level->createAnimation(*enemy->sprite);
+    auto sprite = level->createSprite(*enemy->spriteSheet);
+    auto animation = level->createAnimation(*enemy->spriteSheet);
 
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
-    entity->getComponent<State>()->currentAction = Action::PATROLLING;
-    if (enemy->facing == Facing::LEFT) {
-        // start all sprites facing right
-        entity->getComponent<Sprite>()->flipX = true;
+
+    switch (enemy->def.behavior) {
+    case EnemyBehavior::IDLE:
+        entity->getComponent<State>()->currentAction = Action::IDLE;
+        break;
+    case EnemyBehavior::PATROL:
+        entity->getComponent<State>()->currentAction = Action::PATROLLING;
+        break;
+    case EnemyBehavior::CHASE:
+        entity->getComponent<State>()->currentAction = Action::CHASING;
+        break;
+    default:
+        std::cerr << "unknown behavior" << std::endl;
+        break;
     }
+
     // TODO: add scale to prefab
-    entity->addComponent<Transform>(enemy->x, enemy->y, 2.0);
+    entity->addComponent<Transform>(enemy->def.x, enemy->def.y, 2.0);
     entity->getComponent<Transform>()->onGround = false;
     entity->addComponent<Velocity>();
     // TODO: add collider to prefab
