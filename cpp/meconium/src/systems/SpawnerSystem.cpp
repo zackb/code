@@ -40,17 +40,15 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
+    entity->addComponent<EnemyBehavior>(enemy->def.behavior);
 
     switch (enemy->def.behavior) {
     case EnemyBehavior::IDLE:
-        entity->getComponent<State>()->currentAction = Action::IDLE;
         break;
     case EnemyBehavior::PATROL:
-        entity->getComponent<State>()->currentAction = Action::PATROLLING;
         entity->addComponent<Patrol>(enemy->def.patrol->left, enemy->def.patrol->right, enemy->def.patrol->speed);
         break;
     case EnemyBehavior::CHASE:
-        entity->getComponent<State>()->currentAction = Action::CHASING;
         break;
     default:
         std::cerr << "unknown behavior" << std::endl;

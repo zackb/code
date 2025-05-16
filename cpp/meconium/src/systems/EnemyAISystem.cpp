@@ -27,10 +27,16 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
         }
 
         velocity->vx = 0;
+        auto behavior = entity->getComponent<EnemyBehavior>();
         auto patrol = entity->getComponent<Patrol>();
+        if (!behavior) {
+            std::cerr << "enemy has no behavior" << std::endl;
+            continue;
+        }
 
-        switch (state->currentAction) {
-        case Action::IDLE:
+        switch (*behavior) {
+        case EnemyBehavior::IDLE:
+            state->currentAction = Action::IDLE;
             if (playerPos->x > position->x) {
                 state->facingRight = true;
                 sprite->flipX = false;
@@ -39,10 +45,11 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
                 sprite->flipX = true;
             }
             break;
-        case Action::PATROLLING:
+        case EnemyBehavior::PATROL:
             if (!patrol) {
                 std::cerr << "patrolling enemy with no patrol" << std::endl;
             }
+            state->currentAction = Action::WALKING;
             if (state->facingRight) {
                 velocity->vx = patrol->speed;
                 if (position->x >= patrol->right) {
