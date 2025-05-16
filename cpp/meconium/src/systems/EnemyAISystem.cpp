@@ -31,8 +31,6 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
 
         switch (state->currentAction) {
         case Action::IDLE:
-            // TODO: direction should be centralized (Facing component?)
-            // to support sprites facing different directions
             if (playerPos->x > position->x) {
                 state->facingRight = true;
                 sprite->flipX = false;
