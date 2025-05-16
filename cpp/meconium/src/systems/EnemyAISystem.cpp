@@ -1,5 +1,6 @@
 #include "systems/EnemyAISystem.h"
 
+#include "components/EnemyBehavior.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
@@ -26,9 +27,8 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
         }
 
         velocity->vx = 0;
-        // TODO: parameterize patrol bounds
-        // "x": 1200,
-        // "y": 1200,
+        auto patrol = entity->getComponent<Patrol>();
+
         switch (state->currentAction) {
         case Action::IDLE:
             // TODO: direction should be centralized (Facing component?)
@@ -42,15 +42,18 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
             }
             break;
         case Action::PATROLLING:
+            if (!patrol) {
+                std::cerr << "patrolling enemy with no patrol" << std::endl;
+            }
             if (state->facingRight) {
-                velocity->vx = 2; // TODO: prefab?
-                if (position->x >= 1400) {
+                velocity->vx = patrol->speed;
+                if (position->x >= patrol->right) {
                     state->facingRight = false;
                     sprite->flipX = true;
                 }
             } else {
-                velocity->vx = -2;
-                if (position->x <= 800) {
+                velocity->vx = -patrol->speed;
+                if (position->x <= patrol->left) {
                     state->facingRight = true;
                     sprite->flipX = false;
                 }

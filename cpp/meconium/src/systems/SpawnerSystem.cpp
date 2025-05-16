@@ -46,6 +46,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
         break;
     case EnemyBehavior::PATROL:
         entity->getComponent<State>()->currentAction = Action::PATROLLING;
+        entity->addComponent<Patrol>(enemy->def.patrol->left, enemy->def.patrol->right, enemy->def.patrol->speed);
         break;
     case EnemyBehavior::CHASE:
         entity->getComponent<State>()->currentAction = Action::CHASING;
