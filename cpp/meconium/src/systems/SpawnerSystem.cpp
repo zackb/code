@@ -33,8 +33,9 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
                                const std::shared_ptr<Enemy>& enemy,
                                const std::shared_ptr<Level>& level) const {
     auto entity = std::make_shared<Entity>(99);
-    auto sprite = level->createSprite(*enemy->spriteSheet);
-    auto animation = level->createAnimation(*enemy->spriteSheet);
+    auto sheet = enemy->spriteSheet;
+    auto sprite = level->createSprite(*sheet);
+    auto animation = level->createAnimation(*sheet);
 
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
@@ -56,12 +57,16 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
         break;
     }
 
-    // TODO: add scale to prefab
-    entity->addComponent<Transform>(enemy->def.x, enemy->def.y, 2.0);
+    entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;
     entity->addComponent<Velocity>();
-    // TODO: add collider to prefab
-    entity->addComponent<Collider>(sprite->width / 4, sprite->height / 4, sprite->width / 2, sprite->height / 2);
+    if (sheet->collider.has_value()) {
+        auto rect = sheet->collider.value();
+        entity->addComponent<Collider>(rect.x, rect.y, rect.width, rect.height);
+    } else {
+        entity->addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    }
+
     entity->addComponent<EnemyTag>();
     entities->add(entity);
 }

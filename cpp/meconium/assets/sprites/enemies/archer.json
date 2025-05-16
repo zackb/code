@@ -2,6 +2,13 @@
   "texture": "textures/archer_spritesheet.png",
   "tileWidth": 64,
   "tileHeight": 64,
+  "scale": 2.0,
+  "collider": {
+      "x": 16,
+      "y": 16,
+      "width": 32,
+      "height": 32
+  },
   "animations": {
     "idle": {
       "row": 5,

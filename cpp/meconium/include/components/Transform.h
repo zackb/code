@@ -4,7 +4,6 @@
 
 class Transform final : public Component {
 public:
-    // TODO: FLOOOATS
     int x, y;                         // Position in world coordinates
     float scaleX = 1.0, scaleY = 1.0; // Scaling factors for size
     bool onGround = true;

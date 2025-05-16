@@ -6,6 +6,13 @@
 
 // JSON model
 
+struct Rect {
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
 // Spritesheet
 struct AnimationDefinition {
     std::string name;
@@ -19,6 +26,8 @@ struct SpriteSheetDefinition {
     std::string texture;
     int tileWidth;
     int tileHeight;
+    float scale;
+    std::optional<Rect> collider;
     std::vector<AnimationDefinition> animations;
 };
 
@@ -89,6 +98,13 @@ inline TileType tileTypeFromString(const std::string& str) {
     if (str == "ramp_right")
         return TileType::RampRight;
     return TileType::Empty;
+}
+
+inline void from_json(const nlohmann::json& j, Rect& rect) {
+    rect.x = j.at("x").get<int>();
+    rect.y = j.at("y").get<int>();
+    rect.width = j.at("width").get<int>();
+    rect.height = j.at("height").get<int>();
 }
 
 inline void from_json(const nlohmann::json& j, BackgroundLayerDefinition& def) {
@@ -167,6 +183,12 @@ inline void from_json(const nlohmann::json& j, SpriteSheetDefinition& sheet) {
     sheet.texture = j.at("texture").get<std::string>();
     sheet.tileWidth = j.at("tileWidth").get<int>();
     sheet.tileHeight = j.at("tileHeight").get<int>();
+    sheet.scale = j.at("scale").get<float>();
+    if (j.contains("collider") && !j.at("collider").is_null()) {
+        sheet.collider = j.at("collider").get<Rect>();
+    } else {
+        sheet.collider = std::nullopt;
+    }
 
     // JSON object animations -> vector<AnimationDefinition>
     for (auto it = j.at("animations").begin(); it != j.at("animations").end(); ++it) {
