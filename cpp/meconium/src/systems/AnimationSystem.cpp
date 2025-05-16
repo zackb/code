@@ -20,8 +20,6 @@ void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const in
             animation->setState(AnimationState::IDLE);
             break;
         case Action::WALKING:
-        case Action::PATROLLING:
-        case Action::CHASING:
             animation->setState(AnimationState::WALKING);
             break;
         case Action::JUMPING:
