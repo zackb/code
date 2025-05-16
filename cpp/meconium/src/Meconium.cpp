@@ -2,6 +2,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <memory>
+#include <ostream>
 
 #include "Context.h"
 #include "Meconium.h"
@@ -79,12 +80,15 @@ bool Meconium::init() {
     player->addComponent<InputControl>();
 
     // Add Collision box
-    // TODO: move to prefab
-    player->addComponent<Collider>(15, 25, sprite->width - 30, sprite->height - 25);
+    if (spriteDef->collider.has_value()) {
+        auto rect = spriteDef->collider.value();
+        player->addComponent<Collider>(rect.x, rect.y, rect.width, rect.height);
+    } else {
+        player->addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    }
 
     // Add Transform
-    // TODO: add scale to prefab
-    player->addComponent<Transform>(0, 0, 2.0);
+    player->addComponent<Transform>(0, 0, spriteDef->scale);
 
     // Add State
     player->addComponent<State>();
