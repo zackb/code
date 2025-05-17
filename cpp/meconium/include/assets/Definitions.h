@@ -76,8 +76,8 @@ struct PatrolDefinition {
 
 struct AttackDefinition {
     std::string type;
-    int cooldownMs;
     std::string sprite;
+    int cooldownMs;
 };
 
 struct EnemyDefinition {

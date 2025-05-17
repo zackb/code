@@ -1,5 +1,6 @@
 #include "systems/EnemyAISystem.h"
 
+#include "components/Attack.h"
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
 #include "components/Sprite.h"
@@ -7,9 +8,10 @@
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
+#include <cstdlib>
 
 // gravity is applied in MovementSystem
-void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
+void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
     for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
             continue;
@@ -29,20 +31,34 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
             std::cerr << "missing required components of enemy" << std::endl;
             continue;
         }
-        //
+
         // if the enemy is dying there's nothing to do
         if (state && state->currentAction == Action::DYING) {
             velocity->vx = 0;
             continue;
         }
 
-        velocity->vx = 0;
+        // see if we have ai
         auto ai = entity->getComponent<EnemyAI>();
         if (!ai) {
             std::cerr << "enemy has no ai" << std::endl;
             continue;
         }
 
+        // check if we should attack
+        auto attack = entity->getComponent<Attack>();
+        if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
+            ai->timeSinceLastAttack += dt;
+
+            if (ai->timeSinceLastAttack >= attack->cooldownMs) {
+                // spawnProjectile(entities, entity, attack);
+                ai->timeSinceLastAttack = 0;
+                state->currentAction = Action::ATTACKING;
+            }
+        }
+
+        // otherwise determine standard behavior
+        velocity->vx = 0;
         switch (ai->behavior) {
         case EnemyBehavior::IDLE: {
             state->currentAction = Action::IDLE;
@@ -78,4 +94,13 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
             break;
         }
     }
+}
+
+bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack& attack, bool facingRight) const {
+    static int verticalThreshold = 50;
+    bool inRange = std::abs(playerPos.x - enemyPos.x) <= attack.attackRange;
+    bool onSameY = std::abs(playerPos.y - enemyPos.y) <= verticalThreshold;
+    bool inFront = (facingRight && playerPos.x > enemyPos.x) || (!facingRight && playerPos.x < enemyPos.x);
+
+    return inRange && onSameY && inFront;
 }
