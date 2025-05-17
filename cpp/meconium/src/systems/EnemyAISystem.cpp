@@ -12,6 +12,10 @@
 
 // gravity is applied in MovementSystem
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
+
+    // collect anything we need to add to entities after iteration
+    std::vector<std::shared_ptr<Entity>> toAdd;
+
     for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
             continue;
@@ -45,59 +49,69 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
             continue;
         }
 
+        // always wait the timer for determining if we should attack again
+        ai->timeSinceLastAttack += dt;
+
         velocity->vx = 0;
         // check if we should attack
-        auto attack = entity->getComponent<Attack>();
-        if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
-            ai->timeSinceLastAttack += dt;
+        if (!state->isActionLocked) {
+            auto attack = entity->getComponent<Attack>();
+            if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
-            if (ai->timeSinceLastAttack >= attack->cooldownMs) {
-                spawnProjectile(*entities, *entity, *attack);
-                ai->timeSinceLastAttack = 0;
-                state->currentAction = Action::ATTACKING;
-                // Lock action for the attack animation duration
-                state->currentAction = Action::ATTACKING;
-                state->isActionLocked = true;
-                state->actionTimeMs = 0;
-                state->actionDurationMs = 500; // TODO
-            }
-        } else if (!state->isActionLocked) {
-            // otherwise determine standard behavior
-            switch (ai->behavior) {
-            case EnemyBehavior::IDLE: {
-                state->currentAction = Action::IDLE;
-                if (playerPos->x > position->x) {
-                    state->facingRight = true;
-                    sprite->flipX = false;
+                if (ai->timeSinceLastAttack >= attack->cooldownMs) {
+                    toAdd.push_back(spawnProjectile(*entities, *entity, *attack));
+                    ai->timeSinceLastAttack = 0;
+                    // Lock action for the attack animation duration
+                    state->currentAction = Action::ATTACKING;
+                    state->isActionLocked = true;
+                    state->actionTimeMs = 0;
+                    state->actionDurationMs = 1000; // TODO
                 } else {
-                    state->facingRight = false;
-                    sprite->flipX = true;
+                    state->currentAction = Action::IDLE;
                 }
-                break;
-            }
-            case EnemyBehavior::PATROL: {
-                auto patrol = ai->patrol;
-                state->currentAction = Action::WALKING;
-                if (state->facingRight) {
-                    velocity->vx = patrol.speed;
-                    if (position->x >= patrol.right) {
+            } else {
+                // otherwise determine standard behavior
+                switch (ai->behavior) {
+                case EnemyBehavior::IDLE: {
+                    state->currentAction = Action::IDLE;
+                    if (playerPos->x > position->x) {
+                        state->facingRight = true;
+                        sprite->flipX = false;
+                    } else {
                         state->facingRight = false;
                         sprite->flipX = true;
                     }
-                } else {
-                    velocity->vx = -patrol.speed;
-                    if (position->x <= patrol.left) {
-                        state->facingRight = true;
-                        sprite->flipX = false;
-                    }
+                    break;
                 }
-                break;
-            }
-            default:
-                std::cerr << "unknown enemy action" << std::endl;
-                break;
+                case EnemyBehavior::PATROL: {
+                    auto patrol = ai->patrol;
+                    state->currentAction = Action::WALKING;
+                    if (state->facingRight) {
+                        velocity->vx = patrol.speed;
+                        if (position->x >= patrol.right) {
+                            state->facingRight = false;
+                            sprite->flipX = true;
+                        }
+                    } else {
+                        velocity->vx = -patrol.speed;
+                        if (position->x <= patrol.left) {
+                            state->facingRight = true;
+                            sprite->flipX = false;
+                        }
+                    }
+                    break;
+                }
+                default:
+                    std::cerr << "unknown enemy action" << std::endl;
+                    break;
+                }
             }
         }
+    }
+
+    // add projectiles after loop
+    for (const auto& e : toAdd) {
+        entities->add(e);
     }
 }
 
@@ -110,18 +124,20 @@ bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack
     return inRange && onSameY && inFront;
 }
 
-void EnemyAISystem::spawnProjectile(Entities& entities, Entity& shooter, const Attack& attack) const {
+std::shared_ptr<Entity>
+    EnemyAISystem::spawnProjectile(Entities& entities, Entity& shooter, const Attack& attack) const {
+    std::cout << "spawning projectile\n";
     auto sprite = attack.sprite;
     auto projectile = std::make_shared<Entity>();
     // Set initial position near shooter
     auto shooterPos = shooter.getComponent<Transform>();
     float direction = shooter.getComponent<State>()->facingRight ? 1.0f : -1.0f;
 
-    projectile->addComponent<Transform>(shooterPos);
+    projectile->addComponent<Transform>(*shooterPos);
     projectile->addComponent<Velocity>(direction * sprite->speed, 0.0f);
     projectile->addComponent<Sprite>(sprite);
     Projectile p;
     p.lifetimeMs = sprite->lifetimeMs;
     projectile->addComponent<Projectile>(p);
-    entities.add(projectile);
+    return projectile;
 }

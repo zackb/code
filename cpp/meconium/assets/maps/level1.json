@@ -33,7 +33,7 @@
             },
             "attack": {
                 "type": "range",
-                "cooldownMs": 1500,
+                "cooldownMs": 5000,
                 "sprite": "sprites/projectiles/arrow.json"
             }
         }
