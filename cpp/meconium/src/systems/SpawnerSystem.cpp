@@ -38,26 +38,16 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
 
     EnemyAI ai;
     ai.behavior = enemy->def.behavior;
+    if (enemy->def.patrol.has_value()) {
+        auto patrol = enemy->def.patrol.value();
+        ai.patrol = Patrol(patrol.left, patrol.right, patrol.speed);
+    }
+    // TODO: chase, idle
 
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
     entity->addComponent<EnemyAI>(std::make_shared<EnemyAI>(ai));
-
-    switch (enemy->def.behavior) {
-    case EnemyBehavior::IDLE:
-        break;
-    case EnemyBehavior::PATROL:
-        entity->addComponent<Patrol>(enemy->def.patrol->left, enemy->def.patrol->right, enemy->def.patrol->speed);
-        break;
-    case EnemyBehavior::CHASE:
-        // TODO: move to prefab
-        entity->addComponent<Chase>(3);
-        break;
-    default:
-        std::cerr << "unknown behavior" << std::endl;
-        break;
-    }
 
     entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;

@@ -38,14 +38,13 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
 
         velocity->vx = 0;
         auto ai = entity->getComponent<EnemyAI>();
-        auto patrol = entity->getComponent<Patrol>();
         if (!ai) {
             std::cerr << "enemy has no ai" << std::endl;
             continue;
         }
 
         switch (ai->behavior) {
-        case EnemyBehavior::IDLE:
+        case EnemyBehavior::IDLE: {
             state->currentAction = Action::IDLE;
             if (playerPos->x > position->x) {
                 state->facingRight = true;
@@ -55,25 +54,25 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
                 sprite->flipX = true;
             }
             break;
-        case EnemyBehavior::PATROL:
-            if (!patrol) {
-                std::cerr << "patrolling enemy with no patrol" << std::endl;
-            }
+        }
+        case EnemyBehavior::PATROL: {
+            auto patrol = ai->patrol;
             state->currentAction = Action::WALKING;
             if (state->facingRight) {
-                velocity->vx = patrol->speed;
-                if (position->x >= patrol->right) {
+                velocity->vx = patrol.speed;
+                if (position->x >= patrol.right) {
                     state->facingRight = false;
                     sprite->flipX = true;
                 }
             } else {
-                velocity->vx = -patrol->speed;
-                if (position->x <= patrol->left) {
+                velocity->vx = -patrol.speed;
+                if (position->x <= patrol.left) {
                     state->facingRight = true;
                     sprite->flipX = false;
                 }
             }
             break;
+        }
         default:
             std::cerr << "unknown enemy action" << std::endl;
             break;

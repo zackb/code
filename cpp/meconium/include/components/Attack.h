@@ -11,5 +11,4 @@ struct Attack : Component {
 struct Projectile : Component {
     int lifetimeMs;
     int ageMs = 0;
-    bool fromEnemy = true; // optional if you want friendly/enemy fire
 };
