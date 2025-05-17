@@ -1,6 +1,6 @@
 #include "systems/EnemyAISystem.h"
 
-#include "components/EnemyBehavior.h"
+#include "components/EnemyAI.h"
 #include "components/Knockback.h"
 #include "components/Sprite.h"
 #include "components/State.h"
@@ -37,14 +37,14 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
         }
 
         velocity->vx = 0;
-        auto behavior = entity->getComponent<EnemyBehavior>();
+        auto ai = entity->getComponent<EnemyAI>();
         auto patrol = entity->getComponent<Patrol>();
-        if (!behavior) {
-            std::cerr << "enemy has no behavior" << std::endl;
+        if (!ai) {
+            std::cerr << "enemy has no ai" << std::endl;
             continue;
         }
 
-        switch (*behavior) {
+        switch (ai->behavior) {
         case EnemyBehavior::IDLE:
             state->currentAction = Action::IDLE;
             if (playerPos->x > position->x) {
