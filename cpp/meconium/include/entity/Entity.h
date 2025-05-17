@@ -16,6 +16,10 @@ class Entity {
 public:
     int id;
 
+    Entity() {
+        static int ids = 9999;
+        id = ids++;
+    }
     explicit Entity(int id_) : id(id_) {}
 
     template <typename T, typename... Args> std::shared_ptr<T> addComponent(Args&&... args) {

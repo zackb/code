@@ -31,7 +31,7 @@ void SpawnerSystem::update(const std::shared_ptr<Entities>& entities,
 void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
                                const std::shared_ptr<Enemy>& enemy,
                                const std::shared_ptr<Level>& level) const {
-    auto entity = std::make_shared<Entity>(99);
+    auto entity = std::make_shared<Entity>();
     auto sheet = enemy->spriteSheet;
     auto sprite = level->createSprite(*sheet);
     auto animation = level->createAnimation(*sheet);
