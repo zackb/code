@@ -1,9 +1,9 @@
 #include "systems/SpawnerSystem.h"
+#include "components/EnemyAI.h"
+#include "components/State.h"
 #include "components/Tag.h"
 
 #include <iostream>
-
-#include "components/State.h"
 
 void SpawnerSystem::update(const std::shared_ptr<Entities>& entities,
                            const Enemies& enemies,
@@ -36,10 +36,13 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     auto sprite = level->createSprite(*sheet);
     auto animation = level->createAnimation(*sheet);
 
+    EnemyAI ai;
+    ai.behavior = enemy->def.behavior;
+
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
-    entity->addComponent<EnemyBehavior>(enemy->def.behavior);
+    entity->addComponent<EnemyAI>(std::make_shared<EnemyAI>(ai));
 
     switch (enemy->def.behavior) {
     case EnemyBehavior::IDLE:

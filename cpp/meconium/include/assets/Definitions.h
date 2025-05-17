@@ -1,5 +1,5 @@
 #pragma once
-#include "components/EnemyBehavior.h"
+#include "components/EnemyAI.h"
 #include "json.hpp"
 
 #include <string>
