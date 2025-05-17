@@ -10,4 +10,5 @@ public:
 
 private:
     bool seesTarget(Transform& playerPos, Transform& enemyPos, Attack& attack, bool facingRight) const;
+    void spawnProjectile(Entities& entities, Entity& shooter, const Attack& attack) const;
 };

@@ -212,11 +212,13 @@ inline void from_json(const nlohmann::json& j, SpriteSheetDefinition& sheet) {
     }
 
     // JSON object animations -> vector<AnimationDefinition>
-    for (auto it = j.at("animations").begin(); it != j.at("animations").end(); ++it) {
-        AnimationDefinition anim;
-        anim.name = it.key();
-        from_json(it.value(), anim);
-        sheet.animations.push_back(anim);
+    if (j.contains("animations")) {
+        for (auto it = j.at("animations").begin(); it != j.at("animations").end(); ++it) {
+            AnimationDefinition anim;
+            anim.name = it.key();
+            from_json(it.value(), anim);
+            sheet.animations.push_back(anim);
+        }
     }
     if (j.contains("speed")) {
         sheet.speed = j.at("speed").get<int>();
