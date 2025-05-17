@@ -150,6 +150,9 @@ void Meconium::update() {
     // Spawn enemies if we should
     spawnerSystem.update(entities, enemies, level);
 
+    // Entity lifecycle check
+    lifecycleSystem.update(entities, deltaTime);
+
     for (auto& e : *entities) {
         if (e->hasComponent<EnemyTag>()) {
             auto pos = e->getComponent<Transform>();

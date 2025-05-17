@@ -1,4 +1,5 @@
 #include "ECS.h"
+#include "components/Despawn.h"
 #include "components/Knockback.h"
 #include "components/State.h"
 #include "systems/DebugSystem.h"
@@ -169,6 +170,7 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
         if (auto state = player.getComponent<State>()) {
             if (state->currentAction == Action::ATTACKING) {
                 enemy.getComponent<State>()->currentAction = Action::DYING;
+                enemy.addComponent<Despawn>(5000);
             }
         }
 

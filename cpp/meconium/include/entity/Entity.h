@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "components/Component.h"
+#include <algorithm>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -59,13 +60,25 @@ public:
         updateEntityIndex(entity);
     }
 
+    // Remove an entity from the system
+    void remove(const std::shared_ptr<Entity>& entity) {
+        entities.erase(std::remove_if(entities.begin(),
+                                      entities.end(),
+                                      [&entity](const std::shared_ptr<Entity>& e) { return e->id == entity->id; }),
+                       entities.end());
+
+        // Remove this entity's components from all component indexes
+        for (auto& [type, index] : componentStorage) {
+            index.erase(entity->id);
+        }
+    }
+
     template <typename T> void removeComponent(const std::shared_ptr<Entity>& entity) {
         if (entity->hasComponent<T>()) {
             entity->removeComponent<T>();
             componentIndex<T>().erase(entity->id);
         }
     }
-
 
     // Get all entities
     std::vector<std::shared_ptr<Entity>>& all() { return entities; }
