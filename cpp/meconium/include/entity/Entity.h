@@ -42,7 +42,12 @@ public:
     template <typename T> bool hasComponent() const { return components.contains(std::type_index(typeid(T))); }
 
 private:
+    template <typename T> void removeComponent() { components.erase(std::type_index(typeid(T))); }
+
     std::unordered_map<std::type_index, std::shared_ptr<void>> components;
+
+    // only let entities remove components
+    friend class Entities;
 };
 
 // The Entities class that manages all entities and their components
@@ -53,6 +58,14 @@ public:
         entities.push_back(entity);
         updateEntityIndex(entity);
     }
+
+    template <typename T> void removeComponent(const std::shared_ptr<Entity>& entity) {
+        if (entity->hasComponent<T>()) {
+            entity->removeComponent<T>();
+            componentIndex<T>().erase(entity->id);
+        }
+    }
+
 
     // Get all entities
     std::vector<std::shared_ptr<Entity>>& all() { return entities; }

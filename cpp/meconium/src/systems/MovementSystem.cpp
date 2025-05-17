@@ -1,4 +1,5 @@
 #include "ECS.h"
+#include "components/Knockback.h"
 
 // Handles both physics as well as player input
 // TOOD: separate into Physics and InputSystem
@@ -8,6 +9,12 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
     const float MAX_FALL_SPEED = 30.0f;
 
     for (auto& entity : *entities) {
+
+        // skip input control if we're being knocked back
+        if (entity->hasComponent<Knockback>()) {
+            return;
+        }
+
         auto position = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
         auto input = entity->getComponent<InputControl>();

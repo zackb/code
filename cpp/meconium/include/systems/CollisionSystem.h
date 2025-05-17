@@ -22,6 +22,10 @@ private:
                                    std::shared_ptr<Collider>& collider,
                                    TileMap& tileMap);
 
+    void resolvePlayerEnemyCollisions(Entity& player, Entity& enemy);
+
+    bool aabb(SDL_Rect& a, SDL_Rect& b);
+
     static void forEachNearbySolidTile(
         const SDL_Rect& rect,
         const TileMap& tileMap,
