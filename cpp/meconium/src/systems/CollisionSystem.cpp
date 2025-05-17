@@ -2,7 +2,6 @@
 #include "components/Despawn.h"
 #include "components/Knockback.h"
 #include "components/State.h"
-#include "systems/DebugSystem.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     auto player = entities->findEntityWithComponent<PlayerTag>();

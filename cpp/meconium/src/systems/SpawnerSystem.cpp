@@ -1,5 +1,7 @@
 #include "systems/SpawnerSystem.h"
+#include "components/Attack.h"
 #include "components/EnemyAI.h"
+#include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
 
@@ -47,7 +49,14 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
     entity->addComponent<State>();
-    entity->addComponent<EnemyAI>(std::make_shared<EnemyAI>(ai));
+    entity->addComponent<EnemyAI>(ai);
+
+    Attack attack;
+    attack.cooldownMs = enemy->def.attack->cooldownMs;
+    attack.sprite = level->createSprite(enemy->def.sprite);
+    attack.attackRange = 300; // TODO
+
+    entity->addComponent<Attack>(attack);
 
     entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;

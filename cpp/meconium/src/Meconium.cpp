@@ -133,7 +133,7 @@ void Meconium::update() {
     movementSystem.update(entities);
 
     // Handle enemy AI
-    enemyAISystem.update(entities);
+    enemyAISystem.update(entities, deltaTime);
 
     // Transition state
     stateSystem.update(entities, deltaTime);
