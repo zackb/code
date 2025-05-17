@@ -29,6 +29,13 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
             std::cerr << "missing required components of enemy" << std::endl;
             continue;
         }
+        //
+        // if the enemy is dying there's nothing to do
+        if (state && state->currentAction == Action::DYING) {
+            velocity->vx = 0;
+            velocity->vy = 0;
+            continue;
+        }
 
         velocity->vx = 0;
         auto behavior = entity->getComponent<EnemyBehavior>();

@@ -6,7 +6,7 @@ struct RangedAttack {};
 
 struct Chase {
     int speed;
-    Chase(int speend) : speed(speed) {}
+    Chase(int speed) : speed(speed) {}
 };
 
 struct Patrol {

@@ -9,6 +9,7 @@ enum class Action {
     JUMPING,
     FALLING,
     ATTACKING,
+    DYING,
 };
 
 struct State final : Component {

@@ -39,6 +39,12 @@
       "frameCount": 6,
       "looping": false,
       "duration": 100
+    },
+    "die": {
+      "row": 1,
+      "frameCount": 8,
+      "looping": false,
+      "duration": 100
     }
   }
 }
