@@ -1,6 +1,7 @@
 #include "systems/EnemyAISystem.h"
 
 #include "components/EnemyBehavior.h"
+#include "components/Knockback.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
@@ -11,6 +12,9 @@
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities) const {
     for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
+            continue;
+
+        if (entity->hasComponent<Knockback>())
             continue;
 
         auto position = entity->getComponent<Transform>();

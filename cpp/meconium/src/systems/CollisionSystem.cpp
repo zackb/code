@@ -1,7 +1,10 @@
 #include "ECS.h"
+#include "components/Knockback.h"
 #include "systems/DebugSystem.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+    auto player = entities->findEntityWithComponent<PlayerTag>();
+
     for (auto& entity : *entities) {
         auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
@@ -20,6 +23,11 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         SDL_Rect boundsY = collider->getBounds(transform);
         boundsY.y += velocity->vy;
         resolveVerticalCollisions(boundsY, velocity, transform, collider, tileMap);
+
+        // Check player vs enemy collisions
+        if (entity->hasComponent<EnemyTag>()) {
+            resolvePlayerEnemyCollisions(*player, *entity);
+        }
 
         // fall of map check
         if (transform->y > tileMap.mapHeight * tileMap.tileHeight() * 2) {
@@ -139,4 +147,44 @@ void CollisionSystem::forEachNearbySolidTile(
             callback(tileRect, x, y, type);
         }
     }
+}
+
+// check for entity collisions and apply knockback if needed
+void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
+    if (player.hasComponent<Knockback>()) {
+        return;
+    }
+    auto playerPos = player.getComponent<Transform>();
+    auto playerCollider = player.getComponent<Collider>();
+    auto enemyPos = enemy.getComponent<Transform>();
+    auto enemyCollider = enemy.getComponent<Collider>();
+
+    auto playerRect = playerCollider->getBounds(playerPos);
+    auto enemyRect = enemyCollider->getBounds(enemyPos);
+
+    if (aabb(playerRect, enemyRect)) {
+
+        // direction: enemy on left => knock right, etc.
+        float dx = (playerRect.x + playerRect.w / 2) -
+                   (enemyRect.x + enemyRect.w / 2);
+
+        float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
+        float knockbackY = -2.0f; // upward knockback
+        auto playerVel = player.getComponent<Velocity>();
+        playerVel->vx = knockbackX;
+        playerVel->vy = knockbackY;
+
+        auto enemyVel = enemy.getComponent<Velocity>();
+        enemyVel->vx = -knockbackX;
+        enemyVel->vy = knockbackY;
+
+        player.addComponent<Knockback>(200.0);
+        enemy.addComponent<Knockback>(200.0);
+    }
+
+}
+
+bool CollisionSystem::aabb(SDL_Rect& a, SDL_Rect& b) {
+         return a.x < b.x + b.w && a.x + a.w > b.x &&
+         a.y < b.y + b.h && a.y + a.h > b.y;
 }

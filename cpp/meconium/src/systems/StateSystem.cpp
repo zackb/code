@@ -1,5 +1,6 @@
 #include "systems/StateSystem.h"
 #include "components/InputControl.h"
+#include "components/Knockback.h"
 #include "components/State.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
@@ -12,6 +13,15 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
         auto velocity = entity->getComponent<Velocity>();
         auto transform = entity->getComponent<Transform>();
         auto input = entity->getComponent<InputControl>();
+
+        // decay knockbacks
+        auto knockback = entity->getComponent<Knockback>();
+        if (knockback) {
+            knockback->duration -= dt;
+            if (knockback->duration <= 0) {
+                entities->removeComponent<Knockback>(entity);
+            }
+        }
 
         if (!state || !velocity || !transform || !input) {
             continue;
