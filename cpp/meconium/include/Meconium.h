@@ -6,6 +6,7 @@
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
 #include "systems/EnemyAISystem.h"
+#include "systems/LifecycleSystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
@@ -32,6 +33,7 @@ private:
     MovementSystem movementSystem;
     StateSystem stateSystem;
     SpawnerSystem spawnerSystem;
+    LifecycleSystem lifecycleSystem;
     EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
