@@ -23,7 +23,7 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
             }
         }
 
-        if (!state || !velocity || !transform || !input) {
+        if (!state || !velocity || !transform) {
             continue;
         }
 
@@ -33,7 +33,7 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
             if (state->actionTimeMs >= state->actionDurationMs) {
                 state->isActionLocked = false;
             }
-        } else {
+        } else if (input) {
             // not action locked so we can transition if needed
             if (input->isDown(InputKey::ATTACK)) {
                 state->currentAction = Action::ATTACKING;

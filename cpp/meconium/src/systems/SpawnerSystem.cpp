@@ -53,7 +53,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
 
     Attack attack;
     attack.cooldownMs = enemy->def.attack->cooldownMs;
-    attack.sprite = level->createSprite(enemy->def.sprite);
+    attack.sprite = level->createSprite(enemy->def.attack->sprite);
     attack.attackRange = 300; // TODO
 
     entity->addComponent<Attack>(attack);

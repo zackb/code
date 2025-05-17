@@ -31,6 +31,8 @@ public:
         sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef.texture);
         sprite.height = spriteDef.tileHeight;
         sprite.width = spriteDef.tileWidth;
+        sprite.speed = spriteDef.speed;
+        sprite.lifetimeMs = spriteDef.lifetimeMs;
         return std::make_shared<Sprite>(sprite);
     }
 

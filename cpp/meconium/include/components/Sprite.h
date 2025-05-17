@@ -12,6 +12,10 @@ public:
     bool flipX = false;
     bool flipY = false;
 
+    // projectile related
+    int speed = 0;
+    int lifetimeMs = 0;
+
     Sprite() = default;
     Sprite(SDL_Texture* texture, int width, int height) : texture(texture), width(width), height(height) {}
 
