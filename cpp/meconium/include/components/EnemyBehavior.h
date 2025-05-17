@@ -2,6 +2,13 @@
 
 enum class EnemyBehavior { IDLE, PATROL, CHASE };
 
+struct RangedAttack {};
+
+struct Chase {
+    int speed;
+    Chase(int speend) : speed(speed) {}
+};
+
 struct Patrol {
     int left;
     int right;
