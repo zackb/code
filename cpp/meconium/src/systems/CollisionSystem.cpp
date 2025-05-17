@@ -1,5 +1,6 @@
 #include "ECS.h"
 #include "components/Knockback.h"
+#include "components/State.h"
 #include "systems/DebugSystem.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
@@ -164,12 +165,19 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
 
     if (aabb(playerRect, enemyRect)) {
 
+        // check for attacks
+        if (auto state = player.getComponent<State>()) {
+            if (state->currentAction == Action::ATTACKING) {
+                enemy.getComponent<State>()->currentAction = Action::DYING;
+            }
+        }
+
+        // no attacks so knockback
         // direction: enemy on left => knock right, etc.
-        float dx = (playerRect.x + playerRect.w / 2) -
-                   (enemyRect.x + enemyRect.w / 2);
+        float dx = (playerRect.x + playerRect.w / 2) - (enemyRect.x + enemyRect.w / 2);
 
         float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
-        float knockbackY = -2.0f; // upward knockback
+        float knockbackY = -2.0f;                    // upward knockback
         auto playerVel = player.getComponent<Velocity>();
         playerVel->vx = knockbackX;
         playerVel->vy = knockbackY;
@@ -181,10 +189,8 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
         player.addComponent<Knockback>(200.0);
         enemy.addComponent<Knockback>(200.0);
     }
-
 }
 
 bool CollisionSystem::aabb(SDL_Rect& a, SDL_Rect& b) {
-         return a.x < b.x + b.w && a.x + a.w > b.x &&
-         a.y < b.y + b.h && a.y + a.h > b.y;
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }

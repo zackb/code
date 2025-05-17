@@ -31,6 +31,9 @@ void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const in
         case Action::ATTACKING:
             animation->setState(AnimationState::ATTACKING);
             break;
+        case Action::DYING:
+            animation->setState(AnimationState::DYING);
+            break;
         default:
             std::cerr << "Unknown action! " << std::endl;
             break;

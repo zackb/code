@@ -48,7 +48,8 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
         entity->addComponent<Patrol>(enemy->def.patrol->left, enemy->def.patrol->right, enemy->def.patrol->speed);
         break;
     case EnemyBehavior::CHASE:
-        entity->addComponent<Chase>();
+        // TODO: move to prefab
+        entity->addComponent<Chase>(3);
         break;
     default:
         std::cerr << "unknown behavior" << std::endl;

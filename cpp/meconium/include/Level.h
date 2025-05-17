@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "assets/Definitions.h"
+#include "components/Animation.h"
 #include "components/Background.h"
 
 enum class Facing { LEFT, RIGHT };
@@ -66,6 +67,8 @@ public:
                 state = AnimationState::FALLING;
             else if (it.name == "attack")
                 state = AnimationState::ATTACKING;
+            else if (it.name == "die")
+                state = AnimationState::DYING;
             else
                 std::cerr << "Unknown animation state: " << it.name << std::endl;
 
