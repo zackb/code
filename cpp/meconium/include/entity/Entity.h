@@ -60,6 +60,10 @@ class Entities {
 public:
     // Add an entity to the system
     void add(const std::shared_ptr<Entity>& entity) {
+        if (!entity) {
+            std::cerr << "Warning: adding null entity!" << std::endl;
+            return;
+        }
         entities.push_back(entity);
         updateEntityIndex(entity);
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "components/Component.h"
+
 enum class EnemyBehavior { IDLE, PATROL, CHASE };
 
 struct RangedAttack {};
@@ -24,5 +25,5 @@ struct EnemyAI : public Component {
     Chase chase;
     Patrol patrol;
     int cooldownMs = 0;
-    int timeSinceLastAttack = 0;
+    int timeSinceLastAttack = 999999; // can attack immediately
 };
