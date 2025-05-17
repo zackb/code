@@ -30,6 +30,11 @@
                 "left": 400,
                 "right": 1000,
                 "speed": 2
+            },
+            "attack": {
+                "type": "range",
+                "cooldownMs": 1500,
+                "sprite": "sprites/projectiles/arrow.json"
             }
         }
     ]
