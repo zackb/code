@@ -1,5 +1,4 @@
 #include "systems/SpawnerSystem.h"
-#include "assets/AssetLoader.h"
 #include "components/Tag.h"
 
 #include <iostream>
@@ -49,6 +48,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
         entity->addComponent<Patrol>(enemy->def.patrol->left, enemy->def.patrol->right, enemy->def.patrol->speed);
         break;
     case EnemyBehavior::CHASE:
+        entity->addComponent<Chase>();
         break;
     default:
         std::cerr << "unknown behavior" << std::endl;
