@@ -29,6 +29,8 @@ struct SpriteSheetDefinition {
     float scale;
     std::optional<Rect> collider;
     std::vector<AnimationDefinition> animations;
+    int speed;
+    int lifetimeMs;
 };
 
 // Tileset
@@ -72,6 +74,12 @@ struct PatrolDefinition {
     float speed;
 };
 
+struct AttackDefinition {
+    std::string type;
+    int cooldownMs;
+    std::string sprite;
+};
+
 struct EnemyDefinition {
     std::string type;
     std::string sprite;
@@ -80,6 +88,7 @@ struct EnemyDefinition {
     int triggerX;
     EnemyBehavior behavior;
     std::optional<PatrolDefinition> patrol;
+    std::optional<AttackDefinition> attack;
 };
 
 // Level
@@ -122,6 +131,12 @@ inline void from_json(const nlohmann::json& j, PatrolDefinition& p) {
     j.at("speed").get_to(p.speed);
 }
 
+inline void from_json(const nlohmann::json& j, AttackDefinition& def) {
+    def.type = j.at("type").get<std::string>();
+    def.cooldownMs = j.at("cooldownMs").get<int>();
+    def.sprite = j.at("sprite").get<std::string>();
+}
+
 inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
     e.type = j.at("type").get<std::string>();
     e.sprite = j.at("sprite").get<std::string>();
@@ -139,10 +154,17 @@ inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
     } else {
         throw std::runtime_error("Unknown enemy behavior: " + bs);
     }
+
     if (j.contains("patrol") && !j.at("patrol").is_null()) {
         e.patrol = j.at("patrol").get<PatrolDefinition>();
     } else {
         e.patrol = std::nullopt;
+    }
+
+    if (j.contains("attack") && !j.at("attack").is_null()) {
+        e.attack = j.at("attack").get<AttackDefinition>();
+    } else {
+        e.attack = std::nullopt;
     }
 }
 
@@ -178,7 +200,6 @@ inline void from_json(const nlohmann::json& j, AnimationDefinition& anim) {
     anim.looping = j.at("looping").get<bool>();
     anim.duration = j.at("duration").get<int>();
 }
-
 inline void from_json(const nlohmann::json& j, SpriteSheetDefinition& sheet) {
     sheet.texture = j.at("texture").get<std::string>();
     sheet.tileWidth = j.at("tileWidth").get<int>();
@@ -196,6 +217,12 @@ inline void from_json(const nlohmann::json& j, SpriteSheetDefinition& sheet) {
         anim.name = it.key();
         from_json(it.value(), anim);
         sheet.animations.push_back(anim);
+    }
+    if (j.contains("speed")) {
+        sheet.speed = j.at("speed").get<int>();
+    }
+    if (j.contains("lifetimeMs")) {
+        sheet.lifetimeMs = j.at("lifetimeMs").get<int>();
     }
 }
 
