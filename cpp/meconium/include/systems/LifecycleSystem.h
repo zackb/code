@@ -15,7 +15,6 @@ public:
                 despawn->timer -= deltaTime;
                 if (despawn->timer <= 0) {
                     toRemove.push_back(entity);
-                    entities->remove(entity);
                 }
             }
         }
