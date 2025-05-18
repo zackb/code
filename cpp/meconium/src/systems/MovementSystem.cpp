@@ -26,9 +26,11 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
             continue;
 
         // if we're dying dont move
+        bool dying = false;
         if (auto state = entity->getComponent<State>(); state) {
             if (state->currentAction == Action::DYING) {
-                continue;
+                dying = true;
+                velocity->vx = 0;
             }
         }
 
@@ -39,7 +41,7 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
                 velocity->vy = MAX_FALL_SPEED;
         }
 
-        if (input) {
+        if (input && !dying) {
             if (input->isDown(InputKey::MOVE_LEFT)) {
                 velocity->vx = -5;
                 if (sprite)

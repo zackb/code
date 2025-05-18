@@ -46,6 +46,14 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
             continue;
         }
 
+        // if the player is already dead we can chill
+        bool playerIsDead = false;
+        if (auto playerState = player->getComponent<State>(); playerState) {
+            if (playerState->currentAction == Action::DYING) {
+                playerIsDead = true;
+            }
+        }
+
         // see if we have ai
         auto ai = entity->getComponent<EnemyAI>();
         if (!ai) {
@@ -67,7 +75,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
         velocity->vx = 0;
         // check if we should attack
         if (!state->isActionLocked) {
-            if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
+            if (attack && !playerIsDead && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
                 if (ai->timeSinceLastAttack >= attack->cooldownMs) {
                     // schedule a projectile to fire part way through the animation
