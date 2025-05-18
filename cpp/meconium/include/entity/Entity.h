@@ -81,6 +81,22 @@ public:
         }
     }
 
+    // Queue an entity for addition
+    void queueAdd(const std::shared_ptr<Entity>& entity) { additions.emplace_back(entity); }
+    // Queue an entity for removal
+    void queueRemove(const std::shared_ptr<Entity>& entity) { removals.emplace_back(entity); }
+    // Flush pending queues
+    void flushQueue() {
+        for (auto& e : additions) {
+            add(e);
+        }
+        for (auto& e : removals) {
+            remove(e);
+        }
+        additions.clear();
+        removals.clear();
+    }
+
     template <typename T> void removeComponent(const std::shared_ptr<Entity>& entity) {
         if (entity->hasComponent<T>()) {
             entity->removeComponent<T>();
@@ -178,4 +194,9 @@ private:
 
     // Store all entities in a list
     std::vector<std::shared_ptr<Entity>> entities;
+
+    // entities awaiting addition
+    std::vector<std::shared_ptr<Entity>> additions;
+    // entities awaiting removal
+    std::vector<std::shared_ptr<Entity>> removals;
 };

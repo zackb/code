@@ -17,9 +17,6 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
                            const std::shared_ptr<Level>& level,
                            const int dt) const {
 
-    // collect anything we need to add to entities after iteration
-    std::vector<std::shared_ptr<Entity>> toAdd;
-
     for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
             continue;
@@ -65,7 +62,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
 
         // check for pending projectiles
         if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
-            toAdd.push_back(spawnProjectile(*entities, level, *entity, *attack));
+            entities->queueAdd(spawnProjectile(*entities, level, *entity, *attack));
             ai->projectilePending = false;
         }
 
@@ -129,10 +126,8 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
         }
     }
 
-    // add projectiles after loop
-    for (const auto& e : toAdd) {
-        entities->add(e);
-    }
+    // flush queue
+    entities->flushQueue();
 }
 
 bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack& attack, bool facingRight) const {
