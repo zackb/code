@@ -53,17 +53,28 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
             continue;
         }
 
+        auto attack = entity->getComponent<Attack>();
+
+        // check for pending projectiles
+        if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
+            toAdd.push_back(spawnProjectile(*entities, level, *entity, *attack));
+            ai->projectilePending = false;
+        }
+
         // always wait the timer for determining if we should attack again
         ai->timeSinceLastAttack += dt;
 
         velocity->vx = 0;
         // check if we should attack
         if (!state->isActionLocked) {
-            auto attack = entity->getComponent<Attack>();
             if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
                 if (ai->timeSinceLastAttack >= attack->cooldownMs) {
-                    toAdd.push_back(spawnProjectile(*entities, level, *entity, *attack));
+                    // schedule a projectile to fire part way through the animation
+
+                    ai->scheduledProjectileTime = 500; // spawn projectile at 500ms into animation
+                    ai->projectilePending = true;
+
                     ai->timeSinceLastAttack = 0;
                     // Lock action for the attack animation duration
                     state->currentAction = Action::ATTACKING;
