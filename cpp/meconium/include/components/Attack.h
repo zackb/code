@@ -1,11 +1,11 @@
 #pragma once
 
+#include "assets/Definitions.h"
 #include "components/Component.h"
-#include "components/Sprite.h"
 #include <memory>
 
 struct Attack : Component {
-    std::shared_ptr<Sprite> sprite;
+    std::shared_ptr<SpriteSheetDefinition> sprite;
     int cooldownMs;
     int attackRange;
 };

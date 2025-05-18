@@ -1,4 +1,5 @@
 #include "systems/SpawnerSystem.h"
+#include "assets/AssetLoader.h"
 #include "components/Attack.h"
 #include "components/EnemyAI.h"
 #include "components/Sprite.h"
@@ -53,12 +54,12 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
 
     Attack attack;
     attack.cooldownMs = enemy->def.attack->cooldownMs;
-    attack.sprite = level->createSprite(enemy->def.attack->sprite);
-    attack.attackRange = 300; // TODO
+    attack.sprite = AssetLoader::loadSpriteSheet(enemy->def.attack->sprite);
+    attack.attackRange = 500; // TODO: prefab in level
 
     entity->addComponent<Attack>(attack);
 
-    entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
+    entity->addComponent<Transform>(enemy->def.x, enemy->def.y + sprite->width, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;
     entity->addComponent<Velocity>();
     if (sheet->collider.has_value()) {
