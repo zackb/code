@@ -1,6 +1,5 @@
 #include "systems/EnemyAISystem.h"
 
-#include "assets/AssetLoader.h"
 #include "components/Attack.h"
 #include "components/Collider.h"
 #include "components/EnemyAI.h"
@@ -133,7 +132,6 @@ std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
                                                        const std::shared_ptr<Level>& level,
                                                        Entity& shooter,
                                                        const Attack& attack) const {
-    std::cout << "spawning projectile\n";
     auto sprite = level->createSprite(*attack.sprite);
     auto projectile = std::make_shared<Entity>();
     // Set initial position near shooter

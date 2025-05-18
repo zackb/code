@@ -10,6 +10,9 @@ release:
 	cmake --build --preset release
 	ln -sf build/release/compile_commands.json
 
+run: debug
+	./build/debug/meconium
+
 .PHONY: format
 fmt:
 	@echo "Formatting code with clang-format..."
