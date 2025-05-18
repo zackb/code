@@ -200,13 +200,13 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
 
 void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& projectile) {
     auto playerPos = player.getComponent<Transform>();
-    auto pojPos = projectile.getComponent<Transform>();
+    auto projPos = projectile.getComponent<Transform>();
 
     auto playerCollider = player.getComponent<Collider>();
     auto projCollider = projectile.getComponent<Collider>();
 
     auto playerRect = playerCollider->getBounds(playerPos);
-    auto projRect = playerCollider->getBounds(pojPos);
+    auto projRect = projCollider->getBounds(projPos);
 
     // did the projectile hit the player
     if (aabb(playerRect, projRect)) {
@@ -216,7 +216,6 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
         projectile.addComponent<Despawn>(0);
     }
 }
-
 
 bool CollisionSystem::aabb(SDL_Rect& a, SDL_Rect& b) {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
