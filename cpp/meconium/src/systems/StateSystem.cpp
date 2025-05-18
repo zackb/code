@@ -36,12 +36,9 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
         } else if (input) {
             // not action locked so we can transition if needed
             if (input->isDown(InputKey::ATTACK)) {
-                state->currentAction = Action::ATTACKING;
                 // TODO: sword animation duration
                 // move this into AttackData component and load from prefab at init time
-                state->actionDurationMs = 600;
-                state->actionTimeMs = 0;
-                state->isActionLocked = true;
+                state->lockAction(Action::ATTACKING, 600);
             } else if (!transform->onGround) {
                 state->currentAction = (velocity->vy < 0) ? Action::JUMPING : Action::FALLING;
             } else if (velocity->vx != 0) {

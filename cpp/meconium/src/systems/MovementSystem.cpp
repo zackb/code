@@ -1,6 +1,7 @@
 #include "ECS.h"
 #include "components/Knockback.h"
 #include "components/NoGravity.h"
+#include "components/State.h"
 
 // Handles both physics as well as player input
 // TOOD: separate into Physics and InputSystem
@@ -23,6 +24,13 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
 
         if (!position || !velocity)
             continue;
+
+        // if we're dying dont move
+        if (auto state = entity->getComponent<State>(); state) {
+            if (state->currentAction == Action::DYING) {
+                continue;
+            }
+        }
 
         // Apply gravity
         if (!position->onGround && !entity->hasComponent<NoGravity>()) {
