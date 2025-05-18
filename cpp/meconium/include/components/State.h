@@ -24,4 +24,11 @@ struct State final : Component {
     int actionDurationMs = 0;
 
     bool facingRight = true;
+
+    void lockAction(const Action action, const int duration) {
+        isActionLocked = true;
+        currentAction = action;
+        actionDurationMs = duration;
+        actionTimeMs = 0;
+    }
 };

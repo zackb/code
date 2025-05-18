@@ -77,10 +77,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
 
                     ai->timeSinceLastAttack = 0;
                     // Lock action for the attack animation duration
-                    state->currentAction = Action::ATTACKING;
-                    state->isActionLocked = true;
-                    state->actionTimeMs = 0;
-                    state->actionDurationMs = 1000; // TODO
+                    state->lockAction(Action::ATTACKING, 1000);
                 } else {
                     state->currentAction = Action::IDLE;
                 }
