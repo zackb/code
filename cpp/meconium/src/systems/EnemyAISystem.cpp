@@ -1,8 +1,11 @@
 #include "systems/EnemyAISystem.h"
 
+#include "assets/AssetLoader.h"
 #include "components/Attack.h"
+#include "components/Collider.h"
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
+#include "components/NoGravity.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
@@ -11,7 +14,9 @@
 #include <cstdlib>
 
 // gravity is applied in MovementSystem
-void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
+void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
+                           const std::shared_ptr<Level>& level,
+                           const int dt) const {
 
     // collect anything we need to add to entities after iteration
     std::vector<std::shared_ptr<Entity>> toAdd;
@@ -59,7 +64,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
             if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
                 if (ai->timeSinceLastAttack >= attack->cooldownMs) {
-                    toAdd.push_back(spawnProjectile(*entities, *entity, *attack));
+                    toAdd.push_back(spawnProjectile(*entities, level, *entity, *attack));
                     ai->timeSinceLastAttack = 0;
                     // Lock action for the attack animation duration
                     state->currentAction = Action::ATTACKING;
@@ -124,10 +129,12 @@ bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack
     return inRange && onSameY && inFront;
 }
 
-std::shared_ptr<Entity>
-    EnemyAISystem::spawnProjectile(Entities& entities, Entity& shooter, const Attack& attack) const {
+std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
+                                                       const std::shared_ptr<Level>& level,
+                                                       Entity& shooter,
+                                                       const Attack& attack) const {
     std::cout << "spawning projectile\n";
-    auto sprite = attack.sprite;
+    auto sprite = level->createSprite(*attack.sprite);
     auto projectile = std::make_shared<Entity>();
     // Set initial position near shooter
     auto shooterPos = shooter.getComponent<Transform>();
@@ -135,7 +142,9 @@ std::shared_ptr<Entity>
 
     projectile->addComponent<Transform>(*shooterPos);
     projectile->addComponent<Velocity>(direction * sprite->speed, 0.0f);
+    projectile->addComponent<NoGravity>();
     projectile->addComponent<Sprite>(sprite);
+    projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
     Projectile p;
     p.lifetimeMs = sprite->lifetimeMs;
     projectile->addComponent<Projectile>(p);

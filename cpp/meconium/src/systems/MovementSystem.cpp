@@ -1,5 +1,6 @@
 #include "ECS.h"
 #include "components/Knockback.h"
+#include "components/NoGravity.h"
 
 // Handles both physics as well as player input
 // TOOD: separate into Physics and InputSystem
@@ -24,7 +25,7 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
             continue;
 
         // Apply gravity
-        if (!position->onGround) {
+        if (!position->onGround && !entity->hasComponent<NoGravity>()) {
             velocity->vy += GRAVITY;
             if (velocity->vy > MAX_FALL_SPEED)
                 velocity->vy = MAX_FALL_SPEED;

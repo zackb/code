@@ -9,6 +9,6 @@
       "width": 20,
       "height": 5
   },
-  "speed": 400,
+  "speed": 10,
   "lifetimeMs": 3000
 }

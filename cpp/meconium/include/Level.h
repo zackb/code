@@ -5,6 +5,8 @@
 #include "assets/Definitions.h"
 #include "components/Animation.h"
 #include "components/Background.h"
+#include "components/Sprite.h"
+#include "components/TileMap.h"
 
 enum class Facing { LEFT, RIGHT };
 
