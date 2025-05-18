@@ -78,7 +78,7 @@ void RenderSystem::renderTileMap(const TileMap& tileMap, const Transform& camera
 void RenderSystem::renderParallaxBackground(Entity& background, const Transform& camera) const {
     auto para = background.getComponent<ParallaxBackground>();
     for (auto& layer : para->getLayers()) {
-        renderLayer(*layer, camera);
+        renderLayer(layer, camera);
     }
 }
 

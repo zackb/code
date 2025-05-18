@@ -84,12 +84,11 @@ public:
     }
 
     std::shared_ptr<ParallaxBackground> createBackground() const {
-        std::vector<std::shared_ptr<Background>> backgrounds;
+        std::vector<Background> backgrounds;
         for (int i = 0; i < levelDef->background.layers.size(); i++) {
             auto layer = levelDef->background.layers[i];
             auto texture = ResourceManager::loadTexture("assets/" + layer.texture);
-            Background background(texture, layer.speed, i);
-            backgrounds.push_back(std::make_shared<Background>(background));
+            backgrounds.emplace_back(texture, layer.speed, i);
         }
         return std::make_shared<ParallaxBackground>(backgrounds);
     }
