@@ -138,10 +138,18 @@ std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
     auto projectile = std::make_shared<Entity>();
     // Set initial position near shooter
     auto shooterPos = shooter.getComponent<Transform>();
+    auto shooterSprite = shooter.getComponent<Sprite>();
     float direction = shooter.getComponent<State>()->facingRight ? 1.0f : -1.0f;
 
-    projectile->addComponent<Transform>(*shooterPos);
-    projectile->addComponent<Velocity>(direction * sprite->speed, 0.0f);
+    Velocity vel(direction * sprite->speed, 0.0f);
+
+    if (vel.vx < 0) {
+        sprite->flipX = true;
+    }
+
+    projectile->addComponent<Transform>(
+        shooterPos->x, shooterPos->y + shooterSprite->height / 2 + sprite->height, attack.sprite->scale);
+    projectile->addComponent<Velocity>(vel);
     projectile->addComponent<NoGravity>();
     projectile->addComponent<Sprite>(sprite);
     projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
