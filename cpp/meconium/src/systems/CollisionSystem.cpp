@@ -1,4 +1,5 @@
 #include "ECS.h"
+#include "components/Attack.h"
 #include "components/Despawn.h"
 #include "components/Knockback.h"
 #include "components/State.h"
@@ -28,6 +29,11 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         // Check player vs enemy collisions
         if (entity->hasComponent<EnemyTag>()) {
             resolvePlayerEnemyCollisions(*player, *entity);
+        }
+
+        // Check player vs projectile collisions
+        if (entity->hasComponent<Projectile>()) {
+            resolvePlayerProjectileCollisions(*player, *entity);
         }
 
         // fall of map check
@@ -191,6 +197,29 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
         enemy.addComponent<Knockback>(200.0);
     }
 }
+
+void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& projectile) {
+    auto playerPos = player.getComponent<Transform>();
+    auto pojPos = projectile.getComponent<Transform>();
+
+    auto playerCollider = player.getComponent<Collider>();
+    auto projCollider = projectile.getComponent<Collider>();
+
+    auto playerRect = playerCollider->getBounds(playerPos);
+    auto projRect = playerCollider->getBounds(pojPos);
+
+    // did the projectile hit the player
+    if (aabb(playerRect, projRect)) {
+        if (auto state = player.getComponent<State>()) {
+            state->currentAction = Action::DYING;
+            state->isActionLocked = true;
+            state->actionDurationMs = 5000;
+            state->actionTimeMs = 0;
+        }
+        projectile.addComponent<Despawn>(0);
+    }
+}
+
 
 bool CollisionSystem::aabb(SDL_Rect& a, SDL_Rect& b) {
     return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;

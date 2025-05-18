@@ -128,7 +128,7 @@ public:
         return nullptr;
     }
 
-    // Find entities by a combination of components (e.g., Transform + Sprite)
+    // Find entities by a combination of components
     template <typename... Components> std::vector<std::shared_ptr<Entity>> findByComponents() const {
         std::vector<std::shared_ptr<Entity>> result;
         for (auto& e : entities) {
