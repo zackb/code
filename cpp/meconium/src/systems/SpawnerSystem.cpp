@@ -59,7 +59,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
 
     entity->addComponent<Attack>(attack);
 
-    entity->addComponent<Transform>(enemy->def.x, enemy->def.y + sprite->width, sheet->scale);
+    entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;
     entity->addComponent<Velocity>();
     if (sheet->collider.has_value()) {

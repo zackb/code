@@ -2,7 +2,7 @@
   "texture": "textures/archer_projectile.png",
   "tileWidth": 40,
   "tileHeight": 5,
-  "scale": 1.0,
+  "scale": 2.0,
   "collider": {
       "x": 10,
       "y": 0,
