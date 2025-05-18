@@ -20,8 +20,7 @@ public:
 
 class ParallaxBackground final : public Component {
 public:
-    explicit ParallaxBackground(const std::vector<Background>& backgrounds)
-        : backgrounds(backgrounds) {}
+    explicit ParallaxBackground(const std::vector<Background>& backgrounds) : backgrounds(backgrounds) {}
     std::vector<Background> getLayers() { return backgrounds; }
 
 private:
