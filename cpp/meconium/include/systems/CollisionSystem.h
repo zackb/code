@@ -24,6 +24,8 @@ private:
 
     void resolvePlayerEnemyCollisions(Entity& player, Entity& enemy);
 
+    void resolvePlayerProjectileCollisions(Entity& player, Entity& projectile);
+
     bool aabb(SDL_Rect& a, SDL_Rect& b);
 
     static void forEachNearbySolidTile(

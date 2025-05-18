@@ -144,6 +144,9 @@ void Meconium::update() {
     // Update animations based on state
     animationSystem.update(entities, deltaTime);
 
+    // Update projectile status
+    projectileSystem.update(entities, deltaTime);
+
     // Update camera after movement and collision
     cameraSystem.update(entities, *tileMap);
 

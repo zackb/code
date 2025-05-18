@@ -7,6 +7,7 @@
 #include "systems/DebugSystem.h"
 #include "systems/EnemyAISystem.h"
 #include "systems/LifecycleSystem.h"
+#include "systems/ProjectileSystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
@@ -34,6 +35,7 @@ private:
     StateSystem stateSystem;
     SpawnerSystem spawnerSystem;
     LifecycleSystem lifecycleSystem;
+    ProjectileSystem projectileSystem;
     EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
