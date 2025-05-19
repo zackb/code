@@ -12,8 +12,8 @@ public:
         auto sounds = entities->findByComponents<SoundEffect>();
 
         for (auto& entity : sounds) {
-            const auto request = entity->getComponent<SoundEffect>();
-            soundManager.play(request->soundId, request->loops);
+            const auto sound = entity->getComponent<SoundEffect>();
+            soundManager.play(sound->soundId, sound->loops);
             entities->removeComponent<SoundEffect>(entity);
         }
     }

@@ -37,7 +37,7 @@ bool SoundManager::loadFromFile(const std::string& jsonPath) {
         const std::string& id = it.key();
         const std::string& path = it.value();
 
-        Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
+        Mix_Chunk* chunk = Mix_LoadWAV(resolveAssetPath(path).c_str());
         if (!chunk) {
             std::cerr << "Failed to load sound: " << path << ": " << Mix_GetError() << std::endl;
             continue;
