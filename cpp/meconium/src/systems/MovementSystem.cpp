@@ -1,6 +1,7 @@
 #include "ECS.h"
 #include "components/Knockback.h"
 #include "components/NoGravity.h"
+#include "components/SoundEffect.h"
 #include "components/State.h"
 
 // Handles both physics as well as player input
@@ -34,13 +35,14 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
             }
         }
 
-        // Apply gravity
+        // Apply gravity if we should
         if (!position->onGround && !entity->hasComponent<NoGravity>()) {
             velocity->vy += GRAVITY;
             if (velocity->vy > MAX_FALL_SPEED)
                 velocity->vy = MAX_FALL_SPEED;
         }
 
+        // this entity has input control and is not dying
         if (input && !dying) {
             if (input->isDown(InputKey::MOVE_LEFT)) {
                 velocity->vx = -5;
@@ -58,6 +60,7 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
             if (input->isDown(InputKey::JUMP) && position->onGround) {
                 velocity->vy = JUMP_FORCE;
                 position->onGround = false;
+                entity->addComponent<SoundEffect>("jump", 0);
             }
         }
 
