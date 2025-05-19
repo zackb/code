@@ -146,6 +146,9 @@ void Meconium::update() {
     // Apply movement based on input
     movementSystem.update(entities);
 
+    // Play sounds if we should
+    soundSystem.update(entities, soundManager);
+
     // Handle enemy AI
     enemyAISystem.update(entities, level, deltaTime);
 
