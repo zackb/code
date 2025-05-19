@@ -18,6 +18,8 @@ public:
 
 private:
     TTF_Font* font;
+    SDL_Texture* logoTexture = nullptr;
+    SDL_Rect logoRect{};
     SDL_Texture* textTexture;
     SDL_Rect textRect;
     bool restart = false;

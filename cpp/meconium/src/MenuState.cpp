@@ -5,6 +5,8 @@
 #include "Meconium.h"
 #include <SDL_image.h>
 
+#include "GameOverState.h"
+
 
 MenuState::MenuState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
@@ -57,7 +59,7 @@ void MenuState::handleEvent(SDL_Event& event) {
                     startGame = true;
                 } else if (options[index] == "Exit") {
                     quitGame = true;
-                } else {
+                } else if (options[index] == "Options") {
                     // Handle "Options"
                 }
                 break;
@@ -73,8 +75,6 @@ void MenuState::update() {
 
 void MenuState::render() {
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
-    SDL_RenderClear(Context::renderer);
-
     SDL_RenderClear(Context::renderer);
 
     if (logoTexture) {
@@ -123,6 +123,7 @@ std::unique_ptr<GameState> MenuState::nextState() {
     }
 
     if (quitGame) {
+        // return std::make_unique<GameOverState>();
         exit(0); // TODO: CLEAN
     }
 
