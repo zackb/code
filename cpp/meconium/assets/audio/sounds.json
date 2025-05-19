@@ -1,5 +1,6 @@
 {
     "jump": "audio/sfx/jump.wav",
     "bump": "audio/sfx/bump.wav",
-    "arrow": "audio/sfx/arrow.wav"
+    "arrow": "audio/sfx/arrow.wav",
+    "sword": "audio/sfx/sword.wav"
 }
