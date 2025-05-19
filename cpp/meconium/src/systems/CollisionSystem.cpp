@@ -215,8 +215,9 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
     if (aabb(playerRect, projRect)) {
         if (auto state = player.getComponent<State>()) {
             auto health = player.getComponent<Health>();
-            if (health) {
-                health->hp -= 20;
+            auto proj = projectile.getComponent<Projectile>();
+            if (health && proj) {
+                health->hp -= proj->damage;
                 if (health->hp <= 0) {
                     state->lockAction(Action::DYING, 5000); // TODO: handle death
                 }

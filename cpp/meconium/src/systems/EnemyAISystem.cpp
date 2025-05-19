@@ -162,9 +162,7 @@ std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
     projectile->addComponent<NoGravity>();
     projectile->addComponent<Sprite>(sprite);
     projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
-    Projectile p;
-    p.lifetimeMs = sprite->lifetimeMs;
-    projectile->addComponent<Projectile>(p);
+    projectile->addComponent<Projectile>(sprite->lifetimeMs, attack.damage);
 
     // play arrow firing sound
     shooter.addComponent<SoundEffect>("arrow", 0);

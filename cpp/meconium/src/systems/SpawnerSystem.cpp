@@ -55,7 +55,8 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
     Attack attack;
     attack.cooldownMs = enemy->def.attack->cooldownMs;
     attack.sprite = AssetLoader::loadSpriteSheet(enemy->def.attack->sprite);
-    attack.attackRange = 500; // TODO: prefab in level
+    attack.attackRange = enemy->def.attack->range;
+    attack.damage = enemy->def.attack->damage;
 
     entity->addComponent<Attack>(attack);
 

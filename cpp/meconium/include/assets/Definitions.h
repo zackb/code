@@ -78,6 +78,8 @@ struct AttackDefinition {
     std::string type;
     std::string sprite;
     int cooldownMs;
+    int damage;
+    int range;
     std::string sound;
 };
 
@@ -136,6 +138,8 @@ inline void from_json(const nlohmann::json& j, PatrolDefinition& p) {
 inline void from_json(const nlohmann::json& j, AttackDefinition& def) {
     def.type = j.at("type").get<std::string>();
     def.cooldownMs = j.at("cooldownMs").get<int>();
+    def.damage = j.at("damage").get<int>();
+    def.range = j.at("range").get<int>();
     def.sprite = j.at("sprite").get<std::string>();
     if (j.contains("sound")) {
         def.sound = j.at("sound").get<std::string>();
