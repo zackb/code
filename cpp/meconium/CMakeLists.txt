@@ -98,10 +98,12 @@ if (APPLE)
     )
 
     # Set the third-party frameworks and libraries to be bundled
-    set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
-    set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
-    # set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
-    # set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
+    # set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
+    # set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
+    # set(MY_SDL2_MIXER_LIB_DIR "/usr/local/opt/sdl2_mixer/lib")
+    set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
+    set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
+    set(MY_SDL2_MIXER_LIB_DIR "/opt/homebrew/opt/sdl2_mixer/lib")
     set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
 
     # Create a "Frameworks" directory in the bundle
@@ -121,6 +123,13 @@ if (APPLE)
             ${MY_FRAMEWORKS_DIR}/libSDL2_image-2.0.0.dylib
     )
 
+    # Copy SDL2_mixer.dylib to the Frameworks folder in the app bundle
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${MY_SDL2_MIXER_LIB_DIR}/libSDL2_mixer-2.0.0.dylib
+            ${MY_FRAMEWORKS_DIR}/libSDL2_mixer-2.0.0.dylib
+    )
+
     # Automatically adjust the library path using install_name_tool
     add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
         COMMAND install_name_tool -change
@@ -134,6 +143,14 @@ if (APPLE)
         COMMAND install_name_tool -change
             ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
             @executable_path/../Frameworks/libSDL2_image-2.0.0.dylib
+            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+    )
+
+    # And for sdl2_mixer
+    add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
+        COMMAND install_name_tool -change
+            ${MY_SDL2_MIXER_LIB_DIR}/libSDL2_mixer-2.0.0.dylib
+            @executable_path/../Frameworks/libSDL2_mixer-2.0.0.dylib
             ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 endif()
