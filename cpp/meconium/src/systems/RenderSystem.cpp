@@ -1,6 +1,6 @@
+#include "systems/RenderSystem.h"
 #include "Context.h"
 #include "ECS.h"
-#include "ResourceManager.h"
 #include "components/Background.h"
 
 void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
@@ -20,7 +20,6 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
         if (!transform) {
             continue;
         }
-
         if (sprite) {
 
             SDL_Rect dstRect;
@@ -49,6 +48,11 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
             SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
         }
     }
+
+    // render health bar
+    Rect dst = {20, 20, 100, 100};
+
+    drawHealthBar(dst, 50, 100);
 }
 
 void RenderSystem::renderTileMap(const TileMap& tileMap, const Transform& camera) {
@@ -100,4 +104,35 @@ void RenderSystem::renderLayer(const Background& layer, const Transform& camera)
         SDL_Rect dst = {x, 0, scaledW, scaledH};
         SDL_RenderCopy(Context::renderer, layer.texture, nullptr, &dst);
     }
+}
+
+void RenderSystem::drawHealthBar(const Rect& targetRect, int current, int max) const {
+
+    const int barWidth = targetRect.width;
+    const int barHeight = 6;
+    const int padding = 1;
+
+    float ratio = std::max(0.0f, std::min(1.0f, static_cast<float>(current) / max));
+    int fillWidth = static_cast<int>(ratio * (barWidth - 2 * padding));
+
+    SDL_Rect background = {targetRect.x,
+                           targetRect.y - barHeight - 2, // draw above the target
+                           barWidth,
+                           barHeight};
+
+    SDL_Rect fill = {background.x + padding, background.y + padding, fillWidth, barHeight - 2 * padding};
+
+    // black background
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
+    SDL_RenderFillRect(Context::renderer, &background);
+
+    // green -> red depending on health %
+    Uint8 red = static_cast<Uint8>((1.0f - ratio) * 255);
+    Uint8 green = static_cast<Uint8>(ratio * 255);
+    SDL_SetRenderDrawColor(Context::renderer, red, green, 0, 255);
+    SDL_RenderFillRect(Context::renderer, &fill);
+
+    // white border
+    SDL_SetRenderDrawColor(Context::renderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(Context::renderer, &background);
 }
