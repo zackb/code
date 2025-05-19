@@ -19,5 +19,5 @@ private:
     void renderParallaxBackground(Entity& background, const Transform& camera) const;
     void renderLayer(const Background& layer, const Transform& camera) const;
     void renderTileMap(const TileMap& tileMap, const Transform& camera);
-    void drawHealthBar(const Rect& targetRect, int current, int max) const;
+    void drawHealthBar(const Rect& targetRect, int barheight, int current, int max) const;
 };
