@@ -2,6 +2,7 @@
 #include "components/Attack.h"
 #include "components/Despawn.h"
 #include "components/Knockback.h"
+#include "components/SoundEffect.h"
 #include "components/State.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
@@ -195,6 +196,7 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
 
         player.addComponent<Knockback>(200.0);
         enemy.addComponent<Knockback>(200.0);
+        player.addComponent<SoundEffect>("bump", 0);
     }
 }
 
