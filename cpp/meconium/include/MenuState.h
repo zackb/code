@@ -1,31 +1,24 @@
 #pragma once
-#include "Context.h"
 #include "GameState.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <string>
 
-class MenuState final : public GameState {
+class MenuState : public GameState {
 public:
-    void handleEvent(SDL_Event& event) override {
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-            // Tell game to transition to PlayState
-            requestStartGame = true;
-        }
-    }
+    MenuState();
+    ~MenuState() override;
 
-    void update() override {
-        // do some animations or something
-    }
-
-    void render() override {
-        SDL_SetRenderDrawColor(Context::renderer, 0, 0, 50, 255);
-        SDL_RenderClear(Context::renderer);
-
-        // Render title screen, "Press Start"
-
-        SDL_RenderPresent(Context::renderer);
-    }
-
-    bool shouldStartGame() const { return requestStartGame; }
+    void handleEvent(SDL_Event& event) override;
+    void update() override;
+    void render() override;
+    bool shouldStartGame() const { return startGame; }
 
 private:
-    bool requestStartGame = false;
+    TTF_Font* font;
+    SDL_Texture* textTexture;
+    SDL_Rect textRect;
+    bool startGame = false;
+
+    SDL_Texture* renderText(const std::string& message, SDL_Color color);
 };

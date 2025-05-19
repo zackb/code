@@ -1,7 +1,4 @@
 #include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <iostream>
 #include <memory>
 #include <ostream>
 
@@ -9,7 +6,6 @@
 #include "Meconium.h"
 
 #include "FileUtils.h"
-#include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
 #include "components/Health.h"
@@ -167,14 +163,4 @@ void Meconium::render() {
 
 void Meconium::handleEvent(SDL_Event& event) {
     // TODO: do we need this?
-}
-
-void Meconium::shutdown() const {
-    ResourceManager::cleanup();
-    SDL_DestroyRenderer(Context::renderer);
-    SDL_DestroyWindow(Context::window);
-    IMG_Quit();
-    Mix_CloseAudio();
-    Mix_Quit();
-    SDL_Quit();
 }

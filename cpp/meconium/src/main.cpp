@@ -1,12 +1,14 @@
+#include "Context.h"
 #include "Meconium.h"
 #include "MenuState.h"
 #include "StateManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 bool initSDL();
-bool quitSDL();
+void quitSDL();
 
 int main(int argc, char* argv[]) {
     if (!initSDL()) {
@@ -49,6 +51,10 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // unload all resources
+    ResourceManager::cleanup();
+
+    // destroy SDL
     quitSDL();
 
     return EXIT_SUCCESS;
@@ -91,13 +97,19 @@ bool initSDL() {
         return false;
     }
 
+    // init sdl2_ttf
+    if (TTF_Init() == -1) {
+        std::cerr << "TTF_Init failed: " << TTF_GetError() << std::endl;
+        return false;
+    }
+
     // hold window size in Context
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     return true;
 }
 
-bool quitSDL() {
+void quitSDL() {
     SDL_DestroyRenderer(Context::renderer);
     SDL_DestroyWindow(Context::window);
     IMG_Quit();
