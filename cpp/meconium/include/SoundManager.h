@@ -10,6 +10,7 @@ public:
     ~SoundManager();
 
     bool load(const std::string& id, const std::string& path);
+    bool loadFromFile(const std::string& jsonPath);
     void play(const std::string& id, int loops = 0);
     void stopAll();
     void setVolume(int volume);

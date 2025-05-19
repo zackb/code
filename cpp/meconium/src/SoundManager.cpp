@@ -1,7 +1,9 @@
 #include "SoundManager.h"
 #include "FileUtils.h"
 
+#include "json.hpp"
 #include <SDL_mixer.h>
+#include <fstream>
 #include <iostream>
 
 SoundManager::SoundManager() {}
@@ -20,6 +22,30 @@ bool SoundManager::load(const std::string& id, const std::string& path) {
         return false;
     }
     soundMap[id] = chunk;
+    return true;
+}
+
+bool SoundManager::loadFromFile(const std::string& jsonPath) {
+    std::ifstream file(jsonPath);
+    if (!file.is_open())
+        return false;
+
+    nlohmann::json j;
+    file >> j;
+
+    for (auto it = j.begin(); it != j.end(); ++it) {
+        const std::string& id = it.key();
+        const std::string& path = it.value();
+
+        Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
+        if (!chunk) {
+            std::cerr << "Failed to load sound: " << path << ": " << Mix_GetError() << std::endl;
+            continue;
+        }
+
+        soundMap[id] = chunk;
+    }
+
     return true;
 }
 
