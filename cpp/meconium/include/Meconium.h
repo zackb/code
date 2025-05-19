@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ECS.h"
+#include "GameState.h"
 #include "GameTime.h"
 #include "Level.h"
 #include "MusicManager.h"
@@ -13,18 +14,16 @@
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
-class Meconium {
+class Meconium : public GameState {
 
 public:
     bool init();
-    bool running() const { return isRunning; };
-    void update();
-    void render();
-    void handleEvent();
+    void update() override;
+    void render() override;
+    void handleEvent(SDL_Event& event) override;
     void shutdown() const;
 
 private:
-    bool isRunning = false;
     std::shared_ptr<Level> level;
     std::shared_ptr<TileMap> tileMap;
     Enemies enemies;
