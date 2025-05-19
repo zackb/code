@@ -9,6 +9,7 @@
 #include "systems/EnemyAISystem.h"
 #include "systems/LifecycleSystem.h"
 #include "systems/ProjectileSystem.h"
+#include "systems/SoundSystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
 
@@ -28,12 +29,14 @@ private:
     std::shared_ptr<TileMap> tileMap;
     Enemies enemies;
     MusicManager musicManager;
+    SoundManager soundManager;
 
     // ecs
     std::shared_ptr<Entity> player;
     std::shared_ptr<Entities> entities;
     InputSystem inputSystem;
     MovementSystem movementSystem;
+    SoundSystem soundSystem;
     StateSystem stateSystem;
     SpawnerSystem spawnerSystem;
     LifecycleSystem lifecycleSystem;
