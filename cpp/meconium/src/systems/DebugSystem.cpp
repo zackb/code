@@ -5,6 +5,7 @@
 #include "components/Collider.h"
 #include "components/Debug.h"
 #include "components/InputControl.h"
+#include "components/Sprite.h"
 #include "components/TileMap.h"
 
 #include <iostream>
@@ -45,6 +46,19 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
 
         SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // red color
         SDL_RenderDrawRect(Context::renderer, &hitBox);
+
+        // Draw a rect around the player's sprite
+        auto sprite = entity->getComponent<Sprite>();
+        auto pos = entity->getComponent<Transform>();
+
+        if (sprite && pos) {
+            SDL_Rect box = {pos->x - camPos->x,
+                            pos->y - camPos->y,
+                            static_cast<int>(sprite->width * pos->scaleY),
+                            static_cast<int>(sprite->height * pos->scaleX)};
+            SDL_SetRenderDrawColor(Context::renderer, 0, 0, 255, 255); // blue color
+            SDL_RenderDrawRect(Context::renderer, &box);
+        }
     }
 
     // draw rects around each tile of the tilemap
