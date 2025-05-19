@@ -103,6 +103,8 @@ public:
         return enemies;
     }
 
+    std::string getBackgroundMusic() { return levelDef->backgroundMusic; }
+
 private:
     std::shared_ptr<LevelDefinition> levelDef;
 };

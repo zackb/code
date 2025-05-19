@@ -39,6 +39,7 @@ set(SOURCES
         src/main.cpp
         src/Meconium.cpp
         src/ResourceManager.cpp
+        src/MusicManager.cpp
         src/components/Animation.cpp
         src/systems/AnimationSystem.cpp
         src/systems/MovementSystem.cpp

@@ -95,6 +95,7 @@ struct EnemyDefinition {
 struct LevelDefinition {
     std::string tilemap;
     std::string tileset;
+    std::string backgroundMusic;
     BackgroundDefinition background;
     std::vector<EnemyDefinition> enemies;
 };
@@ -170,6 +171,10 @@ inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
 
 inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
     def.tilemap = j.at("tilemap").get<std::string>();
+    def.tileset = j.at("tileset").get<std::string>();
+    if (j.contains("backgroundMusic")) {
+        def.backgroundMusic = j.at("backgroundMusic").get<std::string>();
+    }
     def.tileset = j.at("tileset").get<std::string>();
     def.background = j.at("background").get<BackgroundDefinition>();
     def.enemies = j.value("enemies", std::vector<EnemyDefinition>{});

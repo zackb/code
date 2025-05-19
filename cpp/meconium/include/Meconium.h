@@ -3,6 +3,7 @@
 #include "ECS.h"
 #include "GameTime.h"
 #include "Level.h"
+#include "MusicManager.h"
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
 #include "systems/EnemyAISystem.h"
@@ -26,6 +27,7 @@ private:
     std::shared_ptr<Level> level;
     std::shared_ptr<TileMap> tileMap;
     Enemies enemies;
+    MusicManager musicManager;
 
     // ecs
     std::shared_ptr<Entity> player;

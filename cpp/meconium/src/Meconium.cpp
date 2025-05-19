@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <iostream>
 #include <memory>
 #include <ostream>
@@ -17,6 +18,8 @@ SDL_Renderer* Context::renderer;
 SDL_Window* Context::window;
 
 bool Meconium::init() {
+
+    // init sdl2
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL Init Error: " << SDL_GetError() << std::endl;
         return false;
@@ -45,6 +48,12 @@ bool Meconium::init() {
         return false;
     }
 
+    // init sdl2_mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cerr << "SDL_mixer could not initialize! SDL_mixer Error: %s" << Mix_GetError() << std::endl;
+    }
+
+    // hold window size in Context
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
     // load tileMap
@@ -113,6 +122,11 @@ bool Meconium::init() {
     debug->addComponent<Debug>();
     debug->addComponent<InputControl>();
     entities->add(debug);
+
+    if (!level->getBackgroundMusic().empty()) {
+        musicManager.load(level->getBackgroundMusic());
+        musicManager.play(-1);
+    }
 
     isRunning = true;
 
@@ -193,5 +207,7 @@ void Meconium::shutdown() const {
     SDL_DestroyRenderer(Context::renderer);
     SDL_DestroyWindow(Context::window);
     IMG_Quit();
+    Mix_CloseAudio();
+    Mix_Quit();
     SDL_Quit();
 }
