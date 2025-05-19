@@ -23,6 +23,9 @@ private:
     std::vector<std::string> options = {"Start Game", "Options", "Exit"};
     size_t index = 0;
 
+    SDL_Texture* logoTexture = nullptr;
+    SDL_Rect logoRect{};
+
     SDL_Color normalColor = {255, 255, 255, 255};
     SDL_Color selectedColor = {255, 255, 0, 255};
 
