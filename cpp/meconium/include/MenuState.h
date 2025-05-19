@@ -1,10 +1,13 @@
 #pragma once
+
 #include "GameState.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <vector>
 #include <string>
+#include <memory>
 
-class MenuState : public GameState {
+class MenuState final : public GameState {
 public:
     MenuState();
     ~MenuState() override;
@@ -15,10 +18,16 @@ public:
     std::unique_ptr<GameState> nextState() override;
 
 private:
-    TTF_Font* font;
-    SDL_Texture* textTexture;
-    SDL_Rect textRect;
+    TTF_Font* font = nullptr;
+
+    std::vector<std::string> options = {"Start Game", "Options", "Exit"};
+    size_t index = 0;
+
+    SDL_Color normalColor = {255, 255, 255, 255};
+    SDL_Color selectedColor = {255, 255, 0, 255};
+
     bool startGame = false;
+    bool quitGame = false;
 
     SDL_Texture* renderText(const std::string& message, SDL_Color color);
 };

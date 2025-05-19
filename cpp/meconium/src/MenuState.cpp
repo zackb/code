@@ -4,44 +4,70 @@
 #include "FileUtils.h"
 #include "Meconium.h"
 
+
 MenuState::MenuState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
     if (!font) {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
         return;
     }
-
-    constexpr SDL_Color white = {255, 255, 255, 255};
-    textTexture = renderText("Press Enter to Start", white);
-
-    if (textTexture) {
-        SDL_QueryTexture(textTexture, nullptr, nullptr, &textRect.w, &textRect.h);
-        textRect.x = (Context::windowSize.width - textRect.w) / 2;
-        textRect.y = (Context::windowSize.height - textRect.h) / 2;
-    }
 }
 
 MenuState::~MenuState() {
-    if (textTexture) SDL_DestroyTexture(textTexture);
     if (font) TTF_CloseFont(font);
 }
 
 void MenuState::handleEvent(SDL_Event& event) {
-    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-        startGame = true;
+    if (event.type == SDL_QUIT) {
+        quitGame = true;
+    }
+
+    if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+            case SDLK_UP:
+                index = (index - 1 + options.size()) % options.size();
+                break;
+            case SDLK_DOWN:
+                index = (index + 1) % options.size();
+                break;
+            case SDLK_RETURN:
+            case SDLK_SPACE:
+                if (options[index] == "Start Game") {
+                    startGame = true;
+                } else if (options[index] == "Exit") {
+                    quitGame = true;
+                } else {
+                    // Handle "Options"
+                }
+                break;
+            default:
+                std::cout << "Unknown Event: " << event.key.keysym.sym << std::endl;
+        }
     }
 }
 
 void MenuState::update() {
-    // No-op for now
+    // Add animation or somthing
 }
 
 void MenuState::render() {
-    SDL_SetRenderDrawColor(Context::renderer, 20, 20, 30, 255);
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer);
 
-    if (textTexture) {
-        SDL_RenderCopy(Context::renderer, textTexture, nullptr, &textRect);
+    int y = 300;
+    for (size_t i = 0; i < options.size(); ++i) {
+        SDL_Color color = (i == index) ? selectedColor : normalColor;
+        SDL_Texture* tex = renderText(options[i], color);
+
+        if (tex) {
+            int w, h;
+            SDL_QueryTexture(tex, nullptr, nullptr, &w, &h);
+            SDL_Rect dst = {Context::windowSize.width / 2 - w / 2, y, w, h};
+            SDL_RenderCopy(Context::renderer, tex, nullptr, &dst);
+            SDL_DestroyTexture(tex);
+        }
+
+        y += 60;
     }
 
     SDL_RenderPresent(Context::renderer);
@@ -68,6 +94,10 @@ std::unique_ptr<GameState> MenuState::nextState() {
             std::cerr << "Failed to initialize game state.\n";
         }
     }
+
+    if (quitGame) {
+        exit(0); // TODO: CLEAN
+    }
+
     return nullptr;
 }
-
