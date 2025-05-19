@@ -3,6 +3,7 @@
 #include <iostream>
 #include "FileUtils.h"
 #include "Meconium.h"
+#include <SDL_image.h>
 
 
 MenuState::MenuState() {
@@ -11,10 +12,30 @@ MenuState::MenuState() {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
         return;
     }
+
+    const std::string logoPath = resolveAssetPath("assets/images/logo.png");
+    SDL_Surface* logoSurface = IMG_Load(logoPath.c_str());
+    if (!logoSurface) {
+        std::cerr << "Failed to load logo: " << IMG_GetError() << std::endl;
+    } else {
+        logoTexture = SDL_CreateTextureFromSurface(Context::renderer, logoSurface);
+        SDL_FreeSurface(logoSurface);
+
+        if (logoTexture) {
+            SDL_QueryTexture(logoTexture, nullptr, nullptr, &logoRect.w, &logoRect.h);
+            // Scale it to 50%
+            float scale = 0.5f;
+            logoRect.w = static_cast<int>(logoRect.w * scale);
+            logoRect.h = static_cast<int>(logoRect.h * scale);
+            // Center horizontally, position near top
+            logoRect.x = (Context::windowSize.width - logoRect.w) / 2;
+        }
+    }
 }
 
 MenuState::~MenuState() {
     if (font) TTF_CloseFont(font);
+    if (logoTexture) SDL_DestroyTexture(logoTexture);
 }
 
 void MenuState::handleEvent(SDL_Event& event) {
@@ -54,7 +75,13 @@ void MenuState::render() {
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer);
 
-    int y = 300;
+    SDL_RenderClear(Context::renderer);
+
+    if (logoTexture) {
+        SDL_RenderCopy(Context::renderer, logoTexture, nullptr, &logoRect);
+    }
+
+    int y = logoRect.h;
     for (size_t i = 0; i < options.size(); ++i) {
         SDL_Color color = (i == index) ? selectedColor : normalColor;
         SDL_Texture* tex = renderText(options[i], color);
