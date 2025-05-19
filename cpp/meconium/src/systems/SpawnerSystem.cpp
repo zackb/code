@@ -2,6 +2,7 @@
 #include "assets/AssetLoader.h"
 #include "components/Attack.h"
 #include "components/EnemyAI.h"
+#include "components/Health.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
@@ -70,6 +71,7 @@ void SpawnerSystem::spawnEnemy(const std::shared_ptr<Entities>& entities,
         entity->addComponent<Collider>(0, 0, sprite->width, sprite->height);
     }
 
+    entity->addComponent<Health>(100);
     entity->addComponent<EnemyTag>();
     entities->add(entity);
 }
