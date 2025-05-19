@@ -34,7 +34,8 @@
             "attack": {
                 "type": "range",
                 "cooldownMs": 3000,
-                "sprite": "sprites/projectiles/arrow.json"
+                "sprite": "sprites/projectiles/arrow.json",
+                "sound": "arrow_attack"
             }
         }
     ]

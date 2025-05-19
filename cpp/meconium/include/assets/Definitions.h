@@ -78,6 +78,7 @@ struct AttackDefinition {
     std::string type;
     std::string sprite;
     int cooldownMs;
+    std::string sound;
 };
 
 struct EnemyDefinition {
@@ -136,6 +137,9 @@ inline void from_json(const nlohmann::json& j, AttackDefinition& def) {
     def.type = j.at("type").get<std::string>();
     def.cooldownMs = j.at("cooldownMs").get<int>();
     def.sprite = j.at("sprite").get<std::string>();
+    if (j.contains("sound")) {
+        def.sound = j.at("sound").get<std::string>();
+    }
 }
 
 inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {

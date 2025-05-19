@@ -8,6 +8,7 @@
 #include "Context.h"
 #include "Meconium.h"
 
+#include "FileUtils.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
@@ -55,6 +56,9 @@ bool Meconium::init() {
 
     // hold window size in Context
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
+
+    // initialize sound effects
+    soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
 
     // load tileMap
     level = std::make_shared<Level>("assets/maps/level1.json");
@@ -123,6 +127,7 @@ bool Meconium::init() {
     debug->addComponent<InputControl>();
     entities->add(debug);
 
+    // start background music
     if (!level->getBackgroundMusic().empty()) {
         musicManager.load(level->getBackgroundMusic());
         musicManager.play(-1);
