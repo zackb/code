@@ -1,13 +1,15 @@
 #pragma once
+
 #include "GameState.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <memory>
 
-class MenuState : public GameState {
+class GameOverState final : public GameState {
 public:
-    MenuState();
-    ~MenuState() override;
+    GameOverState();
+    ~GameOverState() override;
 
     void handleEvent(SDL_Event& event) override;
     void update() override;
@@ -18,7 +20,7 @@ private:
     TTF_Font* font;
     SDL_Texture* textTexture;
     SDL_Rect textRect;
-    bool startGame = false;
+    bool restart = false;
 
     SDL_Texture* renderText(const std::string& message, SDL_Color color);
 };

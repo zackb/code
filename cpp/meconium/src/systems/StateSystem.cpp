@@ -33,6 +33,10 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
             state->actionTimeMs += dt;
             if (state->actionTimeMs >= state->actionDurationMs) {
                 state->isActionLocked = false;
+                if (state->onUnlock) {
+                    state->onUnlock();
+                    state->onUnlock = nullptr; // clear it after use
+                }
             }
         } else if (input) {
             // not action locked so we can transition if needed

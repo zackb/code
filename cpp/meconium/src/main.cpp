@@ -1,7 +1,6 @@
 #include "Context.h"
 #include "Meconium.h"
 #include "MenuState.h"
-#include "StateManager.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -15,11 +14,9 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    StateManager stateManager;
+    // Start in MenuState
+    std::unique_ptr<GameState> state = std::make_unique<MenuState>();
 
-    // setup the menu start screen
-    auto menuState = std::make_unique<MenuState>();
-    stateManager.changeState(std::move(menuState));
 
     bool isRunning = true;
     SDL_Event event;
@@ -32,18 +29,16 @@ int main(int argc, char* argv[]) {
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) isRunning = false;
-            stateManager.handleEvent(event);
-        }
-        // If MenuState signals to start game
-        auto* menu = dynamic_cast<MenuState*>(stateManager.getCurrentState());
-        if (menu && menu->shouldStartGame()) {
-            auto gameState = std::make_unique<Meconium>(); // PlayState
-            gameState->init();
-            stateManager.changeState(std::move(gameState));
+            state->handleEvent(event);
         }
 
-        stateManager.update();
-        stateManager.render();
+        state->update();
+        state->render();
+
+        // Transition to the next state if needed
+        if (std::unique_ptr<GameState> next = state->nextState()) {
+            state = std::move(next);
+        }
 
         int frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) {

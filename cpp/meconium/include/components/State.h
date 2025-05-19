@@ -25,10 +25,13 @@ struct State final : Component {
 
     bool facingRight = true;
 
-    void lockAction(const Action action, const int duration) {
+    std::function<void()> onUnlock = nullptr;
+
+    void lockAction(const Action action, const int duration, std::function<void()> callback = nullptr) {
         isActionLocked = true;
         currentAction = action;
         actionDurationMs = duration;
         actionTimeMs = 0;
+        onUnlock = callback;
     }
 };

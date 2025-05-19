@@ -225,7 +225,8 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
             if (health && proj) {
                 health->hp -= proj->damage;
                 if (health->hp <= 0) {
-                    state->lockAction(Action::DYING, 5000); // TODO: handle death
+                    state->lockAction(Action::DYING, 5000);
+                    player.addComponent<Despawn>(5000);
                 }
             }
         }

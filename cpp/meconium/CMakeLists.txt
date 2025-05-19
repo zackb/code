@@ -59,6 +59,7 @@ set(SOURCES
         src/systems/SpawnerSystem.cpp
         src/systems/EnemyAISystem.cpp
         src/MenuState.cpp
+        src/GameOverState.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)

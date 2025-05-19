@@ -1,18 +1,19 @@
-#include "MenuState.h"
+#include "GameOverState.h"
 #include "Context.h"
+#include "MenuState.h"
 #include <iostream>
-#include "FileUtils.h"
-#include "Meconium.h"
 
-MenuState::MenuState() {
+#include "FileUtils.h"
+
+GameOverState::GameOverState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
     if (!font) {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
         return;
     }
 
-    constexpr SDL_Color white = {255, 255, 255, 255};
-    textTexture = renderText("Press Enter to Start", white);
+    SDL_Color red = {255, 0, 0, 255};
+    textTexture = renderText("You Died - Press Enter to Retry", red);
 
     if (textTexture) {
         SDL_QueryTexture(textTexture, nullptr, nullptr, &textRect.w, &textRect.h);
@@ -21,23 +22,23 @@ MenuState::MenuState() {
     }
 }
 
-MenuState::~MenuState() {
+GameOverState::~GameOverState() {
     if (textTexture) SDL_DestroyTexture(textTexture);
     if (font) TTF_CloseFont(font);
 }
 
-void MenuState::handleEvent(SDL_Event& event) {
+void GameOverState::handleEvent(SDL_Event& event) {
     if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-        startGame = true;
+        restart = true;
     }
 }
 
-void MenuState::update() {
-    // No-op for now
+void GameOverState::update() {
+    // Could animate or time fade-in, etc.
 }
 
-void MenuState::render() {
-    SDL_SetRenderDrawColor(Context::renderer, 20, 20, 30, 255);
+void GameOverState::render() {
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer);
 
     if (textTexture) {
@@ -47,7 +48,14 @@ void MenuState::render() {
     SDL_RenderPresent(Context::renderer);
 }
 
-SDL_Texture* MenuState::renderText(const std::string& message, SDL_Color color) {
+std::unique_ptr<GameState> GameOverState::nextState() {
+    if (restart) {
+        return std::make_unique<MenuState>();
+    }
+    return nullptr;
+}
+
+SDL_Texture* GameOverState::renderText(const std::string& message, SDL_Color color) {
     SDL_Surface* surface = TTF_RenderText_Blended(font, message.c_str(), color);
     if (!surface) {
         std::cerr << "TTF_RenderText failed: " << TTF_GetError() << std::endl;
@@ -58,16 +66,3 @@ SDL_Texture* MenuState::renderText(const std::string& message, SDL_Color color) 
     SDL_FreeSurface(surface);
     return texture;
 }
-
-std::unique_ptr<GameState> MenuState::nextState() {
-    if (startGame) {
-        auto game = std::make_unique<Meconium>();
-        if (game->init()) {
-            return game;
-        } else {
-            std::cerr << "Failed to initialize game state.\n";
-        }
-    }
-    return nullptr;
-}
-
