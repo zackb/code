@@ -47,6 +47,17 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
                 flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
 
             SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
+
+            //
+            // render enemy health bar
+            if (entity->hasComponent<EnemyTag>()) {
+                if (auto health = entity->getComponent<Health>(); health) {
+                    if (health->hp < health->max && health->hp > 0) {
+                        Rect dst = {dstRect.x, dstRect.y, sprite->width, sprite->height};
+                        drawHealthBar(dst, 6, health->hp, health->max);
+                    }
+                }
+            }
         }
     }
 
@@ -54,7 +65,7 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
     auto health = entities->findEntityWithComponent<PlayerTag>()->getComponent<Health>();
     if (health) {
         Rect dst = {20, 30, 200, 0};
-        drawHealthBar(dst, /*6*/ 15, health->hp, health->max);
+        drawHealthBar(dst, 15, health->hp, health->max);
     }
 }
 

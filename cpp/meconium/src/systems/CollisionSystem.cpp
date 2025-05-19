@@ -176,8 +176,14 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
         // check for attacks
         if (auto state = player.getComponent<State>()) {
             if (state->currentAction == Action::ATTACKING) {
-                enemy.getComponent<State>()->currentAction = Action::DYING;
-                enemy.addComponent<Despawn>(5000);
+                auto health = enemy.getComponent<Health>();
+                if (health) {
+                    health->hp -= 20; // TODO: define damage in prefab
+                    if (health->hp <= 0) {
+                        enemy.getComponent<State>()->currentAction = Action::DYING;
+                        enemy.addComponent<Despawn>(5000);
+                    }
+                }
             }
         }
 
