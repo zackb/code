@@ -1,7 +1,7 @@
 {
     "tilemap": "maps/level1.csv",
     "tileset": "tilesets/overworld1_tiles.json",
-
+    "backgroundMusic": "audio/music/time_for_adventure.mp3",
     "background": {
         "layers": [
             { "texture": "textures/background2/_11_background.png", "speed": 0.0 },
