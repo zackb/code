@@ -48,12 +48,13 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
 
             SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
 
-            //
             // render enemy health bar
             if (entity->hasComponent<EnemyTag>()) {
-                if (auto health = entity->getComponent<Health>(); health) {
+                auto health = entity->getComponent<Health>();
+                auto collider = entity->getComponent<Collider>();
+                if (health && collider) {
                     if (health->hp < health->max && health->hp > 0) {
-                        Rect dst = {dstRect.x, dstRect.y, sprite->width, sprite->height};
+                        Rect dst = {dstRect.x + collider->offsetX, dstRect.y, sprite->width, 0};
                         drawHealthBar(dst, 6, health->hp, health->max);
                     }
                 }
