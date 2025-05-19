@@ -1,6 +1,7 @@
 #include "ECS.h"
 #include "components/Attack.h"
 #include "components/Despawn.h"
+#include "components/Health.h"
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
 #include "components/State.h"
@@ -213,7 +214,13 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
     // did the projectile hit the player
     if (aabb(playerRect, projRect)) {
         if (auto state = player.getComponent<State>()) {
-            state->lockAction(Action::DYING, 5000); // TODO: handle death
+            auto health = player.getComponent<Health>();
+            if (health) {
+                health->hp -= 20;
+                if (health->hp <= 0) {
+                    state->lockAction(Action::DYING, 5000); // TODO: handle death
+                }
+            }
         }
         projectile.addComponent<Despawn>(0);
     }

@@ -2,6 +2,7 @@
 #include "Context.h"
 #include "ECS.h"
 #include "components/Background.h"
+#include "components/Health.h"
 
 void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     auto camera = entities->findEntityWithComponent<Camera>();
@@ -49,10 +50,12 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
         }
     }
 
-    // render health bar
-    Rect dst = {20, 20, 100, 100};
-
-    drawHealthBar(dst, 50, 100);
+    // render player health bar
+    auto health = entities->findEntityWithComponent<PlayerTag>()->getComponent<Health>();
+    if (health) {
+        Rect dst = {20, 30, 200, 0};
+        drawHealthBar(dst, /*6*/ 15, health->hp, health->max);
+    }
 }
 
 void RenderSystem::renderTileMap(const TileMap& tileMap, const Transform& camera) {
@@ -106,10 +109,9 @@ void RenderSystem::renderLayer(const Background& layer, const Transform& camera)
     }
 }
 
-void RenderSystem::drawHealthBar(const Rect& targetRect, int current, int max) const {
+void RenderSystem::drawHealthBar(const Rect& targetRect, int barHeight, int current, int max) const {
 
     const int barWidth = targetRect.width;
-    const int barHeight = 6;
     const int padding = 1;
 
     float ratio = std::max(0.0f, std::min(1.0f, static_cast<float>(current) / max));

@@ -12,6 +12,7 @@
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
+#include "components/Health.h"
 #include "components/State.h"
 
 Size Context::windowSize;
@@ -75,6 +76,9 @@ bool Meconium::init() {
 
     // Tag as player entity
     player->addComponent<PlayerTag>();
+
+    // Give player some health
+    player->addComponent<Health>(100);
 
     // Load sprite
     // Add Sprite
