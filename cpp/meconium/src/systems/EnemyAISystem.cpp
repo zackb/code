@@ -5,12 +5,12 @@
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
 #include "components/NoGravity.h"
+#include "components/SoundEffect.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
-#include <cstdlib>
 
 // gravity is applied in MovementSystem
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
@@ -165,5 +165,8 @@ std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
     Projectile p;
     p.lifetimeMs = sprite->lifetimeMs;
     projectile->addComponent<Projectile>(p);
+
+    // play arrow firing sound
+    shooter.addComponent<SoundEffect>("arrow", 0);
     return projectile;
 }
