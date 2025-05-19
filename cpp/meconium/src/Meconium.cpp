@@ -6,6 +6,7 @@
 #include "Meconium.h"
 
 #include "FileUtils.h"
+#include "GameOverState.h"
 #include "assets/AssetLoader.h"
 #include "components/Debug.h"
 #include "components/Health.h"
@@ -138,12 +139,9 @@ void Meconium::update() {
     // Entity lifecycle check
     lifecycleSystem.update(entities, deltaTime);
 
-    for (auto& e : *entities) {
-        if (e->hasComponent<EnemyTag>()) {
-            auto pos = e->getComponent<Transform>();
-            auto vel = e->getComponent<Velocity>();
-            auto st = e->getComponent<State>();
-        }
+    // Check for player death
+    if (!entities->findEntityWithComponent<PlayerTag>()) {
+        next = std::make_unique<GameOverState>();
     }
 }
 
@@ -163,4 +161,8 @@ void Meconium::render() {
 
 void Meconium::handleEvent(SDL_Event& event) {
     // TODO: do we need this?
+}
+
+std::unique_ptr<GameState> Meconium::nextState() {
+    return std::move(next); // Return ownership of next state if set
 }

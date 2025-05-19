@@ -63,10 +63,12 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
     }
 
     // render player health bar
-    auto health = entities->findEntityWithComponent<PlayerTag>()->getComponent<Health>();
-    if (health) {
-        Rect dst = {20, 30, 200, 0};
-        drawHealthBar(dst, 15, health->hp, health->max);
+    if (auto player = entities->findEntityWithComponent<PlayerTag>()) {
+        auto health = player->getComponent<Health>();
+        if (health) {
+            Rect dst = {20, 30, 200, 0};
+            drawHealthBar(dst, 15, health->hp, health->max);
+        }
     }
 }
 

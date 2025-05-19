@@ -21,7 +21,8 @@ public:
     void update() override;
     void render() override;
     void handleEvent(SDL_Event& event) override;
-    void shutdown() const;
+    std::unique_ptr<GameState> nextState() override;
+
 
 private:
     std::shared_ptr<Level> level;
@@ -29,6 +30,7 @@ private:
     Enemies enemies;
     MusicManager musicManager;
     SoundManager soundManager;
+    std::unique_ptr<GameState> next;
 
     // ecs
     std::shared_ptr<Entity> player;
