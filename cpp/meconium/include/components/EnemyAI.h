@@ -26,8 +26,4 @@ struct EnemyAI : public Component {
     Patrol patrol;
     int cooldownMs = 0;
     int timeSinceLastAttack = 999999; // can attack immediately
-
-    // schedule firing
-    int scheduledProjectileTime;
-    bool projectilePending = false;
 };

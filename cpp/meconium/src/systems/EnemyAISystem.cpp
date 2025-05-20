@@ -1,6 +1,7 @@
 #include "systems/EnemyAISystem.h"
 
 #include "components/Attack.h"
+#include "components/DelayedAction.h"
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
@@ -58,16 +59,6 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
 
         auto attack = entity->getComponent<Attack>();
 
-        // check for pending projectiles
-        if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
-            entities->queueAdd(EntityFactory::spawnProjectile(*entity, *attack));
-
-            // play attack sound
-            entity->addComponent<SoundEffect>(attack->sound, 0);
-
-            ai->projectilePending = false;
-        }
-
         // always wait the timer for determining if we should attack again
         ai->timeSinceLastAttack += dt;
 
@@ -80,8 +71,13 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
                     // we may attack
                     if (attack->type == AttackType::RANGE) {
                         // schedule a projectile to fire part way through the animation
-                        ai->scheduledProjectileTime = 500; // spawn projectile at 500ms into animation
-                        ai->projectilePending = true;
+                        const auto origin = entity;
+                        const auto attackCopy = *attack;
+                        entity->addComponent<DelayedAction>(500, // TODO: same here
+                        [=]() {
+                            entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
+                            entity->addComponent<SoundEffect>(attack->sound, 0);
+                        });
                     }
 
                     ai->timeSinceLastAttack = 0;
