@@ -78,10 +78,12 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
             if (attack && !playerIsDead && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
                 if (ai->timeSinceLastAttack >= attack->cooldownMs) {
-                    // schedule a projectile to fire part way through the animation
-
-                    ai->scheduledProjectileTime = 500; // spawn projectile at 500ms into animation
-                    ai->projectilePending = true;
+                    // we may attack
+                    if (attack->type == AttackType::RANGE) {
+                        // schedule a projectile to fire part way through the animation
+                        ai->scheduledProjectileTime = 500; // spawn projectile at 500ms into animation
+                        ai->projectilePending = true;
+                    }
 
                     ai->timeSinceLastAttack = 0;
                     // Lock action for the attack animation duration
