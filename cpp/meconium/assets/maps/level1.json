@@ -37,7 +37,7 @@
                 "range": 500,
                 "damage": 20,
                 "sprite": "sprites/projectiles/arrow.json",
-                "sound": "arrow_attack"
+                "sound": "arrow"
             }
         }
     ]
