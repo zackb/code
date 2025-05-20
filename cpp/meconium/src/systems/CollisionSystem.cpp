@@ -175,10 +175,12 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
 
         // check for attacks
         if (auto state = player.getComponent<State>()) {
+            // player is currently attacking
             if (state->currentAction == Action::ATTACKING) {
-                auto health = enemy.getComponent<Health>();
-                if (health) {
+                // player has health
+                if (const auto health = enemy.getComponent<Health>()) {
                     health->hp -= 20; // TODO: define damage in prefab
+                    // player should be despawned for dying
                     if (health->hp <= 0) {
                         enemy.getComponent<State>()->currentAction = Action::DYING;
                         enemy.addComponent<Despawn>(5000);
@@ -208,6 +210,15 @@ void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy
 }
 
 void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& projectile) {
+    auto proj = projectile.getComponent<Projectile>();
+    if (!proj)
+        return;
+
+    // player cant shoot themselves
+    if (proj->ownerId == player.id) {
+        return;
+    }
+
     auto playerPos = player.getComponent<Transform>();
     auto projPos = projectile.getComponent<Transform>();
 
@@ -221,7 +232,6 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
     if (aabb(playerRect, projRect)) {
         if (auto state = player.getComponent<State>()) {
             auto health = player.getComponent<Health>();
-            auto proj = projectile.getComponent<Projectile>();
             if (health && proj) {
                 health->hp -= proj->damage;
                 if (health->hp <= 0) {
