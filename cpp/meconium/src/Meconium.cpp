@@ -135,6 +135,9 @@ void Meconium::update() {
     // Update projectile status
     projectileSystem.update(entities, deltaTime);
 
+    // Handle delayed actions
+    delayedActionSystem.update(*entities, deltaTime);
+
     // Update camera after movement and collision
     cameraSystem.update(entities, *tileMap);
 

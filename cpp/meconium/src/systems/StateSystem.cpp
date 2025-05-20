@@ -1,6 +1,7 @@
 #include "systems/StateSystem.h"
 
 #include "components/Attack.h"
+#include "components/DelayedAction.h"
 #include "components/InputControl.h"
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
@@ -45,13 +46,23 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
             // not action locked so we can transition if needed
             if (input->isDown(InputKey::ATTACK)) {
                 if (auto attack = entity->getComponent<Attack>()) {
-                    // TODO: sword animation duration
-                    state->lockAction(Action::ATTACKING, 600);
-                    entity->addComponent<SoundEffect>(attack->sound, 0);
+
+                    // TODO: need to get this from the attack and animation
+                    int duration = attack->type == AttackType::MELEE ? 600 : 1000;
+                    state->lockAction(Action::ATTACKING, duration);
 
                     // check if we should fire a projectile
                     if (attack->type == AttackType::RANGE) {
-                        entities->queueAdd(EntityFactory::spawnProjectile(*entity, *attack));
+                        // defer firing the projectile untile we're halfway through the animation
+                        const auto origin = entity;
+                        const auto attackCopy = *attack;
+                        entity->addComponent<DelayedAction>(duration / 2, // TODO: same here
+                        [=]() {
+                            entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
+                            entity->addComponent<SoundEffect>(attack->sound, 0);
+                        });
+                    } else { // melee
+                        entity->addComponent<SoundEffect>(attack->sound, 0);
                     }
                 }
             } else if (!transform->onGround) {
