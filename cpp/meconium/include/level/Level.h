@@ -2,19 +2,13 @@
 
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
-#include "assets/Definitions.h"
 #include "components/Animation.h"
 #include "components/Background.h"
 #include "components/Sprite.h"
 #include "components/TileMap.h"
+#include "level/Enemy.h"
 
 enum class Facing { LEFT, RIGHT };
-
-struct Enemy {
-    EnemyDefinition def;
-    std::shared_ptr<SpriteSheetDefinition> spriteSheet;
-    bool hasSpawned = false;
-};
 
 using Enemies = std::vector<std::shared_ptr<Enemy>>;
 

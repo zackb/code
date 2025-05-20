@@ -94,6 +94,12 @@ struct EnemyDefinition {
     std::optional<AttackDefinition> attack;
 };
 
+// Player
+struct PlayerDefinition {
+    std::string sprite;
+    AttackDefinition attack;
+};
+
 // Level
 struct LevelDefinition {
     std::string tilemap;
@@ -102,6 +108,7 @@ struct LevelDefinition {
     BackgroundDefinition background;
     std::vector<EnemyDefinition> enemies;
 };
+
 
 inline TileType tileTypeFromString(const std::string& str) {
     if (str == "solid")
@@ -139,8 +146,12 @@ inline void from_json(const nlohmann::json& j, AttackDefinition& def) {
     def.type = j.at("type").get<std::string>();
     def.cooldownMs = j.at("cooldownMs").get<int>();
     def.damage = j.at("damage").get<int>();
-    def.range = j.at("range").get<int>();
-    def.sprite = j.at("sprite").get<std::string>();
+    if (j.contains("range")) {
+        def.range = j.at("range").get<int>();
+    }
+    if (j.contains("sprite")) {
+        def.sprite = j.at("sprite").get<std::string>();
+    }
     if (j.contains("sound")) {
         def.sound = j.at("sound").get<std::string>();
     }
@@ -247,4 +258,9 @@ inline void from_json(const nlohmann::json& j, MapDefinition& def) {
     def.tilemapCSV = j.at("tilemapCSV").get<std::string>();
     def.background = j.at("background").get<std::string>();
     def.backgroundLayers = j.at("backgroundLayers").get<int>();
+}
+
+inline void from_json(const nlohmann::json j, PlayerDefinition& def) {
+    def.sprite = j.at("sprite").get<std::string>();
+    def.attack = j.at("attack").get<AttackDefinition>();
 }
