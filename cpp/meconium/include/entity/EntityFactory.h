@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
-#include "level/Level.h"
 #include "components/Attack.h"
+#include "level/Level.h"
 
 #include <memory>
 
@@ -11,4 +11,6 @@ public:
 
     static std::shared_ptr<Entity>
         spawnProjectile(const std::shared_ptr<Level>& level, Entity& shooter, const Attack& attack);
+
+    static std::shared_ptr<Attack> createAttack(const AttackDefinition& def);
 };

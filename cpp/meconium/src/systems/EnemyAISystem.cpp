@@ -3,6 +3,7 @@
 #include "components/Attack.h"
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
+#include "components/SoundEffect.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
@@ -61,6 +62,10 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
         // check for pending projectiles
         if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
             entities->queueAdd(EntityFactory::spawnProjectile(level, *entity, *attack));
+
+            // play attack sound
+            entity->addComponent<SoundEffect>(attack->sound, 0);
+
             ai->projectilePending = false;
         }
 

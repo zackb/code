@@ -4,7 +4,7 @@
 #include "components/Component.h"
 #include <memory>
 
-struct Attack : Component {
+struct Attack final : Component {
     std::shared_ptr<SpriteSheetDefinition> sprite;
     int cooldownMs;
     int damage;
@@ -12,11 +12,11 @@ struct Attack : Component {
     std::string sound;
 };
 
-struct Projectile : Component {
+struct Projectile final : Component {
     int lifetimeMs;
     int damage;
     int ageMs = 0;
 
-    Projectile(int lifetimeMs) : lifetimeMs(lifetimeMs) {}
-    Projectile(int lifetimeMs, int damage) : lifetimeMs(lifetimeMs), damage(damage) {}
+    Projectile(const int lifetimeMs) : lifetimeMs(lifetimeMs) {}
+    Projectile(const int lifetimeMs, const int damage) : lifetimeMs(lifetimeMs), damage(damage) {}
 };

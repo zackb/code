@@ -30,14 +30,7 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
     entity->addComponent<State>();
     entity->addComponent<EnemyAI>(ai);
 
-    Attack attack;
-    attack.cooldownMs = enemy->def.attack->cooldownMs;
-    attack.sprite = AssetLoader::loadSpriteSheet(enemy->def.attack->sprite);
-    attack.attackRange = enemy->def.attack->range;
-    attack.sound = enemy->def.attack->sound;
-    attack.damage = enemy->def.attack->damage;
-
-    entity->addComponent<Attack>(attack);
+    entity->addComponent<Attack>(createAttack(*enemy->def.attack));
 
     entity->addComponent<Transform>(enemy->def.x, enemy->def.y, sheet->scale);
     entity->getComponent<Transform>()->onGround = false;
@@ -53,6 +46,7 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
     entity->addComponent<EnemyTag>();
     return entity;
 }
+
 std::shared_ptr<Entity> EntityFactory::spawnProjectile(const std::shared_ptr<Level>& level,
                                                        Entity& shooter,
                                                        const Attack& attack) {
@@ -76,9 +70,17 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(const std::shared_ptr<Lev
     projectile->addComponent<Sprite>(sprite);
     projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
     projectile->addComponent<Projectile>(sprite->lifetimeMs, attack.damage);
-
-    // play arrow firing sound
-    shooter.addComponent<SoundEffect>(attack.sound, 0);
     return projectile;
 }
 
+std::shared_ptr<Attack> EntityFactory::createAttack(const AttackDefinition& def) {
+    auto attack = std::make_shared<Attack>();
+    attack->cooldownMs = def.cooldownMs;
+    if (!def.sprite.empty()) {
+        attack->sprite = AssetLoader::loadSpriteSheet(def.sprite);
+    }
+    attack->attackRange = def.range;
+    attack->sound = def.sound;
+    attack->damage = def.damage;
+    return attack;
+}
