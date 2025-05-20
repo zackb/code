@@ -18,10 +18,11 @@ struct Attack final : Component {
 };
 
 struct Projectile final : Component {
+    int ownerId;
     int lifetimeMs;
     int damage;
     int ageMs = 0;
 
-    Projectile(const int lifetimeMs) : lifetimeMs(lifetimeMs) {}
-    Projectile(const int lifetimeMs, const int damage) : lifetimeMs(lifetimeMs), damage(damage) {}
+    Projectile(const int ownerId, const int lifetimeMs) : ownerId(ownerId), lifetimeMs(lifetimeMs) {}
+    Projectile(const int ownerId, const int lifetimeMs, const int damage) : ownerId(ownerId), lifetimeMs(lifetimeMs), damage(damage) {}
 };

@@ -46,10 +46,16 @@ void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
         if (input && !dying) {
             if (input->isDown(InputKey::MOVE_LEFT)) {
                 velocity->vx = -5;
+                if (auto state = entity->getComponent<State>(); state) {
+                    state->facingRight = false;
+                }
                 if (sprite)
                     sprite->flipX = true;
             } else if (input->isDown(InputKey::MOVE_RIGHT)) {
                 velocity->vx = 5;
+                if (auto state = entity->getComponent<State>(); state) {
+                    state->facingRight = true;
+                }
                 if (sprite)
                     sprite->flipX = false;
             } else {

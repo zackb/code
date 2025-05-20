@@ -1,0 +1,11 @@
+{
+    "sprite": "sprites/enemies/archer.json",
+    "attack": {
+        "type": "range",
+        "cooldownMs": 3000,
+        "range": 500,
+        "damage": 20,
+        "sprite": "sprites/projectiles/arrow.json",
+        "sound": "arrow"
+    }
+}
