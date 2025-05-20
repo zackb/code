@@ -1,0 +1,9 @@
+{
+  "sprite": "sprites/player.json",
+  "attack": {
+    "type": "melee",
+    "cooldownMs": 10,
+    "damage": 25,
+    "sound": "sword"
+  }
+}

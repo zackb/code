@@ -39,14 +39,15 @@ bool Meconium::init() {
     // Give player some health
     player->addComponent<Health>(100);
 
-    // Load sprite
+    // Load player definition
+    auto playerDef = AssetLoader::loadPlayer("assets/players/blue.json");
+    auto sprite = level->createSprite(*playerDef->spriteDef);
+
     // Add Sprite
-    auto spriteDef = AssetLoader::loadSpriteSheet("assets/sprites/player.json");
-    auto sprite = level->createSprite(*spriteDef);
     player->addComponent<Sprite>(sprite);
 
     // Add animation component
-    auto animComponent = level->createAnimation(*spriteDef);
+    auto animComponent = level->createAnimation(*playerDef->spriteDef);
     player->addComponent<AnimationComponent>(animComponent);
 
     // Add velocity
@@ -56,15 +57,15 @@ bool Meconium::init() {
     player->addComponent<InputControl>();
 
     // Add Collision box
-    if (spriteDef->collider.has_value()) {
-        auto rect = spriteDef->collider.value();
+    if (playerDef->spriteDef->collider.has_value()) {
+        auto rect = playerDef->spriteDef->collider.value();
         player->addComponent<Collider>(rect.x, rect.y, rect.width, rect.height);
     } else {
         player->addComponent<Collider>(0, 0, sprite->width, sprite->height);
     }
 
     // Add Transform
-    player->addComponent<Transform>(0, 0, spriteDef->scale);
+    player->addComponent<Transform>(0, 0, playerDef->spriteDef->scale);
 
     // Add State
     player->addComponent<State>();

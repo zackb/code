@@ -1,6 +1,7 @@
 #pragma once
 #include "Definitions.h"
 #include "FileUtils.h"
+#include "level/Player.h"
 #include "json.hpp"
 
 #include <fstream>
@@ -10,6 +11,12 @@
 class AssetLoader {
 public:
     static std::vector<std::vector<int>> loadMapCSV(std::string filePath);
+
+    static std::shared_ptr<Player> loadPlayer(std::string filePath) {
+        auto player = loadJson<PlayerDefinition>(filePath);
+        auto spriteDef = loadSpriteSheet(player->sprite);
+        return std::make_shared<Player>(*player, spriteDef, player->attack);
+    }
 
     static std::shared_ptr<SpriteSheetDefinition> loadSpriteSheet(std::string filePath) {
         return loadJson<SpriteSheetDefinition>(filePath);
