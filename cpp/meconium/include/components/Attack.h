@@ -4,7 +4,12 @@
 #include "components/Component.h"
 #include <memory>
 
+enum class AttackType {
+    MELEE, RANGE
+};
+
 struct Attack final : Component {
+    AttackType type;
     std::shared_ptr<SpriteSheetDefinition> sprite;
     int cooldownMs;
     int damage;

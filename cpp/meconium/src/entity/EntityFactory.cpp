@@ -59,6 +59,7 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(const std::shared_ptr<Lev
 
     Velocity vel(direction * sprite->speed, 0.0f);
 
+    // sprites always face right, check if we need to flip
     if (vel.vx < 0) {
         sprite->flipX = true;
     }
@@ -75,10 +76,11 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(const std::shared_ptr<Lev
 
 std::shared_ptr<Attack> EntityFactory::createAttack(const AttackDefinition& def) {
     auto attack = std::make_shared<Attack>();
-    attack->cooldownMs = def.cooldownMs;
     if (!def.sprite.empty()) {
         attack->sprite = AssetLoader::loadSpriteSheet(def.sprite);
     }
+    attack->type = def.type == "range" ? AttackType::RANGE : AttackType::MELEE;
+    attack->cooldownMs = def.cooldownMs;
     attack->attackRange = def.range;
     attack->sound = def.sound;
     attack->damage = def.damage;
