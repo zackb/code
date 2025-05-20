@@ -48,6 +48,21 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
             transform->onGround = false;
         }
     }
+
+    // check for enemy vs player projectile collisions
+    // get all projectiles
+    auto projectiles = entities->findByComponents<Projectile>();
+    for (auto projectile : projectiles) {
+        auto proj = projectile->getComponent<Projectile>();
+        // we already resolved enemy projectiles on the player deal with the player's
+        if (proj->ownerId == player->id) {
+            auto enemies = entities->findByComponents<EnemyTag>();
+            for (auto enemy : enemies) {
+                resolvePlayerProjectileCollisions(*enemy, *projectile);
+            }
+        }
+    }
+
 }
 
 void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
