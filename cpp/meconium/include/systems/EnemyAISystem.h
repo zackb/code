@@ -11,8 +11,4 @@ public:
 
 private:
     bool seesTarget(Transform& playerPos, Transform& enemyPos, Attack& attack, bool facingRight) const;
-    std::shared_ptr<Entity> spawnProjectile(Entities& entities,
-                                            const std::shared_ptr<Level>& level,
-                                            Entity& shooter,
-                                            const Attack& attack) const;
 };

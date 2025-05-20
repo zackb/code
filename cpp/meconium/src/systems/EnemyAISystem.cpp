@@ -1,16 +1,14 @@
 #include "systems/EnemyAISystem.h"
 
 #include "components/Attack.h"
-#include "components/Collider.h"
 #include "components/EnemyAI.h"
 #include "components/Knockback.h"
-#include "components/NoGravity.h"
-#include "components/SoundEffect.h"
 #include "components/Sprite.h"
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
+#include "entity/EntityFactory.h"
 
 // gravity is applied in MovementSystem
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
@@ -62,7 +60,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
 
         // check for pending projectiles
         if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
-            entities->queueAdd(spawnProjectile(*entities, level, *entity, *attack));
+            entities->queueAdd(EntityFactory::spawnProjectile(level, *entity, *attack));
             ai->projectilePending = false;
         }
 
@@ -137,34 +135,4 @@ bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack
     bool inFront = (facingRight && playerPos.x > enemyPos.x) || (!facingRight && playerPos.x < enemyPos.x);
 
     return inRange && onSameY && inFront;
-}
-
-std::shared_ptr<Entity> EnemyAISystem::spawnProjectile(Entities& entities,
-                                                       const std::shared_ptr<Level>& level,
-                                                       Entity& shooter,
-                                                       const Attack& attack) const {
-    auto sprite = level->createSprite(*attack.sprite);
-    auto projectile = std::make_shared<Entity>();
-    // Set initial position near shooter
-    auto shooterPos = shooter.getComponent<Transform>();
-    auto shooterSprite = shooter.getComponent<Sprite>();
-    float direction = shooter.getComponent<State>()->facingRight ? 1.0f : -1.0f;
-
-    Velocity vel(direction * sprite->speed, 0.0f);
-
-    if (vel.vx < 0) {
-        sprite->flipX = true;
-    }
-
-    projectile->addComponent<Transform>(
-        shooterPos->x, shooterPos->y + shooterSprite->height / 2 + sprite->height, attack.sprite->scale);
-    projectile->addComponent<Velocity>(vel);
-    projectile->addComponent<NoGravity>();
-    projectile->addComponent<Sprite>(sprite);
-    projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
-    projectile->addComponent<Projectile>(sprite->lifetimeMs, attack.damage);
-
-    // play arrow firing sound
-    shooter.addComponent<SoundEffect>("arrow", 0);
-    return projectile;
 }

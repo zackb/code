@@ -9,6 +9,7 @@ struct Attack : Component {
     int cooldownMs;
     int damage;
     int attackRange;
+    std::string sound;
 };
 
 struct Projectile : Component {
