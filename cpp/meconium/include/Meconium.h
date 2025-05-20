@@ -7,6 +7,7 @@
 #include "MusicManager.h"
 #include "components/TileMap.h"
 #include "systems/DebugSystem.h"
+#include "systems/DelayedActionSystem.h"
 #include "systems/EnemyAISystem.h"
 #include "systems/LifecycleSystem.h"
 #include "systems/ProjectileSystem.h"
@@ -42,6 +43,7 @@ private:
     SpawnerSystem spawnerSystem;
     LifecycleSystem lifecycleSystem;
     ProjectileSystem projectileSystem;
+    DelayedActionSystem delayedActionSystem;
     EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;

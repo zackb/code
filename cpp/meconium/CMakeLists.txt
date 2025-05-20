@@ -61,6 +61,7 @@ set(SOURCES
         src/MenuState.cpp
         src/GameOverState.cpp
         src/entity/EntityFactory.cpp
+        src/systems/DelayedActionSystem.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)
