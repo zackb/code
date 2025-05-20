@@ -11,6 +11,7 @@
 #include "components/Debug.h"
 #include "components/Health.h"
 #include "components/State.h"
+#include "entity/EntityFactory.h"
 
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
@@ -49,6 +50,9 @@ bool Meconium::init() {
     // Add animation component
     auto animComponent = level->createAnimation(*playerDef->spriteDef);
     player->addComponent<AnimationComponent>(animComponent);
+
+    // Add attack
+    player->addComponent<Attack>(EntityFactory::createAttack(playerDef->attack));
 
     // Add velocity
     player->addComponent<Velocity>(0, 0);
