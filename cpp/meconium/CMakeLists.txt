@@ -60,6 +60,7 @@ set(SOURCES
         src/systems/EnemyAISystem.cpp
         src/MenuState.cpp
         src/GameOverState.cpp
+        src/entity/EntityFactory.cpp
 )
 
 # Define the executable target (use lowercase for the binary name)
@@ -105,14 +106,14 @@ if (APPLE)
     )
 
     # Set the third-party frameworks and libraries to be bundled
-    set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
-    set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
-    set(MY_SDL2_MIXER_LIB_DIR "/usr/local/opt/sdl2_mixer/lib")
-    set(MY_SDL2_TTF_LIB_DIR "/usr/local/opt/sdl2_ttf/lib")
-    #set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
-    #set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
-    #set(MY_SDL2_MIXER_LIB_DIR "/opt/homebrew/opt/sdl2_mixer/lib")
-    # set(MY_SDL2_TTF_LIB_DIR "/opt/homebrew/opt/sdl2_ttf/lib")
+    #set(MY_SDL2_LIB_DIR "/usr/local/opt/sdl2/lib")
+    #set(MY_SDL2_IMAGE_LIB_DIR "/usr/local/opt/sdl2_image/lib")
+    #set(MY_SDL2_MIXER_LIB_DIR "/usr/local/opt/sdl2_mixer/lib")
+    #set(MY_SDL2_TTF_LIB_DIR "/usr/local/opt/sdl2_ttf/lib")
+    set(MY_SDL2_LIB_DIR "/opt/homebrew/opt/sdl2/lib")
+    set(MY_SDL2_IMAGE_LIB_DIR "/opt/homebrew/opt/sdl2_image/lib")
+    set(MY_SDL2_MIXER_LIB_DIR "/opt/homebrew/opt/sdl2_mixer/lib")
+    set(MY_SDL2_TTF_LIB_DIR "/opt/homebrew/opt/sdl2_ttf/lib")
     set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
 
     # Create a "Frameworks" directory in the bundle
