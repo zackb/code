@@ -14,7 +14,7 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
                                const std::shared_ptr<Level>& level) {
     auto entity = std::make_shared<Entity>();
     auto sheet = enemy->spriteSheet;
-    auto sprite = level->createSprite(*sheet);
+    auto sprite = createSprite(*sheet);
     auto animation = level->createAnimation(*sheet);
 
     EnemyAI ai;
@@ -47,10 +47,9 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
     return entity;
 }
 
-std::shared_ptr<Entity> EntityFactory::spawnProjectile(const std::shared_ptr<Level>& level,
-                                                       Entity& shooter,
+std::shared_ptr<Entity> EntityFactory::spawnProjectile(Entity& shooter,
                                                        const Attack& attack) {
-    auto sprite = level->createSprite(*attack.sprite);
+    auto sprite = createSprite(*attack.sprite);
     auto projectile = std::make_shared<Entity>();
     // Set initial position near shooter
     auto shooterPos = shooter.getComponent<Transform>();
@@ -86,3 +85,18 @@ std::shared_ptr<Attack> EntityFactory::createAttack(const AttackDefinition& def)
     attack->damage = def.damage;
     return attack;
 }
+
+std::shared_ptr<Sprite> EntityFactory::createSprite(const std::string& playerPath) {
+    return createSprite(*AssetLoader::loadSpriteSheet(playerPath));
+}
+
+std::shared_ptr<Sprite> EntityFactory::createSprite(const SpriteSheetDefinition& spriteDef) {
+    Sprite sprite;
+    sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef.texture);
+    sprite.height = spriteDef.tileHeight;
+    sprite.width = spriteDef.tileWidth;
+    sprite.speed = spriteDef.speed;
+    sprite.lifetimeMs = spriteDef.lifetimeMs;
+    return std::make_shared<Sprite>(sprite);
+}
+

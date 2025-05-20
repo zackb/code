@@ -4,7 +4,6 @@
 #include "assets/AssetLoader.h"
 #include "components/Animation.h"
 #include "components/Background.h"
-#include "components/Sprite.h"
 #include "components/TileMap.h"
 #include "level/Enemy.h"
 
@@ -16,22 +15,7 @@ class Level {
 public:
     explicit Level(const std::string& filePath) { levelDef = AssetLoader::loadLevel(filePath); }
 
-    // TODO: move to impl file
-    std::shared_ptr<Sprite> createSprite(const std::string& playerPath) const {
-        auto sheet = AssetLoader::loadSpriteSheet(playerPath);
-        return createSprite(*sheet);
-    }
-
-    std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef) const {
-        Sprite sprite;
-        sprite.texture = ResourceManager::loadTexture("assets/" + spriteDef.texture);
-        sprite.height = spriteDef.tileHeight;
-        sprite.width = spriteDef.tileWidth;
-        sprite.speed = spriteDef.speed;
-        sprite.lifetimeMs = spriteDef.lifetimeMs;
-        return std::make_shared<Sprite>(sprite);
-    }
-
+    // TODO: move to EntityFactory
     // build the TileMap component
     std::shared_ptr<TileMap> createTileMap() const {
         auto tileSetDef = AssetLoader::loadTileSet(levelDef->tileset);
@@ -97,7 +81,7 @@ public:
         return enemies;
     }
 
-    std::string getBackgroundMusic() { return levelDef->backgroundMusic; }
+    std::string getBackgroundMusic() const { return levelDef->backgroundMusic; }
 
 private:
     std::shared_ptr<LevelDefinition> levelDef;

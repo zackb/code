@@ -13,7 +13,6 @@
 
 // gravity is applied in MovementSystem
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
-                           const std::shared_ptr<Level>& level,
                            const int dt) const {
 
     for (const auto& entity : *entities) {
@@ -61,7 +60,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
 
         // check for pending projectiles
         if (attack && ai->projectilePending && state->actionTimeMs >= ai->scheduledProjectileTime) {
-            entities->queueAdd(EntityFactory::spawnProjectile(level, *entity, *attack));
+            entities->queueAdd(EntityFactory::spawnProjectile(*entity, *attack));
 
             // play attack sound
             entity->addComponent<SoundEffect>(attack->sound, 0);

@@ -42,7 +42,7 @@ bool Meconium::init() {
 
     // Load player definition
     auto playerDef = AssetLoader::loadPlayer("assets/players/blue.json");
-    auto sprite = level->createSprite(*playerDef->spriteDef);
+    auto sprite = EntityFactory::createSprite(*playerDef->spriteDef);
 
     // Add Sprite
     player->addComponent<Sprite>(sprite);
@@ -121,7 +121,7 @@ void Meconium::update() {
     soundSystem.update(entities, soundManager);
 
     // Handle enemy AI
-    enemyAISystem.update(entities, level, deltaTime);
+    enemyAISystem.update(entities, deltaTime);
 
     // Transition state
     stateSystem.update(entities, deltaTime);
