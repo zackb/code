@@ -4,9 +4,7 @@
 #include "components/Component.h"
 #include <memory>
 
-enum class AttackType {
-    MELEE, RANGE
-};
+enum class AttackType { MELEE, RANGE };
 
 struct Attack final : Component {
     AttackType type;
@@ -24,5 +22,6 @@ struct Projectile final : Component {
     int ageMs = 0;
 
     Projectile(const int ownerId, const int lifetimeMs) : ownerId(ownerId), lifetimeMs(lifetimeMs) {}
-    Projectile(const int ownerId, const int lifetimeMs, const int damage) : ownerId(ownerId), lifetimeMs(lifetimeMs), damage(damage) {}
+    Projectile(const int ownerId, const int lifetimeMs, const int damage)
+        : ownerId(ownerId), lifetimeMs(lifetimeMs), damage(damage) {}
 };

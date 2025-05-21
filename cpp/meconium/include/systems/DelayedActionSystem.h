@@ -3,5 +3,5 @@
 
 class DelayedActionSystem {
 public:
-    void update(Entities &entities, int dt);
+    void update(Entities& entities, int dt);
 };

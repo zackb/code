@@ -1,8 +1,8 @@
 #pragma once
 #include "Definitions.h"
 #include "FileUtils.h"
-#include "level/Player.h"
 #include "json.hpp"
+#include "level/Player.h"
 
 #include <fstream>
 #include <iostream>

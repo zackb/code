@@ -2,7 +2,7 @@
 
 #include "components/DelayedAction.h"
 
-void DelayedActionSystem::update(Entities &entities, const int dt) {
+void DelayedActionSystem::update(Entities& entities, const int dt) {
     std::vector<ActionFn> actionQueue;
     for (auto& entity : entities) {
         if (auto delayedAction = entity->getComponent<DelayedAction>()) {

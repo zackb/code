@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
     // Start in MenuState
     std::unique_ptr<GameState> state = std::make_unique<MenuState>();
 
-
     bool isRunning = true;
     SDL_Event event;
 
@@ -28,7 +27,8 @@ int main(int argc, char* argv[]) {
         const Uint32 frameStart = SDL_GetTicks();
 
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) isRunning = false;
+            if (event.type == SDL_QUIT)
+                isRunning = false;
             state->handleEvent(event);
         }
 

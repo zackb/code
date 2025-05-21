@@ -3,9 +3,9 @@
 #include "GameState.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 class MenuState final : public GameState {
 public:

@@ -62,7 +62,6 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
             }
         }
     }
-
 }
 
 void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,

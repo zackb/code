@@ -3,9 +3,9 @@
 #include "ECS.h"
 #include "GameState.h"
 #include "GameTime.h"
-#include "level/Level.h"
 #include "MusicManager.h"
 #include "components/TileMap.h"
+#include "level/Level.h"
 #include "systems/DebugSystem.h"
 #include "systems/DelayedActionSystem.h"
 #include "systems/EnemyAISystem.h"
@@ -23,7 +23,6 @@ public:
     void render() override;
     void handleEvent(SDL_Event& event) override;
     std::unique_ptr<GameState> nextState() override;
-
 
 private:
     std::shared_ptr<Level> level;

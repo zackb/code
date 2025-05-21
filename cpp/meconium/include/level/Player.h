@@ -10,4 +10,3 @@ struct Player {
     Player(const PlayerDefinition& d, const std::shared_ptr<SpriteSheetDefinition>& s, const AttackDefinition& a)
         : def(d), spriteDef(s), attack(a) {}
 };
-
