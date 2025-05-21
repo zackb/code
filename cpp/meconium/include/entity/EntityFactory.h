@@ -1,14 +1,16 @@
 #pragma once
+
 #include "Entity.h"
+#include "components/Animation.h"
 #include "components/Attack.h"
 #include "components/Sprite.h"
-#include "level/Level.h"
-
+#include "level/Enemy.h"
+#include "level/Pickup.h"
 #include <memory>
 
 class EntityFactory {
 public:
-    static std::shared_ptr<Entity> spawnEnemy(const std::shared_ptr<Enemy>& enemy, const std::shared_ptr<Level>& level);
+    static std::shared_ptr<Entity> spawnEnemy(const std::shared_ptr<Enemy>& enemy);
 
     static std::shared_ptr<Entity> spawnProjectile(Entity& shooter, const Attack& attack);
 
@@ -19,4 +21,6 @@ public:
     static std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef);
 
     static std::shared_ptr<Entity> createPickupEntity(const Pickup& pickup);
+
+    static std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef);
 };
