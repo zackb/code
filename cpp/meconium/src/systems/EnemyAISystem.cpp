@@ -129,6 +129,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
                         sprite->flipX = false;
                         velocity->vx = ai->chase.speed;
                     }
+                    break;
                 }
                 default:
                     std::cerr << "unknown enemy action" << std::endl;
