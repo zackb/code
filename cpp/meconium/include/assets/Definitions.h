@@ -74,6 +74,10 @@ struct PatrolDefinition {
     float speed;
 };
 
+struct ChaseDefinition {
+    float speed;
+};
+
 struct AttackDefinition {
     std::string type;
     std::string sprite;
@@ -91,6 +95,7 @@ struct EnemyDefinition {
     int triggerX;
     EnemyBehavior behavior;
     std::optional<PatrolDefinition> patrol;
+    std::optional<ChaseDefinition> chase;
     std::optional<AttackDefinition> attack;
 };
 
@@ -151,6 +156,8 @@ inline void from_json(const nlohmann::json& j, PatrolDefinition& p) {
     j.at("speed").get_to(p.speed);
 }
 
+inline void from_json(const nlohmann::json& j, ChaseDefinition& c) { j.at("speed").get_to(c.speed); }
+
 inline void from_json(const nlohmann::json& j, AttackDefinition& def) {
     def.type = j.at("type").get<std::string>();
     def.cooldownMs = j.at("cooldownMs").get<int>();
@@ -188,6 +195,12 @@ inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
         e.patrol = j.at("patrol").get<PatrolDefinition>();
     } else {
         e.patrol = std::nullopt;
+    }
+
+    if (j.contains("chase") && !j.at("chase").is_null()) {
+        e.chase = j.at("chase").get<ChaseDefinition>();
+    } else {
+        e.chase = std::nullopt;
     }
 
     if (j.contains("attack") && !j.at("attack").is_null()) {

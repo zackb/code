@@ -22,6 +22,9 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
     if (enemy->def.patrol.has_value()) {
         auto patrol = enemy->def.patrol.value();
         ai.patrol = Patrol(patrol.left, patrol.right, patrol.speed);
+    } else if (enemy->def.chase.has_value()) {
+        auto chase = enemy->def.chase.value();
+        ai.chase = Chase(chase.speed);
     }
 
     entity->addComponent<AnimationComponent>(animation);
