@@ -17,6 +17,7 @@ struct Rect {
 struct AnimationDefinition {
     std::string name;
     int row;
+    int rowOffset;
     int frameCount;
     bool looping;
     int duration;
@@ -251,6 +252,11 @@ inline void from_json(const nlohmann::json& j, TileSetDefinition& def) {
 
 inline void from_json(const nlohmann::json& j, AnimationDefinition& anim) {
     anim.row = j.at("row").get<int>();
+    if (j.contains("rowOffset")) {
+        anim.rowOffset = j.at("rowOffset").get<int>();
+    } else {
+        anim.rowOffset = 0;
+    }
     anim.frameCount = j.at("frameCount").get<int>();
     anim.looping = j.at("looping").get<bool>();
     anim.duration = j.at("duration").get<int>();
