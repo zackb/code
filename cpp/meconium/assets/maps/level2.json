@@ -24,11 +24,30 @@
             "x": 1000,
             "y": 100,
             "triggerX": 500,
+            "behavior": "chase",
+            "chase": {
+                "speed": 2
+            },
+            "attack": {
+                "type": "range",
+                "cooldownMs": 3000,
+                "range": 500,
+                "damage": 20,
+                "sprite": "sprites/projectiles/arrow.json",
+                "sound": "arrow"
+            }
+        },
+        {
+            "type": "archer",
+            "sprite": "sprites/enemies/archer.json",
+            "x": 4672,
+            "y": 100,
+            "triggerX": 3500,
             "behavior": "patrol",
             "patrol": {
                 "action": "patrol",
-                "left": 400,
-                "right": 1000,
+                "left": 4500,
+                "right": 5000,
                 "speed": 2
             },
             "attack": {

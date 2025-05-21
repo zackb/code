@@ -13,8 +13,7 @@
 #include "entity/EntityFactory.h"
 
 // gravity is applied in MovementSystem
-void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
-                           const int dt) const {
+void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
 
     for (const auto& entity : *entities) {
         if (!entity->hasComponent<EnemyTag>())
@@ -73,11 +72,12 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
                         // schedule a projectile to fire part way through the animation
                         const auto origin = entity;
                         const auto attackCopy = *attack;
-                        entity->addComponent<DelayedAction>(500, // TODO: same here
-                        [=]() {
-                            entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
-                            entity->addComponent<SoundEffect>(attack->sound, 0);
-                        });
+                        entity->addComponent<DelayedAction>(
+                            500, // TODO: same here
+                            [=]() {
+                                entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
+                                entity->addComponent<SoundEffect>(attack->sound, 0);
+                            });
                     }
 
                     ai->timeSinceLastAttack = 0;
@@ -117,6 +117,18 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities,
                         }
                     }
                     break;
+                }
+                case EnemyBehavior::CHASE: {
+                    state->currentAction = Action::WALKING;
+                    if (playerPos->x < position->x) {
+                        state->facingRight = false;
+                        sprite->flipX = true;
+                        velocity->vx = -ai->chase.speed;
+                    } else {
+                        state->facingRight = true;
+                        sprite->flipX = false;
+                        velocity->vx = ai->chase.speed;
+                    }
                 }
                 default:
                     std::cerr << "unknown enemy action" << std::endl;
