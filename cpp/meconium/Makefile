@@ -20,6 +20,9 @@ fmt:
 	xargs -0 -n 1 clang-format -i
 	@echo "Done."
 
+sloc:
+	sloc -e .*json.hpp  src/ include/
+
 clean:
 	rm -rf build
 
