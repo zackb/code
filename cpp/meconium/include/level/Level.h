@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Pickup.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
 #include "components/Animation.h"
@@ -10,6 +11,7 @@
 enum class Facing { LEFT, RIGHT };
 
 using Enemies = std::vector<std::shared_ptr<Enemy>>;
+using Pickups = std::vector<std::shared_ptr<Pickup>>;
 
 class Level {
 public:
@@ -79,6 +81,15 @@ public:
             enemies.push_back(std::make_shared<Enemy>(enemy));
         }
         return enemies;
+    }
+
+    Pickups createPickups() const {
+        Pickups pickups;
+        for (auto p : levelDef->pickups) {
+            auto spriteSheet = AssetLoader::loadSpriteSheet(p.sprite);
+            pickups.emplace_back(std::make_shared<Pickup>(p, spriteSheet));
+        }
+        return pickups;
     }
 
     std::string getBackgroundMusic() const { return levelDef->backgroundMusic; }

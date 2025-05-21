@@ -100,3 +100,13 @@ std::shared_ptr<Sprite> EntityFactory::createSprite(const SpriteSheetDefinition&
     sprite.lifetimeMs = spriteDef.lifetimeMs;
     return std::make_shared<Sprite>(sprite);
 }
+
+std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) {
+    Entity entity;
+    auto sprite = createSprite(pickup.def.sprite);
+    entity.addComponent<Sprite>(sprite);
+    entity.addComponent<Transform>(pickup.def.x, pickup.def.y, pickup.spriteSheet->scale);
+    entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    entity.addComponent<PickupTag>();
+    return std::make_shared<Entity>(entity);
+}

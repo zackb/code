@@ -2,3 +2,4 @@
 
 struct PlayerTag {};
 struct EnemyTag {};
+struct PickupTag {};

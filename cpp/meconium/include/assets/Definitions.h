@@ -94,6 +94,15 @@ struct EnemyDefinition {
     std::optional<AttackDefinition> attack;
 };
 
+// Pickup
+struct PickupDefinition {
+    std::string type;
+    std::string sprite;
+    int ammount;
+    int x;
+    int y;
+};
+
 // Player
 struct PlayerDefinition {
     std::string sprite;
@@ -107,6 +116,7 @@ struct LevelDefinition {
     std::string backgroundMusic;
     BackgroundDefinition background;
     std::vector<EnemyDefinition> enemies;
+    std::vector<PickupDefinition> pickups;
 };
 
 
@@ -188,6 +198,14 @@ inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
     }
 }
 
+inline void from_json(const nlohmann::json& j, PickupDefinition& p) {
+    p.type = j.at("type").get<std::string>();
+    p.sprite = j.at("sprite").get<std::string>();
+    p.ammount = j.at("amount").get<int>();
+    p.x = j.at("x").get<int>();
+    p.y = j.at("y").get<int>();
+}
+
 inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
     def.tilemap = j.at("tilemap").get<std::string>();
     def.tileset = j.at("tileset").get<std::string>();
@@ -197,6 +215,7 @@ inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
     def.tileset = j.at("tileset").get<std::string>();
     def.background = j.at("background").get<BackgroundDefinition>();
     def.enemies = j.value("enemies", std::vector<EnemyDefinition>{});
+    def.pickups = j.value("pickups", std::vector<PickupDefinition>{});
 }
 
 inline void from_json(const nlohmann::json& j, TileDefinition& tile) {

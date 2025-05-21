@@ -1,9 +1,9 @@
 {
     "tilemap": "maps/level2.csv",
-    "tileset": "tilesets/overworld2_tiles.json",
-    "backgroundMusic": "audio/music/time_for_adventure.mp3",
-    "background": {
-        "layers": [
+        "tileset": "tilesets/overworld2_tiles.json",
+        "backgroundMusic": "audio/music/time_for_adventure.mp3",
+        "background": {
+            "layers": [
             { "texture": "textures/background2/_11_background.png", "speed": 0.0 },
             { "texture": "textures/background2/_10_distant_clouds.png", "speed": 0.05 },
             { "texture": "textures/background2/_09_distant_clouds1.png", "speed": 0.1 },
@@ -15,9 +15,9 @@
             { "texture": "textures/background2/_03_distant_trees.png", "speed": 0.7 },
             { "texture": "textures/background2/_02_trees and bushes.png", "speed": 0.8 },
             { "texture": "textures/background2/_01_ground.png", "speed": 0.95 }
-        ]
-    },
-    "enemies" :[
+            ]
+        },
+        "enemies" :[
         {
             "type": "archer",
             "sprite": "sprites/enemies/archer.json",
@@ -59,5 +59,15 @@
                 "sound": "arrow"
             }
         }
+    ],
+    "pickups": [
+    {
+        "type": "health",
+        "sprite": "sprites/pickups/health_small.json",
+        "amount": 25,
+        "x": 2000,
+        "y": 150
+    }
     ]
+
 }
