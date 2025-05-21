@@ -1,8 +1,8 @@
 #include "GameOverState.h"
 #include "Context.h"
 #include "MenuState.h"
-#include <iostream>
 #include <SDL_image.h>
+#include <iostream>
 
 #include "FileUtils.h"
 
@@ -40,13 +40,15 @@ GameOverState::GameOverState() {
         textRect.x = (Context::windowSize.width - textRect.w) / 2;
         textRect.y = logoRect.y + logoRect.h;
     }
-
 }
 
 GameOverState::~GameOverState() {
-    if (logoTexture) SDL_DestroyTexture(logoTexture);
-    if (textTexture) SDL_DestroyTexture(textTexture);
-    if (font) TTF_CloseFont(font);
+    if (logoTexture)
+        SDL_DestroyTexture(logoTexture);
+    if (textTexture)
+        SDL_DestroyTexture(textTexture);
+    if (font)
+        TTF_CloseFont(font);
 }
 
 void GameOverState::handleEvent(SDL_Event& event) {

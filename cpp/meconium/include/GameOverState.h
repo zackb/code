@@ -3,8 +3,8 @@
 #include "GameState.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <string>
 #include <memory>
+#include <string>
 
 class GameOverState final : public GameState {
 public:

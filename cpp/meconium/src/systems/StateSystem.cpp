@@ -56,11 +56,12 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
                         // defer firing the projectile untile we're halfway through the animation
                         const auto origin = entity;
                         const auto attackCopy = *attack;
-                        entity->addComponent<DelayedAction>(duration / 2, // TODO: same here
-                        [=]() {
-                            entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
-                            entity->addComponent<SoundEffect>(attack->sound, 0);
-                        });
+                        entity->addComponent<DelayedAction>(
+                            duration / 2, // TODO: same here
+                            [=]() {
+                                entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
+                                entity->addComponent<SoundEffect>(attack->sound, 0);
+                            });
                     } else { // melee
                         entity->addComponent<SoundEffect>(attack->sound, 0);
                     }

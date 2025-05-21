@@ -1,10 +1,4 @@
 #include "systems/SpawnerSystem.h"
-#include "assets/AssetLoader.h"
-#include "components/Attack.h"
-#include "components/EnemyAI.h"
-#include "components/Health.h"
-#include "components/Sprite.h"
-#include "components/State.h"
 #include "components/Tag.h"
 #include "entity/EntityFactory.h"
 

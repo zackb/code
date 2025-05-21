@@ -119,7 +119,6 @@ struct LevelDefinition {
     std::vector<PickupDefinition> pickups;
 };
 
-
 inline TileType tileTypeFromString(const std::string& str) {
     if (str == "solid")
         return TileType::Solid;

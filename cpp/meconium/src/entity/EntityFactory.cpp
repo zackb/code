@@ -63,13 +63,17 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(Entity& shooter, const At
         sprite->flipX = true;
     }
 
-    // int projectileX = shooterPos->x + (state->facingRight ? shooterSprite->width : -shooterSprite->width) * shooterPos->scaleX;
+    // int projectileX = shooterPos->x + (state->facingRight ? shooterSprite->width : -shooterSprite->width) *
+    // shooterPos->scaleX;
     projectile->addComponent<Transform>(
         shooterPos->x, shooterPos->y + shooterSprite->height / 2 + sprite->height, attack.sprite->scale);
     projectile->addComponent<Velocity>(vel);
     projectile->addComponent<NoGravity>();
     projectile->addComponent<Sprite>(sprite);
-    projectile->addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    projectile->addComponent<Collider>(attack.sprite->collider->x,
+                                       attack.sprite->collider->y,
+                                       attack.sprite->collider->width,
+                                       attack.sprite->collider->height);
     projectile->addComponent<Projectile>(shooter.id, sprite->lifetimeMs, attack.damage);
     return projectile;
 }

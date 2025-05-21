@@ -1,12 +1,11 @@
 #include "MenuState.h"
 #include "Context.h"
-#include <iostream>
 #include "FileUtils.h"
 #include "Meconium.h"
 #include <SDL_image.h>
+#include <iostream>
 
 #include "GameOverState.h"
-
 
 MenuState::MenuState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
@@ -36,8 +35,10 @@ MenuState::MenuState() {
 }
 
 MenuState::~MenuState() {
-    if (font) TTF_CloseFont(font);
-    if (logoTexture) SDL_DestroyTexture(logoTexture);
+    if (font)
+        TTF_CloseFont(font);
+    if (logoTexture)
+        SDL_DestroyTexture(logoTexture);
 }
 
 void MenuState::handleEvent(SDL_Event& event) {
@@ -47,24 +48,24 @@ void MenuState::handleEvent(SDL_Event& event) {
 
     if (event.type == SDL_KEYDOWN) {
         switch (event.key.keysym.sym) {
-            case SDLK_UP:
-                index = (index - 1 + options.size()) % options.size();
-                break;
-            case SDLK_DOWN:
-                index = (index + 1) % options.size();
-                break;
-            case SDLK_RETURN:
-            case SDLK_SPACE:
-                if (options[index] == "Start Game") {
-                    startGame = true;
-                } else if (options[index] == "Exit") {
-                    quitGame = true;
-                } else if (options[index] == "Options") {
-                    // Handle "Options"
-                }
-                break;
-            default:
-                std::cout << "Unknown Event: " << event.key.keysym.sym << std::endl;
+        case SDLK_UP:
+            index = (index - 1 + options.size()) % options.size();
+            break;
+        case SDLK_DOWN:
+            index = (index + 1) % options.size();
+            break;
+        case SDLK_RETURN:
+        case SDLK_SPACE:
+            if (options[index] == "Start Game") {
+                startGame = true;
+            } else if (options[index] == "Exit") {
+                quitGame = true;
+            } else if (options[index] == "Options") {
+                // Handle "Options"
+            }
+            break;
+        default:
+            std::cout << "Unknown Event: " << event.key.keysym.sym << std::endl;
         }
     }
 }
