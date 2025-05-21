@@ -1,0 +1,20 @@
+{
+  "texture": "textures/blue_spritesheet.png",
+  "tileWidth": 56,
+  "tileHeight": 56,
+  "scale": 2.0,
+  "collider": {
+      "x": 15,
+      "y": 25,
+      "width": 26,
+      "height": 31 
+  },
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 200
+    }
+  }
+}

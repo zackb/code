@@ -17,4 +17,6 @@ public:
     static std::shared_ptr<Sprite> createSprite(const std::string& spriteSheetPath);
 
     static std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef);
+
+    static std::shared_ptr<Entity> createPickupEntity(const Pickup& pickup);
 };
