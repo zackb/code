@@ -1,8 +1,8 @@
 {
   "texture": "textures/overworld2.png",
-  "tileWidth": 56,
-  "tileHeight": 56,
-  "scale": 2.0,
+  "tileWidth": 64,
+  "tileHeight": 64,
+  "scale": 1.0,
   "collider": {
       "x": 15,
       "y": 25,
@@ -12,7 +12,8 @@
   "animations": {
     "idle": {
       "row": 0,
-      "frameCount": 6,
+      "rowOffset": 13,
+      "frameCount": 4,
       "looping": true,
       "duration": 200
     }

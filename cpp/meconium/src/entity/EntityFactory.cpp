@@ -112,8 +112,10 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) 
     auto sprite = createSprite(pickup.def.sprite);
     entity.addComponent<Sprite>(sprite);
     entity.addComponent<Transform>(pickup.def.x, pickup.def.y, pickup.spriteSheet->scale);
+    entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
     entity.addComponent<PickupTag>();
+    entity.addComponent<AnimationComponent>(createAnimation(*pickup.spriteSheet));
     return std::make_shared<Entity>(entity);
 }
 
@@ -122,9 +124,11 @@ std::shared_ptr<AnimationComponent> EntityFactory::createAnimation(const SpriteS
     for (auto it : spriteDef.animations) {
         auto anim = std::make_shared<Animation>(it.looping);
         for (int i = 0; i < it.frameCount; i++) {
-            anim->addFrame(
-                {spriteDef.tileWidth * i, it.row * spriteDef.tileHeight, spriteDef.tileWidth, spriteDef.tileHeight},
-                it.duration);
+            anim->addFrame({spriteDef.tileWidth * (i + it.rowOffset),
+                            it.row * spriteDef.tileHeight,
+                            spriteDef.tileWidth,
+                            spriteDef.tileHeight},
+                           it.duration);
         }
 
         AnimationState state = AnimationState::IDLE;
