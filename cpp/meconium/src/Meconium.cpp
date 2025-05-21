@@ -48,7 +48,7 @@ bool Meconium::init() {
     player->addComponent<Sprite>(sprite);
 
     // Add animation component
-    auto animComponent = level->createAnimation(*playerDef->spriteDef);
+    auto animComponent = EntityFactory::createAnimation(*playerDef->spriteDef);
     player->addComponent<AnimationComponent>(animComponent);
 
     // Add attack
@@ -148,7 +148,7 @@ void Meconium::update() {
     cameraSystem.update(entities, *tileMap);
 
     // Spawn enemies if we should
-    spawnerSystem.update(entities, enemies, level);
+    spawnerSystem.update(entities, enemies);
 
     // Entity lifecycle check
     lifecycleSystem.update(entities, deltaTime);

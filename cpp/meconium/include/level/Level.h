@@ -3,15 +3,11 @@
 #include "Pickup.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
-#include "components/Animation.h"
 #include "components/Background.h"
 #include "components/TileMap.h"
 #include "level/Enemy.h"
 
 enum class Facing { LEFT, RIGHT };
-
-using Enemies = std::vector<std::shared_ptr<Enemy>>;
-using Pickups = std::vector<std::shared_ptr<Pickup>>;
 
 class Level {
 public:
@@ -27,40 +23,6 @@ public:
         TileMap tileMap(texture, tileSetDef, mapData);
 
         return std::make_shared<TileMap>(tileMap);
-    }
-
-    std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef) const {
-
-        auto animComponent = std::make_shared<AnimationComponent>();
-        for (auto it : spriteDef.animations) {
-            auto anim = std::make_shared<Animation>(it.looping);
-            for (int i = 0; i < it.frameCount; i++) {
-                anim->addFrame(
-                    {spriteDef.tileWidth * i, it.row * spriteDef.tileHeight, spriteDef.tileWidth, spriteDef.tileHeight},
-                    it.duration);
-            }
-
-            AnimationState state = AnimationState::IDLE;
-            if (it.name == "idle")
-                state = AnimationState::IDLE;
-            else if (it.name == "walk")
-                state = AnimationState::WALKING;
-            else if (it.name == "jump")
-                state = AnimationState::JUMPING;
-            else if (it.name == "fall")
-                state = AnimationState::FALLING;
-            else if (it.name == "attack")
-                state = AnimationState::ATTACKING;
-            else if (it.name == "die")
-                state = AnimationState::DYING;
-            else
-                std::cerr << "Unknown animation state: " << it.name << std::endl;
-
-            animComponent->addAnimation(state, anim);
-        }
-
-        animComponent->init();
-        return animComponent;
     }
 
     std::shared_ptr<ParallaxBackground> createBackground() const {

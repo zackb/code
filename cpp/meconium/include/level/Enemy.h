@@ -9,3 +9,5 @@ struct Enemy {
     std::shared_ptr<SpriteSheetDefinition> spriteSheet;
     bool hasSpawned = false;
 };
+
+using Enemies = std::vector<std::shared_ptr<Enemy>>;

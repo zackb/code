@@ -1,21 +1,21 @@
 #include "entity/EntityFactory.h"
 
+#include "ResourceManager.h"
+#include "assets/AssetLoader.h"
 #include "components/Attack.h"
 #include "components/Collider.h"
 #include "components/Health.h"
 #include "components/NoGravity.h"
-#include "components/SoundEffect.h"
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
 
-std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& enemy,
-                                                  const std::shared_ptr<Level>& level) {
+std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& enemy) {
     auto entity = std::make_shared<Entity>();
     auto sheet = enemy->spriteSheet;
     auto sprite = createSprite(*sheet);
-    auto animation = level->createAnimation(*sheet);
+    auto animation = createAnimation(*sheet);
 
     EnemyAI ai;
     ai.behavior = enemy->def.behavior;
@@ -23,7 +23,6 @@ std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& 
         auto patrol = enemy->def.patrol.value();
         ai.patrol = Patrol(patrol.left, patrol.right, patrol.speed);
     }
-    // TODO: chase, idle
 
     entity->addComponent<AnimationComponent>(animation);
     entity->addComponent<Sprite>(sprite);
@@ -113,4 +112,37 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) 
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
     entity.addComponent<PickupTag>();
     return std::make_shared<Entity>(entity);
+}
+
+std::shared_ptr<AnimationComponent> EntityFactory::createAnimation(const SpriteSheetDefinition& spriteDef) {
+    auto animComponent = std::make_shared<AnimationComponent>();
+    for (auto it : spriteDef.animations) {
+        auto anim = std::make_shared<Animation>(it.looping);
+        for (int i = 0; i < it.frameCount; i++) {
+            anim->addFrame(
+                {spriteDef.tileWidth * i, it.row * spriteDef.tileHeight, spriteDef.tileWidth, spriteDef.tileHeight},
+                it.duration);
+        }
+
+        AnimationState state = AnimationState::IDLE;
+        if (it.name == "idle")
+            state = AnimationState::IDLE;
+        else if (it.name == "walk")
+            state = AnimationState::WALKING;
+        else if (it.name == "jump")
+            state = AnimationState::JUMPING;
+        else if (it.name == "fall")
+            state = AnimationState::FALLING;
+        else if (it.name == "attack")
+            state = AnimationState::ATTACKING;
+        else if (it.name == "die")
+            state = AnimationState::DYING;
+        else
+            std::cerr << "Unknown animation state: " << it.name << std::endl;
+
+        animComponent->addAnimation(state, anim);
+    }
+
+    animComponent->init();
+    return animComponent;
 }
