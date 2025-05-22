@@ -187,6 +187,35 @@ if (APPLE)
             ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 
+elseif(UNIX)
+
+    # Install the executable to /usr/local/bin by default
+    install(TARGETS ${EXECUTABLE_NAME}
+            RUNTIME DESTINATION bin)
+
+    # Install assets directory to /usr/local/share/meconium/assets
+    install(DIRECTORY assets/
+            DESTINATION share/meconium/assets)
+
+    # Install man pages (assumes you have man/meconium.6 or similar)
+    install(FILES man/meconium.6
+            DESTINATION share/man/man6)
+
+    # Generate .deb .rpm and .tgz
+    include(InstallRequiredSystemLibraries)
+
+    set(CPACK_PACKAGE_NAME "meconium")
+    set(CPACK_PACKAGE_VERSION "0.1.0")
+    set(CPACK_PACKAGE_CONTACT "zack@bartel.com")
+    set(CPACK_GENERATOR "DEB;RPM;TGZ")
+
+    # Required for DEB and RPM
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Zack Bartel")
+    set(CPACK_RPM_PACKAGE_RELEASE 1)
+
+    include(CPack)
+
+
 endif()
 
 # clean

@@ -13,6 +13,12 @@ release:
 run: debug
 	./build/debug/meconium
 
+install: release
+	cmake --install build/release
+
+package: release
+	cpack --config build/release/CPackConfig.cmake
+
 .PHONY: format
 fmt:
 	@echo "Formatting code with clang-format..."
