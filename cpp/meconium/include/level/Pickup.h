@@ -10,4 +10,3 @@ struct Pickup {
 };
 
 using Pickups = std::vector<std::shared_ptr<Pickup>>;
-

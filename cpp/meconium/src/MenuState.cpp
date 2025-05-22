@@ -1,11 +1,9 @@
 #include "MenuState.h"
+#include "CharacterSelectState.h"
 #include "Context.h"
 #include "FileUtils.h"
-#include "Meconium.h"
 #include <SDL_image.h>
 #include <iostream>
-
-#include "GameOverState.h"
 
 MenuState::MenuState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
@@ -115,12 +113,7 @@ SDL_Texture* MenuState::renderText(const std::string& message, SDL_Color color) 
 
 std::unique_ptr<GameState> MenuState::nextState() {
     if (startGame) {
-        auto game = std::make_unique<Meconium>();
-        if (game->init()) {
-            return game;
-        } else {
-            std::cerr << "Failed to initialize game state.\n";
-        }
+        return std::make_unique<CharacterSelectState>();
     }
 
     if (quitGame) {

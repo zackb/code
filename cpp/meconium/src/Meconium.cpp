@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <memory>
 #include <ostream>
+#include <unistd.h>
 
 #include "Context.h"
 #include "Meconium.h"
@@ -17,7 +18,7 @@ Size Context::windowSize;
 SDL_Renderer* Context::renderer;
 SDL_Window* Context::window;
 
-bool Meconium::init() {
+bool Meconium::init(std::string character) {
     // initialize sound effects
     soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
 
@@ -41,7 +42,7 @@ bool Meconium::init() {
     player->addComponent<Health>(100);
 
     // Load player definition
-    auto playerDef = AssetLoader::loadPlayer("assets/players/archer.json");
+    auto playerDef = AssetLoader::loadPlayer("assets/players/" + character + ".json");
     auto sprite = EntityFactory::createSprite(*playerDef->spriteDef);
 
     // Add Sprite
