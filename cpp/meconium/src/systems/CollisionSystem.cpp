@@ -285,8 +285,8 @@ void CollisionSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pick
             playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
         }
 
-        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 5000);
-        pickup.addComponent<Despawn>(5000);
+        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
+        pickup.addComponent<Despawn>(500);
     }
 }
 
