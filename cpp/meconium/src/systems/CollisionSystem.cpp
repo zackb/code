@@ -81,7 +81,7 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
             return;
         }
         // confirm vertical overlap
-        if (rect.y + rect.h > tileRect.y && rect.y < tileRect.y + tileRect.h) {
+        if (rect.y + rect.h - rect.h > tileRect.y && rect.y < tileRect.y + tileRect.h) {
             // now check X direction
             if (velocity->vx > 0 && rect.x + rect.w > tileRect.x && rect.x < tileRect.x) {
                 // moving right
@@ -278,7 +278,7 @@ void CollisionSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pick
     auto playerRect = playerCollider->getBounds(playerPos);
     auto pickupRect = pickupCollider->getBounds(pickupPos);
 
-    if (aabb(playerRect, pickupRect)) {
+    if (aabb(playerRect, pickupRect) && !pickup.hasComponent<Despawn>()) {
         auto playerHealth = player.getComponent<Health>();
         auto pickupHealth = pickup.getComponent<Health>();
         if (pickupHealth) {
