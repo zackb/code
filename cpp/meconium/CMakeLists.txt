@@ -213,6 +213,9 @@ elseif(UNIX)
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Zack Bartel")
     set(CPACK_RPM_PACKAGE_RELEASE 1)
 
+    # Remove the "-Linux" suffix
+    set(CPACK_SYSTEM_NAME "linux")
+
     include(CPack)
 
 
@@ -224,10 +227,21 @@ add_custom_target(clean_bundle
     COMMENT "Removing Meconium.app bundle"
 )
 
-# Define full_clean to run both: manual cleanup + regular clean
+# clean packages
+add_custom_target(clean_package
+    COMMAND ${CMAKE_COMMAND} -E rm -f ../../meconium-*.tar.gz
+    COMMAND ${CMAKE_COMMAND} -E rm -f ../../meconium-*.deb
+    COMMAND ${CMAKE_COMMAND} -E rm -f ../../meconium-*.rpm
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ../../_CPack_Packages
+    COMMENT "Removing CPack-generated packages and temporary directories"
+)
+
+
+# Define full_clean to run all three: manual cleanup + regular clean + package clean
 add_custom_target(full_clean
     COMMAND ${CMAKE_COMMAND} --build . --target clean
     COMMAND ${CMAKE_COMMAND} --build . --target clean_bundle
+    COMMAND ${CMAKE_COMMAND} --build . --target clean_package
     COMMENT "Running full clean (build artifacts + .app bundle)"
 )
 
