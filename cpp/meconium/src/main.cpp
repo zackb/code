@@ -98,6 +98,9 @@ bool initSDL() {
         return false;
     }
 
+    // hide cursor
+    SDL_ShowCursor(SDL_DISABLE);
+
     // hold window size in Context
     SDL_GetWindowSize(Context::window, &Context::windowSize.width, &Context::windowSize.height);
 
