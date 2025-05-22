@@ -41,7 +41,7 @@ bool Meconium::init() {
     player->addComponent<Health>(100);
 
     // Load player definition
-    auto playerDef = AssetLoader::loadPlayer("assets/players/archer.json");
+    auto playerDef = AssetLoader::loadPlayer("assets/players/blue.json");
     auto sprite = EntityFactory::createSprite(*playerDef->spriteDef);
 
     // Add Sprite
