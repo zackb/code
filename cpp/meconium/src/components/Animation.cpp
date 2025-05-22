@@ -43,7 +43,7 @@ void AnimationComponent::addAnimation(const AnimationState state, const std::sha
     }
 }
 void AnimationComponent::setState(const AnimationState state) {
-    if (currentState != state) {
+    if (currentState != state || !currentAnimation) {
         auto it = animations.find(state);
         if (it != animations.end()) {
             currentState = state;
@@ -67,6 +67,6 @@ SDL_Rect AnimationComponent::getCurrentFrame() const {
 }
 
 void AnimationComponent::init() {
-    setState(AnimationState::WALKING);
+    currentAnimation = nullptr; // hack: currentAnimation is set in addAnimation
     setState(AnimationState::IDLE);
 }
