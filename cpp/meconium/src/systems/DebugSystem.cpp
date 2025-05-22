@@ -26,8 +26,13 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
     }
 
     if (!debug->enabled) {
+        // hide cursor
+        SDL_ShowCursor(SDL_DISABLE);
         return;
     }
+
+    // show cursor
+    SDL_ShowCursor(SDL_ENABLE);
 
     // camera info
     auto camera = entities->findEntityWithComponent<Camera>();
