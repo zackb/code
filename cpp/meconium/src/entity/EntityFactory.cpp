@@ -120,6 +120,7 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) 
     } else {
         std::cerr << "unknown pickup type: " << pickup.def.type << std::endl;
     }
+    entity.addComponent<State>();
     entity.addComponent<PickupTag>();
     entity.addComponent<AnimationComponent>(createAnimation(*pickup.spriteSheet));
     return std::make_shared<Entity>(entity);
@@ -148,6 +149,8 @@ std::shared_ptr<AnimationComponent> EntityFactory::createAnimation(const SpriteS
             state = AnimationState::FALLING;
         else if (it.name == "attack")
             state = AnimationState::ATTACKING;
+        else if (it.name == "collect")
+            state = AnimationState::COLLECTING;
         else if (it.name == "die")
             state = AnimationState::DYING;
         else
