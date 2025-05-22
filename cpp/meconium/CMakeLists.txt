@@ -59,6 +59,7 @@ set(SOURCES
         src/systems/SpawnerSystem.cpp
         src/systems/EnemyAISystem.cpp
         src/MenuState.cpp
+        src/CharacterSelectState.cpp
         src/GameOverState.cpp
         src/entity/EntityFactory.cpp
         src/systems/DelayedActionSystem.cpp

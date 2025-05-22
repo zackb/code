@@ -18,7 +18,7 @@
 class Meconium : public GameState {
 
 public:
-    bool init();
+    bool init(std::string character = "blue");
     void update() override;
     void render() override;
     void handleEvent(SDL_Event& event) override;
