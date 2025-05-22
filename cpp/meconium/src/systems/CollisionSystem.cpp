@@ -6,7 +6,6 @@
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
 #include "components/State.h"
-#include "level/Pickup.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     auto player = entities->findEntityWithComponent<PlayerTag>();
@@ -285,7 +284,9 @@ void CollisionSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pick
         if (pickupHealth) {
             playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
         }
-        pickup.addComponent<Despawn>(0);
+
+        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 5000);
+        pickup.addComponent<Despawn>(5000);
     }
 }
 

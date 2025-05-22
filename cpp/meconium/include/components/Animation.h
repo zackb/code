@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-enum class AnimationState { IDLE, WALKING, JUMPING, FALLING, ATTACKING, DYING };
+enum class AnimationState { IDLE, WALKING, JUMPING, FALLING, ATTACKING, COLLECTING, DYING };
 
 struct AnimationFrame {
     SDL_Rect srcRect;

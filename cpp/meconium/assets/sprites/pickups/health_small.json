@@ -16,6 +16,13 @@
       "frameCount": 4,
       "looping": true,
       "duration": 200
+    },
+    "collect": {
+      "row": 2,
+      "rowOffset": 13,
+      "frameCount": 4,
+      "looping": true,
+      "duration": 100
     }
   }
 }

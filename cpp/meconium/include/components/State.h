@@ -1,6 +1,7 @@
 #pragma once
 
 #include "components/Component.h"
+#include <functional>
 
 enum class Action {
     // Shared
@@ -9,6 +10,7 @@ enum class Action {
     JUMPING,
     FALLING,
     ATTACKING,
+    COLLECTING,
     DYING,
 };
 
