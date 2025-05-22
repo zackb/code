@@ -10,6 +10,7 @@
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "components/Velocity.h"
+#include <iostream>
 
 std::shared_ptr<Entity> EntityFactory::spawnEnemy(const std::shared_ptr<Enemy>& enemy) {
     auto entity = std::make_shared<Entity>();
@@ -114,6 +115,11 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) 
     entity.addComponent<Transform>(pickup.def.x, pickup.def.y, pickup.spriteSheet->scale);
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    if (pickup.def.type == "health") {
+        entity.addComponent<Health>(pickup.def.ammount); // kind of a hack reusing Health
+    } else {
+        std::cerr << "unknown pickup type: " << pickup.def.type << std::endl;
+    }
     entity.addComponent<PickupTag>();
     entity.addComponent<AnimationComponent>(createAnimation(*pickup.spriteSheet));
     return std::make_shared<Entity>(entity);

@@ -26,6 +26,8 @@ private:
 
     void resolvePlayerProjectileCollisions(Entity& player, Entity& projectile);
 
+    void resolvePlayerPickupCollisions(Entity& player, Entity& pickup);
+
     bool aabb(SDL_Rect& a, SDL_Rect& b);
 
     static void forEachNearbySolidTile(

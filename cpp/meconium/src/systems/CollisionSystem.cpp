@@ -1,3 +1,4 @@
+#include "systems/CollisionSystem.h"
 #include "ECS.h"
 #include "components/Attack.h"
 #include "components/Despawn.h"
@@ -5,6 +6,7 @@
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
 #include "components/State.h"
+#include "level/Pickup.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
     auto player = entities->findEntityWithComponent<PlayerTag>();
@@ -36,6 +38,11 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         // Check player vs projectile collisions
         if (entity->hasComponent<Projectile>()) {
             resolvePlayerProjectileCollisions(*player, *entity);
+        }
+
+        // Check player vs pickup collisions
+        if (entity->hasComponent<PickupTag>()) {
+            resolvePlayerPickupCollisions(*player, *entity);
         }
 
         // fall of map check
@@ -255,6 +262,30 @@ void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& 
             }
         }
         projectile.addComponent<Despawn>(0);
+    }
+}
+
+void CollisionSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup) {
+    auto playerPos = player.getComponent<Transform>();
+    auto pickupPos = pickup.getComponent<Transform>();
+    if (!playerPos || !pickupPos) {
+        std::cerr << "missing position for pickup\n";
+        return;
+    }
+
+    auto playerCollider = player.getComponent<Collider>();
+    auto pickupCollider = pickup.getComponent<Collider>();
+
+    auto playerRect = playerCollider->getBounds(playerPos);
+    auto pickupRect = pickupCollider->getBounds(pickupPos);
+
+    if (aabb(playerRect, pickupRect)) {
+        auto playerHealth = player.getComponent<Health>();
+        auto pickupHealth = pickup.getComponent<Health>();
+        if (pickupHealth) {
+            playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
+        }
+        pickup.addComponent<Despawn>(0);
     }
 }
 
