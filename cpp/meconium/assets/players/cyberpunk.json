@@ -1,0 +1,11 @@
+{
+    "sprite": "sprites/cyberpunk.json",
+    "attack": {
+        "type": "range",
+        "cooldownMs": 3000,
+        "range": 500,
+        "damage": 30,
+        "sprite": "sprites/projectiles/arrow.json",
+        "sound": "arrow"
+    }
+}
