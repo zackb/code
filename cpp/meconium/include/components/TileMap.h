@@ -13,6 +13,7 @@ public:
     int mapHeight = 0;      // rows
     int mapWidth = 0;       // cols
     int tilesheetWidth = 0; // Width of tilesheet in pixels
+    float scale = 1;
 
     TileMap(SDL_Texture* tex, std::shared_ptr<TileSetDefinition> def, std::vector<std::vector<int>> mapData)
         : texture(tex), tileSetDefinition(def), map(mapData) {
@@ -22,6 +23,7 @@ public:
         }
         mapHeight = mapData.size();
         mapWidth = mapData[0].size();
+        scale = def->scale;
 
         // query map to get the size of the image
         int w = 0, h = 0;
