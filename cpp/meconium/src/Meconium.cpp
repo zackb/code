@@ -23,7 +23,7 @@ bool Meconium::init(std::string character) {
     soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
 
     // load tileMap
-    level = std::make_shared<Level>("assets/maps/level3.json");
+    level = std::make_shared<Level>("assets/maps/level2.json");
     tileMap = level->createTileMap();
 
     // Initialize ECS components, systems, and entities
