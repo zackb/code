@@ -88,8 +88,8 @@ void RenderSystem::renderTileMap(const TileMap& tileMap, const Transform& camera
             SDL_Rect src = tileMap.getTileSrcRect(tileID);
             SDL_Rect dst = {col * tileMap.tileWidth() - camera.x,
                             row * tileMap.tileHeight() - camera.y,
-                            tileMap.tileWidth(),
-                            tileMap.tileHeight()};
+                            static_cast<int>(tileMap.tileWidth() * tileMap.scale),
+                            static_cast<int>(tileMap.tileHeight() * tileMap.scale)};
 
             SDL_RenderCopy(Context::renderer, tileMap.texture, &src, &dst);
         }

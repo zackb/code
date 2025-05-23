@@ -46,6 +46,7 @@ struct TileSetDefinition {
     std::string texture;
     int tileWidth;
     int tileHeight;
+    float scale;
     std::vector<TileDefinition> tiles;
 };
 
@@ -240,6 +241,11 @@ inline void from_json(const nlohmann::json& j, TileSetDefinition& def) {
     def.texture = j.at("texture").get<std::string>();
     def.tileWidth = j.at("tileWidth").get<int>();
     def.tileHeight = j.at("tileHeight").get<int>();
+    if (j.contains("scale")) {
+        def.scale = j.at("scale").get<float>();
+    } else {
+        def.scale = 1.0;
+    }
 
     const auto& tilesJson = j.at("tiles");
     for (auto it = tilesJson.begin(); it != tilesJson.end(); ++it) {
