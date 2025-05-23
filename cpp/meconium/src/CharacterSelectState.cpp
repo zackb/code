@@ -11,7 +11,7 @@
 CharacterSelectState::CharacterSelectState() {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 24);
 
-    std::vector<std::string> characterNames = {"Blue", "Archer"};
+    std::vector<std::string> characterNames = {"Blue", "Archer", "Cyberpunk"};
     for (const auto& name : characterNames) {
         CharacterOption c;
         c.name = name;
