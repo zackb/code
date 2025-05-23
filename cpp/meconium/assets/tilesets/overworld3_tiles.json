@@ -1,0 +1,29 @@
+{
+  "texture": "textures/overworld3.png",
+  "offset": { "x": 0, "y": 0 },
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "scale": 4.0,
+  "tiles": {
+    "0": { "type": "empty" },
+    "29": { "type": "solid" },
+    "30": { "type": "solid" },
+    "31": { "type": "solid" },
+    "141": { "type": "solid" },
+    "142": { "type": "solid" },
+    "143": { "type": "solid" },
+    "254": { "type": "solid" },
+    "264": { "type": "solid" },
+    "265": { "type": "solid" },
+    "266": { "type": "solid" },
+    "267": { "type": "solid" },
+    "268": { "type": "solid" },
+    "376": { "type": "solid" },
+    "377": { "type": "solid" },
+    "378": { "type": "solid" },
+    "379": { "type": "solid" },
+    "253": { "type": "ramp_left" },
+    "255": { "type": "ramp_right" }
+  }
+}
+
