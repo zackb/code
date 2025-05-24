@@ -57,8 +57,8 @@ void CollisionSystem::resolvePlayerEnemyBump(Entity& player, Entity& enemy) {
         // direction: enemy on left => knock right, etc.
         float dx = (playerRect.x + playerRect.w / 2) - (enemyRect.x + enemyRect.w / 2);
 
-        float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
-        float knockbackY = -2.0f;                    // upward knockback
+        float knockbackX = (dx >= 0) ? 2.0f : -2.0f; // Pixels per second
+        float knockbackY = -1.0f;                    // upward knockback
         auto playerVel = player.getComponent<Velocity>();
         playerVel->vx = knockbackX;
         playerVel->vy = knockbackY;
