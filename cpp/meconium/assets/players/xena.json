@@ -7,9 +7,9 @@
         "sound": "sword"
     },
     "hitbox": {
-        "x": 0,
+        "x": 20,
         "y": 0,
-        "width": 100,
+        "width": 110,
         "height": 64
     }
 }

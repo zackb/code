@@ -46,14 +46,14 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
         if (!collider || !transform)
             continue;
 
-        // Draw a rect around the player's hit box
+        // Draw a rect around the entity's collider
         SDL_Rect r = collider->getBounds(transform);
         SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
 
         SDL_SetRenderDrawColor(Context::renderer, 255, 0, 0, 255); // red color
         SDL_RenderDrawRect(Context::renderer, &hitBox);
 
-        // Draw a rect around the player's sprite
+        // Draw a rect around the entity sprite
         auto sprite = entity->getComponent<Sprite>();
         auto pos = entity->getComponent<Transform>();
 
@@ -64,6 +64,15 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
                             static_cast<int>(sprite->height * pos->scaleX)};
             SDL_SetRenderDrawColor(Context::renderer, 0, 0, 255, 255); // blue color
             SDL_RenderDrawRect(Context::renderer, &box);
+        }
+
+        // Draw a rect around the entity's hitbox
+        if (auto hitbox = entity->getComponent<Hitbox>()) {
+            SDL_Rect r = hitbox->collider.getBounds(transform);
+            SDL_Rect hitBox = {r.x - camPos->x, r.y - camPos->y, r.w, r.h};
+
+            SDL_SetRenderDrawColor(Context::renderer, 255, 165, 0, 255); // orange color
+            SDL_RenderDrawRect(Context::renderer, &hitBox);
         }
     }
 
