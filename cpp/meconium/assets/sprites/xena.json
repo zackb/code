@@ -4,9 +4,9 @@
   "tileHeight": 64,
   "scale": 1.0,
   "collider": {
-      "x": 20,
+      "x": 30,
       "y": 0,
-      "width": 60,
+      "width": 40,
       "height": 64 
   },
   "animations": {

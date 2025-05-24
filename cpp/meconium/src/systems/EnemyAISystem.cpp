@@ -63,8 +63,8 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
 
         velocity->vx = 0;
         // check if we should attack
-        if (!state->isActionLocked) {
-            if (attack && !playerIsDead && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
+        if (!state->isActionLocked && !playerIsDead) {
+            if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
                 if (ai->timeSinceLastAttack >= attack->cooldownMs) {
                     // we may attack
@@ -137,6 +137,9 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
                     break;
                 }
             }
+        } else {
+            // nothing to do
+            state->currentAction = Action::IDLE;
         }
     }
 
