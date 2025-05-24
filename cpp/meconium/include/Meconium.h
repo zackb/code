@@ -6,6 +6,7 @@
 #include "MusicManager.h"
 #include "components/TileMap.h"
 #include "level/Level.h"
+#include "systems/CombatSystem.h"
 #include "systems/DebugSystem.h"
 #include "systems/DelayedActionSystem.h"
 #include "systems/EnemyAISystem.h"
@@ -46,6 +47,7 @@ private:
     EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
+    CombatSystem combatSystem;
     AnimationSystem animationSystem;
     CameraSystem cameraSystem;
     DebugSystem debugSystem;
