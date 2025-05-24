@@ -1,0 +1,9 @@
+{
+    "sprite": "sprites/xena.json",
+    "attack": {
+        "type": "melee",
+        "cooldownMs": 10,
+        "damage": 40,
+        "sound": "sword"
+    }
+}
