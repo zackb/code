@@ -1,48 +1,48 @@
 {
-  "texture": "textures/cyberpunk_spritesheet.png",
-  "tileWidth": 32,
-  "tileHeight": 34,
-  "scale": 2.0,
+  "texture": "textures/xena_spritesheet.png",
+  "tileWidth": 100,
+  "tileHeight": 64,
+  "scale": 1.0,
   "collider": {
-      "x": 15,
-      "y": 25,
-      "width": 26,
-      "height": 31 
+      "x": 20,
+      "y": 0,
+      "width": 60,
+      "height": 64 
   },
   "animations": {
     "idle": {
-      "row": 9,
-      "frameCount": 6,
+      "row": 0,
+      "frameCount": 4,
       "looping": true,
       "duration": 200
     },
-    "attack": {
+    "walk": {
       "row": 1,
-      "frameCount": 6,
+      "frameCount": 7,
       "looping": true,
       "duration": 100
     },
-    "walk": {
+    "attack": {
       "row": 2,
-      "frameCount": 8,
+      "frameCount": 9,
       "looping": true,
       "duration": 100
     },
     "jump": {
       "row": 3,
-      "frameCount": 8,
+      "frameCount": 6,
       "looping": false,
       "duration": 150
     },
     "fall": {
       "row": 4,
-      "frameCount": 8,
+      "frameCount": 4,
       "looping": false,
-      "duration": 100
+      "duration": 150
     },
     "die": {
       "row": 5,
-      "frameCount": 8,
+      "frameCount": 6,
       "looping": false,
       "duration": 100
     }

@@ -44,7 +44,7 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
             resolvePlayerPickupCollisions(*player, *entity);
         }
 
-        // fall of map check
+        // fall off map check
         if (transform->y > tileMap.mapHeight * tileMap.tileHeight() * 2) {
             std::cout << "fell off" << std::endl;
             transform->x = 100;
