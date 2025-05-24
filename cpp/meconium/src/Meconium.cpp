@@ -32,6 +32,9 @@ bool Meconium::init(std::string character) {
     // Initialize enemies
     enemies = level->createEnemies();
 
+    // Load player definition
+    auto playerDef = AssetLoader::loadPlayer("assets/players/" + character + ".json");
+
     // Create a player entity
     player = std::make_shared<Entity>(1);
 
@@ -41,11 +44,8 @@ bool Meconium::init(std::string character) {
     // Give player some health
     player->addComponent<Health>(100);
 
-    // Load player definition
-    auto playerDef = AssetLoader::loadPlayer("assets/players/" + character + ".json");
-    auto sprite = EntityFactory::createSprite(*playerDef->spriteDef);
-
     // Add Sprite
+    auto sprite = EntityFactory::createSprite(*playerDef->spriteDef);
     player->addComponent<Sprite>(sprite);
 
     // Add animation component
@@ -67,6 +67,12 @@ bool Meconium::init(std::string character) {
         player->addComponent<Collider>(rect.x, rect.y, rect.width, rect.height);
     } else {
         player->addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    }
+
+    // Add hitbox if we should
+    if (playerDef->hitbox.has_value()) {
+        auto rect = playerDef->hitbox.value();
+        player->addComponent<Hitbox>(rect.x, rect.y, rect.width, rect.height);
     }
 
     // Add Transform

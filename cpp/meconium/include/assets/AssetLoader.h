@@ -15,7 +15,8 @@ public:
     static std::shared_ptr<Player> loadPlayer(std::string filePath) {
         auto player = loadJson<PlayerDefinition>(filePath);
         auto spriteDef = loadSpriteSheet(player->sprite);
-        return std::make_shared<Player>(*player, spriteDef, player->attack);
+
+        return std::make_shared<Player>(*player, spriteDef, player->attack, player->hitbox);
     }
 
     static std::shared_ptr<SpriteSheetDefinition> loadSpriteSheet(std::string filePath) {

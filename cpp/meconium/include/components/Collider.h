@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <memory>
 
-class Collider final : public Component {
+class Collider : public Component {
 public:
     int offsetX = 0, offsetY = 0;
     int width = 0, height = 0;
@@ -19,4 +19,11 @@ public:
                         static_cast<int>(width * transform->scaleX),
                         static_cast<int>(height * transform->scaleY)};
     }
+};
+
+struct Hitbox final : public Component {
+    Collider collider;
+
+    Hitbox(const Collider& c) : collider(c) {}
+    Hitbox(int x, int y, int width, int height) : collider(x, y, width, height) {}
 };
