@@ -24,7 +24,7 @@
     },
     "attack": {
       "row": 2,
-      "frameCount": 9,
+      "frameCount": 6,
       "looping": true,
       "duration": 100
     },
