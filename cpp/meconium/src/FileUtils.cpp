@@ -78,6 +78,16 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return cmakeBuildPathAssets;
     }
 
+    // 6. Check unix install
+    std::string unixPath = "/usr/local/share/meconium/" + relativePath;
+    if (fs::exists(unixPath)) {
+        return unixPath;
+    }
+    unixPath = "/usr/local/share/meconium/assets/" + relativePath;
+    if (fs::exists(unixPath)) {
+        return unixPath;
+    }
+
     // 5. Fallback: return unchanged and let caller handle error
     return relativePath;
 }
