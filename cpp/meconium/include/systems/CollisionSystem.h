@@ -22,13 +22,7 @@ private:
                                    std::shared_ptr<Collider>& collider,
                                    TileMap& tileMap);
 
-    void resolvePlayerEnemyCollisions(Entity& player, Entity& enemy);
-
-    void resolvePlayerProjectileCollisions(Entity& player, Entity& projectile);
-
-    void resolvePlayerPickupCollisions(Entity& player, Entity& pickup);
-
-    bool aabb(SDL_Rect& a, SDL_Rect& b);
+    void resolvePlayerEnemyBump(Entity& player, Entity& enemy);
 
     static void forEachNearbySolidTile(
         const SDL_Rect& rect,

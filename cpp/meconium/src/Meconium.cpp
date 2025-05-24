@@ -142,6 +142,9 @@ void Meconium::update() {
     // Handle collisions after movement
     collisionSystem.update(entities, *tileMap);
 
+    // Handle combat collisions
+    combatSystem.update(entities);
+
     // Update animations based on state
     animationSystem.update(entities, deltaTime);
 

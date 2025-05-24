@@ -27,6 +27,9 @@ struct State final : Component {
 
     bool facingRight = true;
 
+    // if the result of this action has happened (attack landed)
+    bool actionApplied = false;
+
     std::function<void()> onUnlock = nullptr;
 
     void lockAction(const Action action, const int duration, std::function<void()> callback = nullptr) {
@@ -34,6 +37,19 @@ struct State final : Component {
         currentAction = action;
         actionDurationMs = duration;
         actionTimeMs = 0;
+        actionApplied = false;
         onUnlock = callback;
+    }
+
+    // check if we need to unlock the action and clear the locked state
+    void checkActionLock() {
+        if (actionTimeMs >= actionDurationMs) {
+            isActionLocked = false;
+            actionApplied = false;
+            if (onUnlock) {
+                onUnlock();
+                onUnlock = nullptr; // clear it after use
+            }
+        }
     }
 };

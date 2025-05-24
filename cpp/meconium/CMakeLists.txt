@@ -50,6 +50,7 @@ set(SOURCES
         src/systems/MovementSystem.cpp
         src/systems/RenderSystem.cpp
         src/systems/CollisionSystem.cpp
+        src/systems/CombatSystem.cpp
         src/components/TileMap.cpp
         src/FileUtils.cpp
         src/systems/CameraSystem.cpp

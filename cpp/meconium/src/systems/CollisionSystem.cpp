@@ -1,13 +1,11 @@
 #include "systems/CollisionSystem.h"
-#include "ECS.h"
-#include "components/Attack.h"
-#include "components/Despawn.h"
-#include "components/Health.h"
+#include "Utils.h"
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
-#include "components/State.h"
+#include "components/Tag.h"
 
 void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+
     auto player = entities->findEntityWithComponent<PlayerTag>();
 
     for (auto& entity : *entities) {
@@ -29,19 +27,9 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
         boundsY.y += velocity->vy;
         resolveVerticalCollisions(boundsY, velocity, transform, collider, tileMap);
 
-        // Check player vs enemy collisions
+        // Check for bumps
         if (entity->hasComponent<EnemyTag>()) {
-            resolvePlayerEnemyCollisions(*player, *entity);
-        }
-
-        // Check player vs projectile collisions
-        if (entity->hasComponent<Projectile>()) {
-            resolvePlayerProjectileCollisions(*player, *entity);
-        }
-
-        // Check player vs pickup collisions
-        if (entity->hasComponent<PickupTag>()) {
-            resolvePlayerPickupCollisions(*player, *entity);
+            resolvePlayerEnemyBump(*player, *entity);
         }
 
         // fall off map check
@@ -54,19 +42,34 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
             transform->onGround = false;
         }
     }
+}
 
-    // check for enemy vs player projectile collisions
-    // get all projectiles
-    auto projectiles = entities->findByComponents<Projectile>();
-    for (auto projectile : projectiles) {
-        auto proj = projectile->getComponent<Projectile>();
-        // we already resolved enemy projectiles on the player deal with the player's
-        if (proj->ownerId == player->id) {
-            auto enemies = entities->findByComponents<EnemyTag>();
-            for (auto enemy : enemies) {
-                resolvePlayerProjectileCollisions(*enemy, *projectile);
-            }
-        }
+void CollisionSystem::resolvePlayerEnemyBump(Entity& player, Entity& enemy) {
+    if (player.hasComponent<Knockback>())
+        return;
+
+    auto playerPos = player.getComponent<Transform>();
+    auto enemyPos = enemy.getComponent<Transform>();
+    auto playerRect = player.getComponent<Collider>()->getBounds(playerPos);
+    auto enemyRect = enemy.getComponent<Collider>()->getBounds(enemyPos);
+
+    if (util::aabb(playerRect, enemyRect)) {
+        // direction: enemy on left => knock right, etc.
+        float dx = (playerRect.x + playerRect.w / 2) - (enemyRect.x + enemyRect.w / 2);
+
+        float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
+        float knockbackY = -2.0f;                    // upward knockback
+        auto playerVel = player.getComponent<Velocity>();
+        playerVel->vx = knockbackX;
+        playerVel->vy = knockbackY;
+
+        auto enemyVel = enemy.getComponent<Velocity>();
+        enemyVel->vx = -knockbackX;
+        enemyVel->vy = knockbackY;
+
+        player.addComponent<Knockback>(200.0);
+        enemy.addComponent<Knockback>(200.0);
+        player.addComponent<SoundEffect>("bump", 0);
     }
 }
 
@@ -124,7 +127,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
             } else if (type == TileType::RampLeft || type == TileType::RampRight) {
                 // Ramp handling (left and right)
 
-                // Middle of the player
+                // Middle of the sprite
                 int localX = rect.x + rect.w / 2 - tileRect.x;
 
                 // Calculate percent across tile
@@ -176,122 +179,4 @@ void CollisionSystem::forEachNearbySolidTile(
             callback(tileRect, x, y, type);
         }
     }
-}
-
-// check for entity collisions and apply knockback if needed
-void CollisionSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
-    if (player.hasComponent<Knockback>()) {
-        return;
-    }
-    auto playerPos = player.getComponent<Transform>();
-    auto playerCollider = player.getComponent<Collider>();
-
-    auto enemyPos = enemy.getComponent<Transform>();
-    auto enemyCollider = enemy.getComponent<Collider>();
-
-    auto playerRect = playerCollider->getBounds(playerPos);
-    auto enemyRect = enemyCollider->getBounds(enemyPos);
-
-    if (aabb(playerRect, enemyRect)) {
-
-        // check for attacks
-        if (auto state = player.getComponent<State>()) {
-            // player is currently attacking
-            if (state->currentAction == Action::ATTACKING) {
-                // player has health
-                auto attack = player.getComponent<Attack>();
-                if (const auto health = enemy.getComponent<Health>()) {
-                    health->hp -= attack->damage;
-                    // player should be despawned for dying
-                    if (health->hp <= 0) {
-                        enemy.getComponent<State>()->currentAction = Action::DYING;
-                        enemy.addComponent<Despawn>(5000);
-                    }
-                }
-            }
-        }
-
-        // no attacks so knockback
-        // direction: enemy on left => knock right, etc.
-        float dx = (playerRect.x + playerRect.w / 2) - (enemyRect.x + enemyRect.w / 2);
-
-        float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
-        float knockbackY = -2.0f;                    // upward knockback
-        auto playerVel = player.getComponent<Velocity>();
-        playerVel->vx = knockbackX;
-        playerVel->vy = knockbackY;
-
-        auto enemyVel = enemy.getComponent<Velocity>();
-        enemyVel->vx = -knockbackX;
-        enemyVel->vy = knockbackY;
-
-        player.addComponent<Knockback>(200.0);
-        enemy.addComponent<Knockback>(200.0);
-        player.addComponent<SoundEffect>("bump", 0);
-    }
-}
-
-void CollisionSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& projectile) {
-    auto proj = projectile.getComponent<Projectile>();
-    if (!proj)
-        return;
-
-    // player cant shoot themselves
-    if (proj->ownerId == player.id) {
-        return;
-    }
-
-    auto playerPos = player.getComponent<Transform>();
-    auto projPos = projectile.getComponent<Transform>();
-
-    auto playerCollider = player.getComponent<Collider>();
-    auto projCollider = projectile.getComponent<Collider>();
-
-    auto playerRect = playerCollider->getBounds(playerPos);
-    auto projRect = projCollider->getBounds(projPos);
-
-    // did the projectile hit the player
-    if (aabb(playerRect, projRect)) {
-        if (auto state = player.getComponent<State>()) {
-            auto health = player.getComponent<Health>();
-            if (health && proj) {
-                health->hp -= proj->damage;
-                if (health->hp <= 0) {
-                    state->lockAction(Action::DYING, 5000);
-                    player.addComponent<Despawn>(5000);
-                }
-            }
-        }
-        projectile.addComponent<Despawn>(0);
-    }
-}
-
-void CollisionSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup) {
-    auto playerPos = player.getComponent<Transform>();
-    auto pickupPos = pickup.getComponent<Transform>();
-    if (!playerPos || !pickupPos) {
-        std::cerr << "missing position for pickup\n";
-        return;
-    }
-
-    auto playerCollider = player.getComponent<Collider>();
-    auto pickupCollider = pickup.getComponent<Collider>();
-
-    auto playerRect = playerCollider->getBounds(playerPos);
-    auto pickupRect = pickupCollider->getBounds(pickupPos);
-
-    if (aabb(playerRect, pickupRect) && !pickup.hasComponent<Despawn>()) {
-        auto playerHealth = player.getComponent<Health>();
-        auto pickupHealth = pickup.getComponent<Health>();
-        if (pickupHealth) {
-            playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
-        }
-
-        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
-        pickup.addComponent<Despawn>(500);
-    }
-}
-
-bool CollisionSystem::aabb(SDL_Rect& a, SDL_Rect& b) {
-    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
