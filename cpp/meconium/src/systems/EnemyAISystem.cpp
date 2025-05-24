@@ -1,23 +1,19 @@
 #include "systems/EnemyAISystem.h"
 
-#include "components/Attack.h"
 #include "components/DelayedAction.h"
-#include "components/EnemyAI.h"
 #include "components/Knockback.h"
 #include "components/SoundEffect.h"
-#include "components/Sprite.h"
-#include "components/State.h"
 #include "components/Tag.h"
-#include "components/Transform.h"
-#include "components/Velocity.h"
 #include "entity/EntityFactory.h"
 
 // gravity is applied in MovementSystem
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
 
-    for (const auto& entity : *entities) {
-        if (!entity->hasComponent<EnemyTag>())
-            continue;
+    auto player = entities->findEntityWithComponent<PlayerTag>();
+    auto playerPos = player->getComponent<Transform>();
+
+    // iterate enemies
+    for (const auto& entity : entities->findByComponents<EnemyTag, Transform, Velocity, State, Sprite, EnemyAI>()) {
 
         if (entity->hasComponent<Knockback>())
             continue;
@@ -26,34 +22,28 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
         auto velocity = entity->getComponent<Velocity>();
         auto state = entity->getComponent<State>();
         auto sprite = entity->getComponent<Sprite>();
+        auto ai = entity->getComponent<EnemyAI>();
 
-        auto player = entities->findEntityWithComponent<PlayerTag>();
-        auto playerPos = player->getComponent<Transform>();
+        // reset velocity to 0 until we decide what to do next
+        velocity->vx = 0;
 
-        if (!position || !velocity || !state || !sprite) {
-            std::cerr << "missing required components of enemy" << std::endl;
+        // if the enemy is dying there's nothing to do
+        if (state->currentAction == Action::DYING) {
             continue;
         }
 
-        // if the enemy is dying there's nothing to do
-        if (state && state->currentAction == Action::DYING) {
-            velocity->vx = 0;
+        // if we're locked in the previous action nothing to do
+        if (state->isActionLocked) {
             continue;
         }
 
         // if the player is already dead we can chill
-        bool playerIsDead = false;
         if (auto playerState = player->getComponent<State>(); playerState) {
             if (playerState->currentAction == Action::DYING) {
-                playerIsDead = true;
+                // nothing to do
+                state->currentAction = Action::IDLE;
+                continue;
             }
-        }
-
-        // see if we have ai
-        auto ai = entity->getComponent<EnemyAI>();
-        if (!ai) {
-            std::cerr << "enemy has no ai" << std::endl;
-            continue;
         }
 
         auto attack = entity->getComponent<Attack>();
@@ -61,90 +51,92 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
         // always wait the timer for determining if we should attack again
         ai->timeSinceLastAttack += dt;
 
-        velocity->vx = 0;
         // check if we should attack
-        if (!state->isActionLocked && !playerIsDead) {
-            if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
+        if (attack && seesTarget(*playerPos, *position, *attack, state->facingRight)) {
 
-                if (ai->timeSinceLastAttack >= attack->cooldownMs) {
-                    // we may attack
-                    if (attack->type == AttackType::RANGE) {
-                        // schedule a projectile to fire part way through the animation
-                        const auto origin = entity;
-                        const auto attackCopy = *attack;
-                        entity->addComponent<DelayedAction>(
-                            500, // TODO: same here
-                            [=]() {
-                                entities->queueAdd(EntityFactory::spawnProjectile(*origin, attackCopy));
-                                entity->addComponent<SoundEffect>(attack->sound, 0);
-                            });
-                    }
-
-                    ai->timeSinceLastAttack = 0;
-                    // Lock action for the attack animation duration
-                    // TODO: these should be defined in the attack fab (animation duration)
-                    state->lockAction(Action::ATTACKING, 1000);
-                } else {
-                    state->currentAction = Action::IDLE;
+            // check if we can attack
+            if (ai->timeSinceLastAttack >= attack->cooldownMs) {
+                // we may attack
+                if (attack->type == AttackType::RANGE) {
+                    // schedule a projectile to fire part way through the animation
+                    const auto origin = entity;
+                    const auto attackCopy = *attack;
+                    entity->addComponent<DelayedAction>(500, // TODO: same here
+                                                        [=]() {
+                                                            entities->queueAdd(
+                                                                EntityFactory::spawnProjectile(*origin, attackCopy));
+                                                            entity->addComponent<SoundEffect>(attack->sound, 0);
+                                                        });
                 }
+
+                ai->timeSinceLastAttack = 0;
+                // Lock action for the attack animation duration
+                // TODO: these should be defined in the attack fab (animation duration)
+                state->lockAction(Action::ATTACKING, 1000);
             } else {
-                // otherwise determine standard behavior
-                switch (ai->behavior) {
-                case EnemyBehavior::IDLE: {
-                    state->currentAction = Action::IDLE;
-                    if (playerPos->x > position->x) {
-                        state->facingRight = true;
-                        sprite->flipX = false;
-                    } else {
-                        state->facingRight = false;
-                        sprite->flipX = true;
-                    }
-                    break;
-                }
-                case EnemyBehavior::PATROL: {
-                    auto patrol = ai->patrol;
-                    state->currentAction = Action::WALKING;
-                    if (state->facingRight) {
-                        velocity->vx = patrol.speed;
-                        if (position->x >= patrol.right) {
-                            state->facingRight = false;
-                            sprite->flipX = true;
-                        }
-                    } else {
-                        velocity->vx = -patrol.speed;
-                        if (position->x <= patrol.left) {
-                            state->facingRight = true;
-                            sprite->flipX = false;
-                        }
-                    }
-                    break;
-                }
-                case EnemyBehavior::CHASE: {
-                    state->currentAction = Action::WALKING;
-                    if (playerPos->x < position->x) {
-                        state->facingRight = false;
-                        sprite->flipX = true;
-                        velocity->vx = -ai->chase.speed;
-                    } else {
-                        state->facingRight = true;
-                        sprite->flipX = false;
-                        velocity->vx = ai->chase.speed;
-                    }
-                    break;
-                }
-                default:
-                    std::cerr << "unknown enemy action" << std::endl;
-                    break;
-                }
+                // we cant attack so cooldown
+                state->currentAction = Action::IDLE;
             }
         } else {
-            // nothing to do
-            state->currentAction = Action::IDLE;
+            // otherwise determine standard behavior
+            performBehavior(*ai, *sprite, *state, *position, *velocity, *playerPos);
         }
     }
 
-    // flush queue
+    // flush queue because we may have spawned a projectile
     entities->flushQueue();
+}
+
+void EnemyAISystem::performBehavior(
+    EnemyAI& ai, Sprite& sprite, State& state, Transform& position, Velocity& velocity, Transform& playerPos) const {
+
+    switch (ai.behavior) {
+    case EnemyBehavior::IDLE: {
+        state.currentAction = Action::IDLE;
+        if (playerPos.x > position.x) {
+            state.facingRight = true;
+            sprite.flipX = false;
+        } else {
+            state.facingRight = false;
+            sprite.flipX = true;
+        }
+        break;
+    }
+    case EnemyBehavior::PATROL: {
+        auto patrol = ai.patrol;
+        state.currentAction = Action::WALKING;
+        if (state.facingRight) {
+            velocity.vx = patrol.speed;
+            if (position.x >= patrol.right) {
+                state.facingRight = false;
+                sprite.flipX = true;
+            }
+        } else {
+            velocity.vx = -patrol.speed;
+            if (position.x <= patrol.left) {
+                state.facingRight = true;
+                sprite.flipX = false;
+            }
+        }
+        break;
+    }
+    case EnemyBehavior::CHASE: {
+        state.currentAction = Action::WALKING;
+        if (playerPos.x < position.x) {
+            state.facingRight = false;
+            sprite.flipX = true;
+            velocity.vx = -ai.chase.speed;
+        } else {
+            state.facingRight = true;
+            sprite.flipX = false;
+            velocity.vx = ai.chase.speed;
+        }
+        break;
+    }
+    default:
+        std::cerr << "unknown enemy action" << std::endl;
+        break;
+    }
 }
 
 bool EnemyAISystem::seesTarget(Transform& playerPos, Transform& enemyPos, Attack& attack, bool facingRight) const {
