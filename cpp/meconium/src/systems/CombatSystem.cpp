@@ -80,18 +80,16 @@ void CombatSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
                 auto attack = player.getComponent<Attack>();
                 if (const auto health = enemy.getComponent<Health>()) {
                     health->hp -= attack->damage;
-                    // apply knockback
 
+                    // apply knockback
                     // direction: enemy on left => knock right, etc.
                     float dx = (playerRect.x + static_cast<int>(playerRect.w / 2)) -
                                (enemyRect.x + static_cast<int>(enemyRect.w / 2));
 
-                    float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
-                    float knockbackY = -2.0f;                    // upward knockback
+                    float knockbackX = (dx >= 0) ? 1.0f : -1.0f; // Pixels per second
 
                     auto enemyVel = enemy.getComponent<Velocity>();
                     enemyVel->vx = -knockbackX;
-                    enemyVel->vy = knockbackY;
 
                     enemy.addComponent<Knockback>(200.0);
 

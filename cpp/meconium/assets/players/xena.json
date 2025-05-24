@@ -3,7 +3,7 @@
     "attack": {
         "type": "melee",
         "cooldownMs": 10,
-        "damage": 10,
+        "damage": 34,
         "sound": "sword"
     },
     "hitbox": {
