@@ -6,6 +6,7 @@
 #include "components/Debug.h"
 #include "components/InputControl.h"
 #include "components/Sprite.h"
+#include "components/State.h"
 #include "components/TileMap.h"
 
 #include <iostream>
@@ -83,5 +84,7 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
     if (player) {
         auto playerPos = player->getComponent<Transform>();
         std::cout << "Player position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
+        std::cout << "Player state: (" << static_cast<int>(player->getComponent<State>()->currentAction) << ")"
+                  << std::endl;
     }
 }
