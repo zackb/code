@@ -114,6 +114,7 @@ struct PickupDefinition {
 struct PlayerDefinition {
     std::string sprite;
     AttackDefinition attack;
+    std::optional<Rect> hitbox;
 };
 
 // Level
@@ -306,4 +307,7 @@ inline void from_json(const nlohmann::json& j, MapDefinition& def) {
 inline void from_json(const nlohmann::json j, PlayerDefinition& def) {
     def.sprite = j.at("sprite").get<std::string>();
     def.attack = j.at("attack").get<AttackDefinition>();
+    if (j.contains("hitbox")) {
+        def.hitbox = j.at("hitbox").get<Rect>();
+    }
 }
