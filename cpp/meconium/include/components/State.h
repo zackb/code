@@ -45,7 +45,6 @@ struct State final : Component {
     void checkActionLock() {
         if (actionTimeMs >= actionDurationMs) {
             isActionLocked = false;
-            actionApplied = false;
             if (onUnlock) {
                 onUnlock();
                 onUnlock = nullptr; // clear it after use

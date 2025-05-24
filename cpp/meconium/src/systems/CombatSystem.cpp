@@ -9,6 +9,7 @@
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
+#include "components/Velocity.h"
 
 void CombatSystem::update(const std::shared_ptr<Entities>& entities) {
 
@@ -79,6 +80,21 @@ void CombatSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
                 auto attack = player.getComponent<Attack>();
                 if (const auto health = enemy.getComponent<Health>()) {
                     health->hp -= attack->damage;
+                    // apply knockback
+
+                    // direction: enemy on left => knock right, etc.
+                    float dx = (playerRect.x + static_cast<int>(playerRect.w / 2)) -
+                               (enemyRect.x + static_cast<int>(enemyRect.w / 2));
+
+                    float knockbackX = (dx >= 0) ? 3.0f : -3.0f; // Pixels per second
+                    float knockbackY = -2.0f;                    // upward knockback
+
+                    auto enemyVel = enemy.getComponent<Velocity>();
+                    enemyVel->vx = -knockbackX;
+                    enemyVel->vy = knockbackY;
+
+                    enemy.addComponent<Knockback>(200.0);
+
                     // enemy should be despawned for dying
                     if (health->hp <= 0) {
                         enemy.getComponent<State>()->currentAction = Action::DYING;
