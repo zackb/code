@@ -7,7 +7,7 @@
 
 void CameraSystem::update(Entities& entities, const TileMap& map) const {
 
-    for (auto& e : entities.findByComponents<Camera, Follow>()) {
+    for (auto& e : entities.filtered<Camera, Follow>()) {
 
         auto camPos = e->getComponent<Transform>();
         auto camComp = e->getComponent<Camera>();

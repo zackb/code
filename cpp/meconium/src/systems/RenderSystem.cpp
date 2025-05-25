@@ -1,22 +1,26 @@
 #include "systems/RenderSystem.h"
 #include "Context.h"
-#include "ECS.h"
+#include "components/Animation.h"
 #include "components/Background.h"
+#include "components/Camera.h"
+#include "components/Collider.h"
 #include "components/Health.h"
+#include "components/Sprite.h"
+#include "components/Tag.h"
 
-void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+void RenderSystem::render(Entities& entities, TileMap& tileMap) {
 
-    auto camera = entities->findEntityWithComponent<Camera>();
+    auto camera = entities.findEntityWithComponent<Camera>();
     auto camPos = camera->getComponent<Transform>();
 
     // Render the parallax background layers first
-    auto background = entities->findEntityWithComponent<ParallaxBackground>();
+    auto background = entities.findEntityWithComponent<ParallaxBackground>();
     renderParallaxBackground(*background, *camPos);
 
     // then the map
     renderTileMap(tileMap, *camPos);
 
-    for (auto entity : entities->findByComponents<Transform, Sprite>()) {
+    for (auto entity : entities.filtered<Transform, Sprite>()) {
         auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
 
@@ -59,7 +63,7 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
     }
 
     // render player health bar
-    if (auto player = entities->findEntityWithComponent<PlayerTag>()) {
+    if (auto player = entities.findEntityWithComponent<PlayerTag>()) {
         auto health = player->getComponent<Health>();
         if (health) {
             Rect dst = {20, 30, 200, 0};

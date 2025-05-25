@@ -6,12 +6,11 @@
 #include <SDL.h>
 
 class InputSystem {
+
 public:
     void update(Entities& entities, const Uint8* keyboardState) {
-        for (auto& entity : entities) {
-            if (auto input = entity->getComponent<InputControl>()) {
-                input->update(keyboardState);
-            }
+        for (auto& entity : entities.filtered<InputControl>()) {
+            entity->getComponent<InputControl>()->update(keyboardState);
         }
     }
 };

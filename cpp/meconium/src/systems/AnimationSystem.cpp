@@ -4,7 +4,7 @@
 
 void AnimationSystem::update(Entities& entities, const int deltaTime) const {
 
-    for (auto& entity : entities.findByComponents<AnimationComponent, State>()) {
+    for (auto& entity : entities.filtered<AnimationComponent, State>()) {
 
         const auto animation = entity->getComponent<AnimationComponent>();
 

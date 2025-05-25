@@ -5,10 +5,11 @@
 #include "entity/Entity.h"
 
 class SoundSystem {
+
 public:
     void update(Entities& entities, SoundManager& soundManager) const {
 
-        auto sounds = entities.findByComponents<SoundEffect>();
+        auto sounds = entities.filtered<SoundEffect>();
 
         for (auto& entity : sounds) {
             const auto sound = entity->getComponent<SoundEffect>();

@@ -6,7 +6,7 @@ void DelayedActionSystem::update(Entities& entities, const int dt) {
 
     std::vector<ActionFn> actionQueue;
 
-    for (auto& entity : entities.findByComponents<DelayedAction>()) {
+    for (auto& entity : entities.filtered<DelayedAction>()) {
         auto delayedAction = entity->getComponent<DelayedAction>();
         delayedAction->remainingMs -= dt;
         if (delayedAction->remainingMs <= 0) {

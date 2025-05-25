@@ -8,7 +8,7 @@ class LifecycleSystem {
 public:
     void update(Entities& entities, const int deltaTime) const {
 
-        for (auto& entity : entities.findByComponents<Despawn>()) {
+        for (auto& entity : entities.filtered<Despawn>()) {
             auto despawn = entity->getComponent<Despawn>();
             despawn->timer -= deltaTime;
             if (despawn->timer <= 0) {

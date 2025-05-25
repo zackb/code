@@ -13,8 +13,9 @@
 
 #include "components/Tag.h"
 
-void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_ptr<TileMap>& tileMap) const {
-    auto debugEntity = entities->findEntityWithComponent<Debug>();
+void DebugSystem::update(Entities& entities, TileMap& tileMap) const {
+
+    auto debugEntity = entities.findEntityWithComponent<Debug>();
     if (!debugEntity) {
         return;
     }
@@ -36,15 +37,13 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
     SDL_ShowCursor(SDL_ENABLE);
 
     // camera info
-    auto camera = entities->findEntityWithComponent<Camera>();
+    auto camera = entities.findEntityWithComponent<Camera>();
     auto camPos = camera->getComponent<Transform>();
 
     // for every entity with a collider, draw a rect around it
-    for (auto& entity : *entities) {
+    for (auto& entity : entities.filtered<Collider, Transform>()) {
         auto collider = entity->getComponent<Collider>();
         auto transform = entity->getComponent<Transform>();
-        if (!collider || !transform)
-            continue;
 
         // Draw a rect around the entity's collider
         SDL_Rect r = collider->getBounds(transform);
@@ -78,18 +77,18 @@ void DebugSystem::update(const std::shared_ptr<Entities>& entities, std::shared_
 
     // draw rects around each tile of the tilemap
     SDL_SetRenderDrawColor(Context::renderer, 0, 255, 0, 255); // green color
-    for (int i = 0; i < tileMap->mapWidth; i++) {
-        for (int j = 0; j < tileMap->mapHeight; j++) {
-            SDL_Rect rect = {i * tileMap->tileWidth() - camPos->x,
-                             j * tileMap->tileHeight() - camPos->y,
-                             tileMap->tileWidth(),
-                             tileMap->tileHeight()};
+    for (int i = 0; i < tileMap.mapWidth; i++) {
+        for (int j = 0; j < tileMap.mapHeight; j++) {
+            SDL_Rect rect = {i * tileMap.tileWidth() - camPos->x,
+                             j * tileMap.tileHeight() - camPos->y,
+                             tileMap.tileWidth(),
+                             tileMap.tileHeight()};
             SDL_RenderDrawRect(Context::renderer, &rect);
         }
     }
 
     // print player position
-    auto player = entities->findEntityWithComponent<PlayerTag>();
+    auto player = entities.findEntityWithComponent<PlayerTag>();
     if (player) {
         auto playerPos = player->getComponent<Transform>();
         std::cout << "Player position: (" << playerPos->x << ", " << playerPos->y << ")" << std::endl;
