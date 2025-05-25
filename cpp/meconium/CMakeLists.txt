@@ -51,6 +51,7 @@ set(SOURCES
         src/systems/RenderSystem.cpp
         src/systems/CollisionSystem.cpp
         src/systems/CombatSystem.cpp
+        src/systems/PickupSystem.cpp
         src/components/TileMap.cpp
         src/FileUtils.cpp
         src/systems/CameraSystem.cpp

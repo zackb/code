@@ -11,6 +11,7 @@
 #include "systems/DelayedActionSystem.h"
 #include "systems/EnemyAISystem.h"
 #include "systems/LifecycleSystem.h"
+#include "systems/PickupSystem.h"
 #include "systems/ProjectileSystem.h"
 #include "systems/SoundSystem.h"
 #include "systems/SpawnerSystem.h"
@@ -48,6 +49,7 @@ private:
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
     CombatSystem combatSystem;
+    PickupSystem pickupSystem;
     AnimationSystem animationSystem;
     CameraSystem cameraSystem;
     DebugSystem debugSystem;
