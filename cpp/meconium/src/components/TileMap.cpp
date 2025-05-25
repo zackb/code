@@ -1,6 +1,4 @@
-#include "../../include/components/TileMap.h"
-
-#include "ResourceManager.h"
+#include "components/TileMap.h"
 
 SDL_Rect TileMap::getTileSrcRect(const int tileID) const {
     int tileSize = tileSetDefinition->tileWidth;

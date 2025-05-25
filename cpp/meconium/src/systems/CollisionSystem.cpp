@@ -8,13 +8,11 @@ void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap&
 
     auto player = entities->findEntityWithComponent<PlayerTag>();
 
-    for (auto& entity : *entities) {
+    for (auto& entity : entities->findByComponents<Transform, Velocity, Collider>()) {
+
         auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();
         auto collider = entity->getComponent<Collider>();
-
-        if (!transform || !velocity || !collider)
-            continue;
 
         // Horizontal collision pass
         SDL_Rect boundsX = collider->getBounds(transform);
@@ -55,7 +53,8 @@ void CollisionSystem::resolvePlayerEnemyBump(Entity& player, Entity& enemy) {
 
     if (util::aabb(playerRect, enemyRect)) {
         // direction: enemy on left => knock right, etc.
-        float dx = (playerRect.x + playerRect.w / 2) - (enemyRect.x + enemyRect.w / 2);
+        float dx =
+            (playerRect.x + static_cast<int>(playerRect.w / 2)) - (enemyRect.x + static_cast<int>(enemyRect.w / 2));
 
         float knockbackX = (dx >= 0) ? 2.0f : -2.0f; // Pixels per second
         float knockbackY = -1.0f;                    // upward knockback
@@ -108,7 +107,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                                                 TileMap& tileMap) {
     transform->onGround = false;
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
-        // confirm horizontal overlap confirmed
+        // confirm horizontal overlap
         if (rect.x + rect.w > tileRect.x && rect.x < tileRect.x + tileRect.w) {
             // first check solids
             if (type == TileType::Solid) {

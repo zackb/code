@@ -12,7 +12,7 @@
 
 void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt) {
 
-    for (auto& entity : *entities) {
+    for (auto& entity : entities->findByComponents<State, Velocity, Transform>()) {
 
         auto state = entity->getComponent<State>();
         auto velocity = entity->getComponent<Velocity>();
@@ -26,10 +26,6 @@ void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt
             if (knockback->duration <= 0) {
                 entities->removeComponent<Knockback>(entity);
             }
-        }
-
-        if (!state || !velocity || !transform) {
-            continue;
         }
 
         // countdown action lock timer

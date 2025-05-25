@@ -15,12 +15,9 @@ void CombatSystem::update(const std::shared_ptr<Entities>& entities) {
 
     auto player = entities->findEntityWithComponent<PlayerTag>();
 
-    for (auto& entity : *entities) {
+    for (auto& entity : entities->findByComponents<Transform, Collider>()) {
         auto transform = entity->getComponent<Transform>();
         auto collider = entity->getComponent<Collider>();
-
-        if (!transform || !collider)
-            continue;
 
         // Check player vs enemy collisions
         if (entity->hasComponent<EnemyTag>()) {
@@ -55,9 +52,12 @@ void CombatSystem::update(const std::shared_ptr<Entities>& entities) {
 
 // check for entity collisions and apply knockback if needed
 void CombatSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
+
+    // cant attack when we're getting knocked back
     if (player.hasComponent<Knockback>()) {
         return;
     }
+
     auto playerPos = player.getComponent<Transform>();
     auto playerCollider = *player.getComponent<Collider>();
     if (player.hasComponent<Hitbox>()) {
@@ -106,6 +106,7 @@ void CombatSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
 }
 
 void CombatSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& projectile) {
+
     auto proj = projectile.getComponent<Projectile>();
     if (!proj)
         return;

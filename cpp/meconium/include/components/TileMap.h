@@ -1,4 +1,5 @@
 #pragma once
+
 #include "assets/Definitions.h"
 #include "components/Component.h"
 #include <SDL.h>

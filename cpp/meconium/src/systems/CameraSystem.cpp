@@ -4,9 +4,8 @@
 #include <cmath>
 
 void CameraSystem::update(const std::shared_ptr<Entities>& entities, const TileMap& map) const {
-    for (auto& e : *entities) {
-        if (!e->hasComponent<Camera>() || !e->hasComponent<Follow>())
-            continue;
+
+    for (auto& e : entities->findByComponents<Camera, Follow>()) {
 
         auto camPos = e->getComponent<Transform>();
         auto camComp = e->getComponent<Camera>();

@@ -5,6 +5,7 @@
 #include "components/Health.h"
 
 void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+
     auto camera = entities->findEntityWithComponent<Camera>();
     auto camPos = camera->getComponent<Transform>();
 
@@ -15,48 +16,43 @@ void RenderSystem::render(const std::shared_ptr<Entities>& entities, TileMap& ti
     // then the map
     renderTileMap(tileMap, *camPos);
 
-    for (auto entity : *entities) {
+    for (auto entity : entities->findByComponents<Transform, Sprite>()) {
         auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
-        if (!transform) {
-            continue;
+
+        SDL_Rect dstRect;
+        dstRect.x = transform->x - camPos->x; // Apply camera offset
+        dstRect.y = transform->y - camPos->y; // Apply camera offset
+        dstRect.w = static_cast<int>(sprite->width * transform->scaleX);
+        dstRect.h = static_cast<int>(sprite->height * transform->scaleY);
+
+        SDL_Rect srcRect;
+        SDL_Rect* srcRectPtr = nullptr;
+
+        // Check if entity has an animation component
+        auto animation = entity->getComponent<AnimationComponent>();
+        if (animation) {
+            srcRect = animation->getCurrentFrame();
+            srcRectPtr = &srcRect;
         }
-        if (sprite) {
 
-            SDL_Rect dstRect;
-            dstRect.x = transform->x - camPos->x; // Apply camera offset
-            dstRect.y = transform->y - camPos->y; // Apply camera offset
-            dstRect.w = static_cast<int>(sprite->width * transform->scaleX);
-            dstRect.h = static_cast<int>(sprite->height * transform->scaleY);
+        // Apply flip if needed
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
+        if (sprite->flipX)
+            flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
+        if (sprite->flipY)
+            flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
 
-            SDL_Rect srcRect;
-            SDL_Rect* srcRectPtr = nullptr;
+        SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
 
-            // Check if entity has an animation component
-            auto animation = entity->getComponent<AnimationComponent>();
-            if (animation) {
-                srcRect = animation->getCurrentFrame();
-                srcRectPtr = &srcRect;
-            }
-
-            // Apply flip if needed
-            SDL_RendererFlip flip = SDL_FLIP_NONE;
-            if (sprite->flipX)
-                flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
-            if (sprite->flipY)
-                flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
-
-            SDL_RenderCopyEx(Context::renderer, sprite->texture, srcRectPtr, &dstRect, 0, nullptr, flip);
-
-            // render enemy health bar
-            if (entity->hasComponent<EnemyTag>()) {
-                auto health = entity->getComponent<Health>();
-                auto collider = entity->getComponent<Collider>();
-                if (health && collider) {
-                    if (health->hp < health->max && health->hp > 0) {
-                        Rect dst = {dstRect.x + collider->offsetX, dstRect.y, sprite->width, 0};
-                        drawHealthBar(dst, 6, health->hp, health->max);
-                    }
+        // render enemy health bar
+        if (entity->hasComponent<EnemyTag>()) {
+            auto health = entity->getComponent<Health>();
+            auto collider = entity->getComponent<Collider>();
+            if (health && collider) {
+                if (health->hp < health->max && health->hp > 0) {
+                    Rect dst = {dstRect.x + collider->offsetX, dstRect.y, sprite->width, 0};
+                    drawHealthBar(dst, 6, health->hp, health->max);
                 }
             }
         }
