@@ -13,7 +13,7 @@ void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int 
     auto playerPos = player->getComponent<Transform>();
 
     // iterate enemies
-    for (const auto& entity : entities->findByComponents<EnemyTag, Transform, Velocity, State, Sprite, EnemyAI>()) {
+    for (const auto& entity : entities->filtered<EnemyTag, Transform, Velocity, State, Sprite, EnemyAI>()) {
 
         if (entity->hasComponent<Knockback>())
             continue;

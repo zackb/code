@@ -175,10 +175,10 @@ void Meconium::render() {
     SDL_RenderClear(Context::renderer); // Clears screen with black
 
     // Render entities
-    renderSystem.render(entities, *tileMap);
+    renderSystem.render(*entities, *tileMap);
 
     // Check debugging
-    debugSystem.update(entities, tileMap);
+    debugSystem.update(*entities, *tileMap);
 
     SDL_RenderPresent(Context::renderer);
 }

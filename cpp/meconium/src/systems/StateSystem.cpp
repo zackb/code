@@ -12,7 +12,7 @@
 
 void StateSystem::update(const std::shared_ptr<Entities>& entities, const int dt) {
 
-    for (auto& entity : entities->findByComponents<State, Velocity, Transform>()) {
+    for (auto& entity : entities->filtered<State, Velocity, Transform>()) {
 
         auto state = entity->getComponent<State>();
         auto velocity = entity->getComponent<Velocity>();

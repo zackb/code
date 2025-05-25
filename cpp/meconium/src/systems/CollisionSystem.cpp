@@ -8,7 +8,7 @@ void CollisionSystem::update(Entities& entities, TileMap& tileMap) {
 
     auto player = entities.findEntityWithComponent<PlayerTag>();
 
-    for (auto& entity : entities.findByComponents<Transform, Velocity, Collider>()) {
+    for (auto& entity : entities.filtered<Transform, Velocity, Collider>()) {
 
         auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();

@@ -13,7 +13,7 @@ struct ParallaxLayer {
 
 class RenderSystem {
 public:
-    void render(const std::shared_ptr<Entities>& entities, TileMap& tileMap);
+    void render(Entities& entities, TileMap& tileMap);
 
 private:
     void renderParallaxBackground(Entity& background, const Transform& camera) const;
