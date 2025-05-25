@@ -1,7 +1,6 @@
 #pragma once
 
 #include "entity/Entity.h"
-#include <SDL_rect.h>
 #include <memory>
 
 class CombatSystem {

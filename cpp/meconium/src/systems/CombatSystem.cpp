@@ -28,11 +28,6 @@ void CombatSystem::update(const std::shared_ptr<Entities>& entities) {
         if (entity->hasComponent<Projectile>()) {
             resolvePlayerProjectileCollisions(*player, *entity);
         }
-
-        // Check player vs pickup collisions
-        if (entity->hasComponent<PickupTag>()) {
-            resolvePlayerPickupCollisions(*player, *entity);
-        }
     }
 
     // check for enemy vs player projectile collisions
@@ -138,33 +133,5 @@ void CombatSystem::resolvePlayerProjectileCollisions(Entity& player, Entity& pro
             }
         }
         projectile.addComponent<Despawn>(0);
-    }
-}
-
-// TODO: move to PickupSystem
-void CombatSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup) {
-    auto playerPos = player.getComponent<Transform>();
-    auto pickupPos = pickup.getComponent<Transform>();
-    if (!playerPos || !pickupPos) {
-        std::cerr << "missing position for pickup\n";
-        return;
-    }
-
-    auto playerCollider = player.getComponent<Collider>();
-    auto pickupCollider = pickup.getComponent<Collider>();
-
-    auto playerRect = playerCollider->getBounds(playerPos);
-    auto pickupRect = pickupCollider->getBounds(pickupPos);
-
-    if (util::aabb(playerRect, pickupRect) && !pickup.hasComponent<Despawn>()) {
-        auto playerHealth = player.getComponent<Health>();
-        auto pickupHealth = pickup.getComponent<Health>();
-        if (pickupHealth) {
-            playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
-        }
-
-        // TODO: action/animation duration
-        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
-        pickup.addComponent<Despawn>(500);
     }
 }

@@ -145,6 +145,9 @@ void Meconium::update() {
     // Handle combat collisions
     combatSystem.update(entities);
 
+    // Handle pickups
+    pickupSystem.update(*entities);
+
     // Update animations based on state
     animationSystem.update(*entities, deltaTime);
 
