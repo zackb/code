@@ -2,9 +2,9 @@
 #include "components/Animation.h"
 #include "components/State.h"
 
-void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const int deltaTime) const {
+void AnimationSystem::update(Entities& entities, const int deltaTime) const {
 
-    for (auto& entity : entities->findByComponents<AnimationComponent, State>()) {
+    for (auto& entity : entities.findByComponents<AnimationComponent, State>()) {
 
         const auto animation = entity->getComponent<AnimationComponent>();
 

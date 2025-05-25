@@ -17,7 +17,7 @@ void MovementSystem::update(Entities& entities) const {
     const float JUMP_FORCE = -22.0f;
     const float MAX_FALL_SPEED = 30.0f;
 
-    for (auto& entity : entities.findByComponents<Transform, Velocity>()) {
+    for (auto& entity : entities.filtered<Transform, Velocity>()) {
 
         // skip input control if we're being knocked back
         if (entity->hasComponent<Knockback>()) {
@@ -30,10 +30,10 @@ void MovementSystem::update(Entities& entities) const {
         auto sprite = entity->getComponent<Sprite>();
 
         // if we're dying dont move
-        if (auto state = entity->getComponent<State>(); state) {
+        if (auto state = entity->getComponent<State>()) {
             if (state->currentAction == Action::DYING) {
                 velocity->vx = 0;
-                continue;
+                velocity->vy = 0;
             }
         }
 

@@ -55,6 +55,64 @@ private:
     friend class Entities;
 };
 
+// helper class to iterate over the collection without making vectors like in findBy*
+template <typename... Components> class FilteredView {
+    using EntityPtr = std::shared_ptr<Entity>;
+
+    const std::vector<EntityPtr>& entities;
+    size_t index = 0;
+
+    // Advance index to the next entity that has all Components
+    void skipToNextValid() {
+        while (index < entities.size() && !hasComponents(entities[index])) {
+            ++index;
+        }
+    }
+
+public:
+    FilteredView(const std::vector<EntityPtr>& ents) : entities(ents), index(0) { skipToNextValid(); }
+
+    class iterator {
+        const std::vector<EntityPtr>& entities;
+        size_t pos;
+
+        void skipToNextValid() {
+            while (pos < entities.size() && !hasComponents(entities[pos])) {
+                ++pos;
+            }
+        }
+
+    public:
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = EntityPtr;
+        using difference_type = std::ptrdiff_t;
+        using pointer = const EntityPtr*;
+        using reference = const EntityPtr&;
+
+        iterator(const std::vector<EntityPtr>& ents, size_t startPos) : entities(ents), pos(startPos) {
+            skipToNextValid();
+        }
+
+        reference operator*() const { return entities[pos]; }
+        pointer operator->() const { return &entities[pos]; }
+
+        iterator& operator++() {
+            ++pos;
+            skipToNextValid();
+            return *this;
+        }
+
+        bool operator==(const iterator& other) const { return pos == other.pos; }
+        bool operator!=(const iterator& other) const { return !(*this == other); }
+    };
+
+    iterator begin() const { return iterator(entities, index); }
+    iterator end() const { return iterator(entities, entities.size()); }
+
+private:
+    static bool hasComponents(const EntityPtr& e) { return (... && (e->getComponent<Components>() != nullptr)); }
+};
+
 // The Entities class that manages all entities and their components
 class Entities {
 public:
@@ -115,6 +173,11 @@ public:
     auto begin() const { return entities.begin(); }
 
     auto end() const { return entities.end(); }
+
+    // Lazy iterator
+    template <typename... Components> FilteredView<Components...> filtered() const {
+        return FilteredView<Components...>(entities);
+    }
 
     // Find the first entity with a specific component
     template <typename T> std::shared_ptr<T> findFirstComponent() {

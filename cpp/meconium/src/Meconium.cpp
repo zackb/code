@@ -131,7 +131,7 @@ void Meconium::update() {
     movementSystem.update(*entities);
 
     // Play sounds if we should
-    soundSystem.update(entities, soundManager);
+    soundSystem.update(*entities, soundManager);
 
     // Handle enemy AI
     enemyAISystem.update(entities, deltaTime);
@@ -146,22 +146,22 @@ void Meconium::update() {
     combatSystem.update(entities);
 
     // Update animations based on state
-    animationSystem.update(entities, deltaTime);
+    animationSystem.update(*entities, deltaTime);
 
     // Update projectile status
-    projectileSystem.update(entities, deltaTime);
+    projectileSystem.update(*entities, deltaTime);
 
     // Handle delayed actions
     delayedActionSystem.update(*entities, deltaTime);
 
     // Update camera after movement and collision
-    cameraSystem.update(entities, *tileMap);
+    cameraSystem.update(*entities, *tileMap);
 
     // Spawn enemies if we should
-    spawnerSystem.update(entities, enemies);
+    spawnerSystem.update(*entities, enemies);
 
     // Entity lifecycle check
-    lifecycleSystem.update(entities, deltaTime);
+    lifecycleSystem.update(*entities, deltaTime);
 
     // Check for player death
     if (!entities->findEntityWithComponent<PlayerTag>()) {
