@@ -4,11 +4,11 @@
 #include "components/SoundEffect.h"
 #include "components/Tag.h"
 
-void CollisionSystem::update(const std::shared_ptr<Entities>& entities, TileMap& tileMap) {
+void CollisionSystem::update(Entities& entities, TileMap& tileMap) {
 
-    auto player = entities->findEntityWithComponent<PlayerTag>();
+    auto player = entities.findEntityWithComponent<PlayerTag>();
 
-    for (auto& entity : entities->findByComponents<Transform, Velocity, Collider>()) {
+    for (auto& entity : entities.findByComponents<Transform, Velocity, Collider>()) {
 
         auto transform = entity->getComponent<Transform>();
         auto velocity = entity->getComponent<Velocity>();

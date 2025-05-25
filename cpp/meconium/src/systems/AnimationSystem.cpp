@@ -4,7 +4,7 @@
 
 void AnimationSystem::update(const std::shared_ptr<Entities>& entities, const int deltaTime) const {
 
-    for (auto& entity : entities->findByComponents<Animation, State>()) {
+    for (auto& entity : entities->findByComponents<AnimationComponent, State>()) {
 
         const auto animation = entity->getComponent<AnimationComponent>();
 

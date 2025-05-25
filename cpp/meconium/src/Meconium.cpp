@@ -125,10 +125,10 @@ void Meconium::update() {
     const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
 
     // Handle input first to affect movement
-    inputSystem.update(entities, keyboardState);
+    inputSystem.update(*entities, keyboardState);
 
     // Apply movement based on input
-    movementSystem.update(entities);
+    movementSystem.update(*entities);
 
     // Play sounds if we should
     soundSystem.update(entities, soundManager);
@@ -140,7 +140,7 @@ void Meconium::update() {
     stateSystem.update(entities, deltaTime);
 
     // Handle collisions after movement
-    collisionSystem.update(entities, *tileMap);
+    collisionSystem.update(*entities, *tileMap);
 
     // Handle combat collisions
     combatSystem.update(entities);

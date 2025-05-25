@@ -1,18 +1,23 @@
-#include "ECS.h"
+#include "systems/MovementSystem.h"
+
+#include "components/InputControl.h"
 #include "components/Knockback.h"
 #include "components/NoGravity.h"
 #include "components/SoundEffect.h"
+#include "components/Sprite.h"
 #include "components/State.h"
+#include "components/Transform.h"
 #include "components/Velocity.h"
+#include "entity/Entity.h"
 
 // Handles both physics as well as player input
-void MovementSystem::update(const std::shared_ptr<Entities>& entities) const {
+void MovementSystem::update(Entities& entities) const {
 
     const float GRAVITY = 1.0f;
     const float JUMP_FORCE = -22.0f;
     const float MAX_FALL_SPEED = 30.0f;
 
-    for (auto& entity : entities->findByComponents<Transform, Velocity>()) {
+    for (auto& entity : entities.findByComponents<Transform, Velocity>()) {
 
         // skip input control if we're being knocked back
         if (entity->hasComponent<Knockback>()) {
