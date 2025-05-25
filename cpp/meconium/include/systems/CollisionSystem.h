@@ -7,7 +7,7 @@
 
 class CollisionSystem {
 public:
-    void update(const std::shared_ptr<Entities>& entities, TileMap& tileMap);
+    void update(Entities& entities, TileMap& tileMap);
 
 private:
     void resolveHorizontalCollisions(SDL_Rect& rect,
