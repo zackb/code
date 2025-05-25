@@ -1,11 +1,13 @@
-#include "ECS.h"
 
+#include "systems/CameraSystem.h"
+#include "components/Camera.h"
+#include "components/Transform.h"
 #include <algorithm>
 #include <cmath>
 
-void CameraSystem::update(const std::shared_ptr<Entities>& entities, const TileMap& map) const {
+void CameraSystem::update(Entities& entities, const TileMap& map) const {
 
-    for (auto& e : entities->findByComponents<Camera, Follow>()) {
+    for (auto& e : entities.findByComponents<Camera, Follow>()) {
 
         auto camPos = e->getComponent<Transform>();
         auto camComp = e->getComponent<Camera>();

@@ -3,18 +3,17 @@
 #include "SoundManager.h"
 #include "components/SoundEffect.h"
 #include "entity/Entity.h"
-#include <memory>
 
 class SoundSystem {
 public:
-    void update(const std::shared_ptr<Entities>& entities, SoundManager& soundManager) const {
+    void update(Entities& entities, SoundManager& soundManager) const {
 
-        auto sounds = entities->findByComponents<SoundEffect>();
+        auto sounds = entities.findByComponents<SoundEffect>();
 
         for (auto& entity : sounds) {
             const auto sound = entity->getComponent<SoundEffect>();
             soundManager.play(sound->soundId, sound->loops);
-            entities->removeComponent<SoundEffect>(entity);
+            entities.removeComponent<SoundEffect>(entity);
         }
     }
 };

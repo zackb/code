@@ -2,12 +2,11 @@
 #include "components/Tag.h"
 #include "components/Transform.h"
 #include "entity/EntityFactory.h"
-
 #include <iostream>
 
-void SpawnerSystem::update(const std::shared_ptr<Entities>& entities, const Enemies& enemies) const {
+void SpawnerSystem::update(Entities& entities, const Enemies& enemies) const {
 
-    auto player = entities->findEntityWithComponent<PlayerTag>();
+    auto player = entities.findEntityWithComponent<PlayerTag>();
 
     if (!player) {
         std::cerr << "no player found" << std::endl;
@@ -20,9 +19,9 @@ void SpawnerSystem::update(const std::shared_ptr<Entities>& entities, const Enem
         if (enemy->hasSpawned)
             continue;
         if (pos->x >= enemy->def.triggerX) {
-            entities->queueAdd(EntityFactory::spawnEnemy(enemy));
+            entities.queueAdd(EntityFactory::spawnEnemy(enemy));
             enemy->hasSpawned = true;
         }
     }
-    entities->flushQueue();
+    entities.flushQueue();
 }

@@ -6,5 +6,5 @@
 class AnimationSystem {
 
 public:
-    void update(const std::shared_ptr<Entities>& entities, const int deltaTime) const;
+    void update(Entities& entities, const int deltaTime) const;
 };
