@@ -105,7 +105,7 @@ struct EnemyDefinition {
 struct PickupDefinition {
     std::string type;
     std::string sprite;
-    int ammount;
+    int amount;
     int x;
     int y;
 };
@@ -216,7 +216,9 @@ inline void from_json(const nlohmann::json& j, EnemyDefinition& e) {
 inline void from_json(const nlohmann::json& j, PickupDefinition& p) {
     p.type = j.at("type").get<std::string>();
     p.sprite = j.at("sprite").get<std::string>();
-    p.ammount = j.at("amount").get<int>();
+    if (j.contains("amount")) {
+        p.amount = j.at("amount").get<int>();
+    }
     p.x = j.at("x").get<int>();
     p.y = j.at("y").get<int>();
 }

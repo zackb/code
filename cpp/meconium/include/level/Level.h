@@ -48,8 +48,13 @@ public:
     Pickups createPickups() const {
         Pickups pickups;
         for (auto p : levelDef->pickups) {
+            Pickup::Type type;
+            if (p.type == "health")
+                type = Pickup::Type::HEALTH;
+            else if (p.type == "key")
+                type = Pickup::Type::KEY;
             auto spriteSheet = AssetLoader::loadSpriteSheet(p.sprite);
-            pickups.emplace_back(std::make_shared<Pickup>(p, spriteSheet));
+            pickups.emplace_back(std::make_shared<Pickup>(p, type, spriteSheet));
         }
         return pickups;
     }
