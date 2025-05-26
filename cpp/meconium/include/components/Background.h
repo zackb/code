@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Component.h"
 #include <SDL.h>
+#include <vector>
 
 class Background final : public Component {
 public:

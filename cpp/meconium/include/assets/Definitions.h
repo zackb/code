@@ -1,17 +1,12 @@
 #pragma once
+
+#include "Rect.h"
 #include "components/EnemyAI.h"
 #include "json.hpp"
 
 #include <string>
 
 // JSON model
-
-struct Rect {
-    int x;
-    int y;
-    int width;
-    int height;
-};
 
 // Spritesheet
 struct AnimationDefinition {
