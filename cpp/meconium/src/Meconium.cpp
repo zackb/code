@@ -9,6 +9,7 @@
 #include "FileUtils.h"
 #include "GameOverState.h"
 #include "assets/AssetLoader.h"
+#include "components/Bag.h"
 #include "components/Debug.h"
 #include "components/Health.h"
 #include "components/State.h"
@@ -80,6 +81,9 @@ bool Meconium::init(std::string character) {
 
     // Add State
     player->addComponent<State>();
+
+    // Add a bag to the player
+    player->addComponent<Bag>();
 
     // Add player to the entities list
     entities->add(player);
