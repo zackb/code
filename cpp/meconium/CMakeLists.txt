@@ -41,6 +41,7 @@ include_directories(
 # Specify the source files for your executable
 set(SOURCES
         src/main.cpp
+        src/Context.cpp
         src/Meconium.cpp
         src/ResourceManager.cpp
         src/MusicManager.cpp
