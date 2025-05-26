@@ -67,6 +67,12 @@
         "amount": 25,
         "x": 2000,
         "y": 150
+    },
+    {
+        "type": "key",
+        "sprite": "sprites/pickups/health_small.json",
+        "x": 3869,
+        "y": 144
     }
     ]
 

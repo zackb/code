@@ -116,7 +116,7 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) 
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
     if (pickup.def.type == "health") {
-        entity.addComponent<Health>(pickup.def.ammount); // kind of a hack reusing Health
+        entity.addComponent<Health>(pickup.def.amount); // kind of a hack reusing Health
     } else {
         std::cerr << "unknown pickup type: " << pickup.def.type << std::endl;
     }
