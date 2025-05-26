@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Pickup.h"
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
+#include "assets/Definitions.h"
 #include "components/Background.h"
 #include "components/TileMap.h"
 #include "level/Enemy.h"
@@ -45,19 +45,7 @@ public:
         return enemies;
     }
 
-    Pickups createPickups() const {
-        Pickups pickups;
-        for (auto p : levelDef->pickups) {
-            Pickup::Type type;
-            if (p.type == "health")
-                type = Pickup::Type::HEALTH;
-            else if (p.type == "key")
-                type = Pickup::Type::KEY;
-            auto spriteSheet = AssetLoader::loadSpriteSheet(p.sprite);
-            pickups.emplace_back(std::make_shared<Pickup>(p, type, spriteSheet));
-        }
-        return pickups;
-    }
+    const std::vector<PickupDefinition>& getPickupDefinitions() { return levelDef->pickups; }
 
     std::string getBackgroundMusic() const { return levelDef->backgroundMusic; }
 

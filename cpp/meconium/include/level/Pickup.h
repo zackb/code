@@ -2,6 +2,7 @@
 
 #include "assets/Definitions.h"
 
+// TODO: Move to component
 struct Pickup {
     enum class Type { HEALTH, KEY };
     Type type;
