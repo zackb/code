@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Size.h"
 #include <SDL.h>
 
@@ -8,4 +9,7 @@ public:
     static SDL_Window* window;
     static SDL_Renderer* renderer;
     static Size windowSize;
+
+    static bool init();
+    static void destroy();
 };
