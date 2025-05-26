@@ -183,6 +183,9 @@ void Meconium::render() {
     // Render entities
     renderSystem.render(*entities, *tileMap);
 
+    // Render UI
+    uiRenderSystem.render(*entities);
+
     // Check debugging
     debugSystem.update(*entities, *tileMap);
 

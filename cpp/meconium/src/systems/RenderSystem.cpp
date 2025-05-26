@@ -7,6 +7,7 @@
 #include "components/Health.h"
 #include "components/Sprite.h"
 #include "components/Tag.h"
+#include "systems/UIRenderSystem.h"
 
 void RenderSystem::render(Entities& entities, TileMap& tileMap) {
 
@@ -56,18 +57,10 @@ void RenderSystem::render(Entities& entities, TileMap& tileMap) {
             if (health && collider) {
                 if (health->hp < health->max && health->hp > 0) {
                     Rect dst = {dstRect.x + collider->offsetX, dstRect.y, sprite->width, 0};
-                    drawHealthBar(dst, 6, health->hp, health->max);
+                    // reuse health bar drawing logic from the UI
+                    UIRenderSystem::renderHealthBar(dst, 6, health->hp, health->max);
                 }
             }
-        }
-    }
-
-    // render player health bar
-    if (auto player = entities.findEntityWithComponent<PlayerTag>()) {
-        auto health = player->getComponent<Health>();
-        if (health) {
-            Rect dst = {20, 30, 200, 0};
-            drawHealthBar(dst, 15, health->hp, health->max);
         }
     }
 }
@@ -121,34 +114,4 @@ void RenderSystem::renderLayer(const Background& layer, const Transform& camera)
         SDL_Rect dst = {x, 0, scaledW, scaledH};
         SDL_RenderCopy(Context::renderer, layer.texture, nullptr, &dst);
     }
-}
-
-void RenderSystem::drawHealthBar(const Rect& targetRect, int barHeight, int current, int max) const {
-
-    const int barWidth = targetRect.width;
-    const int padding = 1;
-
-    float ratio = std::max(0.0f, std::min(1.0f, static_cast<float>(current) / max));
-    int fillWidth = static_cast<int>(ratio * (barWidth - 2 * padding));
-
-    SDL_Rect background = {targetRect.x,
-                           targetRect.y - barHeight - 2, // draw above the target
-                           barWidth,
-                           barHeight};
-
-    SDL_Rect fill = {background.x + padding, background.y + padding, fillWidth, barHeight - 2 * padding};
-
-    // black background
-    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
-    SDL_RenderFillRect(Context::renderer, &background);
-
-    // green -> red depending on health %
-    Uint8 red = static_cast<Uint8>((1.0f - ratio) * 255);
-    Uint8 green = static_cast<Uint8>(ratio * 255);
-    SDL_SetRenderDrawColor(Context::renderer, red, green, 0, 255);
-    SDL_RenderFillRect(Context::renderer, &fill);
-
-    // white border
-    SDL_SetRenderDrawColor(Context::renderer, 255, 255, 255, 255);
-    SDL_RenderDrawRect(Context::renderer, &background);
 }

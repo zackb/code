@@ -50,6 +50,7 @@ set(SOURCES
         src/systems/AnimationSystem.cpp
         src/systems/MovementSystem.cpp
         src/systems/RenderSystem.cpp
+        src/systems/UIRenderSystem.cpp
         src/systems/CollisionSystem.cpp
         src/systems/CombatSystem.cpp
         src/systems/PickupSystem.cpp

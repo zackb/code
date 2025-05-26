@@ -16,6 +16,7 @@
 #include "systems/SoundSystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
+#include "systems/UIRenderSystem.h"
 
 class Meconium : public GameState {
 
@@ -47,6 +48,7 @@ private:
     DelayedActionSystem delayedActionSystem;
     EnemyAISystem enemyAISystem;
     RenderSystem renderSystem;
+    UIRenderSystem uiRenderSystem;
     CollisionSystem collisionSystem;
     CombatSystem combatSystem;
     PickupSystem pickupSystem;
