@@ -54,15 +54,29 @@ void CombatSystem::resolvePlayerEnemyCollisions(Entity& player, Entity& enemy) {
     }
 
     auto playerPos = player.getComponent<Transform>();
-    auto playerCollider = *player.getComponent<Collider>();
-    if (player.hasComponent<Hitbox>()) {
-        playerCollider = player.getComponent<Hitbox>()->collider;
+
+    // determine the player's hitbox
+    // first check for a defined Hitbox component falling back to its collider
+    SDL_Rect playerRect;
+    if (auto hitbox = player.getComponent<Hitbox>()) {
+        playerRect = hitbox->collider.getBounds(playerPos);
+    } else if (auto collider = player.getComponent<Collider>()) {
+        // using the collider as a fallback hitbox
+        playerRect = collider->getBounds(playerPos);
+
+        if (auto velocity = player.getComponent<Velocity>()) {
+            // if we're falling back to bad collider hitbox, apply a lookahead
+            playerRect.x += velocity->vx;
+            playerRect.y += velocity->vy;
+        }
+    } else {
+        std::cerr << "no player hitbox or collider\n";
+        return;
     }
 
     auto enemyPos = enemy.getComponent<Transform>();
     auto enemyCollider = enemy.getComponent<Collider>();
 
-    auto playerRect = playerCollider.getBounds(playerPos);
     auto enemyRect = enemyCollider->getBounds(enemyPos);
 
     if (util::aabb(playerRect, enemyRect)) {

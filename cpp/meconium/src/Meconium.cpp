@@ -139,11 +139,11 @@ void Meconium::update() {
     // Transition state
     stateSystem.update(entities, deltaTime);
 
-    // Handle collisions after movement
-    collisionSystem.update(*entities, *tileMap);
-
     // Handle combat collisions
     combatSystem.update(entities);
+
+    // Handle collisions after movement
+    collisionSystem.update(*entities, *tileMap);
 
     // Handle pickups
     pickupSystem.update(*entities);
