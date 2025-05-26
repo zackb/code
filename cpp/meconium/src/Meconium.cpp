@@ -85,9 +85,8 @@ bool Meconium::init(std::string character) {
     entities->add(player);
 
     // Add pickups
-    auto pickups = level->createPickups();
-    for (auto p : pickups) {
-        entities->add(EntityFactory::createPickupEntity(*p));
+    for (auto p : level->getPickupDefinitions()) {
+        entities->add(EntityFactory::createPickupEntity(p));
     }
 
     // add camera

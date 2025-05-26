@@ -2,6 +2,7 @@
 
 #include "ResourceManager.h"
 #include "assets/AssetLoader.h"
+#include "assets/Definitions.h"
 #include "components/Attack.h"
 #include "components/Collider.h"
 #include "components/Health.h"
@@ -108,21 +109,22 @@ std::shared_ptr<Sprite> EntityFactory::createSprite(const SpriteSheetDefinition&
     return std::make_shared<Sprite>(sprite);
 }
 
-std::shared_ptr<Entity> EntityFactory::createPickupEntity(const Pickup& pickup) {
+std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition& pickup) {
     Entity entity;
-    auto sprite = createSprite(pickup.def.sprite);
+    auto spriteSheet = AssetLoader::loadSpriteSheet(pickup.sprite);
+    auto sprite = createSprite(pickup.sprite);
     entity.addComponent<Sprite>(sprite);
-    entity.addComponent<Transform>(pickup.def.x, pickup.def.y, pickup.spriteSheet->scale);
+    entity.addComponent<Transform>(pickup.x, pickup.y, spriteSheet->scale);
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
-    if (pickup.def.type == "health") {
-        entity.addComponent<Health>(pickup.def.amount); // kind of a hack reusing Health
+    if (pickup.type == "health") {
+        entity.addComponent<Health>(pickup.amount); // kind of a hack reusing Health
     } else {
-        std::cerr << "unknown pickup type: " << pickup.def.type << std::endl;
+        std::cerr << "unknown pickup type: " << pickup.type << std::endl;
     }
     entity.addComponent<State>();
     entity.addComponent<PickupTag>();
-    entity.addComponent<AnimationComponent>(createAnimation(*pickup.spriteSheet));
+    entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
     return std::make_shared<Entity>(entity);
 }
 

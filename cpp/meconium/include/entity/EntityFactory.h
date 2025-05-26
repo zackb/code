@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Entity.h"
+#include "assets/Definitions.h"
 #include "components/Animation.h"
 #include "components/Attack.h"
 #include "components/Sprite.h"
 #include "level/Enemy.h"
-#include "level/Pickup.h"
 #include <memory>
 
 class EntityFactory {
@@ -20,7 +20,7 @@ public:
 
     static std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef);
 
-    static std::shared_ptr<Entity> createPickupEntity(const Pickup& pickup);
+    static std::shared_ptr<Entity> createPickupEntity(const PickupDefinition& pickup);
 
     static std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef);
 };
