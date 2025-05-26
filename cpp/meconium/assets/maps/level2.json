@@ -70,7 +70,7 @@
     },
     {
         "type": "key",
-        "sprite": "sprites/pickups/health_small.json",
+        "sprite": "sprites/pickups/key.json",
         "x": 3869,
         "y": 144
     }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "components/Animation.h"
 #include "components/Component.h"
 #include "components/Pickup.h"
 #include "components/Sprite.h"
@@ -11,9 +12,13 @@ struct Item {
     Pickup::Type type;
     int amount;
     std::shared_ptr<Sprite> sprite;
+    std::shared_ptr<AnimationComponent> animation;
 
-    Item(Pickup::Type type, int amount, const std::shared_ptr<Sprite>& sprite)
-        : type(type), amount(amount), sprite(sprite) {}
+    Item(Pickup::Type type,
+         int amount,
+         const std::shared_ptr<Sprite>& sprite,
+         const std::shared_ptr<AnimationComponent>& anim)
+        : type(type), amount(amount), sprite(sprite), animation(anim) {}
 };
 
 struct Bag : public Component {
@@ -32,7 +37,8 @@ struct Bag : public Component {
             std::cerr << "tried to collect an item without a pickup\n";
             return;
         }
+        auto animation = entity.getComponent<AnimationComponent>();
 
-        items.emplace_back(pickup->type, pickup->amount, sprite);
+        items.emplace_back(pickup->type, pickup->amount, sprite, animation);
     }
 };

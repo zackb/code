@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rect.h"
+#include "components/Bag.h"
 #include "entity/Entity.h"
 
 class UIRenderSystem {
@@ -11,4 +12,5 @@ public:
 
 private:
     void renderPlayerHealthBar(Entity& player) const;
+    void renderBag(Bag& bag) const;
 };

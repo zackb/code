@@ -1,15 +1,63 @@
 #include "systems/UIRenderSystem.h"
 
 #include "Context.h"
-#include "Rect.h"
 #include "components/Health.h"
 #include "components/Tag.h"
 #include <SDL_rect.h>
 
 void UIRenderSystem::render(Entities& entities) const {
 
-    auto player = entities.findEntityWithComponent<PlayerTag>();
-    renderPlayerHealthBar(*player);
+    if (auto player = entities.findEntityWithComponent<PlayerTag>()) {
+
+        renderPlayerHealthBar(*player);
+
+        if (auto bag = player->getComponent<Bag>()) {
+            renderBag(*bag);
+        }
+    }
+}
+
+void UIRenderSystem::renderBag(Bag& bag) const {
+    const int kStartX = 20;
+    const int kStartY = 30;
+    const int kItemSize = 30;
+    const int kItemSpacing = 2;
+    const int padding = 4;
+    const int itemBoxWidth = (kItemSize + kItemSpacing) * static_cast<int>(bag.items.size()) - kItemSpacing;
+    const int boxWidth = itemBoxWidth + 2 * padding;
+    const int boxHeight = kItemSize + (2 * padding);
+
+    SDL_Rect bagRect = {kStartX, kStartY, boxWidth, boxHeight};
+
+    /*
+    // draw dark background
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 220); // semi-transparent black
+    SDL_RenderDrawRect(Context::renderer, &bagRect);
+    */
+
+    // draw each item
+    int x = bagRect.x;
+    int y = bagRect.y + padding;
+
+    for (auto& item : bag.items) {
+
+        SDL_Rect srcRect = {0, 0, item.sprite->width, item.sprite->height};
+        if (item.animation) {
+            srcRect = item.animation->getCurrentFrame();
+        }
+
+        // Apply flip if needed
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
+        if (item.sprite->flipX)
+            flip = (SDL_RendererFlip)(flip | SDL_FLIP_HORIZONTAL);
+        if (item.sprite->flipY)
+            flip = (SDL_RendererFlip)(flip | SDL_FLIP_VERTICAL);
+
+        SDL_Rect dstRect = {x, y, kItemSize, kItemSize};
+        SDL_RenderCopyEx(Context::renderer, item.sprite->texture, &srcRect, &dstRect, 0, nullptr, flip);
+
+        x += kItemSize + kItemSpacing + padding;
+    }
 }
 
 void UIRenderSystem::renderPlayerHealthBar(Entity& player) const {

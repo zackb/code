@@ -1,5 +1,6 @@
 #include "systems/PickupSystem.h"
 #include "Utils.h"
+#include "components/Bag.h"
 #include "components/Collider.h"
 #include "components/Despawn.h"
 #include "components/Health.h"
@@ -42,6 +43,11 @@ void PickupSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup)
             switch (pickupComp->type) {
             case Pickup::Type::HEALTH:
                 playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupComp->amount);
+                break;
+            case Pickup::Type::KEY:
+                if (auto bag = player.getComponent<Bag>()) {
+                    bag->add(pickup);
+                }
                 break;
             default:
                 std::cerr << "no handler for pickup type\n";
