@@ -3,6 +3,7 @@
 #include "components/Collider.h"
 #include "components/Despawn.h"
 #include "components/Health.h"
+#include "components/Pickup.h"
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
@@ -35,9 +36,19 @@ void PickupSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup)
 
     if (util::aabb(playerRect, pickupRect) && !pickup.hasComponent<Despawn>()) {
         auto playerHealth = player.getComponent<Health>();
-        auto pickupHealth = pickup.getComponent<Health>();
-        if (pickupHealth) {
-            playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupHealth->hp);
+
+        if (auto pickupComp = pickup.getComponent<Pickup>()) {
+            // TODO: all pickup types (bag)
+            switch (pickupComp->type) {
+            case Pickup::Type::HEALTH:
+                playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupComp->amount);
+                break;
+            default:
+                std::cerr << "no handler for pickup type\n";
+                break;
+            }
+        } else {
+            std::cerr << "pickup component missing from pickup entity\n";
         }
 
         // TODO: action/animation duration
