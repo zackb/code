@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include <memory>
-#include <ostream>
 #include <unistd.h>
 
 #include "Context.h"
@@ -10,9 +9,11 @@
 #include "GameOverState.h"
 #include "assets/AssetLoader.h"
 #include "components/Bag.h"
+#include "components/Camera.h"
 #include "components/Debug.h"
 #include "components/Health.h"
 #include "components/State.h"
+#include "components/Tag.h"
 #include "entity/EntityFactory.h"
 
 Size Context::windowSize;
