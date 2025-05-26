@@ -7,6 +7,7 @@
 #include "components/Collider.h"
 #include "components/Health.h"
 #include "components/NoGravity.h"
+#include "components/Pickup.h"
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
@@ -117,11 +118,16 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition
     entity.addComponent<Transform>(pickup.x, pickup.y, spriteSheet->scale);
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
-    if (pickup.type == "health") {
-        entity.addComponent<Health>(pickup.amount); // kind of a hack reusing Health
-    } else {
-        std::cerr << "unknown pickup type: " << pickup.type << std::endl;
-    }
+
+    Pickup::Type type;
+    if (pickup.type == "health")
+        type = Pickup::Type::HEALTH;
+    else if (pickup.type == "key")
+        type = Pickup::Type::KEY;
+    else
+        std::cerr << "unknown pickup: " << pickup.type << std::endl;
+
+    entity.addComponent<Pickup>(type, pickup.amount);
     entity.addComponent<State>();
     entity.addComponent<PickupTag>();
     entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
