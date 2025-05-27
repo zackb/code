@@ -1,6 +1,6 @@
 OUT=excelsive
 default:
-	g++ main.cpp \
+	g++ main.cpp schedule.cpp \
     -std=c++20 \
     -I/home/zack/Downloads/libxl-4.6.0/include_cpp \
     -L/home/zack/Downloads/libxl-4.6.0/lib-aarch64 \
