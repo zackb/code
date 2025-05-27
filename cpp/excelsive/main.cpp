@@ -22,6 +22,52 @@ std::tuple<int, int, int> to_ymd(std::chrono::sys_days date) {
     return {int(ymd.year()), unsigned(ymd.month()), unsigned(ymd.day())};
 }
 
+void writeShift(
+    libxl::Book* book, libxl::Sheet* sheet, Schedule& schedule, std::string cday, std::chrono::sys_days sday, int row) {
+
+    // HH:MH
+    libxl::Format* timeFormat = book->addFormat();
+    timeFormat->setNumFormat(libxl::NUMFORMAT_CUSTOM_HMM_AM);
+
+    // 6.5
+    libxl::Format* numberFormat = book->addFormat();
+    numberFormat->setNumFormat(libxl::NUMFORMAT_GENERAL);
+
+    // MM/DD
+    libxl::Format* dateFormat = sheet->cellFormat(row, 2);
+
+    auto [year, month, day] = to_ymd(sday);
+
+    double serial = book->datePack(year, month, day, 0, 0, 0);
+    sheet->writeNum(row, 2, serial, dateFormat);
+
+    const auto& shifts = schedule[cday];
+    if (!shifts.empty()) {
+        const TimeRange& r = shifts[0];
+        int startHour = r.first / 60;
+        int startMin = r.first % 60;
+
+        int endHour = r.second / 60;
+        int endMin = r.second % 60;
+
+        double startSerial = book->datePack(year, month, day, startHour, startMin, 0);
+        double endSerial = book->datePack(year, month, day, endHour, endMin, 0);
+
+        sheet->writeNum(row, 3, startSerial, timeFormat);
+        sheet->writeNum(row, 6, endSerial, timeFormat);
+
+        int durationMinutes = r.second - r.first;
+        double durationHours = durationMinutes / 60.0;
+        sheet->writeNum(row, 7, durationHours, numberFormat);
+        sheet->writeStr(row, 9, "Pool Monitor");
+    } else {
+        sheet->writeStr(row, 3, "");
+        sheet->writeStr(row, 6, "");
+        sheet->writeNum(row, 7, 0.0);
+        sheet->writeStr(row, 9, "");
+    }
+}
+
 // example: m:1pm-5pm,t:11:15am-3pm,w:off,th:9am-12pm,f:1pm-6pm
 int writeSchedule(Schedule& schedule) {
     const char* inputFile = "/home/zack/Downloads/20250525_Bartel_Lynda_timecard.xlsx";
@@ -37,21 +83,8 @@ int writeSchedule(Schedule& schedule) {
             return 1;
         }
 
-        if (false) {
-            for (int i = 0; i < 200; i++) {
-                for (int j = 0; j < 200; j++) {
-                    const char* str = sheet->readStr(i, j);
-                    if (str) {
-                        std::cout << "Row: " << i << " Col: " << j << std::endl;
-                        std::cout << str << std::endl;
-                    }
-                }
-            }
-        }
-
-        using namespace std::chrono;
-
         // Get today's date from system_clock
+        using namespace std::chrono;
         sys_days today = floor<days>(system_clock::now());
         year_month_day today_ymd = year_month_day{today};
         weekday today_wd = weekday{today};
@@ -65,46 +98,31 @@ int writeSchedule(Schedule& schedule) {
 
         // Monday
         sys_days monday = next_sunday - days{6};
-        auto [year, month, day] = to_ymd(monday);
-        libxl::Format* dateFormat = sheet->cellFormat(16, 2);
-        double serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(16, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "m", monday, 16);
 
         // Tuesday
         sys_days tuesday = monday + days{1};
-        std::tie(year, month, day) = to_ymd(tuesday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(17, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "t", tuesday, 17);
 
         // Wednesday
         sys_days wednesday = tuesday + days{1};
-        std::tie(year, month, day) = to_ymd(wednesday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(18, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "w", wednesday, 18);
 
         // Thursday
         sys_days thursday = wednesday + days{1};
-        std::tie(year, month, day) = to_ymd(thursday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(19, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "th", thursday, 19);
 
         // Friday
         sys_days friday = thursday + days{1};
-        std::tie(year, month, day) = to_ymd(friday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(20, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "f", friday, 20);
 
         // Saturday
         sys_days saturday = friday + days{1};
-        std::tie(year, month, day) = to_ymd(saturday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(21, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "sa", saturday, 21);
 
         // Sunday
         sys_days sunday = saturday + days{1};
-        std::tie(year, month, day) = to_ymd(sunday);
-        serial = book->datePack(year, month, day, 0, 0, 0);
-        sheet->writeNum(22, 2, serial, dateFormat);
+        writeShift(book, sheet, schedule, "su", sunday, 22);
 
         if (book->save(outputFile.c_str())) {
             std::cout << "Saved modified file as " << outputFile << "\n";
@@ -188,5 +206,6 @@ int main(int argc, char* argv[]) {
         }
         std::cout << '\n';
     }
+    writeSchedule(sched);
     return 0;
 };
