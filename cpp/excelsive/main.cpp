@@ -21,21 +21,60 @@ std::tuple<int, int, int> to_ymd(std::chrono::sys_days date) {
     std::chrono::year_month_day ymd = std::chrono::year_month_day{date};
     return {int(ymd.year()), unsigned(ymd.month()), unsigned(ymd.day())};
 }
+std::string ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+
+std::string teens[] = {
+    "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+
+std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty"};
+
+// Converts 0–59 to words
+std::string numberToWords(int n) {
+    if (n == 0)
+        return "zero";
+    if (n < 10)
+        return ones[n];
+    if (n < 20)
+        return teens[n - 10];
+    if (n < 60) {
+        std::string result = tens[n / 10];
+        if (n % 10 > 0)
+            result += " " + ones[n % 10];
+        return result;
+    }
+    return std::to_string(n); // fallback
+}
+
+// Capitalize first letter
+std::string capitalize(const std::string& s) {
+    if (s.empty())
+        return s;
+    std::string result = s;
+    result[0] = std::toupper(result[0]);
+    return result;
+}
+
+std::string timeToWords(double hoursDecimal) {
+    int hours = static_cast<int>(hoursDecimal);
+    int minutes = static_cast<int>(std::round((hoursDecimal - hours) * 60));
+
+    std::string hourPart = numberToWords(hours) + " hour" + (hours != 1 ? "s" : "");
+    std::string minutePart = numberToWords(minutes) + " minute" + (minutes != 1 ? "s" : "");
+
+    return capitalize(hourPart + " and " + minutePart);
+}
+
+// HH:MH
+libxl::Format* timeFormat;
+
+// 6.5
+libxl::Format* numberFormat;
+
+// MM/DD
+libxl::Format* dateFormat;
 
 void writeShift(
     libxl::Book* book, libxl::Sheet* sheet, Schedule& schedule, std::string cday, std::chrono::sys_days sday, int row) {
-
-    // HH:MH
-    libxl::Format* timeFormat = book->addFormat();
-    timeFormat->setNumFormat(libxl::NUMFORMAT_CUSTOM_HMM_AM);
-
-    // 6.5
-    libxl::Format* numberFormat = book->addFormat();
-    numberFormat->setNumFormat(libxl::NUMFORMAT_GENERAL);
-
-    // MM/DD
-    libxl::Format* dateFormat = sheet->cellFormat(row, 2);
-
     auto [year, month, day] = to_ymd(sday);
 
     double serial = book->datePack(year, month, day, 0, 0, 0);
@@ -58,7 +97,7 @@ void writeShift(
 
         int durationMinutes = r.second - r.first;
         double durationHours = durationMinutes / 60.0;
-        sheet->writeNum(row, 7, durationHours, numberFormat);
+        sheet->writeNum(row, 7, durationHours); //, numberFormat);
         sheet->writeStr(row, 9, "Pool Monitor");
     } else {
         sheet->writeStr(row, 3, "");
@@ -82,6 +121,17 @@ int writeSchedule(Schedule& schedule) {
             std::cerr << "No such sheet\n";
             return 1;
         }
+
+        // HH:MH
+        timeFormat = book->addFormat();
+        timeFormat->setNumFormat(libxl::NUMFORMAT_CUSTOM_HMM_AM);
+
+        // 6.5
+        numberFormat = book->addFormat();
+        numberFormat->setNumFormat(libxl::NUMFORMAT_GENERAL);
+
+        // MM/DD
+        dateFormat = sheet->cellFormat(16, 2); // grab monday's format
 
         // Get today's date from system_clock
         using namespace std::chrono;
@@ -124,6 +174,27 @@ int writeSchedule(Schedule& schedule) {
         sys_days sunday = saturday + days{1};
         writeShift(book, sheet, schedule, "su", sunday, 22);
 
+        // total up hours worked
+        int totalMinutes = 0;
+        for (const auto& [day, ranges] : schedule) {
+            if (!ranges.empty()) {
+                for (const auto& [start, end] : ranges) {
+                    totalMinutes += end - start;
+                }
+            }
+        }
+        double totalHours = totalMinutes / 60.0;
+        sheet->writeNum(23, 7, totalHours);
+        sheet->writeStr(26, 8, timeToWords(totalHours).c_str());
+        std::cout << "Total: " << timeToWords(totalHours) << std::endl;
+
+        // Sunday's date for the signature line
+        auto [year, month, day] = to_ymd(sunday);
+        double serial = book->datePack(year, month, day, 0, 0, 0);
+        libxl::Format* sigFormat = sheet->cellFormat(28, 5);
+        sheet->writeNum(28, 5, serial, sigFormat);
+
+        // write a copy of our book to the new date stamped excel file
         if (book->save(outputFile.c_str())) {
             std::cout << "Saved modified file as " << outputFile << "\n";
         } else {
@@ -137,49 +208,6 @@ int writeSchedule(Schedule& schedule) {
 
     book->release();
     return 0;
-}
-
-std::string ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-
-std::string teens[] = {
-    "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
-
-std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty"};
-
-// Converts 0–59 to words
-std::string numberToWords(int n) {
-    if (n == 0)
-        return "zero";
-    if (n < 10)
-        return ones[n];
-    if (n < 20)
-        return teens[n - 10];
-    if (n < 60) {
-        std::string result = tens[n / 10];
-        if (n % 10 > 0)
-            result += " " + ones[n % 10];
-        return result;
-    }
-    return std::to_string(n); // fallback
-}
-
-// Capitalize first letter
-std::string capitalize(const std::string& s) {
-    if (s.empty())
-        return s;
-    std::string result = s;
-    result[0] = std::toupper(result[0]);
-    return result;
-}
-
-std::string timeToWords(double hoursDecimal) {
-    int hours = static_cast<int>(hoursDecimal);
-    int minutes = static_cast<int>(std::round((hoursDecimal - hours) * 60));
-
-    std::string hourPart = numberToWords(hours) + " hour" + (hours != 1 ? "s" : "");
-    std::string minutePart = numberToWords(minutes) + " minute" + (minutes != 1 ? "s" : "");
-
-    return capitalize(hourPart + " and " + minutePart);
 }
 
 int usage(char* argv[]) {
