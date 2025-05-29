@@ -11,7 +11,7 @@ struct CameraView {
 
 class TileMapRenderer {
 public:
-    TileMapRenderer(SDL_Renderer* renderer, const TileMap& map, int chunkSize);
+    TileMapRenderer(const TileMap& map, SDL_Renderer* renderer, int chunkSize);
     ~TileMapRenderer();
 
     void render(const CameraView& camera);

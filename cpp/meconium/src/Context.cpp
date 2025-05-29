@@ -5,6 +5,11 @@
 #include <SDL_ttf.h>
 #include <iostream>
 
+Size Context::windowSize;
+SDL_Renderer* Context::renderer;
+SDL_Window* Context::window;
+double Context::avgFPS;
+
 bool Context::init() {
 
     // init sdl2

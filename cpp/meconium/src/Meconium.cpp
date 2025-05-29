@@ -16,11 +16,6 @@
 #include "components/Tag.h"
 #include "entity/EntityFactory.h"
 
-Size Context::windowSize;
-SDL_Renderer* Context::renderer;
-SDL_Window* Context::window;
-double Context::avgFPS;
-
 bool Meconium::init(std::string character) {
     // initialize sound effects
     soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
@@ -28,7 +23,7 @@ bool Meconium::init(std::string character) {
     // load tileMap
     level = std::make_shared<Level>("assets/maps/level2.json");
     tileMap = level->createTileMap();
-    tileMapRenderer = std::make_unique<TileMapRenderer>(Context::renderer, *tileMap, 16);
+    tileMapRenderer = std::make_unique<TileMapRenderer>(*tileMap, Context::renderer, 16);
 
     // Initialize ECS components, systems, and entities
     entities = std::make_shared<Entities>();

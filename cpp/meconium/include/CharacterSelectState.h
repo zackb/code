@@ -24,7 +24,7 @@ private:
     };
 
     std::vector<CharacterOption> characters;
-    int selected = 0;
+    size_t selected = 0;
     bool startGame = false;
     bool cancel = false;
 
