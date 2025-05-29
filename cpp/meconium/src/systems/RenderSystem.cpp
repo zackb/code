@@ -9,17 +9,24 @@
 #include "components/Tag.h"
 #include "systems/UIRenderSystem.h"
 
-void RenderSystem::render(Entities& entities, TileMap& tileMap) {
+void RenderSystem::render(Entities& entities, TileMapRenderer& tileMapRenderer) {
 
     auto camera = entities.findEntityWithComponent<Camera>();
     auto camPos = camera->getComponent<Transform>();
+    auto camSize = camera->getComponent<Camera>();
 
     // Render the parallax background layers first
     auto background = entities.findEntityWithComponent<ParallaxBackground>();
     renderParallaxBackground(*background, *camPos);
 
     // then the map
-    renderTileMap(tileMap, *camPos);
+    // renderTileMap(tileMapRenderer.map, *camPos);
+    tileMapRenderer.render({
+        .x = camPos->x,
+        .y = camPos->y,
+        .width = camSize->viewportWidth,
+        .height = camSize->viewportHeight,
+    });
 
     for (auto entity : entities.filtered<Transform, Sprite>()) {
         auto transform = entity->getComponent<Transform>();
