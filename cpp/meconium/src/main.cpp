@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
 
     Context::avgFPS = FPS;     // start at target FPS
     const double alpha = 0.05; // smoothing factor for EMA
-    Uint32 lastTime;
 
     while (isRunning) {
         const Uint32 frameStart = SDL_GetTicks();

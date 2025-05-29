@@ -1,7 +1,7 @@
 #include "TileMapRenderer.h"
 
-TileMapRenderer::TileMapRenderer(SDL_Renderer* r, const TileMap& m, int chunkSz)
-    : renderer(r), map(m), chunkSize(chunkSz) {
+TileMapRenderer::TileMapRenderer(const TileMap& m, SDL_Renderer* r, int chunkSz)
+    : map(m), renderer(r), chunkSize(chunkSz) {
 
     // make a big enough vector of vectors to hold all the chunks
     int rows = (map.mapHeight + chunkSize - 1) / chunkSize;
