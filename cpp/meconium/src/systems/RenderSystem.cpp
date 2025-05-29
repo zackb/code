@@ -20,6 +20,8 @@ void RenderSystem::render(Entities& entities, TileMapRenderer& tileMapRenderer) 
     renderParallaxBackground(*background, *camPos);
 
     // then the map
+    // TODO: Is this chunking really worth it?
+    //       it turns out SDL batches internally on the same texture!
     // renderTileMap(tileMapRenderer.map, *camPos);
     tileMapRenderer.render({
         .x = camPos->x,
