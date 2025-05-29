@@ -46,6 +46,7 @@ set(SOURCES
         src/ResourceManager.cpp
         src/MusicManager.cpp
         src/SoundManager.cpp
+        src/TileMapRenderer.cpp
         src/components/Animation.cpp
         src/systems/AnimationSystem.cpp
         src/systems/MovementSystem.cpp

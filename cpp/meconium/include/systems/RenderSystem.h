@@ -1,7 +1,7 @@
 #pragma once
 
+#include "TileMapRenderer.h"
 #include "components/Background.h"
-#include "components/TileMap.h"
 #include "components/Transform.h"
 #include "entity/Entity.h"
 
@@ -12,7 +12,7 @@ struct ParallaxLayer {
 
 class RenderSystem {
 public:
-    void render(Entities& entities, TileMap& tileMap);
+    void render(Entities& entities, TileMapRenderer& tileMapRenderer);
 
 private:
     void renderParallaxBackground(Entity& background, const Transform& camera) const;

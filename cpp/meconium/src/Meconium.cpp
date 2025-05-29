@@ -19,6 +19,7 @@
 Size Context::windowSize;
 SDL_Renderer* Context::renderer;
 SDL_Window* Context::window;
+double Context::avgFPS;
 
 bool Meconium::init(std::string character) {
     // initialize sound effects
@@ -27,6 +28,7 @@ bool Meconium::init(std::string character) {
     // load tileMap
     level = std::make_shared<Level>("assets/maps/level2.json");
     tileMap = level->createTileMap();
+    tileMapRenderer = std::make_unique<TileMapRenderer>(Context::renderer, *tileMap, 16);
 
     // Initialize ECS components, systems, and entities
     entities = std::make_shared<Entities>();
@@ -181,8 +183,8 @@ void Meconium::render() {
     SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
     SDL_RenderClear(Context::renderer); // Clears screen with black
 
-    // Render entities
-    renderSystem.render(*entities, *tileMap);
+    // Render background, tilemap, and entities
+    renderSystem.render(*entities, *tileMapRenderer);
 
     // Render UI
     uiRenderSystem.render(*entities);
@@ -191,6 +193,11 @@ void Meconium::render() {
     debugSystem.update(*entities, *tileMap);
 
     SDL_RenderPresent(Context::renderer);
+    const char* err = SDL_GetError();
+    if (err && err[0] != '\0') {
+        printf("SDL error: %s\n", err);
+        SDL_ClearError();
+    }
 }
 
 void Meconium::handleEvent(SDL_Event& event) {

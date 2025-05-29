@@ -9,6 +9,7 @@ public:
     static SDL_Window* window;
     static SDL_Renderer* renderer;
     static Size windowSize;
+    static double avgFPS;
 
     static bool init();
     static void destroy();

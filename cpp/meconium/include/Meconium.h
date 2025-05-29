@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "GameTime.h"
 #include "MusicManager.h"
+#include "TileMapRenderer.h"
 #include "components/TileMap.h"
 #include "level/Level.h"
 #include "systems/AnimationSystem.h"
@@ -35,6 +36,7 @@ public:
 private:
     std::shared_ptr<Level> level;
     std::shared_ptr<TileMap> tileMap;
+    std::unique_ptr<TileMapRenderer> tileMapRenderer;
     Enemies enemies;
     MusicManager musicManager;
     SoundManager soundManager;
