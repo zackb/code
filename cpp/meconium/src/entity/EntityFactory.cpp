@@ -61,7 +61,7 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(Entity& shooter, const At
     auto state = shooter.getComponent<State>();
     float direction = state->facingRight ? 1.0f : -1.0f;
 
-    Velocity vel(direction * sprite->speed, 0.0f);
+    projectile->addComponent<Velocity>(direction * sprite->speed, 0.0f);
 
     // sprites always face right, check if we need to flip
     if (!state->facingRight) {
@@ -72,7 +72,6 @@ std::shared_ptr<Entity> EntityFactory::spawnProjectile(Entity& shooter, const At
     // shooterPos->scaleX;
     projectile->addComponent<Transform>(
         shooterPos->x, shooterPos->y + shooterSprite->height / 2 + sprite->height, attack.sprite->scale);
-    projectile->addComponent<Velocity>(vel);
     projectile->addComponent<NoGravity>();
     projectile->addComponent<Sprite>(sprite);
     projectile->addComponent<Collider>(attack.sprite->collider->x,
