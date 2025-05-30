@@ -1,7 +1,6 @@
 #include "Context.h"
 #include "MenuState.h"
 #include <SDL_stdinc.h>
-#include <iostream>
 
 int main(int argc, char* argv[]) {
 

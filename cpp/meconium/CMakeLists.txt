@@ -49,6 +49,7 @@ set(SOURCES
         src/TileMapRenderer.cpp
         src/components/Animation.cpp
         src/systems/AnimationSystem.cpp
+        src/systems/TweenSystem.cpp
         src/systems/MovementSystem.cpp
         src/systems/RenderSystem.cpp
         src/systems/UIRenderSystem.cpp

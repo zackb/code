@@ -22,6 +22,7 @@
 #include "systems/SoundSystem.h"
 #include "systems/SpawnerSystem.h"
 #include "systems/StateSystem.h"
+#include "systems/TweenSystem.h"
 #include "systems/UIRenderSystem.h"
 
 class Meconium : public GameState {
@@ -60,6 +61,7 @@ private:
     CombatSystem combatSystem;
     PickupSystem pickupSystem;
     AnimationSystem animationSystem;
+    TweenSystem tweenSystem;
     CameraSystem cameraSystem;
     DebugSystem debugSystem;
     GameTime& gameTime = GameTime::getInstance();
