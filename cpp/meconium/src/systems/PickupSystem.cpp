@@ -1,6 +1,8 @@
 #include "systems/PickupSystem.h"
 #include "Utils.h"
+#include "Vec2.h"
 #include "components/Bag.h"
+#include "components/Camera.h"
 #include "components/Collider.h"
 #include "components/Despawn.h"
 #include "components/Health.h"
@@ -8,6 +10,7 @@
 #include "components/State.h"
 #include "components/Tag.h"
 #include "components/Transform.h"
+#include "components/Tween.h"
 
 void PickupSystem::update(Entities& entities) {
 
@@ -17,11 +20,11 @@ void PickupSystem::update(Entities& entities) {
         return;
 
     for (auto& entity : entities.filtered<PickupTag>()) {
-        resolvePlayerPickupCollisions(*player, *entity);
+        resolvePlayerPickupCollisions(entities, *player, *entity);
     }
 }
 
-void PickupSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup) const {
+void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& player, Entity& pickup) const {
     auto playerPos = player.getComponent<Transform>();
     auto pickupPos = pickup.getComponent<Transform>();
     if (!playerPos || !pickupPos) {
@@ -43,12 +46,32 @@ void PickupSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup)
             switch (pickupComp->type) {
             case Pickup::Type::HEALTH:
                 playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupComp->amount);
+
+                // TODO: action/animation duration
+                pickup.addComponent<Tween>(
+                    Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
+                    Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y) - 200},
+                    500.0f);
+                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
+                pickup.addComponent<Despawn>(500);
                 break;
-            case Pickup::Type::KEY:
+            case Pickup::Type::KEY: {
                 if (auto bag = player.getComponent<Bag>()) {
                     bag->add(pickup);
                 }
+                auto camera = entities.findEntityWithComponent<Camera>();
+                auto camPos = camera->getComponent<Transform>();
+                // TODO: HACK has to be defined in the prefab
+                pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
+                                           Vec2{camPos->x + 20.0f, camPos->y + 30.0f},
+                                           2000.0f);
+
+                // TODO: action/animation duration
+                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000);
+                pickup.addComponent<Despawn>(2000);
+
                 break;
+            }
             default:
                 std::cerr << "no handler for pickup type\n";
                 break;
@@ -56,9 +79,5 @@ void PickupSystem::resolvePlayerPickupCollisions(Entity& player, Entity& pickup)
         } else {
             std::cerr << "pickup component missing from pickup entity\n";
         }
-
-        // TODO: action/animation duration
-        pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
-        pickup.addComponent<Despawn>(500);
     }
 }
