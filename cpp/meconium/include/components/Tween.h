@@ -7,7 +7,7 @@
 using Easing = float (*)(float);
 using Easing = float (*)(float);
 
-enum class EasingType { Linear, EaseInQuad, EaseOutQuad, EaseInOutQuad, EaseOutBounce };
+enum class EasingType { None, Linear, EaseInQuad, EaseOutQuad, EaseInOutQuad, EaseOutBounce };
 
 namespace EasingFunctions {
 
@@ -51,6 +51,11 @@ struct Tween : public Component {
     bool finished = false;
     Easing easing = nullptr;
 
-    Tween(const Vec2& startPos, const Vec2& endPos, float duration, Easing ease = nullptr)
-        : startPos(startPos), endPos(endPos), duration(duration), easing(ease) {}
+    Tween(const Vec2& startPos, const Vec2& endPos, float duration, EasingType ease = EasingType::None)
+        : startPos(startPos), endPos(endPos), duration(duration) {
+
+        if (ease != EasingType::None) {
+            easing = EasingFunctions::Map.at(ease);
+        }
+    }
 };
