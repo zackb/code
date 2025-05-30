@@ -51,9 +51,10 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                 pickup.addComponent<Tween>(
                     Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
                     Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y) - 200},
-                    500.0f);
-                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 500);
-                pickup.addComponent<Despawn>(500);
+                    500.0f,
+                    EasingFunctions::Map.at(EasingType::EaseOutBounce));
+                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 1000);
+                pickup.addComponent<Despawn>(1000);
                 break;
             case Pickup::Type::KEY: {
                 if (auto bag = player.getComponent<Bag>()) {
@@ -64,7 +65,8 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                 // TODO: HACK has to be defined in the prefab
                 pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
                                            Vec2{camPos->x + 20.0f, camPos->y + 30.0f},
-                                           2000.0f);
+                                           2000.0f,
+                                           EasingFunctions::Map.at(EasingType::EaseOutBounce));
 
                 // TODO: action/animation duration
                 pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000);
