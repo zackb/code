@@ -10,10 +10,17 @@ void TweenSystem::update(Entities& entities, const int dt) const {
         auto pos = entity->getComponent<Transform>();
 
         tween->elapsed += dt;
-        float t = std::min(tween->elapsed / tween->duration, 1.0f);
+        float t = tween->elapsed / tween->duration;
+        if (t >= 1.0f) {
+            t = 1.0f;
+            tween->finished = true;
+        }
+
+        // Apply easing function (function pointer)
+        float easedT = tween->easing ? tween->easing(t) : t;
 
         // Linear interpolation
-        Vec2 newPos = tween->startPos * (1 - t) + tween->endPos * t;
+        Vec2 newPos = tween->startPos * (1 - easedT) + tween->endPos * easedT;
 
         // Update entity position component
         pos->x = newPos.x;
