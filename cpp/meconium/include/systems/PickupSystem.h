@@ -6,5 +6,5 @@ public:
     void update(Entities& entities);
 
 private:
-    void resolvePlayerPickupCollisions(Entity& player, Entity& pickup) const;
+    void resolvePlayerPickupCollisions(Entities& entities, Entity& player, Entity& pickup) const;
 };

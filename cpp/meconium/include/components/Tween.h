@@ -9,4 +9,6 @@ struct Tween : public Component {
     float duration;
     float elapsed;
     bool finished;
+    Tween(const Vec2& startPos, const Vec2& endPos, float duration)
+        : startPos(startPos), endPos(endPos), duration(duration), elapsed(0.0), finished(false) {}
 };
