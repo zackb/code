@@ -74,7 +74,7 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                     if (auto bag = player.getComponent<Bag>()) {
                         bag->add(pickup);
                     }
-                    pickup.addComponent<Despawn>(1);
+                    pickup.addComponent<Despawn>();
                 });
 
                 break;
