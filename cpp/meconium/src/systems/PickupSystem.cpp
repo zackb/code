@@ -18,7 +18,7 @@ void PickupSystem::update(Entities& entities) {
     if (!player)
         return;
 
-    for (auto& entity : entities.filtered<PickupTag>()) {
+    for (auto& entity : entities.filtered<PickupTag, Collider>()) {
         resolvePlayerPickupCollisions(entities, *player, *entity);
     }
 }
@@ -38,6 +38,10 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
     auto pickupRect = pickupCollider->getBounds(pickupPos);
 
     if (util::aabb(playerRect, pickupRect) && !pickup.hasComponent<Despawn>()) {
+
+        // remove the collider from the pickup so we dont keep bumping into it
+        entities.removeComponent<Collider>(pickup);
+
         auto playerHealth = player.getComponent<Health>();
 
         if (auto pickupComp = pickup.getComponent<Pickup>()) {
@@ -56,9 +60,6 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                 pickup.addComponent<Despawn>(1000);
                 break;
             case Pickup::Type::KEY: {
-                if (auto bag = player.getComponent<Bag>()) {
-                    bag->add(pickup);
-                }
                 // TODO: HACK has to be defined in the prefab
                 pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
                                            Vec2{20.0f, 30.0f},
@@ -67,8 +68,14 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                                            true);
 
                 // TODO: action/animation duration
-                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000);
-                pickup.addComponent<Despawn>(2000);
+                pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000, [&]() {
+                    // TODO: if the player dies mid-animation the player reference is invalid
+                    //       probably pass a copy of the shared_ptr instead
+                    if (auto bag = player.getComponent<Bag>()) {
+                        bag->add(pickup);
+                    }
+                    pickup.addComponent<Despawn>(1);
+                });
 
                 break;
             }
