@@ -50,9 +50,14 @@ struct Tween : public Component {
     float elapsed = 0.0;
     bool finished = false;
     Easing easing = nullptr;
+    bool relativeEndPos = false; // relative to the camera or absolute pos
 
-    Tween(const Vec2& startPos, const Vec2& endPos, float duration, EasingType ease = EasingType::None)
-        : startPos(startPos), endPos(endPos), duration(duration) {
+    Tween(const Vec2& startPos,
+          const Vec2& endPos,
+          float duration,
+          EasingType ease = EasingType::None,
+          bool relativeEndPos = false)
+        : startPos(startPos), endPos(endPos), duration(duration), relativeEndPos(relativeEndPos) {
 
         if (ease != EasingType::None) {
             easing = EasingFunctions::Map.at(ease);
