@@ -162,6 +162,13 @@ public:
         }
     }
 
+    template <typename T> void removeComponent(Entity& entity) {
+        if (entity.hasComponent<T>()) {
+            entity.removeComponent<T>();
+            componentIndex<T>().erase(entity.id);
+        }
+    }
+
     // Get all entities
     std::vector<std::shared_ptr<Entity>>& all() { return entities; }
 
