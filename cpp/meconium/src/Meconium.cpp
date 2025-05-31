@@ -16,6 +16,7 @@
 #include "components/Tag.h"
 #include "entity/EntityFactory.h"
 
+// TEST
 bool Meconium::init(std::string character) {
     // initialize sound effects
     soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
