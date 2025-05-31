@@ -2,7 +2,6 @@
 #include "Utils.h"
 #include "Vec2.h"
 #include "components/Bag.h"
-#include "components/Camera.h"
 #include "components/Collider.h"
 #include "components/Despawn.h"
 #include "components/Health.h"
@@ -52,7 +51,7 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                     Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
                     Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y) - 200},
                     500.0f,
-                    EasingType::EaseOutBounce);
+                    EasingType::EaseOutQuad);
                 pickup.getComponent<State>()->lockAction(Action::COLLECTING, 1000);
                 pickup.addComponent<Despawn>(1000);
                 break;
@@ -60,13 +59,12 @@ void PickupSystem::resolvePlayerPickupCollisions(Entities& entities, Entity& pla
                 if (auto bag = player.getComponent<Bag>()) {
                     bag->add(pickup);
                 }
-                auto camera = entities.findEntityWithComponent<Camera>();
-                auto camPos = camera->getComponent<Transform>();
                 // TODO: HACK has to be defined in the prefab
                 pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
-                                           Vec2{camPos->x + 20.0f, camPos->y + 30.0f},
+                                           Vec2{20.0f, 30.0f},
                                            2000.0f,
-                                           EasingType::EaseOutBounce);
+                                           EasingType::EaseOutBounce,
+                                           true);
 
                 // TODO: action/animation duration
                 pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000);
