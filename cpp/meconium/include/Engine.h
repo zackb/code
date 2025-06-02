@@ -5,9 +5,9 @@
 class Engine {
 public:
     bool init();
-    void run(std::shared_ptr<GameState>& initialState);
+    void run(std::unique_ptr<GameState> initialState);
     void shutdown();
 
 private:
-    std::shared_ptr<GameState> state;
+    std::unique_ptr<GameState> state;
 };

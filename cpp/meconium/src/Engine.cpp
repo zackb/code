@@ -4,8 +4,8 @@
 
 bool Engine::init() { return Context::init(); }
 
-void Engine::run(std::shared_ptr<GameState>& initialState) {
-    state = initialState;
+void Engine::run(std::unique_ptr<GameState> initialState) {
+    state = std::move(initialState);
 
     bool isRunning = true;
     SDL_Event event;

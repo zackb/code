@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "MenuState.h"
+#include <memory>
 
 int main(int argc, char* argv[]) {
     Engine engine;
@@ -9,9 +10,9 @@ int main(int argc, char* argv[]) {
     }
 
     // Start in MenuState
-    std::shared_ptr<GameState> state = std::make_shared<MenuState>();
+    std::unique_ptr<GameState> state = std::make_unique<MenuState>();
 
-    engine.run(state);
+    engine.run(std::move(state));
 
     engine.shutdown();
 
