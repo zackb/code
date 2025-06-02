@@ -9,9 +9,9 @@ class DebugSystem {
 public:
     DebugSystem();
     ~DebugSystem();
-    void update(Entities& entities, TileMap& tileMap) const;
+    void update(Entities& entities, TileMap& tileMap);
 
 private:
-    TTF_Font* font;
+    TTF_Font* font = nullptr;
     void renderTextUpperRight(const char* text) const;
 };

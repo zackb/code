@@ -16,19 +16,21 @@
 
 #include "components/Tag.h"
 
-DebugSystem::DebugSystem() {
-    font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 32);
-    if (!font) {
-        printf("Failed to load font: %s\n", TTF_GetError());
-    }
-}
+DebugSystem::DebugSystem() {}
 DebugSystem::~DebugSystem() {
     if (font) {
         TTF_CloseFont(font);
     }
 }
 
-void DebugSystem::update(Entities& entities, TileMap& tileMap) const {
+void DebugSystem::update(Entities& entities, TileMap& tileMap) {
+    // this is dumb, debug system is initialized before SDL in some cases
+    if (!font) {
+        font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 32);
+        if (!font) {
+            printf("Failed to load font: %s\n", TTF_GetError());
+        }
+    }
 
     auto debugEntity = entities.findEntityWithComponent<Debug>();
     if (!debugEntity) {
