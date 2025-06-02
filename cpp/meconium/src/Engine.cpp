@@ -53,6 +53,13 @@ std::shared_ptr<Entity> Engine::createEntity() {
     return entity;
 }
 
+void Engine::unload() {
+    _entities->clear();
+    level = nullptr;
+    tileMap = nullptr;
+    musicManager.stop();
+}
+
 void Engine::run(std::unique_ptr<GameState> initialState) {
     state = std::move(initialState);
 
@@ -178,6 +185,7 @@ void Engine::render() {
         SDL_ClearError();
     }
 }
+
 void Engine::enableDebug() {
     // add debugging
     auto debug = std::make_shared<Entity>(4);

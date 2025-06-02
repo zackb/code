@@ -34,6 +34,7 @@ public:
     std::shared_ptr<Entity> createEntity();
     Enemy& createEnemy();
     void loadLevel(std::string levelName);
+    void unload();
 
     void enableDebug();
 

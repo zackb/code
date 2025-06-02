@@ -139,6 +139,11 @@ public:
         }
     }
 
+    void clear() {
+        entities.clear();
+        componentStorage.clear();
+    }
+
     // Queue an entity for addition
     void queueAdd(const std::shared_ptr<Entity>& entity) { additions.emplace_back(entity); }
     // Queue an entity for removal

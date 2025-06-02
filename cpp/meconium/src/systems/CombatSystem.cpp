@@ -14,6 +14,9 @@
 void CombatSystem::update(const std::shared_ptr<Entities>& entities) {
 
     auto player = entities->findEntityWithComponent<PlayerTag>();
+    if (!player) {
+        return;
+    }
 
     for (auto& entity : entities->filtered<Transform, Collider>()) {
         auto transform = entity->getComponent<Transform>();

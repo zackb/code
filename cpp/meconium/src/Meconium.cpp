@@ -86,6 +86,7 @@ void Meconium::update() {
 
     // Check for player death
     if (!engine.entities().findEntityWithComponent<PlayerTag>()) {
+        engine.unload();
         next = std::make_unique<GameOverState>(engine);
     }
 }

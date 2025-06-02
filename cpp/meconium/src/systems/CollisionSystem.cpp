@@ -26,7 +26,7 @@ void CollisionSystem::update(Entities& entities, TileMap& tileMap) {
         resolveVerticalCollisions(boundsY, velocity, transform, collider, tileMap);
 
         // Check for bumps
-        if (entity->hasComponent<EnemyTag>()) {
+        if (player && entity->hasComponent<EnemyTag>()) {
             resolvePlayerEnemyBump(*player, *entity);
         }
 
