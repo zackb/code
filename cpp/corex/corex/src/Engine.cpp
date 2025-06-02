@@ -6,6 +6,8 @@
 #include <memory>
 
 bool Engine::init() {
+
+    // initialize SDL
     if (!Context::init()) {
         return false;
     }
@@ -103,6 +105,7 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
         }
     }
 }
+
 void Engine::update() {
     if (!_entities || _entities->empty()) {
         return;
