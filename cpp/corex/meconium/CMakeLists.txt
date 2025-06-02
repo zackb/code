@@ -25,15 +25,19 @@ include_directories(
 )
 
 
-# Define the executable target (use lowercase for the binary name)
-set(EXECUTABLE_NAME "meconium")
+# Define the executable target
+if (APPLE)
+    set(EXECUTABLE_NAME "Meconium")
+else()
+    set(EXECUTABLE_NAME "meconium")
+endif()
 
 add_executable(${EXECUTABLE_NAME}
     ${GAME_HEADERS}
     ${GAME_SOURCES}
 )
 
-target_include_directories(meconium PRIVATE
+target_include_directories(${EXECUTABLE_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
