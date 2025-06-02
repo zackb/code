@@ -30,7 +30,7 @@ sloc:
 	sloc -e .*json.hpp  src/ include/
 
 clean:
-	-cmake --build --preset debug --target clean_packages
+	-cmake --build --preset debug --target clean_package
 	-cmake --build --preset release --target full_clean
 	rm -rf build
 
