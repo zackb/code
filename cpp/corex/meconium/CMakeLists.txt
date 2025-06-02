@@ -1,6 +1,9 @@
 file(GLOB_RECURSE GAME_HEADERS include/*.h include/*.hpp)
 file(GLOB_RECURSE GAME_SOURCES src/*.cpp)
 
+# Use our cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_MODULE_PATH}/cmake/")
+
 #TODO: Remove SDL completely from here/game
 # Find the SDL2 package
 find_package(SDL2 REQUIRED)
@@ -22,7 +25,10 @@ include_directories(
 )
 
 
-add_executable(meconium
+# Define the executable target (use lowercase for the binary name)
+set(EXECUTABLE_NAME "meconium")
+
+add_executable(${EXECUTABLE_NAME}
     ${GAME_HEADERS}
     ${GAME_SOURCES}
 )
@@ -31,10 +37,16 @@ target_include_directories(meconium PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(meconium PRIVATE corex)
+# target_link_libraries(meconium PRIVATE corex)
 
-# Define the executable target (use lowercase for the binary name)
-set(EXECUTABLE_NAME "meconium")
+# Link the SDL2 libraries
+target_link_libraries(${EXECUTABLE_NAME}
+    ${SDL2_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_MIXER_LIBRARIES}
+    ${SDL2_TTF_LIBRARIES}
+    corex
+)
 
 # Set the MacOSX bundle properties (capitalize the app bundle name)
 if (APPLE)

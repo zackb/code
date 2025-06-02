@@ -1,6 +1,7 @@
 #pragma once
 
 #include "corex/GameState.h"
+#include <string>
 
 class Meconium : public GameState {
 

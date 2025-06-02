@@ -1,5 +1,3 @@
-#include <SDL.h>
-#include <memory>
 #include <unistd.h>
 
 #include "Meconium.h"
