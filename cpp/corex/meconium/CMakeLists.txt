@@ -41,10 +41,10 @@ target_include_directories(meconium PRIVATE
 
 # Link the SDL2 libraries
 target_link_libraries(${EXECUTABLE_NAME}
-    ${SDL2_LIBRARIES}
-    ${SDL2_IMAGE_LIBRARIES}
-    ${SDL2_MIXER_LIBRARIES}
-    ${SDL2_TTF_LIBRARIES}
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    SDL2_mixer::SDL2_mixer
+    SDL2_ttf::SDL2_ttf
     corex
 )
 
@@ -63,12 +63,12 @@ if (APPLE)
         # MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/customtemplate.plist.in
     )
     # Copy assets into the bundle
-    set(ASSETS_DESTINATION "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Resources/assets")
+    set(ASSETS_DESTINATION "${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/Resources/assets")
 
     add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory "${ASSETS_DESTINATION}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_SOURCE_DIR}/assets"
+            "${CMAKE_SOURCE_DIR}/meconium/assets"
             "${ASSETS_DESTINATION}"
         COMMENT "Copying assets to app bundle Resources folder"
     )
@@ -126,7 +126,7 @@ if (APPLE)
         COMMAND install_name_tool -change
             ${MY_SDL2_LIB_DIR}/libSDL2-2.0.0.dylib
             @executable_path/../Frameworks/libSDL2-2.0.0.dylib
-            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+            ${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 
     # And for sdl2_image
@@ -134,7 +134,7 @@ if (APPLE)
         COMMAND install_name_tool -change
             ${MY_SDL2_IMAGE_LIB_DIR}/libSDL2_image-2.0.0.dylib
             @executable_path/../Frameworks/libSDL2_image-2.0.0.dylib
-            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+            ${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 
     # And for sdl2_mixer
@@ -142,7 +142,7 @@ if (APPLE)
         COMMAND install_name_tool -change
             ${MY_SDL2_MIXER_LIB_DIR}/libSDL2_mixer-2.0.0.dylib
             @executable_path/../Frameworks/libSDL2_mixer-2.0.0.dylib
-            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+            ${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 
     # And for sdl2_ttf
@@ -150,7 +150,7 @@ if (APPLE)
             COMMAND install_name_tool -change
             ${MY_SDL2_TTF_LIB_DIR}/libSDL2_ttf-2.0.0.dylib
             @executable_path/../Frameworks/libSDL2_ttf-2.0.0.dylib
-            ${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
+            ${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/MacOS/${EXECUTABLE_NAME}
     )
 
 elseif(UNIX)
