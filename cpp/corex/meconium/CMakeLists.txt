@@ -88,7 +88,7 @@ if (APPLE)
     set(MY_SDL2_MIXER_LIB_DIR "${HOMEBREW_PREFIX}/opt/sdl2_mixer/lib")
     set(MY_SDL2_TTF_LIB_DIR "${HOMEBREW_PREFIX}/opt/sdl2_ttf/lib")
 
-    set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
+    set(MY_FRAMEWORKS_DIR "${CMAKE_BINARY_DIR}/meconium/${APP_BUNDLE_NAME}.app/Contents/Frameworks")
 
     # Create a "Frameworks" directory in the bundle
     file(MAKE_DIRECTORY ${MY_FRAMEWORKS_DIR})
