@@ -11,7 +11,7 @@ release:
 	ln -sf build/release/compile_commands.json
 
 run: debug
-	./build/debug/meconium
+	./build/debug/meconium/meconium
 
 install: release
 	cmake --install build/release
