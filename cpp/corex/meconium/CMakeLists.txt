@@ -4,18 +4,29 @@ file(GLOB_RECURSE GAME_SOURCES src/*.cpp)
 # Use our cmake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_MODULE_PATH}/cmake/")
 
-#TODO: Remove SDL completely from here/game
-# Find the SDL2 package
-find_package(SDL2 REQUIRED)
+# SDL2
+find_package(SDL2 CONFIG QUIET)
+if(NOT SDL2_FOUND)
+    find_package(SDL2 REQUIRED)  # fall back to FindSDL2.cmake
+endif()
 
-# Find the SDL2_image package
-find_package(SDL2_image REQUIRED)
+# SDL2_image
+find_package(SDL2_image CONFIG QUIET)
+if(NOT SDL2_image_FOUND)
+    find_package(SDL2_image REQUIRED)
+endif()
 
-# Find the SDL2_mixer package
-find_package(SDL2_mixer REQUIRED)
+# SDL2_mixer
+find_package(SDL2_mixer CONFIG QUIET)
+if(NOT SDL2_mixer_FOUND)
+    find_package(SDL2_mixer REQUIRED)
+endif()
 
-# Find the SDL2_ttf package
-find_package(SDL2_ttf REQUIRED)
+# SDL2_ttf
+find_package(SDL2_ttf CONFIG QUIET)
+if(NOT SDL2_ttf_FOUND)
+    find_package(SDL2_ttf REQUIRED)
+endif()
 
 include_directories(
     ${SDL2_INCLUDE_DIRS}
