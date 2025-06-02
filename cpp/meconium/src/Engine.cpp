@@ -1,8 +1,57 @@
 #include "Engine.h"
 #include "Context.h"
+#include "components/Debug.h"
+#include "entity/EntityFactory.h"
 #include <SDL.h>
+#include <memory>
 
-bool Engine::init() { return Context::init(); }
+bool Engine::init() {
+    if (!Context::init()) {
+        return false;
+    }
+
+    // Initialize ECS components, systems, and entities
+    _entities = std::make_shared<Entities>();
+
+    // initialize sound effects
+    soundManager.loadFromFile(resolveAssetPath("audio/sounds.json"));
+
+    return true;
+}
+
+Entities& Engine::entities() { return *_entities; }
+
+void Engine::loadLevel(std::string levelName) {
+
+    // load tileMap
+    level = std::make_shared<Level>("assets/maps/" + levelName + ".json");
+    tileMap = level->createTileMap();
+    tileMapRenderer = std::make_unique<TileMapRenderer>(*tileMap, Context::renderer, 16);
+
+    // Initialize enemies
+    enemies = level->createEnemies();
+
+    // Add pickups
+    for (auto p : level->getPickupDefinitions()) {
+        _entities->add(EntityFactory::createPickupEntity(p));
+    }
+
+    // add parallax background
+    auto bk = createEntity();
+    bk->addComponent<ParallaxBackground>(level->createBackground());
+
+    // start background music
+    if (!level->getBackgroundMusic().empty()) {
+        musicManager.load(level->getBackgroundMusic());
+        musicManager.play(-1);
+    }
+}
+
+std::shared_ptr<Entity> Engine::createEntity() {
+    auto entity = std::make_shared<Entity>();
+    _entities->add(entity);
+    return entity;
+}
 
 void Engine::run(std::unique_ptr<GameState> initialState) {
     state = std::move(initialState);
@@ -26,6 +75,8 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
         }
 
         state->update();
+        update();
+        render();
         state->render();
 
         // Transition to the next state if needed
@@ -44,6 +95,95 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
             SDL_Delay(frameDelay - frameTime);
         }
     }
+}
+void Engine::update() {
+    if (!_entities || _entities->empty()) {
+        return;
+    }
+
+    // Update game time
+    gameTime.update();
+    int deltaTime = gameTime.getDeltaTime();
+
+    const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
+
+    // Handle input first to affect movement
+    inputSystem.update(*_entities, keyboardState);
+
+    // Apply movement based on input
+    movementSystem.update(*_entities);
+
+    // Play sounds if we should
+    soundSystem.update(*_entities, soundManager);
+
+    // Handle enemy AI
+    enemyAISystem.update(_entities, deltaTime);
+
+    // Transition state
+    stateSystem.update(_entities, deltaTime);
+
+    // Handle combat collisions
+    combatSystem.update(_entities);
+
+    // Handle collisions after movement
+    collisionSystem.update(*_entities, *tileMap);
+
+    // Handle pickups
+    pickupSystem.update(*_entities);
+
+    // Update animations based on state
+    animationSystem.update(*_entities, deltaTime);
+
+    // Update tweens
+    tweenSystem.update(*_entities, deltaTime);
+
+    // Update projectile status
+    projectileSystem.update(*_entities, deltaTime);
+
+    // Handle delayed actions
+    delayedActionSystem.update(*_entities, deltaTime);
+
+    // Update camera after movement and collision
+    cameraSystem.update(*_entities, *tileMap);
+
+    // Spawn enemies if we should
+    spawnerSystem.update(*_entities, enemies);
+
+    // Entity lifecycle check
+    lifecycleSystem.update(*_entities, deltaTime);
+}
+
+void Engine::render() {
+    if (!_entities || _entities->empty()) {
+        return;
+    }
+
+    // Set background clear color (black)
+    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
+    SDL_RenderClear(Context::renderer); // Clears screen with black
+
+    // Render background, tilemap, and entities
+    renderSystem.render(*_entities, *tileMapRenderer);
+
+    // Render UI
+    uiRenderSystem.render(*_entities);
+
+    // Check debugging
+    debugSystem.update(*_entities, *tileMap);
+
+    SDL_RenderPresent(Context::renderer);
+    const char* err = SDL_GetError();
+    if (err && err[0] != '\0') {
+        printf("SDL error: %s\n", err);
+        SDL_ClearError();
+    }
+}
+void Engine::enableDebug() {
+    // add debugging
+    auto debug = std::make_shared<Entity>(4);
+    debug->addComponent<Debug>();
+    debug->addComponent<InputControl>();
+    _entities->add(debug);
 }
 
 void Engine::shutdown() { Context::destroy(); }

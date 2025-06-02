@@ -9,7 +9,7 @@
 
 class MenuState final : public GameState {
 public:
-    MenuState();
+    MenuState(Engine& engine);
     ~MenuState() override;
 
     void handleEvent(SDL_Event& event) override;

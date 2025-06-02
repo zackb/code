@@ -177,6 +177,8 @@ public:
 
     auto end() { return entities.end(); }
 
+    bool empty() const { return entities.empty(); }
+
     auto begin() const { return entities.begin(); }
 
     auto end() const { return entities.end(); }

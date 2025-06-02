@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Start in MenuState
-    std::unique_ptr<GameState> state = std::make_unique<MenuState>();
+    std::unique_ptr<GameState> state = std::make_unique<MenuState>(engine);
 
     engine.run(std::move(state));
 

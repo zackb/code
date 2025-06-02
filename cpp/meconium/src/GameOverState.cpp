@@ -6,7 +6,7 @@
 
 #include "FileUtils.h"
 
-GameOverState::GameOverState() {
+GameOverState::GameOverState(Engine& engine) : GameState(engine) {
     const std::string logoPath = resolveAssetPath("assets/images/gameover.png");
     SDL_Surface* logoSurface = IMG_Load(logoPath.c_str());
     if (!logoSurface) {
@@ -78,7 +78,7 @@ void GameOverState::render() {
 
 std::unique_ptr<GameState> GameOverState::nextState() {
     if (restart) {
-        return std::make_unique<MenuState>();
+        return std::make_unique<MenuState>(engine);
     }
     return nullptr;
 }

@@ -8,7 +8,7 @@
 
 class CharacterSelectState : public GameState {
 public:
-    CharacterSelectState();
+    CharacterSelectState(Engine& engine);
     ~CharacterSelectState();
 
     void handleEvent(SDL_Event& event) override;

@@ -10,6 +10,9 @@
 void EnemyAISystem::update(const std::shared_ptr<Entities>& entities, const int dt) const {
 
     auto player = entities->findEntityWithComponent<PlayerTag>();
+    if (!player) {
+        return;
+    }
     auto playerPos = player->getComponent<Transform>();
 
     // iterate enemies

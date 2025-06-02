@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 #include <iostream>
 
-MenuState::MenuState() {
+MenuState::MenuState(Engine& engine) : GameState(engine) {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 36);
     if (!font) {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
@@ -113,7 +113,7 @@ SDL_Texture* MenuState::renderText(const std::string& message, SDL_Color color) 
 
 std::unique_ptr<GameState> MenuState::nextState() {
     if (startGame) {
-        return std::make_unique<CharacterSelectState>();
+        return std::make_unique<CharacterSelectState>(engine);
     }
 
     if (quitGame) {

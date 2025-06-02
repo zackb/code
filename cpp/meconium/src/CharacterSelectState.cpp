@@ -8,7 +8,7 @@
 #include <iostream>
 #include <memory>
 
-CharacterSelectState::CharacterSelectState() {
+CharacterSelectState::CharacterSelectState(Engine& engine) : GameState(engine) {
     font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 24);
 
     std::vector<std::string> characterNames = {"Blue", "Archer", "Xena"};
@@ -90,7 +90,7 @@ std::unique_ptr<GameState> CharacterSelectState::nextState() {
     // check if the enter key has been hit on a selection
     if (startGame) {
         auto selection = characters[selected];
-        auto game = std::make_unique<Meconium>();
+        auto game = std::make_unique<Meconium>(engine);
         if (game->init(util::tolower(selection.name))) {
             return game;
         } else {
@@ -99,7 +99,7 @@ std::unique_ptr<GameState> CharacterSelectState::nextState() {
     }
 
     if (cancel) {
-        return std::make_unique<MenuState>();
+        return std::make_unique<MenuState>(engine);
     }
 
     return nullptr;

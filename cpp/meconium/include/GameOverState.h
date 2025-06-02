@@ -8,7 +8,7 @@
 
 class GameOverState final : public GameState {
 public:
-    GameOverState();
+    GameOverState(Engine& engine);
     ~GameOverState() override;
 
     void handleEvent(SDL_Event& event) override;
