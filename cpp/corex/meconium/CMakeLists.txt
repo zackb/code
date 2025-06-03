@@ -8,36 +8,6 @@ else()
     set(EXECUTABLE_NAME "meconium")
 endif()
 
-# SDL2
-find_package(SDL2 CONFIG QUIET)
-if(NOT SDL2_FOUND)
-    find_package(SDL2 REQUIRED)  # fall back to FindSDL2.cmake
-endif()
-
-# SDL2_image
-find_package(SDL2_image CONFIG QUIET)
-if(NOT SDL2_image_FOUND)
-    find_package(SDL2_image REQUIRED)
-endif()
-
-# SDL2_mixer
-find_package(SDL2_mixer CONFIG QUIET)
-if(NOT SDL2_mixer_FOUND)
-    find_package(SDL2_mixer REQUIRED)
-endif()
-
-# SDL2_ttf
-find_package(SDL2_ttf CONFIG QUIET)
-if(NOT SDL2_ttf_FOUND)
-    find_package(SDL2_ttf REQUIRED)
-endif()
-
-include_directories(
-    SDL2::SDL2
-    SDL2_image::SDL2_image
-    SDL2_mixer::SDL2_mixer
-    SDL2_ttf::SDL2_ttf
-)
 
 add_executable(${EXECUTABLE_NAME}
     ${GAME_HEADERS}
@@ -48,14 +18,7 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-# target_link_libraries(meconium PRIVATE corex)
-
-# Link the SDL2 libraries
-target_link_libraries(${EXECUTABLE_NAME}
-    SDL2::SDL2
-    SDL2_image::SDL2_image
-    SDL2_mixer::SDL2_mixer
-    SDL2_ttf::SDL2_ttf
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE
     corex
 )
 
