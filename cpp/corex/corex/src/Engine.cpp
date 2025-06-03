@@ -67,7 +67,6 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
     state = std::move(initialState);
 
     bool isRunning = true;
-    SDL_Event event;
 
     constexpr int FPS = 60;
     constexpr int frameDelay = 1000 / FPS;

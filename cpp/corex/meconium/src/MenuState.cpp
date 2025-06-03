@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include "CharacterSelectState.h"
 #include "MenuState.h"
+#include "corex/Context.h"
 #include "corex/FileUtils.h"
 #include "corex/ui/Font.h"
 #include "corex/ui/Input.h"
@@ -46,11 +47,11 @@ void MenuState::render() {
     ui::Renderer::clear();
 
     if (logo.isValid()) {
-        int x = 400 - logo.width() / 4; // assuming 800 width
+        int x = (Context::windowSize.width - logo.width() / 2) / 2;
         logo.draw(x, 50, 0.5f);
     }
 
-    int y = 200;
+    int y = (logo.height() / 2) + 60;
     for (size_t i = 0; i < options.size(); ++i) {
         ui::Color color = (i == index) ? ui::Color{255, 255, 0, 255} : ui::Color{255, 255, 255, 255};
         ui::Renderer::drawText(options[i], font, 400, y, color);
