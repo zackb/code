@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/TileMap.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <vector>
 
 struct CameraView {
