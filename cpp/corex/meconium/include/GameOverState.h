@@ -1,10 +1,9 @@
 #pragma once
 
 #include "corex/GameState.h"
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include "corex/ui/Text.h"
+#include "corex/ui/Texture.h"
 #include <memory>
-#include <string>
 
 class GameOverState final : public GameState {
 public:
@@ -17,12 +16,8 @@ public:
     std::unique_ptr<GameState> nextState() override;
 
 private:
-    TTF_Font* font;
-    SDL_Texture* logoTexture = nullptr;
-    SDL_Rect logoRect{};
-    SDL_Texture* textTexture;
-    SDL_Rect textRect;
+    ui::Texture logo;
+    ui::Font font;
+    ui::Text text;
     bool restart = false;
-
-    SDL_Texture* renderText(const std::string& message, SDL_Color color);
 };
