@@ -8,10 +8,6 @@
 #include <vector>
 
 class MenuState : public GameState {
-    struct Option {
-        std::string name;
-        ui::Text text;
-    };
 
 public:
     explicit MenuState(Engine& engine);
@@ -23,6 +19,10 @@ public:
     std::unique_ptr<GameState> nextState() override;
 
 private:
+    struct Option {
+        std::string name;
+        ui::Text text;
+    };
     ui::Font font;
     ui::Texture logo;
     std::vector<Option> options;

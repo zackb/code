@@ -5,32 +5,19 @@
 #include "corex/FileUtils.h"
 #include "corex/Utils.h"
 #include "corex/ui/Input.h"
-#include <SDL_image.h>
+#include "corex/ui/Texture.h"
 #include <iostream>
 #include <memory>
 
-CharacterSelectState::CharacterSelectState(Engine& engine) : GameState(engine) {
-    font = TTF_OpenFont(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf").c_str(), 24);
+CharacterSelectState::CharacterSelectState(Engine& engine) : GameState(engine), font(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 24) {
 
     std::vector<std::string> characterNames = {"Blue", "Archer", "Xena"};
     for (const auto& name : characterNames) {
-        CharacterOption c;
-        c.name = name;
-        std::string imgPath = resolveAssetPath("assets/characters/" + util::tolower(name) + ".png");
-        SDL_Surface* surface = IMG_Load(imgPath.c_str());
-        c.portrait = surface ? SDL_CreateTextureFromSurface(Context::renderer, surface) : nullptr;
-        SDL_FreeSurface(surface);
-        characters.push_back(c);
+        characters.emplace_back(
+            name,
+            ui::Text(name, font, normalColor),
+            ui::Texture(resolveAssetPath("assets/characters/" + util::tolower(name) + ".png")));
     }
-}
-
-CharacterSelectState::~CharacterSelectState() {
-    for (auto& c : characters) {
-        if (c.portrait)
-            SDL_DestroyTexture(c.portrait);
-    }
-    if (font)
-        TTF_CloseFont(font);
 }
 
 void CharacterSelectState::handleEvent() {
@@ -56,40 +43,27 @@ void CharacterSelectState::update() {
 }
 
 void CharacterSelectState::render() {
-    SDL_SetRenderDrawColor(Context::renderer, 0, 0, 0, 255);
-    SDL_RenderClear(Context::renderer);
+
+    ui::Renderer::clear();
 
     int spacing = 200;
     int startX = (Context::windowSize.width - spacing * characters.size()) / 2;
 
     for (size_t i = 0; i < characters.size(); ++i) {
         auto& c = characters[i];
-        SDL_Rect dst = {startX + int(i * spacing), 200, 128, 128};
-        c.rect = dst;
-
-        if (c.portrait) {
-            SDL_RenderCopy(Context::renderer, c.portrait, nullptr, &dst);
-        }
-
-        SDL_Color color = (i == selected) ? selectedColor : normalColor;
-        SDL_Texture* nameTex = renderText(c.name, color);
-        if (nameTex) {
-            int w, h;
-            SDL_QueryTexture(nameTex, nullptr, nullptr, &w, &h);
-            SDL_Rect nameRect = {dst.x + dst.w / 2 - w / 2, dst.y + dst.h + 10, w, h};
-            SDL_RenderCopy(Context::renderer, nameTex, nullptr, &nameRect);
-            SDL_DestroyTexture(nameTex);
-        }
+        int x = startX + int(i * spacing);
+        c.texture.draw(x, 200);
+        c.text.draw(x + 200 / 2 - c.text.width() / 2, 200 + 128 + 10, (i == selected) ? selectedColor : normalColor);
     }
 
-    SDL_RenderPresent(Context::renderer);
+    ui::Renderer::present();
 }
 
 std::unique_ptr<GameState> CharacterSelectState::nextState() {
 
     // check if the enter key has been hit on a selection
     if (startGame) {
-        auto selection = characters[selected];
+        auto& selection = characters[selected];
         auto game = std::make_unique<Meconium>(engine);
         if (game->init(util::tolower(selection.name))) {
             return game;
@@ -103,13 +77,4 @@ std::unique_ptr<GameState> CharacterSelectState::nextState() {
     }
 
     return nullptr;
-}
-
-SDL_Texture* CharacterSelectState::renderText(const std::string& text, SDL_Color color) {
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
-    if (!surface)
-        return nullptr;
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(Context::renderer, surface);
-    SDL_FreeSurface(surface);
-    return tex;
 }

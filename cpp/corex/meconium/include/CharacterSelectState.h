@@ -1,15 +1,16 @@
 #pragma once
 
 #include "corex/GameState.h"
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include "corex/ui/Text.h"
+#include "corex/ui/Texture.h"
 #include <string>
 #include <vector>
 
 class CharacterSelectState : public GameState {
+
 public:
     CharacterSelectState(Engine& engine);
-    ~CharacterSelectState();
+    ~CharacterSelectState() = default;
 
     void handleEvent() override;
     void update() override;
@@ -17,20 +18,18 @@ public:
     std::unique_ptr<GameState> nextState() override;
 
 private:
-    struct CharacterOption {
+    struct Character {
         std::string name;
-        SDL_Texture* portrait;
-        SDL_Rect rect;
+        ui::Text text;
+        ui::Texture texture;
     };
 
-    std::vector<CharacterOption> characters;
+    std::vector<Character> characters;
+    ui::Font font;
     size_t selected = 0;
     bool startGame = false;
     bool cancel = false;
 
-    TTF_Font* font = nullptr;
-    SDL_Color selectedColor = {255, 255, 0, 255};
-    SDL_Color normalColor = {200, 200, 200, 255};
-
-    SDL_Texture* renderText(const std::string& text, SDL_Color color);
+    ui::Color selectedColor = {255, 255, 0, 255};
+    ui::Color normalColor = {200, 200, 200, 255};
 };

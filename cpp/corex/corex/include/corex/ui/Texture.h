@@ -4,8 +4,13 @@
 namespace ui {
     class Texture {
     public:
-        Texture(const std::string& imagePath);
+        explicit Texture(const std::string& imagePath);
         ~Texture();
+        Texture(Texture&&) noexcept;
+        Texture& operator=(Texture&&) noexcept;
+
+        Texture(const Texture&) = delete;
+        Texture& operator=(const Texture&) = delete;
 
         bool isValid() const;
         int width() const;
@@ -15,6 +20,6 @@ namespace ui {
 
     private:
         struct Impl;
-        Impl* impl;
+        std::unique_ptr<Impl> impl;
     };
 } // namespace ui

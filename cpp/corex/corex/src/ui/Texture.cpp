@@ -9,9 +9,12 @@ namespace ui {
         SDL_Texture* tex = nullptr;
         int w = 0;
         int h = 0;
+        ~Impl() {
+            if (tex) SDL_DestroyTexture(tex);
+        }
     };
 
-    Texture::Texture(const std::string& path) : impl(new Impl) {
+    Texture::Texture(const std::string& path) : impl(std::make_unique<Impl>()) {
         SDL_Surface* surface = IMG_Load(path.c_str());
         if (!surface) {
             std::cerr << "IMG_Load failed: " << IMG_GetError() << std::endl;
@@ -22,12 +25,9 @@ namespace ui {
         impl->h = surface->h;
         SDL_FreeSurface(surface);
     }
-
-    Texture::~Texture() {
-        if (impl->tex)
-            SDL_DestroyTexture(impl->tex);
-        delete impl;
-    }
+    Texture::~Texture() = default;
+    Texture::Texture(Texture&&) noexcept = default;
+    Texture& Texture::operator=(Texture&&) noexcept = default;
 
     bool Texture::isValid() const { return impl && impl->tex; }
 
