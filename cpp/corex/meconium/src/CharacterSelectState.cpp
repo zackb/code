@@ -9,14 +9,14 @@
 #include <iostream>
 #include <memory>
 
-CharacterSelectState::CharacterSelectState(Engine& engine) : GameState(engine), font(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 24) {
+CharacterSelectState::CharacterSelectState(Engine& engine)
+    : GameState(engine), font(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 24) {
 
     std::vector<std::string> characterNames = {"Blue", "Archer", "Xena"};
     for (const auto& name : characterNames) {
-        characters.emplace_back(
-            name,
-            ui::Text(name, font, normalColor),
-            ui::Texture(resolveAssetPath("assets/characters/" + util::tolower(name) + ".png")));
+        characters.emplace_back(name,
+                                ui::Text(name, font, normalColor),
+                                ui::Texture(resolveAssetPath("assets/characters/" + util::tolower(name) + ".png")));
     }
 }
 
