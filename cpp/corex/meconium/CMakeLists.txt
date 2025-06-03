@@ -1,8 +1,12 @@
 file(GLOB_RECURSE GAME_HEADERS include/*.h include/*.hpp)
 file(GLOB_RECURSE GAME_SOURCES src/*.cpp)
 
-# Use our cmake modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_MODULE_PATH}/cmake/")
+# Define the executable target
+if (APPLE)
+    set(EXECUTABLE_NAME "Meconium")
+else()
+    set(EXECUTABLE_NAME "meconium")
+endif()
 
 # SDL2
 find_package(SDL2 CONFIG QUIET)
@@ -29,19 +33,11 @@ if(NOT SDL2_ttf_FOUND)
 endif()
 
 include_directories(
-    ${SDL2_INCLUDE_DIRS}
-    ${SDL2_IMAGE_INCLUDE_DIRS}
-    ${SDL2_MIXER_INCLUDE_DIRS}
-    ${SDL2_TTF_INCLUDE_DIRS}
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    SDL2_mixer::SDL2_mixer
+    SDL2_ttf::SDL2_ttf
 )
-
-
-# Define the executable target
-if (APPLE)
-    set(EXECUTABLE_NAME "Meconium")
-else()
-    set(EXECUTABLE_NAME "meconium")
-endif()
 
 add_executable(${EXECUTABLE_NAME}
     ${GAME_HEADERS}

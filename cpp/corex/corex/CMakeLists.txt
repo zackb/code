@@ -25,17 +25,16 @@ if(NOT SDL2_ttf_FOUND)
     find_package(SDL2_ttf REQUIRED)
 endif()
 
-
 add_library(corex STATIC
     ${COREX_HEADERS}
     ${COREX_SOURCES}
 )
 
 target_include_directories(corex PRIVATE
-    ${SDL2_INCLUDE_DIRS}
-    ${SDL2_IMAGE_INCLUDE_DIRS}
-    ${SDL2_MIXER_INCLUDE_DIRS}
-    ${SDL2_TTF_INCLUDE_DIRS}
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    SDL2_mixer::SDL2_mixer
+    SDL2_ttf::SDL2_ttf
 )
 
 target_include_directories(corex PUBLIC
@@ -48,6 +47,3 @@ target_link_libraries(corex PUBLIC
     SDL2_mixer::SDL2_mixer
     SDL2_ttf::SDL2_ttf
 )
-
-message(STATUS "SDL2_IMAGE_INCLUDE_DIRS=${SDL2_IMAGE_INCLUDE_DIRS}")
-
