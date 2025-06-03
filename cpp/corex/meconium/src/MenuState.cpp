@@ -19,6 +19,10 @@ MenuState::MenuState(Engine& engine)
     if (!logo.isValid()) {
         std::cerr << "Failed to load logo." << std::endl;
     }
+
+    for (auto name : {"Start Game", "Options", "Exit"}) {
+        options.emplace_back(name, ui::Text(name, font, {255, 255, 255, 255}));
+    }
 }
 
 MenuState::~MenuState() = default;
@@ -29,11 +33,11 @@ void MenuState::handleEvent() {
     } else if (ui::Input::keyPressed(ui::Key::Down)) {
         index = (index + 1) % options.size();
     } else if (ui::Input::keyPressed(ui::Key::Enter) || ui::Input::keyPressed(ui::Key::Space)) {
-        if (options[index] == "Start Game") {
+        if (options[index].name == "Start Game") {
             startGame = true;
-        } else if (options[index] == "Exit") {
+        } else if (options[index].name == "Exit") {
             quitGame = true;
-        } else if (options[index] == "Options") {
+        } else if (options[index].name == "Options") {
             // Handle Options
         }
     }
@@ -54,7 +58,8 @@ void MenuState::render() {
     int y = (logo.height() / 2) + 60;
     for (size_t i = 0; i < options.size(); ++i) {
         ui::Color color = (i == index) ? ui::Color{255, 255, 0, 255} : ui::Color{255, 255, 255, 255};
-        ui::Renderer::drawText(options[i], font, 400, y, color);
+        int x = (Context::windowSize.width - options[i].text.width()) / 2;
+        options[i].text.draw(x, y, color);
         y += 60;
     }
 
