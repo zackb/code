@@ -5,6 +5,7 @@
 
 #include "corex/Context.h"
 #include "corex/FileUtils.h"
+#include "corex/ui/Input.h"
 
 GameOverState::GameOverState(Engine& engine) : GameState(engine) {
     const std::string logoPath = resolveAssetPath("assets/images/gameover.png");
@@ -51,8 +52,8 @@ GameOverState::~GameOverState() {
         TTF_CloseFont(font);
 }
 
-void GameOverState::handleEvent(SDL_Event& event) {
-    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
+void GameOverState::handleEvent() {
+    if (ui::Input::keyPressed(ui::Key::Enter)) {
         restart = true;
     }
 }

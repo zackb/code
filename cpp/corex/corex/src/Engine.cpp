@@ -2,6 +2,7 @@
 #include "corex/Context.h"
 #include "corex/components/Debug.h"
 #include "corex/entity/EntityFactory.h"
+#include "corex/ui/Input.h"
 #include <SDL.h>
 #include <memory>
 
@@ -77,10 +78,14 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
     while (isRunning) {
         const Uint32 frameStart = SDL_GetTicks();
 
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT)
+        ui::Input::beginFrame();
+
+        while (ui::Input::pollEvent()) {
+            if (ui::Input::quitRequested()) {
                 isRunning = false;
-            state->handleEvent(event);
+            }
+
+            state->handleEvent();
         }
 
         state->update();

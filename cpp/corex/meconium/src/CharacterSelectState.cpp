@@ -4,6 +4,7 @@
 #include "corex/Context.h"
 #include "corex/FileUtils.h"
 #include "corex/Utils.h"
+#include "corex/ui/Input.h"
 #include <SDL_image.h>
 #include <iostream>
 #include <memory>
@@ -32,22 +33,21 @@ CharacterSelectState::~CharacterSelectState() {
         TTF_CloseFont(font);
 }
 
-void CharacterSelectState::handleEvent(SDL_Event& event) {
-    if (event.type == SDL_KEYDOWN) {
-        switch (event.key.keysym.sym) {
-        case SDLK_LEFT:
-            selected = (selected - 1 + characters.size()) % characters.size();
-            break;
-        case SDLK_RIGHT:
-            selected = (selected + 1) % characters.size();
-            break;
-        case SDLK_RETURN:
-            startGame = true;
-            break;
-        case SDLK_ESCAPE:
-            cancel = true;
-            break;
-        }
+void CharacterSelectState::handleEvent() {
+    using namespace ui;
+
+    // Query keys pressed this frame, handle navigation or selection
+    if (Input::keyPressed(Key::Left)) {
+        selected = (selected - 1 + characters.size()) % characters.size();
+    }
+    if (Input::keyPressed(Key::Right)) {
+        selected = (selected + 1) % characters.size();
+    }
+    if (Input::keyPressed(Key::Enter)) {
+        startGame = true;
+    }
+    if (Input::keyPressed(Key::Escape)) {
+        cancel = true;
     }
 }
 

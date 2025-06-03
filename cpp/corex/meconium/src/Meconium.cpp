@@ -91,7 +91,7 @@ void Meconium::update() {
 
 void Meconium::render() {}
 
-void Meconium::handleEvent(SDL_Event& event) {
+void Meconium::handleEvent() {
     // TODO: do we need this?
 }
 

@@ -11,7 +11,7 @@ public:
     bool init(std::string character = "blue");
     void update() override;
     void render() override;
-    void handleEvent(SDL_Event& event) override;
+    void handleEvent() override;
     std::unique_ptr<GameState> nextState() override;
 
 private:

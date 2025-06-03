@@ -11,7 +11,7 @@ public:
     GameOverState(Engine& engine);
     ~GameOverState() override;
 
-    void handleEvent(SDL_Event& event) override;
+    void handleEvent() override;
     void update() override;
     void render() override;
     std::unique_ptr<GameState> nextState() override;

@@ -1,41 +1,61 @@
 #include "corex/ui/Input.h"
 #include <SDL.h>
+#include <unordered_set>
 
 namespace ui {
 
-    static SDL_Event lastEvent;
-    static bool hasEvent = false;
-
-    bool pollEvent() {
-        hasEvent = SDL_PollEvent(&lastEvent);
-        return hasEvent;
+    void Input::beginFrame() {
+        // Clear state at frame start
+        while (!eventQueue.empty())
+            eventQueue.pop();
+        quit = false;
+        pressedKeys.clear();
+        // don't clear downKeys here, keep keys held across frames
     }
 
-    bool keyPressed(Key key) {
-        if (!hasEvent || lastEvent.type != SDL_KEYDOWN)
-            return false;
+    bool Input::pollEvent() {
+        SDL_Event event;
+        if (SDL_PollEvent(&event)) {
+            eventQueue.push(event);
 
-        SDL_Keycode sym = lastEvent.key.keysym.sym;
+            if (event.type == SDL_QUIT) {
+                quit = true;
+            } else if (event.type == SDL_KEYDOWN && !event.key.repeat) {
+                pressedKeys.insert(event.key.keysym.sym);
+                downKeys.insert(event.key.keysym.sym);
+            } else if (event.type == SDL_KEYUP) {
+                downKeys.erase(event.key.keysym.sym);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    bool Input::quitRequested() { return quit; }
+
+    bool Input::keyPressed(Key key) { return pressedKeys.count(toSDLKey(key)) > 0; }
+
+    bool Input::keyDown(Key key) { return downKeys.count(toSDLKey(key)) > 0; }
+
+    SDL_Keycode Input::toSDLKey(Key key) {
         switch (key) {
         case Key::Up:
-            return sym == SDLK_UP;
+            return SDLK_UP;
         case Key::Down:
-            return sym == SDLK_DOWN;
+            return SDLK_DOWN;
         case Key::Left:
-            return sym == SDLK_LEFT;
+            return SDLK_LEFT;
         case Key::Right:
-            return sym == SDLK_RIGHT;
+            return SDLK_RIGHT;
         case Key::Enter:
-            return sym == SDLK_RETURN;
+            return SDLK_RETURN;
         case Key::Space:
-            return sym == SDLK_SPACE;
+            return SDLK_SPACE;
         case Key::Escape:
-            return sym == SDLK_ESCAPE;
+            return SDLK_ESCAPE;
         default:
-            return false;
+            return SDLK_UNKNOWN;
         }
     }
-
-    bool quitRequested() { return hasEvent && lastEvent.type == SDL_QUIT; }
 
 } // namespace ui
