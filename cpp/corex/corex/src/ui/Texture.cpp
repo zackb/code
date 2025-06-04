@@ -10,7 +10,8 @@ namespace ui {
         int w = 0;
         int h = 0;
         ~Impl() {
-            if (tex) SDL_DestroyTexture(tex);
+            if (tex)
+                SDL_DestroyTexture(tex);
         }
     };
 

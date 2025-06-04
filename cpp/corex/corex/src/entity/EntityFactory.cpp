@@ -6,6 +6,7 @@
 #include "corex/components/Attack.h"
 #include "corex/components/Collider.h"
 #include "corex/components/Health.h"
+#include "corex/components/Interactable.h"
 #include "corex/components/NoGravity.h"
 #include "corex/components/Pickup.h"
 #include "corex/components/State.h"
@@ -128,7 +129,7 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition
 
     entity.addComponent<Pickup>(type, pickup.amount);
     entity.addComponent<State>();
-    entity.addComponent<PickupTag>();
+    entity.addComponent<Interactable>();
     entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
     return std::make_shared<Entity>(entity);
 }

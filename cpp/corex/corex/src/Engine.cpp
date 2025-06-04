@@ -142,8 +142,8 @@ void Engine::update() {
     // Handle collisions after movement
     collisionSystem.update(*_entities, *tileMap);
 
-    // Handle pickups
-    pickupSystem.update(*_entities);
+    // Handle interactions (pickups, doors, etc)
+    interactionSystem.update(*_entities);
 
     // Update animations based on state
     animationSystem.update(*_entities, deltaTime);

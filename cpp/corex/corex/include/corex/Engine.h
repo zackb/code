@@ -13,9 +13,9 @@
 #include "corex/systems/DelayedActionSystem.h"
 #include "corex/systems/EnemyAISystem.h"
 #include "corex/systems/InputSystem.h"
+#include "corex/systems/InteractionSystem.h"
 #include "corex/systems/LifecycleSystem.h"
 #include "corex/systems/MovementSystem.h"
-#include "corex/systems/PickupSystem.h"
 #include "corex/systems/ProjectileSystem.h"
 #include "corex/systems/RenderSystem.h"
 #include "corex/systems/SoundSystem.h"
@@ -62,7 +62,7 @@ private:
     UIRenderSystem uiRenderSystem;
     CollisionSystem collisionSystem;
     CombatSystem combatSystem;
-    PickupSystem pickupSystem;
+    InteractionSystem interactionSystem;
     AnimationSystem animationSystem;
     TweenSystem tweenSystem;
     CameraSystem cameraSystem;

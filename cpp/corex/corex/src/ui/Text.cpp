@@ -14,8 +14,7 @@ namespace ui {
         SDL_Texture* tex = nullptr;
         int w = 0;
         int h = 0;
-        Impl(const std::string& msg, const Color& col, const Font& fnt)
-       : message(msg), color(col), font(fnt) {}
+        Impl(const std::string& msg, const Color& col, const Font& fnt) : message(msg), color(col), font(fnt) {}
         ~Impl() {
             if (tex) {
                 SDL_DestroyTexture(tex);
@@ -28,7 +27,8 @@ namespace ui {
 
         SDL_Color sdlColor = {color.r, color.g, color.b, color.a};
 
-        SDL_Surface* surface = TTF_RenderText_Blended(static_cast<TTF_Font*>(font.getSDLFont()), message.c_str(), sdlColor);
+        SDL_Surface* surface =
+            TTF_RenderText_Blended(static_cast<TTF_Font*>(font.getSDLFont()), message.c_str(), sdlColor);
         if (!surface) {
             std::cerr << "IMG_Load failed: " << IMG_GetError() << std::endl;
             return;

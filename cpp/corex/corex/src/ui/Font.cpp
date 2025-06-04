@@ -12,8 +12,7 @@ namespace ui {
         }
     };
 
-    Font::Font(const std::string& path, int size)
-    : impl(std::make_unique<Impl>()) {
+    Font::Font(const std::string& path, int size) : impl(std::make_unique<Impl>()) {
         impl->font = TTF_OpenFont(path.c_str(), size);
         if (!impl->font) {
             std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;

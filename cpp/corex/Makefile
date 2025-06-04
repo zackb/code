@@ -21,8 +21,11 @@ package: release
 
 .PHONY: format
 fmt:
-	@echo "Formatting code with clang-format..."
-	@find ./src ./include \( -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" -o -name "*.c" -o -name "*.h" \) ! -name "json.hpp" -print0 | \
+	@echo "Formatting corex code with clang-format..."
+	@find ./corex/src ./corex/include \( -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" -o -name "*.c" -o -name "*.h" \) ! -name "json.hpp" -print0 | \
+	xargs -0 -n 1 clang-format -i
+	@echo "Formatting meconium code with clang-format..."
+	@find ./meconium/src ./meconium/include \( -name "*.cpp" -o -name "*.hpp" -o -name "*.cc" -o -name "*.c" -o -name "*.h" \) ! -name "json.hpp" -print0 | \
 	xargs -0 -n 1 clang-format -i
 	@echo "Done."
 
