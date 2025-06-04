@@ -48,12 +48,20 @@ void CharacterSelectState::render() {
 
     int spacing = 200;
     int startX = (Context::windowSize.width - spacing * characters.size()) / 2;
+    int yImage = 200;
+    int yText = yImage + 128 + 10;
 
     for (size_t i = 0; i < characters.size(); ++i) {
         auto& c = characters[i];
         int x = startX + int(i * spacing);
-        c.texture.draw(x, 200);
-        c.text.draw(x + 200 / 2 - c.text.width() / 2, 200 + 128 + 10, (i == selected) ? selectedColor : normalColor);
+
+        // Center texture in its spacing slot
+        int imgX = x + spacing / 2 - c.texture.width() / 2;
+        c.texture.draw(imgX, yImage);
+
+        // Center text below the image
+        int textX = x + spacing / 2 - c.text.width() / 2;
+        c.text.draw(textX, yText, (i == selected) ? selectedColor : normalColor);
     }
 
     ui::Renderer::present();
