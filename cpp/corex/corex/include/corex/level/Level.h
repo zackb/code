@@ -45,7 +45,7 @@ public:
         return enemies;
     }
 
-    const std::vector<PickupDefinition>& getPickupDefinitions() { return levelDef->pickups; }
+    const std::vector<InteractableDefinition>& getInteractableDefinitions() { return levelDef->interactables; }
 
     std::string getBackgroundMusic() const { return levelDef->backgroundMusic; }
 

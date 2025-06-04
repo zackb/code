@@ -110,6 +110,39 @@ std::shared_ptr<Sprite> EntityFactory::createSprite(const SpriteSheetDefinition&
     return std::make_shared<Sprite>(sprite);
 }
 
+std::shared_ptr<Entity> EntityFactory::createInteractable(const InteractableDefinition& i) {
+    Entity entity;
+    auto spriteSheet = AssetLoader::loadSpriteSheet(i.sprite);
+    auto sprite = createSprite(i.sprite);
+    entity.addComponent<Sprite>(sprite);
+    entity.addComponent<Transform>(i.position.x, i.position.y, spriteSheet->scale);
+    entity.addComponent<Velocity>();
+    // TODO: add collider from prefab
+    entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
+
+    // add the action (GrantHealth, AddToBag, etc)
+    Interactable::Type type = Interactable::Type::None;
+    std::visit(
+        [&](auto&& action) {
+            using T = std::decay_t<decltype(action)>;
+            if constexpr (std::is_same_v<T, GrantHealth>) {
+                type = Interactable::Type::Pickup;
+                entity.addComponent<GrantHealth>(action);
+            } else if constexpr (std::is_same_v<T, AddToBag>) {
+                type = Interactable::Type::Pickup;
+                entity.addComponent<AddToBag>(action);
+            }
+        },
+        i.action);
+
+    entity.addComponent<Interactable>(type);
+    entity.addComponent<State>();
+    entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
+
+    return std::make_shared<Entity>(entity);
+}
+
+// TODO: remove
 std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition& pickup) {
     Entity entity;
     auto spriteSheet = AssetLoader::loadSpriteSheet(pickup.sprite);
@@ -118,7 +151,6 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition
     entity.addComponent<Transform>(pickup.x, pickup.y, spriteSheet->scale);
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
-    // TODO: add collider from prefab
 
     Pickup::Type type;
     if (pickup.type == "health")
@@ -130,7 +162,6 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition
 
     entity.addComponent<Pickup>(type, pickup.amount);
     entity.addComponent<State>();
-    entity.addComponent<Interactable>();
     entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
     return std::make_shared<Entity>(entity);
 }

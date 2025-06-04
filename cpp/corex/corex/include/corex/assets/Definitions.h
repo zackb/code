@@ -149,7 +149,7 @@ struct LevelDefinition {
     std::string backgroundMusic;
     BackgroundDefinition background;
     std::vector<EnemyDefinition> enemies;
-    std::vector<PickupDefinition> pickups;
+    std::vector<InteractableDefinition> interactables;
 };
 
 inline TileType tileTypeFromString(const std::string& str) {
@@ -294,7 +294,7 @@ inline void from_json(const nlohmann::json& j, LevelDefinition& def) {
     def.tileset = j.at("tileset").get<std::string>();
     def.background = j.at("background").get<BackgroundDefinition>();
     def.enemies = j.value("enemies", std::vector<EnemyDefinition>{});
-    def.pickups = j.value("pickups", std::vector<PickupDefinition>{});
+    def.interactables = j.value("interactables", std::vector<InteractableDefinition>{});
 }
 
 inline void from_json(const nlohmann::json& j, TileDefinition& tile) {

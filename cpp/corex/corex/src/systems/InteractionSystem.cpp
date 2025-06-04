@@ -50,6 +50,9 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
             break;
         case Interactable::Type::Door:
             break;
+        case Interactable::Type::None:
+            std::cerr << "None interactable detected\n";
+            break;
         }
     }
 }

@@ -34,9 +34,9 @@ void Engine::loadLevel(std::string levelName) {
     // Initialize enemies
     enemies = level->createEnemies();
 
-    // Add pickups
-    for (auto p : level->getPickupDefinitions()) {
-        _entities->add(EntityFactory::createPickupEntity(p));
+    // Add interactables
+    for (auto i : level->getInteractableDefinitions()) {
+        _entities->add(EntityFactory::createInteractable(i));
     }
 
     // add parallax background
