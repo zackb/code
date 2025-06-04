@@ -11,6 +11,4 @@ private:
     void resolvePlayerEnemyCollisions(Entity& player, Entity& enemy);
 
     void resolvePlayerProjectileCollisions(Entity& player, Entity& projectile);
-
-    void resolvePlayerPickupCollisions(Entity& player, Entity& pickup);
 };

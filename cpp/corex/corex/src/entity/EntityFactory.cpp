@@ -8,7 +8,6 @@
 #include "corex/components/Health.h"
 #include "corex/components/Interactable.h"
 #include "corex/components/NoGravity.h"
-#include "corex/components/Pickup.h"
 #include "corex/components/State.h"
 #include "corex/components/Tag.h"
 #include "corex/components/Transform.h"
@@ -120,6 +119,8 @@ std::shared_ptr<Entity> EntityFactory::createInteractable(const InteractableDefi
     // TODO: add collider from prefab
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
 
+    // TODO: add Tween from prefab?
+
     // add the action (GrantHealth, AddToBag, etc)
     Interactable::Type type = Interactable::Type::None;
     std::visit(
@@ -139,30 +140,6 @@ std::shared_ptr<Entity> EntityFactory::createInteractable(const InteractableDefi
     entity.addComponent<State>();
     entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
 
-    return std::make_shared<Entity>(entity);
-}
-
-// TODO: remove
-std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition& pickup) {
-    Entity entity;
-    auto spriteSheet = AssetLoader::loadSpriteSheet(pickup.sprite);
-    auto sprite = createSprite(pickup.sprite);
-    entity.addComponent<Sprite>(sprite);
-    entity.addComponent<Transform>(pickup.x, pickup.y, spriteSheet->scale);
-    entity.addComponent<Velocity>();
-    entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
-
-    Pickup::Type type;
-    if (pickup.type == "health")
-        type = Pickup::Type::HEALTH;
-    else if (pickup.type == "key")
-        type = Pickup::Type::KEY;
-    else
-        std::cerr << "unknown pickup: " << pickup.type << std::endl;
-
-    entity.addComponent<Pickup>(type, pickup.amount);
-    entity.addComponent<State>();
-    entity.addComponent<AnimationComponent>(createAnimation(*spriteSheet));
     return std::make_shared<Entity>(entity);
 }
 

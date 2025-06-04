@@ -20,7 +20,6 @@ public:
 
     static std::shared_ptr<Sprite> createSprite(const SpriteSheetDefinition& spriteDef);
 
-    static std::shared_ptr<Entity> createPickupEntity(const PickupDefinition& pickup);
     static std::shared_ptr<Entity> createInteractable(const InteractableDefinition& i);
 
     static std::shared_ptr<AnimationComponent> createAnimation(const SpriteSheetDefinition& spriteDef);

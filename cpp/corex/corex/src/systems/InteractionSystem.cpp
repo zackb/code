@@ -8,7 +8,6 @@
 #include "corex/components/GrantHealth.h"
 #include "corex/components/Health.h"
 #include "corex/components/Interactable.h"
-#include "corex/components/Pickup.h"
 #include "corex/components/State.h"
 #include "corex/components/Tag.h"
 #include "corex/components/Transform.h"
