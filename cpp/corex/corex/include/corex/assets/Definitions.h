@@ -118,6 +118,8 @@ struct PositionDefinition {
 };
 
 struct TweenDefinition {
+    // TODO: these are unused (noted in InteractionSystem) figure out how to
+    // handle the tween with relative and world-space positions
     PositionDefinition from;
     PositionDefinition to;
     int duration;
