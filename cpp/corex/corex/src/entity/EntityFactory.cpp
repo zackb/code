@@ -118,6 +118,7 @@ std::shared_ptr<Entity> EntityFactory::createPickupEntity(const PickupDefinition
     entity.addComponent<Transform>(pickup.x, pickup.y, spriteSheet->scale);
     entity.addComponent<Velocity>();
     entity.addComponent<Collider>(0, 0, sprite->width, sprite->height);
+    // TODO: add collider from prefab
 
     Pickup::Type type;
     if (pickup.type == "health")
