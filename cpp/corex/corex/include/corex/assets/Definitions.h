@@ -1,10 +1,15 @@
 #pragma once
 
 #include "corex/Rect.h"
+#include "corex/components/AddToBag.h"
+#include "corex/components/Component.h"
 #include "corex/components/EnemyAI.h"
+#include "corex/components/GrantHealth.h"
 #include "corex/json.hpp"
 
+#include <iostream>
 #include <string>
+#include <variant>
 
 // JSON model
 
@@ -103,6 +108,31 @@ struct PickupDefinition {
     int amount;
     int x;
     int y;
+};
+
+// Interactables
+
+using ActionVariant = std::variant<std::monostate, GrantHealth, AddToBag>;
+
+struct PositionDefinition {
+    int x;
+    int y;
+};
+
+struct TweenDefinition {
+    PositionDefinition from;
+    PositionDefinition to;
+    int duration;
+    std::string easing;
+    bool loop;
+};
+
+struct InteractableDefinition {
+    std::string type;
+    std::string sprite;
+    PositionDefinition position;
+    ActionVariant action;
+    TweenDefinition tween;
 };
 
 // Player
@@ -216,6 +246,43 @@ inline void from_json(const nlohmann::json& j, PickupDefinition& p) {
     }
     p.x = j.at("x").get<int>();
     p.y = j.at("y").get<int>();
+}
+
+inline void from_json(const nlohmann::json& j, PositionDefinition& p) {
+    p.x = j.at("x").get<int>();
+    p.y = j.at("y").get<int>();
+}
+
+inline void from_json(const nlohmann::json& j, TweenDefinition& t) {
+    t.from = j.at("from").get<PositionDefinition>();
+    t.to = j.at("to").get<PositionDefinition>();
+    t.duration = j.at("duration").get<int>();
+    t.easing = j.at("easing").get<std::string>();
+    t.loop = j.at("loop").get<bool>();
+}
+
+inline void from_json(const nlohmann::json& j, InteractableDefinition& i) {
+    i.type = j.at("type").get<std::string>();
+    i.sprite = j.at("sprite").get<std::string>();
+    i.position = j.at("position").get<PositionDefinition>();
+    i.tween = j.at("position").get<TweenDefinition>();
+
+    if (j.contains("action")) {
+        const auto& action = j.at("action");
+        if (!action.is_object() || action.size() != 1) {
+            std::cerr << "Invalid 'action' object\n";
+        } else {
+            auto it = action.begin();
+            std::string action = it.key(); // "add_to_bag", "grant_health"
+            if (action == "grant_health") {
+                i.action = GrantHealth(it.value().get<int>());
+            } else if (action == "add_to_bag") {
+                i.action = AddToBag(it.value().get<std::string>());
+            } else {
+                std::cerr << "unknown action: " << action << std::endl;
+            }
+        }
+    }
 }
 
 inline void from_json(const nlohmann::json& j, LevelDefinition& def) {

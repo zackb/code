@@ -77,11 +77,10 @@
     ],
     "interactables": [
         {
+            "type": "pickup",
             "sprite": "sprites/pickups/health_small.json",
             "position": { "x": 2000, "y", 150 },
-            "interactable": { "type": "pickup" },
             "action": { "grant_health": 25 },
-            "collider": { "offsetX": 2, "offsetY": 10, "width": 42, "height": 100 },
             "tween": {
                 "from": [],
                 "to": [],
@@ -91,11 +90,10 @@
             }
         },
         {
+            "type": "pickup",
             "sprite": "sprites/pickups/key.json",
             "position": { "x": 3869, "y": 144 },
-            "interactable": { "type": "key" },
-            "action": { "add_to_bag": true },
-            "collider": { "offsetX": 2, "offsetY": 10, "width", 42, "height": 100 },
+            "action": { "add_to_bag": "key1" },
             "tween": {
                 "from": [],
                 "to": [],
@@ -105,11 +103,10 @@
             }
         },
         {
+            "type": "door",
             "sprite": "sprites/doors/wood_door.json",
             "position": { "x": 10869, "y": 144 },
-            "interactable": { "type": "door" },
-            "action": { "target_level": "level3" },
-            "collider": { "offsetX": 2, "offsetY": 10, "width", 42, "height": 100 }
+            "action": { "target_level": "level3" }
         }
     ]
 
