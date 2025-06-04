@@ -1,9 +1,11 @@
 #include "corex/systems/InteractionSystem.h"
 #include "corex/Utils.h"
 #include "corex/Vec2.h"
+#include "corex/components/AddToBag.h"
 #include "corex/components/Bag.h"
 #include "corex/components/Collider.h"
 #include "corex/components/Despawn.h"
+#include "corex/components/GrantHealth.h"
 #include "corex/components/Health.h"
 #include "corex/components/Interactable.h"
 #include "corex/components/Pickup.h"
@@ -59,21 +61,11 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
 
 void InteractionSystem::resolvePickup(Entities& entities, Entity& player, Entity& pickup) const {
 
-    auto pickupComp = pickup.getComponent<Pickup>();
-
-    if (!pickupComp) {
-        std::cerr << "Pickup interactable is missing Pickup component\n";
-        return;
-    }
-
-    auto playerHealth = player.getComponent<Health>();
     auto pickupPos = pickup.getComponent<Transform>();
 
-    // TODO: all pickup types (bag)
-    switch (pickupComp->type) {
-
-    case Pickup::Type::HEALTH:
-        playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += pickupComp->amount);
+    if (auto grant = pickup.getComponent<GrantHealth>()) {
+        auto playerHealth = player.getComponent<Health>();
+        playerHealth->hp = std::min(playerHealth->max, playerHealth->hp += grant->amount);
 
         // TODO: action/animation duration
         pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
@@ -82,9 +74,8 @@ void InteractionSystem::resolvePickup(Entities& entities, Entity& player, Entity
                                    EasingType::EaseOutQuad);
         pickup.getComponent<State>()->lockAction(Action::COLLECTING, 1000);
         pickup.addComponent<Despawn>(1000);
-        break;
+    } else if (auto addToBag = pickup.getComponent<AddToBag>()) {
 
-    case Pickup::Type::KEY: {
         // TODO: HACK has to be defined in the prefab
         pickup.addComponent<Tween>(Vec2{static_cast<float>(pickupPos->x), static_cast<float>(pickupPos->y)},
                                    Vec2{20.0f, 30.0f},
@@ -101,11 +92,7 @@ void InteractionSystem::resolvePickup(Entities& entities, Entity& player, Entity
             }
             pickup.addComponent<Despawn>();
         });
-
-        break;
-    }
-    default:
+    } else {
         std::cerr << "no handler for pickup type\n";
-        break;
     }
 }

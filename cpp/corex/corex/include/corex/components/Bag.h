@@ -1,24 +1,20 @@
 #pragma once
 
+#include "corex/components/AddToBag.h"
 #include "corex/components/Animation.h"
 #include "corex/components/Component.h"
-#include "corex/components/Pickup.h"
 #include "corex/components/Sprite.h"
 #include "corex/entity/Entity.h"
 #include <memory>
 #include <vector>
 
 struct Item {
-    Pickup::Type type;
-    int amount;
+    std::string itemId;
     std::shared_ptr<Sprite> sprite;
     std::shared_ptr<AnimationComponent> animation;
 
-    Item(Pickup::Type type,
-         int amount,
-         const std::shared_ptr<Sprite>& sprite,
-         const std::shared_ptr<AnimationComponent>& anim)
-        : type(type), amount(amount), sprite(sprite), animation(anim) {}
+    Item(std::string itemId, const std::shared_ptr<Sprite>& sprite, const std::shared_ptr<AnimationComponent>& anim)
+        : itemId(itemId), sprite(sprite), animation(anim) {}
 };
 
 struct Bag : public Component {
@@ -32,13 +28,13 @@ struct Bag : public Component {
             return;
         }
 
-        auto pickup = entity.getComponent<Pickup>();
-        if (!pickup) {
-            std::cerr << "tried to collect an item without a pickup\n";
+        auto addToBag = entity.getComponent<AddToBag>();
+        if (!addToBag) {
+            std::cerr << "tried to collect an item without an AddToBag\n";
             return;
         }
         auto animation = entity.getComponent<AnimationComponent>();
 
-        items.emplace_back(pickup->type, pickup->amount, sprite, animation);
+        items.emplace_back(addToBag->itemId, sprite, animation);
     }
 };

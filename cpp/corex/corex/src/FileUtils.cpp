@@ -68,6 +68,16 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return cmakeBuildPath;
     }
 
+    std::string localPath = "meconium/" + relativePath;
+    if (fs::exists(localPath)) {
+        return localPath;
+    }
+
+    localPath = "meconium/assets" + relativePath;
+    if (fs::exists(localPath)) {
+        return localPath;
+    }
+
     // 5. Running in IDE w/o assets (vscode, codeblocks)
     std::string cmakeBuildPathAssets = "../../assets/" + relativePath;
     if (fs::exists(cmakeBuildPathAssets)) {

@@ -79,11 +79,11 @@
         {
             "type": "pickup",
             "sprite": "sprites/pickups/health_small.json",
-            "position": { "x": 2000, "y", 150 },
+            "position": { "x": 2000, "y": 150 },
             "action": { "grant_health": 25 },
             "tween": {
-                "from": [],
-                "to": [],
+                "from": { "x": 2000, "y": 150 },
+                "to": { "x": 2000, "y": 150 },
                 "duration": 200,
                 "easing": "EaseOutQuad",
                 "loop": false
@@ -95,18 +95,12 @@
             "position": { "x": 3869, "y": 144 },
             "action": { "add_to_bag": "key1" },
             "tween": {
-                "from": [],
-                "to": [],
+                "from": { "x": 3869, "y": 144 },
+                "to": { "x": 3869, "y": 144 },
                 "duration": 200,
                 "easing": "EaseOutBounce",
                 "loop": false
             }
-        },
-        {
-            "type": "door",
-            "sprite": "sprites/doors/wood_door.json",
-            "position": { "x": 10869, "y": 144 },
-            "action": { "target_level": "level3" }
         }
     ]
 

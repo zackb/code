@@ -2,7 +2,6 @@
 
 #include "corex/Rect.h"
 #include "corex/components/AddToBag.h"
-#include "corex/components/Component.h"
 #include "corex/components/EnemyAI.h"
 #include "corex/components/GrantHealth.h"
 #include "corex/json.hpp"
@@ -111,7 +110,6 @@ struct PickupDefinition {
 };
 
 // Interactables
-
 using ActionVariant = std::variant<std::monostate, GrantHealth, AddToBag>;
 
 struct PositionDefinition {
@@ -265,7 +263,9 @@ inline void from_json(const nlohmann::json& j, InteractableDefinition& i) {
     i.type = j.at("type").get<std::string>();
     i.sprite = j.at("sprite").get<std::string>();
     i.position = j.at("position").get<PositionDefinition>();
-    i.tween = j.at("position").get<TweenDefinition>();
+    if (j.contains("tween")) {
+        i.tween = j.at("tween").get<TweenDefinition>();
+    }
 
     if (j.contains("action")) {
         const auto& action = j.at("action");
@@ -273,10 +273,10 @@ inline void from_json(const nlohmann::json& j, InteractableDefinition& i) {
             std::cerr << "Invalid 'action' object\n";
         } else {
             auto it = action.begin();
-            std::string action = it.key(); // "add_to_bag", "grant_health"
-            if (action == "grant_health") {
+            std::string actionType = it.key(); // "add_to_bag", "grant_health"
+            if (actionType == "grant_health") {
                 i.action = GrantHealth(it.value().get<int>());
-            } else if (action == "add_to_bag") {
+            } else if (actionType == "add_to_bag") {
                 i.action = AddToBag(it.value().get<std::string>());
             } else {
                 std::cerr << "unknown action: " << action << std::endl;
