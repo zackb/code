@@ -36,6 +36,9 @@ void AnimationSystem::update(Entities& entities, const int deltaTime) const {
         case Action::DYING:
             animation->setState(AnimationState::DYING);
             break;
+        case Action::OPENING:
+            animation->setState(AnimationState::OPENING);
+            break;
         default:
             std::cerr << "Unknown action! " << std::endl;
             break;

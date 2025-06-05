@@ -60,21 +60,6 @@
             }
         }
     ],
-    "pickups": [
-        {
-            "type": "health",
-            "sprite": "sprites/pickups/health_small.json",
-            "amount": 25,
-            "x": 2000,
-            "y": 150
-        },
-        {
-            "type": "key",
-            "sprite": "sprites/pickups/key.json",
-            "x": 3869,
-            "y": 144
-        }
-    ],
     "interactables": [
         {
             "type": "pickup",
@@ -101,6 +86,12 @@
                 "easing": "EaseOutBounce",
                 "loop": false
             }
+        },
+        {
+            "type": "door",
+            "sprite": "sprites/interactables/lock_gold.json",
+            "position": { "xshouldbe": 7740, "x": 100, "y": 1040 },
+            "action": { "open_door": "key1" }
         }
     ]
 

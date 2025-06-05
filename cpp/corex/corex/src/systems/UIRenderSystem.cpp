@@ -1,9 +1,13 @@
 #include "corex/systems/UIRenderSystem.h"
 
 #include "corex/Context.h"
+#include "corex/FileUtils.h"
 #include "corex/components/Health.h"
+#include "corex/components/OpenDoor.h"
 #include "corex/components/Tag.h"
+#include "corex/ui/Text.h"
 #include <SDL_rect.h>
+#include <memory>
 
 void UIRenderSystem::render(Entities& entities) const {
 
@@ -15,6 +19,20 @@ void UIRenderSystem::render(Entities& entities) const {
             renderBag(*bag);
         }
     }
+}
+void UIRenderSystem::renderMessages(Entities& entities) {
+
+    // one time initialize font. We cant do this in constructor because SDL isnt ready
+    if (!font) {
+        font = std::make_unique<ui::Font>(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 36);
+    }
+
+    auto missingKey = entities.findEntityWithComponent<MissingKey>();
+    if (!missingKey) {
+        return;
+    }
+    ui::Text text("Missing Key!", *font, {255, 255, 255, 255});
+    text.draw(400, 400);
 }
 
 void UIRenderSystem::renderBag(Bag& bag) const {

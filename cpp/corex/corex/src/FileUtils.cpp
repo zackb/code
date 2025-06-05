@@ -73,7 +73,7 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return localPath;
     }
 
-    localPath = "meconium/assets" + relativePath;
+    localPath = "meconium/assets/" + relativePath;
     if (fs::exists(localPath)) {
         return localPath;
     }

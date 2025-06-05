@@ -5,6 +5,7 @@
 #include "corex/components/Component.h"
 #include "corex/components/Sprite.h"
 #include "corex/entity/Entity.h"
+#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -36,5 +37,18 @@ struct Bag : public Component {
         auto animation = entity.getComponent<AnimationComponent>();
 
         items.emplace_back(addToBag->itemId, sprite, animation);
+    }
+
+    bool contains(const std::string& itemId) {
+        return std::any_of(items.begin(), items.end(), [&](const auto& item) { return item.itemId == itemId; });
+
+        /*
+        for (auto item : items) {
+            if (item.itemId == itemId) {
+                return true;
+            }
+        }
+        return false;
+        */
     }
 };

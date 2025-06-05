@@ -4,6 +4,7 @@
 #include "corex/components/AddToBag.h"
 #include "corex/components/EnemyAI.h"
 #include "corex/components/GrantHealth.h"
+#include "corex/components/OpenDoor.h"
 #include "corex/json.hpp"
 
 #include <iostream>
@@ -110,7 +111,7 @@ struct PickupDefinition {
 };
 
 // Interactables
-using ActionVariant = std::variant<std::monostate, GrantHealth, AddToBag>;
+using ActionVariant = std::variant<std::monostate, GrantHealth, AddToBag, OpenDoor>;
 
 struct PositionDefinition {
     int x;
@@ -280,6 +281,8 @@ inline void from_json(const nlohmann::json& j, InteractableDefinition& i) {
                 i.action = GrantHealth(it.value().get<int>());
             } else if (actionType == "add_to_bag") {
                 i.action = AddToBag(it.value().get<std::string>());
+            } else if (actionType == "open_door") {
+                i.action = OpenDoor(it.value().get<std::string>());
             } else {
                 std::cerr << "unknown action: " << action << std::endl;
             }

@@ -1,0 +1,28 @@
+{
+  "texture": "textures/lock_gold.png",
+  "tileWidth": 20,
+  "tileHeight": 31,
+  "scale": 2.0,
+  "collider": {
+      "x": 0,
+      "y": 0,
+      "width": 20,
+      "height": 31
+  },
+  "animations": {
+    "idle": {
+      "row": 0,
+      "rowOffset": 0,
+      "frameCount": 1,
+      "looping": true,
+      "duration": 200
+    },
+    "open": {
+      "row": 0,
+      "rowOffset": 0,
+      "frameCount": 12,
+      "looping": false,
+      "duration": 200
+    }
+  }
+}

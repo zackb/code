@@ -8,6 +8,7 @@
 #include "corex/components/GrantHealth.h"
 #include "corex/components/Health.h"
 #include "corex/components/Interactable.h"
+#include "corex/components/OpenDoor.h"
 #include "corex/components/State.h"
 #include "corex/components/Tag.h"
 #include "corex/components/Transform.h"
@@ -39,6 +40,7 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
     auto playerRect = playerCollider->getBounds(playerPos);
     auto interactableRect = pickupCollider->getBounds(interactablePos);
 
+    // check if the player collided with the interactable
     if (util::aabb(playerRect, interactableRect) && !interactable.hasComponent<Despawn>()) {
 
         // remove the collider from the interactable so we dont keep bumping into it
@@ -50,11 +52,32 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
             resolvePickup(entities, player, interactable);
             break;
         case Interactable::Type::Door:
+            resolveDoor(entities, player, interactable);
             break;
         case Interactable::Type::None:
             std::cerr << "None interactable detected\n";
             break;
         }
+    }
+}
+
+void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& door) const {
+    auto openDoor = door.getComponent<OpenDoor>();
+    if (!openDoor) {
+        std::cerr << "interactable of type door has no OpenDoor component\n";
+    }
+
+    auto state = door.getComponent<State>();
+    auto bag = player.getComponent<Bag>();
+    if (!bag || !state) {
+        std::cerr << "interactable missing required door components\n";
+    }
+
+    if (bag->contains(openDoor->keyId)) {
+        state->lockAction(Action::OPENING, 1000);
+        player.addComponent<DoorOpened>();
+    } else {
+        player.addComponent<MissingKey>();
     }
 }
 

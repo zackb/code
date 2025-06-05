@@ -4,7 +4,6 @@
 #include <functional>
 
 enum class Action {
-    // Shared
     IDLE,
     WALKING,
     JUMPING,
@@ -12,6 +11,7 @@ enum class Action {
     ATTACKING,
     COLLECTING,
     DYING,
+    OPENING,
 };
 
 struct State final : Component {

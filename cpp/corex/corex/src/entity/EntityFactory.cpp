@@ -8,6 +8,7 @@
 #include "corex/components/Health.h"
 #include "corex/components/Interactable.h"
 #include "corex/components/NoGravity.h"
+#include "corex/components/OpenDoor.h"
 #include "corex/components/State.h"
 #include "corex/components/Tag.h"
 #include "corex/components/Transform.h"
@@ -132,6 +133,9 @@ std::shared_ptr<Entity> EntityFactory::createInteractable(const InteractableDefi
             } else if constexpr (std::is_same_v<T, AddToBag>) {
                 type = Interactable::Type::Pickup;
                 entity.addComponent<AddToBag>(action);
+            } else if constexpr (std::is_same_v<T, OpenDoor>) {
+                type = Interactable::Type::Door;
+                entity.addComponent<OpenDoor>(action);
             }
         },
         i.action);
@@ -170,6 +174,8 @@ std::shared_ptr<AnimationComponent> EntityFactory::createAnimation(const SpriteS
             state = AnimationState::COLLECTING;
         else if (it.name == "die")
             state = AnimationState::DYING;
+        else if (it.name == "open")
+            state = AnimationState::OPENING;
         else
             std::cerr << "Unknown animation state: " << it.name << std::endl;
 
