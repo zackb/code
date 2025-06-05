@@ -1,9 +1,8 @@
-// A basic Doom-like 2.5D raycasting engine in SDL2
+// A basic Doom-like 2.5D raycasting engine using OpenGL and SDL2
 
+#include <GL/glu.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_error.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_opengl.h>
 #include <cmath>
 #include <iostream>
 
@@ -32,9 +31,16 @@ struct Player {
     float angle = 0.0f;
 };
 
-void renderFrame(SDL_Renderer* renderer, SDL_Texture* wallTexture, const Player& player) {
-    int texW, texH;
-    SDL_QueryTexture(wallTexture, nullptr, nullptr, &texW, &texH);
+void drawVerticalLine(int x, int drawStart, int drawEnd, float shade) {
+    glColor3f(shade, shade, shade);
+    glBegin(GL_LINES);
+    glVertex2f((x / float(SCREEN_WIDTH)) * 2 - 1, (drawStart / float(SCREEN_HEIGHT)) * -2 + 1);
+    glVertex2f((x / float(SCREEN_WIDTH)) * 2 - 1, (drawEnd / float(SCREEN_HEIGHT)) * -2 + 1);
+    glEnd();
+}
+
+void renderFrame(const Player& player) {
+    glClear(GL_COLOR_BUFFER_BIT);
 
     for (int x = 0; x < SCREEN_WIDTH; ++x) {
         float cameraX = 2 * x / float(SCREEN_WIDTH) - 1;
@@ -46,10 +52,9 @@ void renderFrame(SDL_Renderer* renderer, SDL_Texture* wallTexture, const Player&
         float distance = 0.0f;
         float step = 0.01f;
         bool hit = false;
-        int side = 0;
 
-        float testX, testY;
         int mapX = 0, mapY = 0;
+        float testX, testY;
 
         while (!hit && distance < 20.0f) {
             distance += step;
@@ -64,37 +69,16 @@ void renderFrame(SDL_Renderer* renderer, SDL_Texture* wallTexture, const Player&
                 distance = 20.0f;
             } else if (worldMap[mapY][mapX] > 0) {
                 hit = true;
-                float dx = testX - mapX - 0.5f;
-                float dy = testY - mapY - 0.5f;
-                side = fabs(dx) > fabs(dy) ? 0 : 1;
             }
         }
-
-        float hitX = player.x + rayDirX * distance;
-        float hitY = player.y + rayDirY * distance;
-
-        float wallX = side == 0 ? hitY : hitX;
-        wallX -= floor(wallX);
-
-        int texX = int(wallX * texW);
-        if (side == 0 && rayDirX > 0)
-            texX = texW - texX - 1;
-        if (side == 1 && rayDirY < 0)
-            texX = texW - texX - 1;
 
         float correctedDist = distance * cos(rayAngle - player.angle);
         int lineHeight = int(SCREEN_HEIGHT / correctedDist);
         int drawStart = std::max(0, -lineHeight / 2 + SCREEN_HEIGHT / 2);
         int drawEnd = std::min(SCREEN_HEIGHT - 1, lineHeight / 2 + SCREEN_HEIGHT / 2);
 
-        for (int y = drawStart; y < drawEnd; ++y) {
-            int d = y * 256 - SCREEN_HEIGHT * 128 + lineHeight * 128;
-            int texY = ((d * texH) / lineHeight) / 256;
-
-            SDL_Rect srcRect = {texX, texY, 1, 1};
-            SDL_Rect dstRect = {x, y, 1, 1};
-            SDL_RenderCopy(renderer, wallTexture, &srcRect, &dstRect);
-        }
+        float shade = 1.0f - std::min(correctedDist / 10.0f, 1.0f);
+        drawVerticalLine(x, drawStart, drawEnd, shade);
     }
 }
 
@@ -104,17 +88,19 @@ int main() {
         return 1;
     }
 
-    SDL_Window* window =
-        SDL_CreateWindow("Raycaster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Window* window = SDL_CreateWindow("OpenGL Raycaster",
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SCREEN_WIDTH,
+                                          SCREEN_HEIGHT,
+                                          SDL_WINDOW_OPENGL);
+    SDL_GLContext glContext = SDL_GL_CreateContext(window);
 
-    SDL_Surface* surface = SDL_LoadBMP("assets/wall.bmp");
-    if (!surface) {
-        std::cerr << "Failed to load texture: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-    SDL_Texture* wallTexture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-1, 1, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     Player player;
     bool running = true;
@@ -140,17 +126,12 @@ int main() {
         if (keys[SDL_SCANCODE_D])
             player.angle += ROT_SPEED;
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
-
-        renderFrame(renderer, wallTexture, player);
-
-        SDL_RenderPresent(renderer);
+        renderFrame(player);
+        SDL_GL_SwapWindow(window);
         SDL_Delay(16);
     }
 
-    SDL_DestroyTexture(wallTexture);
-    SDL_DestroyRenderer(renderer);
+    SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
