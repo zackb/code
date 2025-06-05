@@ -9,7 +9,7 @@
 #include <SDL_rect.h>
 #include <memory>
 
-void UIRenderSystem::render(Entities& entities) const {
+void UIRenderSystem::render(Entities& entities) {
 
     if (auto player = entities.findEntityWithComponent<PlayerTag>()) {
 
@@ -18,6 +18,8 @@ void UIRenderSystem::render(Entities& entities) const {
         if (auto bag = player->getComponent<Bag>()) {
             renderBag(*bag);
         }
+
+        renderMessages(entities);
     }
 }
 void UIRenderSystem::renderMessages(Entities& entities) {
@@ -27,12 +29,10 @@ void UIRenderSystem::renderMessages(Entities& entities) {
         font = std::make_unique<ui::Font>(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 36);
     }
 
-    auto missingKey = entities.findEntityWithComponent<MissingKey>();
-    if (!missingKey) {
-        return;
+    for (auto message : entities.findAllComponents<MissingKey>()) {
+        ui::Text text(message->message(), *font, {0, 0, 0, 255});
+        text.draw(400, 400);
     }
-    ui::Text text("Missing Key!", *font, {255, 255, 255, 255});
-    text.draw(400, 400);
 }
 
 void UIRenderSystem::renderBag(Bag& bag) const {

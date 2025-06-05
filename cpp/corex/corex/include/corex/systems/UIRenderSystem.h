@@ -9,7 +9,7 @@
 class UIRenderSystem {
 
 public:
-    void render(Entities& entities) const;
+    void render(Entities& entities);
     static void renderHealthBar(const Rect& targetRect, int barHeight, int current, int max);
 
 private:

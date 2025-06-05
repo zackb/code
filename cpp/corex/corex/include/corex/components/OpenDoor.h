@@ -9,6 +9,8 @@ struct OpenDoor : public Component {
     OpenDoor(std::string&& keyId) : keyId(std::move(keyId)) {}
 };
 
-struct MissingKey : public Component {};
+struct MissingKey : public Component {
+    std::string message() { return "Missing Key!"; }
+};
 
 struct DoorOpened : public Component {};
