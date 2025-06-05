@@ -63,6 +63,11 @@ std::string resolveAssetPath(const std::string& relativePath) {
         return cmakeBuildPath;
     }
 
+    cmakeBuildPath = "../../../" + relativePath;
+    if (fs::exists(cmakeBuildPath)) {
+        return cmakeBuildPath;
+    }
+
     cmakeBuildPath = "../" + relativePath;
     if (fs::exists(cmakeBuildPath)) {
         return cmakeBuildPath;

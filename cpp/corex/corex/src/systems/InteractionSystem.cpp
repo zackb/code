@@ -43,12 +43,12 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
     // check if the player collided with the interactable
     if (util::aabb(playerRect, interactableRect) && !interactable.hasComponent<Despawn>()) {
 
-        // remove the collider from the interactable so we dont keep bumping into it
-        entities.removeComponent<Collider>(interactable);
         auto intComponent = interactable.getComponent<Interactable>();
 
         switch (intComponent->type) {
         case Interactable::Type::Pickup:
+            // remove the collider from the interactable so we dont keep bumping into it
+            entities.removeComponent<Collider>(interactable);
             resolvePickup(entities, player, interactable);
             break;
         case Interactable::Type::Door:
@@ -65,19 +65,22 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
     auto openDoor = door.getComponent<OpenDoor>();
     if (!openDoor) {
         std::cerr << "interactable of type door has no OpenDoor component\n";
+        return;
     }
 
     auto state = door.getComponent<State>();
     auto bag = player.getComponent<Bag>();
     if (!bag || !state) {
         std::cerr << "interactable missing required door components\n";
+        return;
     }
 
     if (bag->contains(openDoor->keyId)) {
-        state->lockAction(Action::OPENING, 1000);
+        state->lockAction(Action::OPENING, 4000);
         player.addComponent<DoorOpened>();
     } else {
         player.addComponent<MissingKey>();
+        state->lockAction(Action::IDLE, 4000, [&]() { entities.removeComponent<MissingKey>(player); });
     }
 }
 
@@ -105,7 +108,7 @@ void InteractionSystem::resolvePickup(Entities& entities, Entity& player, Entity
                                    EasingType::EaseOutBounce,
                                    true);
 
-        // TODO: action/animation duration
+        // TODO: animation duration
         pickup.getComponent<State>()->lockAction(Action::COLLECTING, 2000, [&]() {
             // TODO: if the player dies mid-animation the player reference is invalid
             //       probably pass a copy of the shared_ptr instead

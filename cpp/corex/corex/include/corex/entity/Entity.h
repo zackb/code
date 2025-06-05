@@ -1,13 +1,9 @@
 #pragma once
 
-#include "corex/components/Component.h"
 #include <algorithm>
-#include <functional>
 #include <iostream>
 #include <memory>
-#include <type_traits>
 #include <typeindex>
-#include <typeinfo>
 #include <unordered_map>
 #include <vector>
 

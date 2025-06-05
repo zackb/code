@@ -90,7 +90,7 @@
         {
             "type": "door",
             "sprite": "sprites/interactables/lock_gold.json",
-            "position": { "xshouldbe": 7740, "x": 100, "y": 1040 },
+            "position": { "x": 7740, "y": 1040 },
             "action": { "open_door": "key1" }
         }
     ]
