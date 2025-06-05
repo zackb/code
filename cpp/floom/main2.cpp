@@ -69,6 +69,7 @@ void drawTexturedVerticalLine(int x, int drawStart, int drawEnd, float wallX, in
     // Use wallX to get texture coordinate
     // side used to flip texture coord for proper orientation
 
+    glColor3f(1, 1, 1);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, wallTexture);
 
@@ -141,14 +142,19 @@ void renderFrame(const Player& player) {
 
     drawFloorAndCeiling(player);
 
+    // Precompute direction and camera plane
+    float dirX = cos(player.angle);
+    float dirY = sin(player.angle);
+    float planeX = -dirY * tan(FOV / 2);
+    float planeY = dirX * tan(FOV / 2);
+
     for (int x = 0; x < SCREEN_WIDTH; ++x) {
-        float cameraX = 2 * x / float(SCREEN_WIDTH) - 1; // from -1 to +1 across screen
-        float rayAngle = player.angle + cameraX * (FOV / 2.0f);
+        float cameraX = 2.0f * x / float(SCREEN_WIDTH) - 1.0f; // -1 to +1
 
-        float rayDirX = cos(rayAngle);
-        float rayDirY = sin(rayAngle);
+        // Ray direction for this column
+        float rayDirX = dirX + planeX * cameraX;
+        float rayDirY = dirY + planeY * cameraX;
 
-        // DDA variables
         int mapX = int(player.x);
         int mapY = int(player.y);
 
@@ -157,15 +163,13 @@ void renderFrame(const Player& player) {
 
         float deltaDistX = (rayDirX == 0) ? 1e30f : std::abs(1 / rayDirX);
         float deltaDistY = (rayDirY == 0) ? 1e30f : std::abs(1 / rayDirY);
-        float perpWallDist;
 
         int stepX;
         int stepY;
 
         bool hit = false;
-        int side; // 0 for NS wall, 1 for EW wall
+        int side;
 
-        // Calculate step and initial sideDist
         if (rayDirX < 0) {
             stepX = -1;
             sideDistX = (player.x - mapX) * deltaDistX;
@@ -173,6 +177,7 @@ void renderFrame(const Player& player) {
             stepX = 1;
             sideDistX = (mapX + 1.0f - player.x) * deltaDistX;
         }
+
         if (rayDirY < 0) {
             stepY = -1;
             sideDistY = (player.y - mapY) * deltaDistY;
@@ -181,7 +186,7 @@ void renderFrame(const Player& player) {
             sideDistY = (mapY + 1.0f - player.y) * deltaDistY;
         }
 
-        // Perform DDA
+        // DDA
         while (!hit) {
             if (sideDistX < sideDistY) {
                 sideDistX += deltaDistX;
@@ -195,21 +200,26 @@ void renderFrame(const Player& player) {
 
             if (mapX < 0 || mapX >= MAP_WIDTH || mapY < 0 || mapY >= MAP_HEIGHT) {
                 hit = true;
-                perpWallDist = 20.0f;
                 break;
             }
 
-            if (worldMap[mapY][mapX] > 0)
+            if (worldMap[mapY][mapX] > 0) {
                 hit = true;
+            }
         }
 
-        if (side == 0)
-            perpWallDist = (sideDistX - deltaDistX);
-        else
-            perpWallDist = (sideDistY - deltaDistY);
+        // Calculate perpendicular wall distance
+        float perpWallDist;
+        if (side == 0) {
+            perpWallDist = (mapX - player.x + (1 - stepX) / 2.0f) / rayDirX;
+        } else {
+            perpWallDist = (mapY - player.y + (1 - stepY) / 2.0f) / rayDirY;
+        }
 
-        // Calculate height of line to draw on screen
-        int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+        perpWallDist = std::max(perpWallDist, 0.01f);
+
+        // Calculate line height
+        int lineHeight = int(SCREEN_HEIGHT / perpWallDist);
 
         int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
         if (drawStart < 0)
@@ -219,15 +229,14 @@ void renderFrame(const Player& player) {
         if (drawEnd >= SCREEN_HEIGHT)
             drawEnd = SCREEN_HEIGHT - 1;
 
-        // Calculate value of wallX: exact hit position on wall
-        float wallX; // where exactly the wall was hit
+        // Calculate wallX (exact hit position on the wall)
+        float wallX;
         if (side == 0)
             wallX = player.y + perpWallDist * rayDirY;
         else
             wallX = player.x + perpWallDist * rayDirX;
         wallX -= floor(wallX);
 
-        // Draw the vertical textured line for wall slice
         drawTexturedVerticalLine(x, drawStart, drawEnd, wallX, side, perpWallDist);
     }
 }
