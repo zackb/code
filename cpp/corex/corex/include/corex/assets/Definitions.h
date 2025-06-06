@@ -1,10 +1,8 @@
 #pragma once
 
 #include "corex/Rect.h"
-#include "corex/components/AddToBag.h"
 #include "corex/components/EnemyAI.h"
-#include "corex/components/GrantHealth.h"
-#include "corex/components/OpenDoor.h"
+#include "corex/components/LevelComponent.h"
 #include "corex/json.hpp"
 
 #include <iostream>

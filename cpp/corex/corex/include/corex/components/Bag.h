@@ -1,8 +1,8 @@
 #pragma once
 
-#include "corex/components/AddToBag.h"
 #include "corex/components/Animation.h"
 #include "corex/components/Component.h"
+#include "corex/components/LevelComponent.h"
 #include "corex/components/Sprite.h"
 #include "corex/entity/Entity.h"
 #include <algorithm>

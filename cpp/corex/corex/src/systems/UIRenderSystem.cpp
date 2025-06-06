@@ -3,7 +3,7 @@
 #include "corex/Context.h"
 #include "corex/FileUtils.h"
 #include "corex/components/Health.h"
-#include "corex/components/OpenDoor.h"
+#include "corex/components/LevelComponent.h"
 #include "corex/components/Tag.h"
 #include "corex/ui/Text.h"
 #include <SDL_rect.h>
