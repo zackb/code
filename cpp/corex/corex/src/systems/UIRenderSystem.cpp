@@ -29,10 +29,16 @@ void UIRenderSystem::renderMessages(Entities& entities) {
         font = std::make_unique<ui::Font>(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 36);
     }
 
-    for (auto entity : entities.filtered<MissingKey>()) {
-        auto message = entity->getComponent<MissingKey>();
-        ui::Text text(message->message(), *font, {0, 0, 0, 255});
-        text.draw(400, 400);
+    for (auto entity : entities) {
+        if (auto message = entity->getComponent<MissingKey>()) {
+            ui::Text text(message->message(), *font, {0, 0, 0, 255});
+            text.draw(400, 400);
+        }
+
+        if (auto goal = entity->getComponent<GoalReached>()) {
+            ui::Text text("Congratulations!", *font, {0, 0, 0, 255});
+            text.draw(400, 400);
+        }
     }
 }
 

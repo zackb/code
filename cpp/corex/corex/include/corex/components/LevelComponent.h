@@ -25,3 +25,7 @@ struct MissingKey : public Component {
 };
 
 struct DoorOpened : public Component {};
+
+struct GoalReached : public Component {};
+
+struct LevelComplete : public Component {};
