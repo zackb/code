@@ -38,7 +38,7 @@ void CharacterSelectState::handleEvent() {
     }
 }
 
-void CharacterSelectState::update() {
+void CharacterSelectState::update(int deltaTime) {
     // optional animations
 }
 

@@ -12,7 +12,7 @@ public:
     virtual ~GameState() = default;
 
     virtual void handleEvent() = 0;
-    virtual void update() = 0;
+    virtual void update(int deltaTime) = 0;
     virtual void render() = 0;
     virtual std::unique_ptr<GameState> nextState() { return nullptr; }
 

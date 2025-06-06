@@ -1,14 +1,14 @@
 #pragma once
 
 #include "corex/GameState.h"
+#include "corex/ui/Font.h"
 #include "corex/ui/Text.h"
-#include "corex/ui/Texture.h"
-#include <memory>
 
-class GameOverState final : public GameState {
+class LevelSelectState : public GameState {
+
 public:
-    GameOverState(Engine& engine);
-    ~GameOverState() override;
+    LevelSelectState(Engine& engine, const std::string& currentLevel);
+    ~LevelSelectState() = default;
 
     void handleEvent() override;
     void update(int deltaTime) override;
@@ -16,8 +16,9 @@ public:
     std::unique_ptr<GameState> nextState() override;
 
 private:
-    ui::Texture logo;
+    std::string currentLevel;
     ui::Font font;
     ui::Text text;
-    bool restart = false;
+    int totalTime = 0;
+    bool startGame = 0;
 };

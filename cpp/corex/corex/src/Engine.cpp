@@ -87,7 +87,7 @@ void Engine::run(std::unique_ptr<GameState> initialState) {
             state->handleEvent();
         }
 
-        state->update();
+        state->update(gameTime.getDeltaTime());
         update();
         render();
         state->render();

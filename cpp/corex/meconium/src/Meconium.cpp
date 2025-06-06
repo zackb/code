@@ -1,5 +1,6 @@
 #include <unistd.h>
 
+#include "LevelSelectState.h"
 #include "Meconium.h"
 #include "corex/Context.h"
 
@@ -9,6 +10,7 @@
 #include "corex/components/Bag.h"
 #include "corex/components/Camera.h"
 #include "corex/components/Health.h"
+#include "corex/components/LevelComponent.h"
 #include "corex/components/State.h"
 #include "corex/components/Tag.h"
 #include "corex/entity/EntityFactory.h"
@@ -80,12 +82,17 @@ bool Meconium::init(std::string character) {
     return true;
 }
 
-void Meconium::update() {
+void Meconium::update(int deltaTime) {
 
+    auto player = engine.entities().findEntityWithComponent<PlayerTag>();
     // Check for player death
-    if (!engine.entities().findEntityWithComponent<PlayerTag>()) {
+    if (!player) {
         engine.unload();
         next = std::make_unique<GameOverState>(engine);
+    } else if (player->hasComponent<LevelComplete>()) {
+        // check for level complete
+        engine.unload();
+        next = std::make_unique<LevelSelectState>(engine, "level2");
     }
 }
 

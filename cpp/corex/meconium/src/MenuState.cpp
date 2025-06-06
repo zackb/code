@@ -43,7 +43,7 @@ void MenuState::handleEvent() {
     }
 }
 
-void MenuState::update() {
+void MenuState::update(int deltaTime) {
     // Add animation or something
 }
 

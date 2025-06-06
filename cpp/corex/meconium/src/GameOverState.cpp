@@ -26,7 +26,7 @@ void GameOverState::handleEvent() {
     }
 }
 
-void GameOverState::update() {
+void GameOverState::update(int deltaTime) {
     // Could animate or time fade-in, etc.
 }
 

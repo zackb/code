@@ -9,7 +9,7 @@ public:
     Meconium(Engine& engine) : GameState(engine) {}
 
     bool init(std::string character = "blue");
-    void update() override;
+    void update(int deltaTime) override;
     void render() override;
     void handleEvent() override;
     std::unique_ptr<GameState> nextState() override;

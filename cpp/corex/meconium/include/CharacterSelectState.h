@@ -13,7 +13,7 @@ public:
     ~CharacterSelectState() = default;
 
     void handleEvent() override;
-    void update() override;
+    void update(int deltaTime) override;
     void render() override;
     std::unique_ptr<GameState> nextState() override;
 
