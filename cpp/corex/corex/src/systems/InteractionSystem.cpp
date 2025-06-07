@@ -79,7 +79,7 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
         entities.addComponent<DoorOpened>(player);
         entities.addComponent<GoalReached>(player);
         auto playerState = player.getComponent<State>();
-        playerState->lockAction(Action::JUMPING, 5000, [&]() { player.addComponent<LevelComplete>(); });
+        playerState->lockAction(Action::OPENING, 5000, [&]() { player.addComponent<LevelComplete>(); });
     } else {
         player.addComponent<MissingKey>();
         state->lockAction(Action::IDLE, 4000, [&]() { entities.removeComponent<MissingKey>(player); });

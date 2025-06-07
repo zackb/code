@@ -45,6 +45,12 @@
       "frameCount": 6,
       "looping": false,
       "duration": 100
+    },
+    "open": {
+      "row": 3,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 150
     }
   }
 }
