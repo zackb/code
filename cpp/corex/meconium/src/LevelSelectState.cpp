@@ -1,5 +1,6 @@
 #include "LevelSelectState.h"
 #include "Meconium.h"
+#include "corex/Context.h"
 #include "corex/FileUtils.h"
 #include "corex/ui/Input.h"
 #include "corex/ui/Renderer.h"
@@ -22,7 +23,7 @@ void LevelSelectState::render() {
 
     ui::Renderer::clear();
 
-    text.draw(100, 100);
+    text.draw((Context::windowSize.width - text.width()) / 2, (Context::windowSize.height - text.height()) / 2);
 
     ui::Renderer::present();
 }
