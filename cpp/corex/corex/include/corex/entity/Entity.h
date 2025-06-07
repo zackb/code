@@ -134,6 +134,14 @@ public:
         }
     }
 
+    template <typename T, typename... Args> void addComponent(Entity& entity, Args&&... args) {
+        componentIndexInternal(typeid(T)).insert({entity.id, entity.addComponent<T>(std::forward<Args>(args)...)});
+    }
+
+    template <typename T> void addComponent(Entity& entity, std::shared_ptr<T> component) {
+        componentIndexInternal(typeid(T)).insert({entity.id, component});
+    }
+
     void clear() {
         entities.clear();
         componentStorage.clear();

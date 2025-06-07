@@ -76,8 +76,8 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
 
     if (bag->contains(openDoor->keyId)) {
         state->lockAction(Action::OPENING, 4000);
-        player.addComponent<DoorOpened>();
-        player.addComponent<GoalReached>();
+        entities.addComponent<DoorOpened>(player);
+        entities.addComponent<GoalReached>(player);
         auto playerState = player.getComponent<State>();
         playerState->lockAction(Action::JUMPING, 5000, [&]() { player.addComponent<LevelComplete>(); });
     } else {
