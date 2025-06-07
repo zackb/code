@@ -7,7 +7,7 @@
 class LevelSelectState : public GameState {
 
 public:
-    LevelSelectState(Engine& engine, const std::string& currentLevel);
+    LevelSelectState(Engine& engine, const std::string& currentLevel, const std::string& currentPlayer);
     ~LevelSelectState() = default;
 
     void handleEvent() override;
@@ -17,6 +17,7 @@ public:
 
 private:
     std::string currentLevel;
+    std::string currentPlayer;
     ui::Font font;
     ui::Text text;
     int totalTime = 0;

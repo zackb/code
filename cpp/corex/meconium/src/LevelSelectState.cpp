@@ -6,9 +6,10 @@
 #include "corex/ui/Renderer.h"
 #include <iostream>
 
-LevelSelectState::LevelSelectState(Engine& engine, const std::string& currentLevel)
+LevelSelectState::LevelSelectState(Engine& engine, const std::string& currentLevel, const std::string& currentPlayer)
     : GameState(engine)
     , currentLevel(currentLevel)
+    , currentPlayer(currentPlayer)
     , font(resolveAssetPath("assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"), 24)
     , text("Congratulations!", font, {144, 144, 0, 255}) {}
 
@@ -33,7 +34,20 @@ std::unique_ptr<GameState> LevelSelectState::nextState() {
     // check if the enter key has been hit on a selection
     if (startGame) {
         auto game = std::make_unique<Meconium>(engine);
-        if (game->init("blue")) {
+        // get the current level and increment the number
+        std::string prefix;
+        int level = 0;
+        size_t i = 0;
+
+        while (i < currentLevel.size() && !std::isdigit(currentLevel[i])) {
+            i++;
+        }
+
+        prefix = currentLevel.substr(0, i);
+        level = std::stoi(currentLevel.substr(i));
+        level++;
+
+        if (game->init(currentPlayer, prefix + std::to_string(level))) {
             return game;
         } else {
             std::cerr << "Failed to initialize game state.\n";

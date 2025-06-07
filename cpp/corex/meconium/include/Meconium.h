@@ -8,7 +8,7 @@ class Meconium : public GameState {
 public:
     Meconium(Engine& engine) : GameState(engine) {}
 
-    bool init(std::string character = "blue");
+    bool init(std::string character = "blue", std::string level = "level2");
     void update(int deltaTime) override;
     void render() override;
     void handleEvent() override;
@@ -16,4 +16,6 @@ public:
 
 private:
     std::unique_ptr<GameState> next;
+    std::string playerName;
+    std::string levelName;
 };

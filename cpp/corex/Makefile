@@ -19,6 +19,10 @@ install: release
 package: release
 	cpack --config build/release/CPackConfig.cmake
 
+clean_lsp:
+	rm -Rf .cache/clangd
+	rm -Rf ~/.cache/clangd
+
 .PHONY: format
 fmt:
 	@echo "Formatting corex code with clang-format..."

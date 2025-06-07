@@ -15,12 +15,15 @@
 #include "corex/components/Tag.h"
 #include "corex/entity/EntityFactory.h"
 
-bool Meconium::init(std::string character) {
+bool Meconium::init(std::string character, std::string levelName) {
+
+    this->playerName = character;
+    this->levelName = levelName;
 
     // Load player definition
-    auto playerDef = AssetLoader::loadPlayer("assets/players/" + character + ".json");
+    auto playerDef = AssetLoader::loadPlayer("assets/players/" + this->playerName + ".json");
 
-    engine.loadLevel("level2");
+    engine.loadLevel(this->levelName);
 
     // Create a player entity
     auto player = engine.createEntity();
@@ -92,7 +95,7 @@ void Meconium::update(int deltaTime) {
     } else if (player->hasComponent<LevelComplete>()) {
         // check for level complete
         engine.unload();
-        next = std::make_unique<LevelSelectState>(engine, "level2");
+        next = std::make_unique<LevelSelectState>(engine, levelName, playerName);
     }
 }
 
