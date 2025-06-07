@@ -34,6 +34,12 @@ void RenderSystem::render(Entities& entities, TileMapRenderer& tileMapRenderer) 
         auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
 
+        // Don't render entities outside of the camera
+        if (transform->x + (sprite->width * transform->scaleX) < camPos->x ||
+            transform->x > camPos->x + camSize->viewportWidth) {
+            continue;
+        }
+
         SDL_Rect dstRect;
         dstRect.x = transform->x - camPos->x; // Apply camera offset
         dstRect.y = transform->y - camPos->y; // Apply camera offset
