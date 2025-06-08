@@ -18,6 +18,8 @@ public:
 
     void foo() { std::cout << "foo: " << data << "\n"; }
 
+    int& getData() { return data; }
+
     static std::vector<Mem> createVec() {
         std::vector<Mem> v;
 
@@ -54,6 +56,15 @@ int main(int argc, const char* argv[]) {
     std::cout << "copy =  " << copied.data << "\n"; // 203
     std::cout << "ref = " << ref.data << "\n";      // 202
     std::cout << "moved = " << moved.data << "\n";  // 202
+    std::cout << "---------------------------------\n";
+
+    Mem mm(69420);
+    auto d = mm.getData();
+    d++; // copied
+    std::cout << mm.getData() << std::endl;
+    auto& dr = mm.getData();
+    dr++; // referenced
+    std::cout << mm.getData() << std::endl;
 
     return EXIT_SUCCESS;
 }
