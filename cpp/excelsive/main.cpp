@@ -194,6 +194,12 @@ int writeSchedule(Schedule& schedule) {
         libxl::Format* sigFormat = sheet->cellFormat(28, 5);
         sheet->writeNum(28, 5, serial, sigFormat);
 
+        // and on the manager's signature
+        sheet->writeNum(28, 12, serial, sigFormat);
+
+        // and on the thing
+        sheet->writeNum(7, 8, serial, sigFormat);
+
         // write a copy of our book to the new date stamped excel file
         if (book->save(outputFile.c_str())) {
             std::cout << "Saved modified file as " << outputFile << "\n";
