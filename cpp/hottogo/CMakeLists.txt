@@ -16,13 +16,11 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 file(GLOB_RECURSE SRV_HEADERS include/*.h include/*.hpp)
 file(GLOB_RECURSE SRV_SOURCES src/*.cpp)
 
+find_package(OpenSSL REQUIRED)
+
 add_executable(hottogo
     ${SRV_HEADERS}
     ${SRV_SOURCES}
-)
-
-target_include_directories(hottogo PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 include(FetchContent)
@@ -31,7 +29,7 @@ include(FetchContent)
 FetchContent_Declare(
   nlohmann_json
   GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG v3.11.3 # pick your preferred version
+  GIT_TAG v3.11.3
 )
 
 FetchContent_MakeAvailable(nlohmann_json)
@@ -40,26 +38,15 @@ FetchContent_MakeAvailable(nlohmann_json)
 FetchContent_Declare(
   httplib
   GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
-  GIT_TAG v0.15.3 # or whatever tag or commit you prefer
+  GIT_TAG v0.15.3
 )
 
 FetchContent_MakeAvailable(httplib)
 
-target_include_directories(hottogo PRIVATE ${httplib_SOURCE_DIR})
+target_include_directories(hottogo PRIVATE 
+    ${httplib_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
-# CPR
-# Force static CPR
-set(CPR_BUILD_SHARED_LIBS OFF CACHE BOOL "Use static CPR" FORCE)
-set(CPR_FORCE_USE_SYSTEM_CURL OFF CACHE BOOL "Use CPR's bundled curl" FORCE)
+target_link_libraries(hottogo PRIVATE nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto)
 
-# Force static curl
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Disable shared libs" FORCE)
-set(CURL_STATICLIB ON CACHE BOOL "Enable static curl" FORCE)
-set(CURL_USE_OPENSSL ON CACHE BOOL "Use OpenSSL" FORCE)
-
-
-FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                         GIT_TAG dd967cb48ea6bcbad9f1da5ada0db8ac0d532c06)
-FetchContent_MakeAvailable(cpr)
-
-target_link_libraries(hottogo PRIVATE cpr::cpr nlohmann_json::nlohmann_json)

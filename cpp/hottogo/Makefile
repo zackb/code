@@ -20,5 +20,6 @@ run: default
 	./build/debug/$(OUT)
 
 clean:
-	rm $(OUT)
+	rm -f $(OUT)
+	rm -rf build
 
