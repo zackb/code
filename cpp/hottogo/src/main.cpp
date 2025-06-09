@@ -81,7 +81,7 @@ int main(int argc, const char* argv[]) {
         auto stmt = db.prepare("INSERT INTO cap (data, meta) VALUES (?, ?)");
         stmt->bind(1, req.body);
         stmt->bind(2, j.dump());
-        stmt->step();
+        stmt->execute();
 
         res.status = 404;
     };

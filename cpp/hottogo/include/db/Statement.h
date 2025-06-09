@@ -49,6 +49,7 @@ public:
     void bind(int index, int value);
     void bind(int index, const std::string& value);
     bool step();
+    bool execute();
     int getInt(int column);
     std::string getText(int column);
     void reset();
