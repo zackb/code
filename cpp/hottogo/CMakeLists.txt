@@ -43,10 +43,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(httplib)
 
+# sqlite3
+find_package(SQLite3 REQUIRED)
+
 target_include_directories(hottogo PRIVATE 
     ${httplib_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(hottogo PRIVATE nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(hottogo PRIVATE nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto SQLite::SQLite3)
 
