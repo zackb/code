@@ -27,6 +27,15 @@ target_include_directories(serv PRIVATE
 
 include(FetchContent)
 
+# json-hpp
+FetchContent_Declare(
+  nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.11.3 # pick your preferred version
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 # cpp-httplib
 FetchContent_Declare(
   httplib
@@ -53,4 +62,4 @@ FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
                          GIT_TAG dd967cb48ea6bcbad9f1da5ada0db8ac0d532c06)
 FetchContent_MakeAvailable(cpr)
 
-target_link_libraries(serv PRIVATE cpr::cpr)
+target_link_libraries(serv PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
