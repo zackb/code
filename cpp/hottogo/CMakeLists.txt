@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-project(serv)
+project(hottogo)
 
 # Use C++20 without any compiler specific extensions.
 set(CMAKE_CXX_STANDARD 20 CACHE STRING "")
@@ -16,12 +16,12 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 file(GLOB_RECURSE SRV_HEADERS include/*.h include/*.hpp)
 file(GLOB_RECURSE SRV_SOURCES src/*.cpp)
 
-add_executable(serv
+add_executable(hottogo
     ${SRV_HEADERS}
     ${SRV_SOURCES}
 )
 
-target_include_directories(serv PRIVATE
+target_include_directories(hottogo PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -45,7 +45,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(httplib)
 
-target_include_directories(serv PRIVATE ${httplib_SOURCE_DIR})
+target_include_directories(hottogo PRIVATE ${httplib_SOURCE_DIR})
 
 # CPR
 # Force static CPR
@@ -62,4 +62,4 @@ FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
                          GIT_TAG dd967cb48ea6bcbad9f1da5ada0db8ac0d532c06)
 FetchContent_MakeAvailable(cpr)
 
-target_link_libraries(serv PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
+target_link_libraries(hottogo PRIVATE cpr::cpr nlohmann_json::nlohmann_json)

@@ -1,4 +1,4 @@
-OUT=serv
+OUT=hottogo
 
 default: debug
 
