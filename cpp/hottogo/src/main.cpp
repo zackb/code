@@ -24,6 +24,8 @@ int main(int argc, const char* argv[]) {
         .column("id", "INTEGER PRIMARY KEY")
         .column("data", "TEXT")
         .column("meta", "TEXT")
+        .column("url", "TEXT")
+        .column("method", "TEXT")
         .execute();
 
     httplib::Server srv;
@@ -58,6 +60,8 @@ int main(int argc, const char* argv[]) {
             j["id"] = row.getInt(0);
             j["data"] = row.getText(1);
             j["meta"] = row.getText(2);
+            j["url"] = row.getText(3);
+            j["method"] = row.getText(4);
             caps.push_back(j);
         }
         res.set_content(nlohmann::json(caps).dump(), "application/json");
@@ -78,9 +82,11 @@ int main(int argc, const char* argv[]) {
 
         // req.body;
 
-        auto stmt = db.prepare("INSERT INTO cap (data, meta) VALUES (?, ?)");
+        auto stmt = db.prepare("INSERT INTO cap (data, meta, url, method) VALUES (?, ?, ?, ?)");
         stmt->bind(1, req.body);
         stmt->bind(2, j.dump());
+        stmt->bind(3, req.path);
+        stmt->bind(4, req.method);
         stmt->execute();
 
         res.status = 404;
