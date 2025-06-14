@@ -74,7 +74,7 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
         return;
     }
 
-    if (bag->contains(openDoor->keyId)) {
+    if (openDoor->keyId == "any" || bag->contains(openDoor->keyId)) {
         state->lockAction(Action::OPENING, 4000);
         entities.addComponent<DoorOpened>(player);
         entities.addComponent<GoalReached>(player);

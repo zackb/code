@@ -40,5 +40,13 @@
                 "sound": "arrow"
             }
         }
+    ],
+    "interactables": [
+        {
+            "type": "door",
+            "sprite": "sprites/interactables/lock_gold.json",
+            "position": { "x": 2955, "y": 728 },
+            "action": { "open_door": "any" }
+        }
     ]
 }
