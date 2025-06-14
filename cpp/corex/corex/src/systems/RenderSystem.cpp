@@ -30,7 +30,7 @@ void RenderSystem::render(Entities& entities, TileMapRenderer& tileMapRenderer) 
         .height = camSize->viewportHeight,
     });
 
-    for (auto entity : entities.filtered<Transform, Sprite>()) {
+    for (auto& entity : entities.filtered<Transform, Sprite>()) {
         auto transform = entity->getComponent<Transform>();
         auto sprite = entity->getComponent<Sprite>();
 

@@ -5,7 +5,7 @@
 
 void TweenSystem::update(Entities& entities, const int dt) const {
 
-    for (auto entity : entities.filtered<Tween, Transform>()) {
+    for (auto& entity : entities.filtered<Tween, Transform>()) {
 
         auto tween = entity->getComponent<Tween>();
         auto pos = entity->getComponent<Transform>();
