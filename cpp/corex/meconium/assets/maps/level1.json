@@ -45,7 +45,7 @@
         {
             "type": "door",
             "sprite": "sprites/interactables/door1.json",
-            "position": { "x": 2955, "y": 728 },
+            "position": { "x": 2942, "y": 728 },
             "action": { "open_door": "any" }
         }
     ]

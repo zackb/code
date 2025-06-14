@@ -34,10 +34,10 @@ void InteractionSystem::resolveInteraction(Entities& entities, Entity& player, E
     }
 
     auto playerCollider = player.getComponent<Collider>();
-    auto pickupCollider = interactable.getComponent<Collider>();
+    auto interactableCollider = interactable.getComponent<Collider>();
 
     auto playerRect = playerCollider->getBounds(playerPos);
-    auto interactableRect = pickupCollider->getBounds(interactablePos);
+    auto interactableRect = interactableCollider->getBounds(interactablePos);
 
     // check if the player collided with the interactable
     if (util::aabb(playerRect, interactableRect) && !interactable.hasComponent<Despawn>()) {
@@ -66,7 +66,12 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
         std::cerr << "interactable of type door has no OpenDoor component\n";
         return;
     }
+    auto interactable = door.getComponent<Interactable>();
 
+    if (interactable->hasInteracted) {
+        // so far doors only have one interaction
+        return;
+    }
     auto state = door.getComponent<State>();
     auto bag = player.getComponent<Bag>();
     if (!bag || !state) {
@@ -75,6 +80,7 @@ void InteractionSystem::resolveDoor(Entities& entities, Entity& player, Entity& 
     }
 
     if (openDoor->keyId == "any" || bag->contains(openDoor->keyId)) {
+        interactable->hasInteracted = true;
         state->lockAction(Action::OPENING, 4000);
         entities.addComponent<DoorOpened>(player);
         entities.addComponent<GoalReached>(player);
