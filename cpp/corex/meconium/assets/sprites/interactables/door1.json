@@ -1,0 +1,28 @@
+{
+  "texture": "textures/door1.png",
+  "tileWidth": 143,
+  "tileHeight": 219,
+  "scale": 0.5,
+  "collider": {
+      "x": 0,
+      "y": 0,
+      "width": 143,
+      "height": 180
+  },
+  "animations": {
+    "idle": {
+      "row": 0,
+      "rowOffset": 0,
+      "frameCount": 1,
+      "looping": true,
+      "duration": 200
+    },
+    "open": {
+      "row": 0,
+      "rowOffset": 0,
+      "frameCount": 6,
+      "looping": false,
+      "duration": 200
+    }
+  }
+}
