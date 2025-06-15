@@ -23,10 +23,11 @@
     "156": { "type": "solid" },
     "143": { "type": "solid" },
     "254": { "type": "solid" },
+    "286": { "type": "solid" },
     "257": { "type": "ramp_left" },
     "259": { "type": "ramp_right" },
     "253": { "type": "ramp_left" },
-    "286": { "type": "ramp_right" },
+    "283": { "type": "ramp_right" },
     "255": { "type": "ramp_right" }
   }
 }
