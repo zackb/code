@@ -80,7 +80,7 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
 
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
         if (type != TileType::Solid) {
-            return;
+            return true;
         }
         // confirm vertical overlap
         if (rect.y + rect.h - rect.h / 2 > tileRect.y && rect.y < tileRect.y + tileRect.h) {
@@ -89,13 +89,16 @@ void CollisionSystem::resolveHorizontalCollisions(SDL_Rect& rect,
                 // moving right
                 velocity->vx = 0;
                 transform->x = tileRect.x - (collider->offsetX + collider->width) * transform->scaleX;
+                return false;
             } else if (velocity->vx < 0 && rect.x < tileRect.x + tileRect.w &&
                        rect.x + rect.w > tileRect.x + tileRect.w) {
                 // moving left
                 velocity->vx = 0;
                 transform->x = tileRect.x + tileRect.w - collider->offsetX * transform->scaleX;
+                return false;
             }
         }
+        return true;
     });
     transform->x += velocity->vx;
 }
@@ -109,25 +112,15 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
     forEachNearbySolidTile(rect, tileMap, [&](const SDL_Rect& tileRect, int x, int y, TileType type) {
         // confirm horizontal overlap
         if (rect.x + rect.w > tileRect.x && rect.x < tileRect.x + tileRect.w) {
-            // first check solids
-            if (type == TileType::Solid) {
-                // now check Y direction
-                if (velocity->vy >= 0 && rect.y + rect.h >= tileRect.y && rect.y < tileRect.y) {
-                    // moving down
-                    velocity->vy = 0;
-                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
-                    transform->onGround = true;
-                } else if (velocity->vy < 0 && rect.y < tileRect.y + tileRect.h &&
-                           rect.y + rect.h > tileRect.y + tileRect.h) {
-                    // moving up
-                    velocity->vy = 0;
-                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
-                }
-            } else if (type == TileType::RampLeft || type == TileType::RampRight) {
+
+            // first check ramps
+            if (type == TileType::RampLeft || type == TileType::RampRight) {
                 // Ramp handling (left and right)
 
                 // Middle of the sprite
-                int localX = rect.x + rect.w / 2 - tileRect.x;
+                int footX = rect.x + rect.w / 2;
+                int localX = std::clamp(footX - tileRect.x, 0, tileRect.w - 1);
+                // int localX = rect.x + rect.w / 2 - tileRect.x;
 
                 // Calculate percent across tile
                 float percent = static_cast<float>(localX) / tileRect.w;
@@ -143,9 +136,26 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                     transform->y = rampY - (collider->offsetY + collider->height) * transform->scaleY;
                     velocity->vy = 0;
                     transform->onGround = true;
+                    return false;
+                }
+            } else if (type == TileType::Solid) {
+                // now check Y direction
+                if (velocity->vy >= 0 && rect.y + rect.h >= tileRect.y && rect.y < tileRect.y) {
+                    // moving down
+                    velocity->vy = 0;
+                    transform->y = tileRect.y - (collider->offsetY + collider->height) * transform->scaleY;
+                    transform->onGround = true;
+                    return false;
+                } else if (velocity->vy < 0 && rect.y < tileRect.y + tileRect.h &&
+                           rect.y + rect.h > tileRect.y + tileRect.h) {
+                    // moving up
+                    velocity->vy = 0;
+                    transform->y = tileRect.y + tileRect.h - collider->offsetY * transform->scaleY;
+                    return false;
                 }
             }
         }
+        return true;
     });
 
     transform->y += velocity->vy;
@@ -154,7 +164,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
 void CollisionSystem::forEachNearbySolidTile(
     const SDL_Rect& rect,
     const TileMap& tileMap,
-    const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback) {
+    const std::function<bool(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback) {
     int startX = (rect.x - 2) / tileMap.tileWidth();
     int endX = (rect.x + rect.w + 2) / tileMap.tileWidth();
     int startY = (rect.y - 2) / tileMap.tileHeight();
@@ -175,7 +185,9 @@ void CollisionSystem::forEachNearbySolidTile(
             SDL_Rect tileRect = {
                 x * tileMap.tileWidth(), y * tileMap.tileHeight(), tileMap.tileWidth(), tileMap.tileHeight()};
 
-            callback(tileRect, x, y, type);
+            if (!callback(tileRect, x, y, type)) {
+                return;
+            }
         }
     }
 }

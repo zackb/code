@@ -16,7 +16,7 @@ void DelayedActionSystem::update(Entities& entities, const int dt) {
     }
 
     // execute these delayed actions after to avoid modifying the entity list while iterating
-    for (auto action : actionQueue) {
+    for (auto& action : actionQueue) {
         action();
     }
     entities.flushQueue();

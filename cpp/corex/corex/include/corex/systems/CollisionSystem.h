@@ -27,5 +27,5 @@ private:
     static void forEachNearbySolidTile(
         const SDL_Rect& rect,
         const TileMap& tileMap,
-        const std::function<void(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback);
+        const std::function<bool(const SDL_Rect& tileRect, int tileX, int tileY, TileType type)>& callback);
 };
