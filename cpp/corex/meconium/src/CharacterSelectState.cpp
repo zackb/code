@@ -73,7 +73,7 @@ std::unique_ptr<GameState> CharacterSelectState::nextState() {
     if (startGame) {
         auto& selection = characters[selected];
         auto game = std::make_unique<Meconium>(engine);
-        if (game->init(util::tolower(selection.name))) {
+        if (game->init(util::tolower(selection.name), "level1")) {
             return game;
         } else {
             std::cerr << "Failed to initialize game state.\n";
