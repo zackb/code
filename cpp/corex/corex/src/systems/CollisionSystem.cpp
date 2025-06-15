@@ -139,7 +139,7 @@ void CollisionSystem::resolveVerticalCollisions(SDL_Rect& rect,
                 } else if (type == TileType::RampRight) {
                     rampY = tileRect.y + static_cast<int>(tileRect.h * percent);
                 }
-                if (velocity->vy >= 0 && rect.y + rect.h >= rampY && rect.y < rampY) {
+                if (/*velocity->vy >= 0 && */ rect.y + rect.h >= rampY && rect.y < rampY) {
                     transform->y = rampY - (collider->offsetY + collider->height) * transform->scaleY;
                     velocity->vy = 0;
                     transform->onGround = true;
