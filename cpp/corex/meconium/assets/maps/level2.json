@@ -4,17 +4,11 @@
     "backgroundMusic": "audio/music/time_for_adventure.mp3",
     "background": {
         "layers": [
-            { "texture": "textures/background2/_11_background.png", "speed": 0.0 },
-            { "texture": "textures/background2/_10_distant_clouds.png", "speed": 0.05 },
-            { "texture": "textures/background2/_09_distant_clouds1.png", "speed": 0.1 },
-            { "texture": "textures/background2/_08_clouds.png", "speed": 0.2 },
-            { "texture": "textures/background2/_07_huge_clouds.png", "speed": 0.3 },
-            { "texture": "textures/background2/_06_hill2.png", "speed": 0.4 },
-            { "texture": "textures/background2/_05_hill1.png", "speed": 0.5 },
-            { "texture": "textures/background2/_04_bushes.png", "speed": 0.6 },
-            { "texture": "textures/background2/_03_distant_trees.png", "speed": 0.7 },
-            { "texture": "textures/background2/_02_trees and bushes.png", "speed": 0.8 },
-            { "texture": "textures/background2/_01_ground.png", "speed": 0.95 }
+            { "texture": "textures/background5/1.png", "speed": 0.0 },
+            { "texture": "textures/background5/2.png", "speed": 0.25 },
+            { "texture": "textures/background5/3.png", "speed": 0.5 },
+            { "texture": "textures/background5/4.png", "speed": 0.75 },
+            { "texture": "textures/background5/5.png", "speed": 1.0 }
         ]
     },
     "enemies" :[
