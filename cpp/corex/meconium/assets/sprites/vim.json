@@ -1,0 +1,44 @@
+{
+  "texture": "textures/vim.png",
+  "tileWidth": 320,
+  "tileHeight": 330,
+  "scale": 1,
+  "collider": {
+      "x": 0,
+      "y": 0,
+      "width": 330,
+      "height": 330 
+  },
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frameCount": 3,
+      "looping": true,
+      "duration": 200
+    },
+    "walk": {
+      "row": 1,
+      "frameCount": 6,
+      "looping": true,
+      "duration": 100
+    },
+    "attack": {
+      "row": 2,
+      "frameCount": 4,
+      "looping": true,
+      "duration": 100
+    },
+    "jump": {
+      "row": 1,
+      "frameCount": 6,
+      "looping": false,
+      "duration": 150
+    },
+    "fall": {
+      "row": 1,
+      "frameCount": 6,
+      "looping": false,
+      "duration": 150
+    }
+  }
+}

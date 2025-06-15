@@ -1,8 +1,8 @@
 {
   "texture": "textures/overworld3.png",
   "offset": { "x": 0, "y": 0 },
-  "tileWidth": 16,
-  "tileHeight": 16,
+  "tileWidth": 64,
+  "tileHeight": 64,
   "scale": 4.0,
   "tiles": {
     "0": { "type": "empty" },

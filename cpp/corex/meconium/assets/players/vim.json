@@ -1,0 +1,15 @@
+{
+    "sprite": "sprites/vim.json",
+    "attack": {
+        "type": "melee",
+        "cooldownMs": 10,
+        "damage": 34,
+        "sound": "sword"
+    },
+    "hitbox": {
+        "x": -10,
+        "y": 0,
+        "width": 110,
+        "height": 64
+    }
+}
