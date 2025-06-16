@@ -10,7 +10,19 @@
 #include <iostream>
 
 void UI::init(std::string title) {
-    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
+    if (setenv("SDL_VIDEODRIVER", "wayland", 1) != 0) {
+        perror("Failed to set SDL_VIDEODRIVER");
+    }
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        fprintf(stderr, "Failed to init SDL with Wayland: %s\n", SDL_GetError());
+        // Try fallback
+        setenv("SDL_VIDEODRIVER", "x11", 1);
+        if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+            fprintf(stderr, "Failed to init SDL with X11 too: %s\n", SDL_GetError());
+        }
+    }
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -21,13 +33,20 @@ void UI::init(std::string title) {
                               SDL_WINDOWPOS_CENTERED,
                               400,
                               200,
-                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!window) {
         fprintf(stderr, "Failed to create SDL window: %s\n", SDL_GetError());
         std::exit(1);
     }
 
+    // find dpi
+    float ddpi, hdpi, vdpi;
+    if (SDL_GetDisplayDPI(0, &ddpi, &hdpi, &vdpi) == 0) {
+        dpi = ddpi / 96.0f;
+    }
+
+    // create GL context
     gl_context = SDL_GL_CreateContext(window);
     if (!gl_context) {
         fprintf(stderr, "Failed to create OpenGL context: %s\n", SDL_GetError());
@@ -46,9 +65,11 @@ void UI::init(std::string title) {
     ImGui::StyleColorsDark();
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 17.0f);
+        float fontSize = 20.0f;
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), fontSize * dpi);
         io.FontDefault = font;
     }
+    // io.FontGlobalScale = dpi;
     ImGuiStyle& style = ImGui::GetStyle();
     style.FrameRounding = 6.0f;   // Rounded corners for buttons, sliders, etc.
     style.GrabRounding = 6.0f;    // Rounded sliders/knobs

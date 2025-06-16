@@ -19,4 +19,5 @@ private:
     SDL_GLContext gl_context;
     bool running = true;
     void renderFrame(Frame& frame);
+    float dpi;
 };
