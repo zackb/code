@@ -2,8 +2,15 @@ cmake_minimum_required(VERSION 3.20)
 project(HyprWat)
 set(CMAKE_CXX_STANDARD 20)
 
+# OpenGL
 find_package(OpenGL REQUIRED)
+
+# SDL2
 find_package(SDL2 REQUIRED)
+
+# Fontconfig
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(Fontconfig REQUIRED fontconfig)
 
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/ext/imgui)
 
@@ -18,7 +25,10 @@ add_executable(hyprwat
     src/ui.cpp 
     src/input.cpp 
     src/signal.cpp 
+    src/font.cpp 
     ${IMGUI_SOURCES})
+
+include_directories(${Fontconfig_INCLUDE_DIRS})
 
 target_include_directories(hyprwat PRIVATE
     ${SDL2_INCLUDE_DIRS}
@@ -29,5 +39,6 @@ target_include_directories(hyprwat PRIVATE
 target_link_libraries(hyprwat
     ${SDL2_LIBRARIES}
     OpenGL::GL
+    ${Fontconfig_LIBRARIES}
 )
 

@@ -1,4 +1,5 @@
 #include "ui.hpp"
+#include "font.hpp"
 #include "signal.hpp"
 
 #include <SDL.h>
@@ -43,7 +44,11 @@ void UI::init(std::string title) {
 
     // ImGui Style
     ImGui::StyleColorsDark();
-
+    auto fontPath = font::defaultFontPath();
+    if (!fontPath.empty()) {
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 17.0f);
+        io.FontDefault = font;
+    }
     ImGuiStyle& style = ImGui::GetStyle();
     style.FrameRounding = 6.0f;   // Rounded corners for buttons, sliders, etc.
     style.GrabRounding = 6.0f;    // Rounded sliders/knobs
