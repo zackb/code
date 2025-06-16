@@ -11,6 +11,7 @@
 
 void UI::init(std::string title) {
 
+#if not defined(__APPLE__)
     SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "0");
     if (setenv("SDL_VIDEODRIVER", "wayland", 1) != 0) {
         perror("Failed to set SDL_VIDEODRIVER");
@@ -23,6 +24,11 @@ void UI::init(std::string title) {
             fprintf(stderr, "Failed to init SDL with X11 too: %s\n", SDL_GetError());
         }
     }
+#else
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        fprintf(stderr, "Failed to init SDL: %s\n", SDL_GetError());
+    }
+#endif
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -109,7 +115,7 @@ void UI::init(std::string title) {
 
     // init OpenGL backend
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-    ImGui_ImplOpenGL3_Init("#version 130");
+    ImGui_ImplOpenGL3_Init("#version 150");
 
     signalHandler([&](int sig) {
         std::cerr << "caught signal: " << sig << std::endl;

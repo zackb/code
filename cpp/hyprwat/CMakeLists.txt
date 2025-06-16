@@ -11,6 +11,8 @@ find_package(SDL2 REQUIRED)
 # Fontconfig
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(Fontconfig REQUIRED fontconfig)
+link_directories(${Fontconfig_LIBRARY_DIRS})
+
 
 set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/ext/imgui)
 
