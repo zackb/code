@@ -55,7 +55,7 @@ private:
 
 void usage() {
     fprintf(stderr, R"(Usage:
-  hyprwad [OPTIONS] [id[:displayName][*]]...
+  hyprwat [OPTIONS] [id[:displayName][*]]...
 
 Description:
   A simple Wayland panel using ImGui to present selectable options.
@@ -70,13 +70,13 @@ Description:
   - `*`            : Optional suffix to mark this item as initially selected
 
   Examples:
-    hyprwad performance:Performance* balanced:Balanced powersave:PowerSaver
-    hyprwad wifi0:Home wifi1:Work wifi2:Other
+    hyprwat performance:Performance* balanced:Balanced powersave:PowerSaver
+    hyprwat wifi0:Home wifi1:Work wifi2:Other
 
 Alternatively, if no arguments are passed, options can be provided via stdin:
 
-  echo "wifi0:Home*" | hyprwad
-  echo -e "wifi0:Home*\nwifi1:Work\nwifi2:Other" | hyprwad
+  echo "wifi0:Home*" | hyprwat
+  echo -e "wifi0:Home*\nwifi1:Work\nwifi2:Other" | hyprwat
 
 Options:
   -h, --help       Show this help message
@@ -91,7 +91,7 @@ int main(int argc, const char* argv[]) {
     }
     Selector frame;
     UI ui;
-    ui.init("HyprWad");
+    ui.init("HyprWat");
     if (argc > 1) {
         auto choices = Input::parseArgv(argc, argv);
         int i = 0;

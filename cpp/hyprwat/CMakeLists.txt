@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(HyprWad)
+project(HyprWat)
 set(CMAKE_CXX_STANDARD 20)
 
 find_package(OpenGL REQUIRED)
@@ -13,19 +13,19 @@ file(GLOB IMGUI_SOURCES
     ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
-add_executable(hyprwad 
+add_executable(hyprwat
     src/main.cpp 
     src/ui.cpp 
     src/input.cpp 
     ${IMGUI_SOURCES})
 
-target_include_directories(hyprwad PRIVATE
+target_include_directories(hyprwat PRIVATE
     ${SDL2_INCLUDE_DIRS}
     ${IMGUI_DIR}
     ${IMGUI_DIR}/backends
 )
 
-target_link_libraries(hyprwad
+target_link_libraries(hyprwat
     ${SDL2_LIBRARIES}
     OpenGL::GL
 )
