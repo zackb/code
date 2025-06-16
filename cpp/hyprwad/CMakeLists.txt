@@ -16,6 +16,7 @@ file(GLOB IMGUI_SOURCES
 add_executable(hyprwad 
     src/main.cpp 
     src/ui.cpp 
+    src/input.cpp 
     ${IMGUI_SOURCES})
 
 target_include_directories(hyprwad PRIVATE
