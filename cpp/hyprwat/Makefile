@@ -10,6 +10,10 @@ release:
 	cmake --build --preset release
 	ln -sf build/release/compile_commands.json
 
+install: release
+	cmake --install build/release
+
+
 run: debug
 	./build/debug/hyprwat foo:FooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO bar:Bar* zbz:'Zack Bartel'
 

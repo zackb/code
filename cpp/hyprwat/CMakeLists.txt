@@ -42,3 +42,7 @@ target_link_libraries(hyprwat
     ${Fontconfig_LIBRARIES}
 )
 
+# Install the executable
+install(TARGETS hyprwat
+        RUNTIME DESTINATION bin)
+
