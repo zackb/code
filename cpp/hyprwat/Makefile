@@ -11,7 +11,7 @@ release:
 	ln -sf build/release/compile_commands.json
 
 run: debug
-	./build/debug/hyprwat foo:Foo bar:Bar* zbz:'Zack Bartel'
+	./build/debug/hyprwat foo:FooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO bar:Bar* zbz:'Zack Bartel'
 
 test-wifi: debug
 	# nmcli -t -f ssid dev wifi | while IFS= read -r line; do echo "$line";     sleep 0.1; done | ./build/debug/hyprwat

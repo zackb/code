@@ -28,11 +28,34 @@ void UI::init(std::string title) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
+    // find the cursor position to draw the window at
+    int mouseX, mouseY;
+    SDL_GetGlobalMouseState(&mouseX, &mouseY);
+
+    int winWidth = 400;
+    int winHeight = 200;
+
+    // adjust to keep window fully on-screen
+    int screenW, screenH;
+    SDL_DisplayMode dm;
+    SDL_GetCurrentDisplayMode(0, &dm);
+    screenW = dm.w;
+    screenH = dm.h;
+
+    int posX = mouseX;
+    int posY = mouseY;
+
+    // clamp so window doesn’t go off right or bottom edge
+    if (posX + winWidth > screenW)
+        posX = screenW - winWidth;
+    if (posY + winHeight > screenH)
+        posY = screenH - winHeight;
+
     window = SDL_CreateWindow(title.c_str(),
-                              SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED,
-                              400,
-                              200,
+                              posX,
+                              posY,
+                              winWidth,
+                              winHeight,
                               SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!window) {
@@ -110,22 +133,44 @@ void UI::run(Frame& frame) {
     }
 }
 
+void UI::resizeWindow(const ImVec2& contentSize) {
+    int newWidth = static_cast<int>(contentSize.x * dpi);
+    int newHeight = static_cast<int>(contentSize.y * dpi);
+
+    int currentW, currentH;
+    SDL_GetWindowSize(window, &currentW, &currentH);
+
+    if (currentW != newWidth || currentH != newHeight) {
+        SDL_SetWindowSize(window, newWidth, newHeight);
+    }
+}
+
 void UI::renderFrame(Frame& frame) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGuiIO& io = ImGui::GetIO();
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    // ImGuiIO& io = ImGui::GetIO();
+    // ImGui::SetNextWindowSize(io.DisplaySize);
 
     running = frame.render();
+
+    /*
+    // After rendering, get the window size safely:
+    ImGuiWindow* iwindow = ImGui::GetCurrentContext()->CurrentWindow;
+    if (iwindow) {
+        ImVec2 contentSize = iwindow->Size;
+        resizeWindow(contentSize);
+    }
+    */
 
     ImGui::Render();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
     SDL_GL_SwapWindow(window);
 }
 

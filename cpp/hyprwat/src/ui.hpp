@@ -1,5 +1,6 @@
 #pragma once
 
+#include "imgui.h"
 #include <SDL_video.h>
 #include <string>
 
@@ -19,5 +20,6 @@ private:
     SDL_GLContext gl_context;
     bool running = true;
     void renderFrame(Frame& frame);
+    void resizeWindow(const ImVec2& contentSize);
     float dpi;
 };
