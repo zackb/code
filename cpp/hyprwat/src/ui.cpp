@@ -1,10 +1,12 @@
 #include "ui.hpp"
+#include "signal.hpp"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl2.h>
+#include <iostream>
 
 void UI::init(std::string title) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -59,15 +61,24 @@ void UI::init(std::string title) {
     // init OpenGL backend
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
     ImGui_ImplOpenGL3_Init("#version 130");
+
+    signalHandler([&](int sig) {
+        std::cerr << "caught signal: " << sig << std::endl;
+        running = false;
+    });
 }
 
 void UI::run(Frame& frame) {
     while (running) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT)
-                running = false;
             ImGui_ImplSDL2_ProcessEvent(&event);
+            if (event.type == SDL_QUIT) {
+                running = false;
+            }
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE) {
+                running = false;
+            }
         }
         renderFrame(frame);
     }

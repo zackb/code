@@ -17,6 +17,7 @@ add_executable(hyprwat
     src/main.cpp 
     src/ui.cpp 
     src/input.cpp 
+    src/signal.cpp 
     ${IMGUI_SOURCES})
 
 target_include_directories(hyprwat PRIVATE
