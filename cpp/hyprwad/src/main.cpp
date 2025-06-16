@@ -41,6 +41,7 @@ public:
 
         if (clicked >= 0) {
             std::cout << choices[clicked].id << std::endl;
+            std::cout.flush();
             return false;
         }
 
@@ -83,7 +84,7 @@ Options:
 }
 
 int main(int argc, const char* argv[]) {
-    std::cout << argv[1] << std::endl;
+    std::cout.setf(std::ios::unitbuf);
     if (argc == 2 && !strncmp(argv[1], "--help", strlen(argv[1]))) {
         usage();
         return 1;
