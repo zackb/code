@@ -1,0 +1,3 @@
+[submodule "cpp/hyprwad/ext/imgui"]
+	path = cpp/hyprwad/ext/imgui
+	url = https://github.com/ocornut/imgui.git
