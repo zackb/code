@@ -95,7 +95,7 @@ void UI::init(std::string title) {
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
         float fontSize = 20.0f;
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), fontSize * dpi);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), fontSize); // * dpi);
         io.FontDefault = font;
     }
     // io.FontGlobalScale = dpi;
