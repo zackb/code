@@ -15,42 +15,34 @@ public:
     void setSelected(int index) { selected = index; }
 
     bool RoundedSelectableFullWidth(const char* label, bool selected, float rounding = 6.0f) {
-
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         if (window->SkipItems)
             return false;
 
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 padding = ImGui::GetStyle().FramePadding;
-
-        float fullWidth = ImGui::GetContentRegionAvail().x;
-        if (fullWidth <= 0.0f)
-            fullWidth = 100.0f;
-
         ImVec2 labelSize = ImGui::CalcTextSize(label);
+
+        // use the available content width instead of just text width
+        float availableWidth = ImGui::GetContentRegionAvail().x;
+        float minWidth = labelSize.x + padding.x * 2;
+        float fullWidth = std::max(availableWidth, minWidth);
+
         ImVec2 size = ImVec2(fullWidth, labelSize.y + padding.y * 2);
 
-        ImGui::Dummy(size); // reserve space for the button
-
-        bool clicked = false;
+        // create an invisible button first to handle interaction
+        bool clicked = ImGui::InvisibleButton(label, size);
         bool hovered = ImGui::IsItemHovered();
 
+        // draw the background if hovered or selected
         if (hovered || selected) {
             ImU32 color = ImGui::GetColorU32(selected ? selectedColor : highlightedColor);
-            ImGui::GetWindowDrawList()->AddRectFilled(
-                pos, ImVec2(pos.x + size.x + padding.x, pos.y + size.y), color, rounding);
+            ImGui::GetWindowDrawList()->AddRectFilled(pos, ImVec2(pos.x + size.x, pos.y + size.y), color, rounding);
         }
 
-        // text positioning (vertically centered, left-aligned)
-        ImVec2 textPos = ImVec2(pos.x + padding.x, pos.y + padding.y);
-        ImGui::SetCursorScreenPos(textPos);
-        ImGui::TextUnformatted(label);
-
-        // Interaction
-        ImGui::SetCursorScreenPos(pos); // Reset to original dummy pos
-        if (ImGui::InvisibleButton(label, size)) {
-            clicked = true;
-        }
+        // draw the text centered vertically, left-aligned horizontally
+        ImVec2 textPos = ImVec2(pos.x + padding.x, pos.y + (size.y - labelSize.y) * 0.5f);
+        ImGui::GetWindowDrawList()->AddText(textPos, ImGui::GetColorU32(ImGuiCol_Text), label);
 
         return clicked;
     }
@@ -64,7 +56,6 @@ public:
                      nullptr,
                      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
                          ImGuiWindowFlags_AlwaysAutoResize);
-        // ImGui::Separator();
 
         int clicked = -1;
 

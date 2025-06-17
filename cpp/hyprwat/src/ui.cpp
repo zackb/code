@@ -38,7 +38,7 @@ void UI::init(std::string title) {
     int mouseX, mouseY;
     SDL_GetGlobalMouseState(&mouseX, &mouseY);
 
-    int winWidth = 400;
+    int winWidth = 200;
     int winHeight = 200;
 
     // adjust to keep window fully on-screen
@@ -62,7 +62,7 @@ void UI::init(std::string title) {
                               posY,
                               winWidth,
                               winHeight,
-                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALLOW_HIGHDPI);
+                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS); // | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!window) {
         fprintf(stderr, "Failed to create SDL window: %s\n", SDL_GetError());
@@ -139,39 +139,21 @@ void UI::run(Frame& frame) {
     }
 }
 
-void UI::resizeWindow(const ImVec2& contentSize) {
-    int newWidth = static_cast<int>(contentSize.x * dpi);
-    int newHeight = static_cast<int>(contentSize.y * dpi);
-
-    int currentW, currentH;
-    SDL_GetWindowSize(window, &currentW, &currentH);
-
-    if (currentW != newWidth || currentH != newHeight) {
-        SDL_SetWindowSize(window, newWidth, newHeight);
-    }
-}
-
 void UI::renderFrame(Frame& frame) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    // ImGuiIO& io = ImGui::GetIO();
-    // ImGui::SetNextWindowSize(io.DisplaySize);
 
     running = frame.render();
 
-    /*
-    // After rendering, get the window size safely:
-    ImGuiWindow* iwindow = ImGui::GetCurrentContext()->CurrentWindow;
-    if (iwindow) {
-        ImVec2 contentSize = iwindow->Size;
-        resizeWindow(contentSize);
-    }
-    */
-
+    SDL_SetWindowSize(window, 500, 500);
     ImGui::Render();
+
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    glViewport(0, 0, w, h);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
