@@ -36,7 +36,9 @@ public:
 
         // draw the background if hovered or selected
         if (hovered || selected) {
-            ImU32 color = ImGui::GetColorU32(selected ? selectedColor : highlightedColor);
+            ImU32 color = ImGui::GetColorU32(selected && hovered ? highlightedColor
+                                             : selected          ? selectedColor
+                                                                 : highlightedColor);
             ImGui::GetWindowDrawList()->AddRectFilled(pos, ImVec2(pos.x + size.x, pos.y + size.y), color, rounding);
         }
 

@@ -38,7 +38,7 @@ void UI::init(std::string title) {
     int mouseX, mouseY;
     SDL_GetGlobalMouseState(&mouseX, &mouseY);
 
-    int winWidth = 200;
+    int winWidth = 400;
     int winHeight = 200;
 
     // adjust to keep window fully on-screen
@@ -148,7 +148,7 @@ void UI::renderFrame(Frame& frame) {
 
     running = frame.render();
 
-    SDL_SetWindowSize(window, 500, 500);
+    // SDL_SetWindowSize(window, 500, 500);
     ImGui::Render();
 
     int w, h;
