@@ -24,12 +24,9 @@ int main() {
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
     Texture2D wallTexture = LoadTexture("assets/wall.png");
-    if (wallTexture.id == 0) {
-        printf("ERROR: Failed to load wall texture\n");
-        return -1;
-    }
+    // Model wallModel = tex::MakeVerticalWallModel(wallTexture, 5.0f, 1.0f, 1.0f);
 
-    Model wallModel = tex::MakeVerticalWallModel(wallTexture, 5.0f, 1.0f, 1.0f);
+    Texture2D floorTexture = LoadTexture("assets/floor.png");
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -86,22 +83,33 @@ int main() {
 
         BeginMode3D(camera);
 
-        DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, LIGHTGRAY); // Draw ground
+        // DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, LIGHTGRAY); // Draw ground
+        SetTextureWrap(floorTexture, TEXTURE_WRAP_REPEAT);
+
+        // Calculate repetition
+        float groundSize = 32.0f;
+        float tileSize = 4.0f; // Adjust this for your desired tile size
+        float repeatTimes = groundSize / tileSize;
+
+        // Create texture source rectangle for repetition
+        Rectangle textureSource = {0, 0, floorTexture.width * repeatTimes, floorTexture.height * repeatTimes};
+
+        tex::DrawCubeTextureRec(floorTexture,
+                                textureSource,
+                                (Vector3){0.0f, -0.01f, 0.0f}, // Position slightly below y=0
+                                32.0f,
+                                0.02f,
+                                32.0f, // Width, very thin height, depth
+                                WHITE);
+
         // DrawCube((Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, BLUE);           // Draw a blue wall
-        // SetTextureWrap(wallTexture, TEXTURE_WRAP_REPEAT);
-        // tex::DrawCubeTexture(wallTexture, (Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, WHITE);
-        // DrawModel(wallModel, (Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, WHITE);
-        // DrawModelEx(wallModel, (Vector3){-5.0f, 2.5f, 0.0f}, (Vector3){1, 0, 0}, 90.0f, (Vector3){1, 1, 1}, WHITE);
-        // DrawModel(wallModel, (Vector3){-5.0f, 2.5f, 0.0f}, 1.0f, WHITE);
-        // For repeating texture, you can calculate the texture rectangle
-        float repeatU = 32.0f / 1.0f; // width / tileSize
-        float repeatV = 5.0f / 1.0f;  // height / tileSize
 
-        // Set texture to repeat
+        // Draw wall
         SetTextureWrap(wallTexture, TEXTURE_WRAP_REPEAT);
-
-        // Draw the textured cube with custom texture coordinates
-        Rectangle textureSource = {0, 0, wallTexture.width * repeatU, wallTexture.height * repeatV};
+        float repeatU = 32.0f / 4.0f; // width / tileSize
+        float repeatV = 5.0f / 4.0f;  // height / tileSize
+        repeatTimes = 32.0f / 2.0f;   // = 16 repetitions
+        textureSource = {0, 0, wallTexture.width * repeatU, wallTexture.height * repeatV};
         tex::DrawCubeTextureRec(wallTexture, textureSource, (Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, WHITE);
 
         DrawCube((Vector3){16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME); // Draw a green wall
