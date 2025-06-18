@@ -1,9 +1,11 @@
 #include "mcamera.hpp"
 #include "tex.hpp"
-#include <cstdio>
+#include <cmath>
 #include <raylib.h>
+#include <raymath.h>
 
 void debug(Camera& camera, int cameraMode);
+void UpdateFirstPersonCamera(Camera& camera);
 
 int main() {
 
@@ -76,6 +78,13 @@ int main() {
         }
 
         UpdateCamera(&camera, cameraMode); // Update camera
+        /*
+        if (cameraMode == CAMERA_FIRST_PERSON) {
+            UpdateFirstPersonCamera(camera);
+        } else {
+            UpdateCamera(&camera, cameraMode);
+        }
+        */
 
         BeginDrawing();
 
@@ -132,20 +141,53 @@ int main() {
     return 0;
 }
 
+// Custom first person camera update
+void UpdateFirstPersonCamera(Camera& camera) {
+    Vector2 mouseDelta = GetMouseDelta();
+    static float yaw = 0.0f;
+    static float pitch = 0.0f;
+
+    yaw += mouseDelta.x * 0.002f;
+    pitch -= mouseDelta.y * 0.002f;
+    pitch = Clamp(pitch, -1.5f, 1.5f); // Limit pitch
+
+    // Calculate camera direction
+    camera.target.x = camera.position.x + cosf(yaw) * cosf(pitch);
+    camera.target.y = camera.position.y + sinf(pitch);
+    camera.target.z = camera.position.z + sinf(yaw) * cosf(pitch);
+
+    // WASD movement
+    Vector3 forward = Vector3Normalize(Vector3Subtract(camera.target, camera.position));
+    Vector3 right = Vector3CrossProduct(forward, camera.up);
+    float speed = 5.0f * GetFrameTime();
+
+    if (IsKeyDown(KEY_W))
+        camera.position = Vector3Add(camera.position, Vector3Scale(forward, speed));
+    if (IsKeyDown(KEY_S))
+        camera.position = Vector3Subtract(camera.position, Vector3Scale(forward, speed));
+    if (IsKeyDown(KEY_A))
+        camera.position = Vector3Subtract(camera.position, Vector3Scale(right, speed));
+    if (IsKeyDown(KEY_D))
+        camera.position = Vector3Add(camera.position, Vector3Scale(right, speed));
+
+    // Update target
+    camera.target.x = camera.position.x + cosf(yaw) * cosf(pitch);
+    camera.target.y = camera.position.y + sinf(pitch);
+    camera.target.z = camera.position.z + sinf(yaw) * cosf(pitch);
+}
+
 void debug(Camera& camera, int cameraMode) {
 
     // Draw info boxes
     DrawRectangle(5, 5, 330, 100, Fade(SKYBLUE, 0.5f));
     DrawRectangleLines(5, 5, 330, 100, BLUE);
 
-    /*
     DrawText("Camera controls:", 15, 15, 10, BLACK);
     DrawText("- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, BLACK);
     DrawText("- Look around: arrow keys or mouse", 15, 45, 10, BLACK);
     DrawText("- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, BLACK);
     DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, BLACK);
     DrawText("- Camera projection key: P", 15, 90, 10, BLACK);
-    */
 
     DrawRectangle(600, 5, 195, 100, Fade(SKYBLUE, 0.5f));
     DrawRectangleLines(600, 5, 195, 100, BLUE);
