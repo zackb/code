@@ -11,9 +11,14 @@ Model CreateSkyDome(Texture2D texture, float radius);
 
 int main() {
 
+    /*
     const int screenWidth = 1025;
     const int screenHeight = 768;
     InitWindow(screenWidth, screenHeight, "mimic");
+    */
+
+    SetConfigFlags(FLAG_WINDOW_TOPMOST | FLAG_WINDOW_UNDECORATED);
+    InitWindow(GetScreenWidth(), GetScreenHeight(), "Borderless fullscreen");
 
     Camera camera = {0};
     camera.position = (Vector3){0.0f, 2.0f, 4.0f}; // Camera position
@@ -40,7 +45,7 @@ int main() {
     }
 
     // Sky
-    Texture2D skyTexture = LoadTexture("assets/sky.png");
+    Texture2D skyTexture = LoadTexture("assets/sky2.png");
     Model skyDome = CreateSkyDome(skyTexture, 100.0f);
 
     // Main game loop
