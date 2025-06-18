@@ -3,9 +3,11 @@
 #include <cmath>
 #include <raylib.h>
 #include <raymath.h>
+#include <rlgl.h>
 
 void debug(Camera& camera, int cameraMode);
 void UpdateFirstPersonCamera(Camera& camera);
+Model CreateSkyDome(Texture2D texture, float radius);
 
 int main() {
 
@@ -29,6 +31,17 @@ int main() {
     // Model wallModel = tex::MakeVerticalWallModel(wallTexture, 5.0f, 1.0f, 1.0f);
 
     Texture2D floorTexture = LoadTexture("assets/floor.png");
+
+    // spidey
+    Model arachnoid = LoadModel("assets/Arachnoid.obj");
+    Texture2D texture = LoadTexture("assets/floor.png");
+    if (texture.id != 0) {
+        arachnoid.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+    }
+
+    // Sky
+    Texture2D skyTexture = LoadTexture("assets/sky.png");
+    Model skyDome = CreateSkyDome(skyTexture, 100.0f);
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -92,6 +105,14 @@ int main() {
 
         BeginMode3D(camera);
 
+        // Draw sky sphere (make it huge and invert it so texture faces inward)
+        // DrawSphereEx((Vector3){0, 0, 0}, 100.0f, 16, 16, SKYBLUE);
+        // DrawCube((Vector3){0, 50, 0}, 200.0f, 100.0f, 200.0f, SKYBLUE);
+        rlDisableBackfaceCulling();
+        DrawModel(skyDome, (Vector3){0, 0, 0}, 1.0f, SKYBLUE);
+        rlEnableBackfaceCulling();
+
+        // --- Draw floor
         // DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, LIGHTGRAY); // Draw ground
         SetTextureWrap(floorTexture, TEXTURE_WRAP_REPEAT);
 
@@ -113,7 +134,7 @@ int main() {
 
         // DrawCube((Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, BLUE);           // Draw a blue wall
 
-        // Draw wall
+        // -- Draw wall
         SetTextureWrap(wallTexture, TEXTURE_WRAP_REPEAT);
         float repeatU = 32.0f / 4.0f; // width / tileSize
         float repeatV = 5.0f / 4.0f;  // height / tileSize
@@ -121,6 +142,7 @@ int main() {
         textureSource = {0, 0, wallTexture.width * repeatU, wallTexture.height * repeatV};
         tex::DrawCubeTextureRec(wallTexture, textureSource, (Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, WHITE);
 
+        // -- Draw other walls
         DrawCube((Vector3){16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME); // Draw a green wall
         DrawCube((Vector3){0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
 
@@ -130,15 +152,46 @@ int main() {
             DrawCubeWires(camera.target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
         }
 
+        DrawModel(arachnoid, (Vector3){0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
         EndMode3D();
         // debug(camera, cameraMode);
         EndDrawing();
     }
 
+    UnloadTexture(wallTexture);
+    UnloadTexture(floorTexture);
+    UnloadTexture(skyTexture);
+    UnloadModel(arachnoid);
     CloseWindow();
-    // UnloadTexture(wallTexture);
 
     return 0;
+}
+
+// Create sky dome model with inverted normals
+Model CreateSkyDome(Texture2D texture, float radius) {
+    Mesh mesh = GenMeshSphere(radius, 32, 16);
+
+    // Flip normals inward so texture faces the camera
+    for (int i = 0; i < mesh.vertexCount; i++) {
+        mesh.normals[i * 3 + 0] *= -1.0f;
+        mesh.normals[i * 3 + 1] *= -1.0f;
+        mesh.normals[i * 3 + 2] *= -1.0f;
+    }
+
+    /*
+    // Reverse triangle winding order
+    for (int i = 0; i < mesh.triangleCount; i++) {
+        unsigned short temp = mesh.indices[i * 3 + 0];
+        mesh.indices[i * 3 + 0] = mesh.indices[i * 3 + 2];
+        mesh.indices[i * 3 + 2] = temp;
+    }
+    */
+
+    UploadMesh(&mesh, false);
+    Model model = LoadModelFromMesh(mesh);
+    model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+
+    return model;
 }
 
 // Custom first person camera update
