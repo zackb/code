@@ -45,7 +45,7 @@ int main() {
     }
 
     // Sky
-    Texture2D skyTexture = LoadTexture("assets/sky2.png");
+    Texture2D skyTexture = LoadTexture("assets/sky3.png");
     Model skyDome = CreateSkyDome(skyTexture, 100.0f);
 
     // Main game loop
