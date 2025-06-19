@@ -14,7 +14,7 @@ public:
 
     ~SwapBackList() { delete[] data; }
 
-    void erase(size_t index) {
+    void remove(size_t index) {
         if (index < sz) {
             data[index] = data[--sz];
         }
@@ -33,11 +33,32 @@ public:
         data[sz++] = value;
     }
 
+    void insert(const T& value) { push_back(value); }
+
     size_t size() const { return sz; }
 
     T& operator[](size_t index) { return data[index]; }
 
     const T& operator[](size_t index) const { return data[index]; }
+
+    bool contains(const T& value) const {
+        for (size_t i = 0; i < sz; ++i) {
+            if (data[i] == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // iterators
+    using iterator = T*;
+    using const_iterator = const T*;
+    iterator begin() { return data; }
+    iterator end() { return data + sz; }
+    const_iterator begin() const { return data; }
+    const_iterator end() const { return data + sz; }
+    const_iterator cbegin() const { return data; }
+    const_iterator cend() const { return data + sz; }
 };
 
 #endif
