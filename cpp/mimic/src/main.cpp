@@ -58,10 +58,8 @@ int main() {
 
     // spidey
     Model arachnoid = LoadModel("assets/Arachnoid.obj");
-    Texture2D texture = LoadTexture("assets/floor.png");
-    if (texture.id != 0) {
-        arachnoid.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-    }
+    Texture2D spideyTex = LoadTexture("assets/spidey.png");
+    arachnoid.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = spideyTex;
 
     // Sky
     Texture2D skyTexture = LoadTexture("assets/sky3.png");
@@ -200,6 +198,7 @@ int main() {
     }
 
     UnloadTexture(wallTexture);
+    UnloadTexture(spideyTex);
     UnloadTexture(floorTexture);
     UnloadTexture(skyTexture);
     UnloadModel(arachnoid);
