@@ -6,11 +6,13 @@ in vec2 fragTexCoord;
 out vec4 finalColor;
 
 uniform vec3 lightDir;
+uniform sampler2D texture0;
 
 void main() {
-    vec3 normal = normalize(fragNormal);
-    float diffuse = max(dot(-lightDir, normal), 0.0);
-    vec3 color = vec3(0.0, 1.0, 0.0); // LIME green
-    finalColor = vec4(color * diffuse, 1.0);
+    vec3 norm = normalize(fragNormal);
+    float diff = max(dot(-lightDir, norm), 0.0);
+
+    vec4 texColor = texture(texture0, fragTexCoord);
+    finalColor = vec4(texColor.rgb * diff, texColor.a);
 }
 

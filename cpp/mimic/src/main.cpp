@@ -42,6 +42,12 @@ int main() {
     Shader wallShader = LoadShader("shaders/default.vs", "shaders/wall.fs");
     cubeModel.materials[0].shader = wallShader;
 
+    // wall 3
+    // Mesh wall3Mesh = tex::GenTexturedCube(1.0f, 5.0f, 32.0f);
+    // Model wall3Model = LoadModelFromMesh(wall3Mesh);
+    // wall3Model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wallTexture;
+    // wall3Model.materials[0].shader = wallShader;
+
     // send uniforms like light direction
     int lightLoc = GetShaderLocation(wallShader, "lightDir");
     Vector3 lightDir = {0.0f, -1.0f, -1.0f};
@@ -173,7 +179,13 @@ int main() {
         SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
         DrawModel(cubeModel, wallPos, 1.0f, WHITE);
 
+        // wall 3
         DrawCube((Vector3){0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
+        // rlDisableBackfaceCulling();
+        // SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
+        // Vector3 wall3Pos = {0.0f, 2.5f, 16.0f};
+        // DrawModel(wall3Model, wall3Pos, 1.0f, WHITE);
+        // rlEnableBackfaceCulling();
 
         // Draw player cube
         if (cameraMode == CAMERA_THIRD_PERSON) {

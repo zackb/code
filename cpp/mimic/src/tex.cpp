@@ -2,10 +2,150 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <raylib.h>
 #include <rlgl.h>
 
 namespace tex {
+
+    Mesh GenTexturedCube(float width, float height, float length) {
+        Mesh mesh = {0};
+
+        float w = width / 2.0f;
+        float h = height / 2.0f;
+        float l = length / 2.0f;
+
+        Vector3 vertices[36] = {
+            // Front face
+            {-w, -h, -l},
+            {w, -h, -l},
+            {w, h, -l},
+            {-w, -h, -l},
+            {w, h, -l},
+            {-w, h, -l},
+
+            // Back face
+            {w, -h, l},
+            {-w, -h, l},
+            {-w, h, l},
+            {w, -h, l},
+            {-w, h, l},
+            {w, h, l},
+
+            // Top face
+            {-w, h, -l},
+            {w, h, -l},
+            {w, h, l},
+            {-w, h, -l},
+            {w, h, l},
+            {-w, h, l},
+
+            // Bottom face
+            {-w, -h, l},
+            {w, -h, l},
+            {w, -h, -l},
+            {-w, -h, l},
+            {w, -h, -l},
+            {-w, -h, -l},
+
+            // Right face
+            {w, -h, -l},
+            {w, -h, l},
+            {w, h, l},
+            {w, -h, -l},
+            {w, h, l},
+            {w, h, -l},
+
+            // Left face
+            {-w, -h, l},
+            {-w, -h, -l},
+            {-w, h, -l},
+            {-w, -h, l},
+            {-w, h, -l},
+            {-w, h, l},
+        };
+
+        Vector3 normals[36] = {
+            // Front
+            {0, 0, -1},
+            {0, 0, -1},
+            {0, 0, -1},
+            {0, 0, -1},
+            {0, 0, -1},
+            {0, 0, -1},
+
+            // Back
+            {0, 0, 1},
+            {0, 0, 1},
+            {0, 0, 1},
+            {0, 0, 1},
+            {0, 0, 1},
+            {0, 0, 1},
+
+            // Top
+            {0, 1, 0},
+            {0, 1, 0},
+            {0, 1, 0},
+            {0, 1, 0},
+            {0, 1, 0},
+            {0, 1, 0},
+
+            // Bottom
+            {0, -1, 0},
+            {0, -1, 0},
+            {0, -1, 0},
+            {0, -1, 0},
+            {0, -1, 0},
+            {0, -1, 0},
+
+            // Right
+            {1, 0, 0},
+            {1, 0, 0},
+            {1, 0, 0},
+            {1, 0, 0},
+            {1, 0, 0},
+            {1, 0, 0},
+
+            // Left
+            {-1, 0, 0},
+            {-1, 0, 0},
+            {-1, 0, 0},
+            {-1, 0, 0},
+            {-1, 0, 0},
+            {-1, 0, 0},
+        };
+
+        Vector2 texcoords[36] = {
+            // Repeat for each face
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+
+            {0, 1}, {1, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 0},
+        };
+
+        mesh.vertexCount = 36;
+        mesh.triangleCount = 12;
+
+        mesh.vertices = (float*)RL_MALLOC(sizeof(Vector3) * 36);
+        mesh.normals = (float*)RL_MALLOC(sizeof(Vector3) * 36);
+        mesh.texcoords = (float*)RL_MALLOC(sizeof(Vector2) * 36);
+
+        memcpy(mesh.vertices, vertices, sizeof(Vector3) * 36);
+        memcpy(mesh.normals, normals, sizeof(Vector3) * 36);
+        memcpy(mesh.texcoords, texcoords, sizeof(Vector2) * 36);
+
+        UploadMesh(&mesh, false);
+
+        return mesh;
+    }
+
     void DrawCubeTexture(Texture2D texture, Vector3 position, float width, float height, float length, Color color) {
         float x = position.x;
         float y = position.y;

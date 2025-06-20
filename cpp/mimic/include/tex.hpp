@@ -4,6 +4,8 @@
 
 namespace tex {
 
+    Mesh GenTexturedCube(float width, float height, float length);
+
     void DrawCubeTexture(Texture2D texture, Vector3 position, float width, float height, float length, Color color);
 
     // Draw cube with texture piece applied to all faces
