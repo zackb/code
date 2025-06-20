@@ -7,7 +7,7 @@
 
 void debug(Camera& camera, int cameraMode);
 void UpdateFirstPersonCamera(Camera& camera);
-Model CreateSkyDome(Texture2D texture, float radius);
+Model CreateSkyDome(Texture2D& texture, float radius);
 
 int main() {
 
@@ -32,9 +32,22 @@ int main() {
     DisableCursor();  // Limit cursor to relative movement inside the window
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
+    // wall 1
     Texture2D wallTexture = LoadTexture("assets/wall.png");
     // Model wallModel = tex::MakeVerticalWallModel(wallTexture, 5.0f, 1.0f, 1.0f);
 
+    // wall 2
+    Mesh cubeMesh = GenMeshCube(1.0f, 5.0f, 32.0f);
+    Model cubeModel = LoadModelFromMesh(cubeMesh);
+    Shader wallShader = LoadShader("shaders/default.vs", "shaders/wall.fs");
+    cubeModel.materials[0].shader = wallShader;
+
+    // send uniforms like light direction
+    int lightLoc = GetShaderLocation(wallShader, "lightDir");
+    Vector3 lightDir = {0.0f, -1.0f, -1.0f};
+    SetShaderValue(wallShader, lightLoc, &lightDir, SHADER_UNIFORM_VEC3);
+
+    // floor
     Texture2D floorTexture = LoadTexture("assets/floor.png");
 
     // spidey
@@ -47,6 +60,8 @@ int main() {
     // Sky
     Texture2D skyTexture = LoadTexture("assets/sky3.png");
     Model skyDome = CreateSkyDome(skyTexture, 100.0f);
+    Shader skyShader = LoadShader("shaders/default.vs", "shaders/sky.fs");
+    skyDome.materials[0].shader = skyShader;
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -113,6 +128,9 @@ int main() {
         // Draw sky sphere (make it huge and invert it so texture faces inward)
         // DrawSphereEx((Vector3){0, 0, 0}, 100.0f, 16, 16, SKYBLUE);
         // DrawCube((Vector3){0, 50, 0}, 200.0f, 100.0f, 200.0f, SKYBLUE);
+        int timeLoc = GetShaderLocation(skyShader, "time");
+        float time = GetTime();
+        SetShaderValue(skyShader, timeLoc, &time, SHADER_UNIFORM_FLOAT);
         rlDisableBackfaceCulling();
         DrawModel(skyDome, (Vector3){0, 0, 0}, 1.0f, SKYBLUE);
         rlEnableBackfaceCulling();
@@ -139,7 +157,7 @@ int main() {
 
         // DrawCube((Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, BLUE);           // Draw a blue wall
 
-        // -- Draw wall
+        // wall 1
         SetTextureWrap(wallTexture, TEXTURE_WRAP_REPEAT);
         float repeatU = 32.0f / 4.0f; // width / tileSize
         float repeatV = 5.0f / 4.0f;  // height / tileSize
@@ -147,8 +165,14 @@ int main() {
         textureSource = {0, 0, wallTexture.width * repeatU, wallTexture.height * repeatV};
         tex::DrawCubeTextureRec(wallTexture, textureSource, (Vector3){-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, WHITE);
 
-        // -- Draw other walls
-        DrawCube((Vector3){16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME); // Draw a green wall
+        // wall 2
+        // DrawCube((Vector3){16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME); // Draw a green wall
+        int lightLoc = GetShaderLocation(wallShader, "lightDir");
+        Vector3 wallPos = {16.0f, 2.5f, 0.0f}; // Center of your cube
+        Vector3 light = {0.0f, -1.0f, -1.0f};
+        SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
+        DrawModel(cubeModel, wallPos, 1.0f, WHITE);
+
         DrawCube((Vector3){0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
 
         // Draw player cube
@@ -173,7 +197,7 @@ int main() {
 }
 
 // Create sky dome model with inverted normals
-Model CreateSkyDome(Texture2D texture, float radius) {
+Model CreateSkyDome(Texture2D& texture, float radius) {
     Mesh mesh = GenMeshSphere(radius, 32, 16);
 
     // Flip normals inward so texture faces the camera
