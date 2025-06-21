@@ -34,6 +34,16 @@ int main() {
 
     // lighting
     Shader lightingShader = LoadShader("shaders/lighting.vs", "shaders/lighting.fs");
+    // update lighting?
+    int locAmbient = GetShaderLocation(lightingShader, "ambientColor");
+    int locLightColor = GetShaderLocation(lightingShader, "lightColor");
+    int locLightDir = GetShaderLocation(lightingShader, "lightDir");
+    int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
+    Vector3 ambient = {0.2f, 0.2f, 0.2f};
+    Vector3 lightCol = {1.0f, 1.0f, 1.0f};
+    // Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+    SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
+    SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
 
     // wall 1
     Texture2D wallTexture = LoadTexture("assets/wall.png");
@@ -44,6 +54,10 @@ int main() {
     Model cubeModel = LoadModelFromMesh(cubeMesh);
     Shader wallShader = LoadShader("shaders/default.vs", "shaders/wall.fs");
     cubeModel.materials[0].shader = wallShader;
+    // send uniforms like light direction
+    int lightLoc = GetShaderLocation(wallShader, "lightDir");
+    Vector3 lightDir2 = {0.0f, -1.0f, -1.0f};
+    SetShaderValue(wallShader, lightLoc, &lightDir2, SHADER_UNIFORM_VEC3);
 
     // wall 3
     // Mesh wall3Mesh = tex::GenTexturedCube(0.0f, 2.5f, 16.0f);
@@ -52,11 +66,6 @@ int main() {
     // DrawCube((Vector3), 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
     wall3Model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wallTexture;
     wall3Model.materials[0].shader = lightingShader;
-
-    // send uniforms like light direction
-    int lightLoc = GetShaderLocation(wallShader, "lightDir");
-    Vector3 lightDir = {0.0f, -1.0f, -1.0f};
-    SetShaderValue(wallShader, lightLoc, &lightDir, SHADER_UNIFORM_VEC3);
 
     // floor
     Texture2D floorTexture = LoadTexture("assets/floor.png");
@@ -141,19 +150,6 @@ int main() {
 
         BeginMode3D(camera);
 
-        // update lighting?
-        int locAmbient = GetShaderLocation(lightingShader, "ambientColor");
-        int locLightColor = GetShaderLocation(lightingShader, "lightColor");
-        int locLightDir = GetShaderLocation(lightingShader, "lightDir");
-        int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
-        Vector3 ambient = {0.2f, 0.2f, 0.2f};
-        Vector3 lightCol = {1.0f, 1.0f, 1.0f};
-        // Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
-        Vector3 lightDir = {30.0f, 10.0f, 30.0f};
-        SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
-        SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
-        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
-
         // Draw sky sphere (make it huge and invert it so texture faces inward)
         // DrawSphereEx((Vector3){0, 0, 0}, 100.0f, 16, 16, SKYBLUE);
         // DrawCube((Vector3){0, 50, 0}, 200.0f, 100.0f, 200.0f, SKYBLUE);
@@ -196,6 +192,7 @@ int main() {
 
         // wall 2
         // DrawCube((Vector3){16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME); // Draw a green wall
+        Vector3 lightDir = {30.0f, 10.0f, 30.0f};
         int lightLoc = GetShaderLocation(wallShader, "lightDir");
         Vector3 wallPos = {16.0f, 2.5f, 0.0f}; // Center of your cube
         Vector3 light = {0.0f, -1.0f, -1.0f};
@@ -207,11 +204,15 @@ int main() {
         // rlDisableBackfaceCulling();
         // SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
         // rlEnableBackfaceCulling();
+        lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
         DrawModel(wall3Model, {0.0f, 2.5f, 16.0f}, 1.0f, WHITE);
         // wall3Model.materials[0].shader = lightingShader;
 
         // testing sphere
-        sphereRotation += GetFrameTime() * 45.0f; // degrees per second
+        lightDir = {30.0f, 10.0f, 30.0f};
+        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
+        sphereRotation += GetFrameTime() * 20.0f; // degrees per second
         if (sphereRotation >= 360.0f)
             sphereRotation -= 360.0f;
         Matrix rotationMat = MatrixRotateY(DEG2RAD * sphereRotation);
