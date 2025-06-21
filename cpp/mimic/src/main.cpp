@@ -32,6 +32,9 @@ int main() {
     DisableCursor();  // Limit cursor to relative movement inside the window
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
+    // lighting
+    Shader lightingShader = LoadShader("shaders/lighting.vs", "shaders/lighting.fs");
+
     // wall 1
     Texture2D wallTexture = LoadTexture("assets/wall.png");
     // Model wallModel = tex::MakeVerticalWallModel(wallTexture, 5.0f, 1.0f, 1.0f);
@@ -43,10 +46,12 @@ int main() {
     cubeModel.materials[0].shader = wallShader;
 
     // wall 3
-    // Mesh wall3Mesh = tex::GenTexturedCube(1.0f, 5.0f, 32.0f);
-    // Model wall3Model = LoadModelFromMesh(wall3Mesh);
-    // wall3Model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wallTexture;
-    // wall3Model.materials[0].shader = wallShader;
+    // Mesh wall3Mesh = tex::GenTexturedCube(0.0f, 2.5f, 16.0f);
+    Mesh wall3Mesh = GenMeshCube(32.0f, 5.0f, 1.0f);
+    Model wall3Model = LoadModelFromMesh(wall3Mesh);
+    // DrawCube((Vector3), 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
+    wall3Model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wallTexture;
+    wall3Model.materials[0].shader = lightingShader;
 
     // send uniforms like light direction
     int lightLoc = GetShaderLocation(wallShader, "lightDir");
@@ -178,12 +183,24 @@ int main() {
         DrawModel(cubeModel, wallPos, 1.0f, WHITE);
 
         // wall 3
-        DrawCube((Vector3){0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
+        // DrawCube((Vector3){0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD); // Draw a yellow wall
         // rlDisableBackfaceCulling();
         // SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
-        // Vector3 wall3Pos = {0.0f, 2.5f, 16.0f};
-        // DrawModel(wall3Model, wall3Pos, 1.0f, WHITE);
         // rlEnableBackfaceCulling();
+
+        Vector3 wall3Pos = {0.0f, 2.5f, 16.0f};
+        int locAmbient = GetShaderLocation(lightingShader, "ambientColor");
+        int locLightColor = GetShaderLocation(lightingShader, "lightColor");
+        int locLightDir = GetShaderLocation(lightingShader, "lightDir");
+        int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
+        Vector3 ambient = {0.2f, 0.2f, 0.2f};
+        Vector3 lightCol = {1.0f, 1.0f, 1.0f};
+        Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+        SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
+        SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
+        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
+        DrawModel(wall3Model, wall3Pos, 1.0f, WHITE);
+        // wall3Model.materials[0].shader = lightingShader;
 
         // Draw player cube
         if (cameraMode == CAMERA_THIRD_PERSON) {
@@ -197,6 +214,7 @@ int main() {
         EndDrawing();
     }
 
+    UnloadShader(lightingShader);
     UnloadTexture(wallTexture);
     UnloadTexture(spideyTex);
     UnloadTexture(floorTexture);
