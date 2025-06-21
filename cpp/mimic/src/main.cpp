@@ -55,7 +55,8 @@ int main() {
 
     // send uniforms like light direction
     int lightLoc = GetShaderLocation(wallShader, "lightDir");
-    Vector3 lightDir = {0.0f, -1.0f, -1.0f};
+    // Vector3 lightDir = {0.0f, -1.0f, -1.0f};
+    Vector3 lightDir = {-1.0f, -1.0f, 0.0f};
     SetShaderValue(wallShader, lightLoc, &lightDir, SHADER_UNIFORM_VEC3);
 
     // floor
@@ -71,6 +72,12 @@ int main() {
     Model skyDome = CreateSkyDome(skyTexture, 100.0f);
     Shader skyShader = LoadShader("shaders/default.vs", "shaders/sky.fs");
     skyDome.materials[0].shader = skyShader;
+
+    // testing sphere
+    Mesh sphere = GenMeshSphere(1.0f, 32, 32);
+    Model sphereModel = LoadModelFromMesh(sphere);
+    sphereModel.materials[0].shader = lightingShader;
+    sphereModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture("assets/sky3.png");
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -134,6 +141,18 @@ int main() {
 
         BeginMode3D(camera);
 
+        // update lighting?
+        int locAmbient = GetShaderLocation(lightingShader, "ambientColor");
+        int locLightColor = GetShaderLocation(lightingShader, "lightColor");
+        int locLightDir = GetShaderLocation(lightingShader, "lightDir");
+        int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
+        Vector3 ambient = {0.2f, 0.2f, 0.2f};
+        Vector3 lightCol = {1.0f, 1.0f, 1.0f};
+        Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+        SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
+        SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
+        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
+
         // Draw sky sphere (make it huge and invert it so texture faces inward)
         // DrawSphereEx((Vector3){0, 0, 0}, 100.0f, 16, 16, SKYBLUE);
         // DrawCube((Vector3){0, 50, 0}, 200.0f, 100.0f, 200.0f, SKYBLUE);
@@ -187,20 +206,11 @@ int main() {
         // rlDisableBackfaceCulling();
         // SetShaderValue(wallShader, lightLoc, &light, SHADER_UNIFORM_VEC3);
         // rlEnableBackfaceCulling();
-
-        Vector3 wall3Pos = {0.0f, 2.5f, 16.0f};
-        int locAmbient = GetShaderLocation(lightingShader, "ambientColor");
-        int locLightColor = GetShaderLocation(lightingShader, "lightColor");
-        int locLightDir = GetShaderLocation(lightingShader, "lightDir");
-        int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
-        Vector3 ambient = {0.2f, 0.2f, 0.2f};
-        Vector3 lightCol = {1.0f, 1.0f, 1.0f};
-        Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
-        SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
-        SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
-        SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
-        DrawModel(wall3Model, wall3Pos, 1.0f, WHITE);
+        DrawModel(wall3Model, {0.0f, 2.5f, 16.0f}, 1.0f, WHITE);
         // wall3Model.materials[0].shader = lightingShader;
+
+        // testing sphere
+        DrawModel(sphereModel, (Vector3){0.0f, 16.0f, 0.0f}, 1.0f, WHITE);
 
         // Draw player cube
         if (cameraMode == CAMERA_THIRD_PERSON) {

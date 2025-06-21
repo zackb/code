@@ -26,6 +26,7 @@ void main() {
     // Combine ambient and diffuse
     vec3 result = ambientColor * texColor.rgb + lightColor * diff * texColor.rgb;
 
+    // finalColor = vec4(normalize(fragNormal) * 0.5 + 0.5, 1.0);
     finalColor = vec4(result, texColor.a);
 }
 
