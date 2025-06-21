@@ -55,8 +55,7 @@ int main() {
 
     // send uniforms like light direction
     int lightLoc = GetShaderLocation(wallShader, "lightDir");
-    // Vector3 lightDir = {0.0f, -1.0f, -1.0f};
-    Vector3 lightDir = {-1.0f, -1.0f, 0.0f};
+    Vector3 lightDir = {0.0f, -1.0f, -1.0f};
     SetShaderValue(wallShader, lightLoc, &lightDir, SHADER_UNIFORM_VEC3);
 
     // floor
@@ -74,10 +73,11 @@ int main() {
     skyDome.materials[0].shader = skyShader;
 
     // testing sphere
-    Mesh sphere = GenMeshSphere(1.0f, 32, 32);
+    Mesh sphere = GenMeshSphere(20.0f, 32, 32);
     Model sphereModel = LoadModelFromMesh(sphere);
     sphereModel.materials[0].shader = lightingShader;
-    sphereModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture("assets/sky3.png");
+    sphereModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture("assets/sky2.png");
+    float sphereRotation = 0.0f;
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -148,7 +148,8 @@ int main() {
         int locMatNormal = GetShaderLocation(lightingShader, "matNormal");
         Vector3 ambient = {0.2f, 0.2f, 0.2f};
         Vector3 lightCol = {1.0f, 1.0f, 1.0f};
-        Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+        // Vector3 lightDir = {-0.3f, -1.0f, -0.5f}; // light coming from above-right
+        Vector3 lightDir = {30.0f, 10.0f, 30.0f};
         SetShaderValue(lightingShader, locAmbient, &ambient, SHADER_UNIFORM_VEC3);
         SetShaderValue(lightingShader, locLightColor, &lightCol, SHADER_UNIFORM_VEC3);
         SetShaderValue(lightingShader, locLightDir, &lightDir, SHADER_UNIFORM_VEC3);
@@ -210,7 +211,15 @@ int main() {
         // wall3Model.materials[0].shader = lightingShader;
 
         // testing sphere
-        DrawModel(sphereModel, (Vector3){0.0f, 16.0f, 0.0f}, 1.0f, WHITE);
+        sphereRotation += GetFrameTime() * 45.0f; // degrees per second
+        if (sphereRotation >= 360.0f)
+            sphereRotation -= 360.0f;
+        Matrix rotationMat = MatrixRotateY(DEG2RAD * sphereRotation);
+        sphereModel.transform = rotationMat;
+
+        Matrix normalMat = MatrixTranspose(MatrixInvert(sphereModel.transform));
+        SetShaderValueMatrix(lightingShader, locMatNormal, normalMat);
+        DrawModel(sphereModel, (Vector3){0.0f, 30.0f, -70.0f}, 1.0f, WHITE);
 
         // Draw player cube
         if (cameraMode == CAMERA_THIRD_PERSON) {
@@ -220,7 +229,7 @@ int main() {
 
         DrawModel(arachnoid, (Vector3){0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
         EndMode3D();
-        // debug(camera, cameraMode);
+        debug(camera, cameraMode);
         EndDrawing();
     }
 
