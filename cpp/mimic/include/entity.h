@@ -88,18 +88,18 @@ private:
     Entity nextEntity = 0;
     std::unordered_set<Entity> entities;
 
-    struct IStorage {
+    struct Storage {
         virtual void remove(Entity) = 0;
-        virtual ~IStorage() = default;
+        virtual ~Storage() = default;
     };
 
-    template <typename T> struct TypedStorage : IStorage {
+    template <typename T> struct TypedStorage : Storage {
         ComponentStorage<T> store;
 
         void remove(Entity e) override { store.remove(e); }
     };
 
-    std::unordered_map<std::type_index, std::unique_ptr<IStorage>> componentStores;
+    std::unordered_map<std::type_index, std::unique_ptr<Storage>> componentStores;
 
     template <typename T> ComponentStorage<T>& getStorage() {
         std::type_index ti(typeid(T));
