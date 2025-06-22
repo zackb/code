@@ -5,11 +5,18 @@
 #include <raymath.h>
 #include <rlgl.h>
 
+#include "component.hpp"
+#include "entity.hpp"
+
 void debug(Camera& camera, int cameraMode);
 void UpdateFirstPersonCamera(Camera& camera);
 Model CreateSkyDome(Texture2D& texture, float radius);
 
 int main() {
+
+    ecs::EntityManager em;
+    auto player = em.createEntity();
+    em.addComponent<ecs::Transform>(player, {});
 
     /*
     const int screenWidth = 1025;
