@@ -28,11 +28,12 @@ MenuState::MenuState(Engine& engine)
 MenuState::~MenuState() = default;
 
 void MenuState::handleEvent() {
-    if (ui::Input::keyPressed(ui::Key::Up)) {
+    using namespace ui;
+    if (Input::keyPressed(Key::Up)) {
         index = (index - 1 + options.size()) % options.size();
-    } else if (ui::Input::keyPressed(ui::Key::Down)) {
+    } else if (Input::keyPressed(Key::Down)) {
         index = (index + 1) % options.size();
-    } else if (ui::Input::keyPressed(ui::Key::Enter) || ui::Input::keyPressed(ui::Key::Space)) {
+    } else if (Input::keyPressed(Key::Enter) || Input::keyPressed(Key::Space)) {
         if (options[index].name == "Start Game") {
             startGame = true;
         } else if (options[index].name == "Exit") {
