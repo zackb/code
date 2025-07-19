@@ -18,13 +18,15 @@ bool Context::init() {
         return false;
     }
 
-    window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 800, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1281, 800, SDL_WINDOW_SHOWN);
 
     if (!window) {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return false;
     }
+
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
