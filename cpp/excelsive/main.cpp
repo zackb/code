@@ -109,7 +109,7 @@ void writeShift(
 
 // example: m:1pm-5pm,t:11:15am-3pm,w:off,th:9am-12pm,f:1pm-6pm
 int writeSchedule(Schedule& schedule) {
-    const char* inputFile = "/home/zack/Downloads/20250525_Bartel_Lynda_timecard.xlsx";
+    const char* inputFile = "/home/zackb/Downloads/20250504_Bartel_Lynda_timecard.xlsx";
 
     std::string outputFile = getCurrentDateString() + "_Bartel_Lynda_timecard.xlsx";
 
