@@ -46,10 +46,19 @@ FetchContent_MakeAvailable(httplib)
 # sqlite3
 find_package(SQLite3 REQUIRED)
 
+# ftxui
+FetchContent_Declare(
+  ftxui
+  GIT_REPOSITORY https://github.com/ArthurSonzogni/FTXUI.git
+  GIT_TAG v6.1.9
+)
+
+FetchContent_MakeAvailable(ftxui)
+
 target_include_directories(hottogo PRIVATE 
     ${httplib_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(hottogo PRIVATE nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto SQLite::SQLite3)
+target_link_libraries(hottogo PRIVATE nlohmann_json::nlohmann_json OpenSSL::SSL OpenSSL::Crypto SQLite::SQLite3 ftxui::screen ftxui::dom ftxui::component)
 
