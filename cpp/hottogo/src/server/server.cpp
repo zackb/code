@@ -41,10 +41,10 @@ Server::Server(const std::string& dbPath) : db(dbPath) {
         res.status = req.get_param_value("status").empty() ? 200 : std::stoi(req.get_param_value("status"));
     });
 
-    srv.Get("/api/v1/cap", [&](const httplib::Request& req, httplib::Response& res) {
+    srv.Get("/api/v1/cap", [db = &db](const httplib::Request& req, httplib::Response& res) {
         std::vector<nlohmann::json> caps;
 
-        auto stmt = db.prepare("SELECT * FROM cap");
+        auto stmt = db->prepare("SELECT * FROM cap");
         for (auto row : *stmt) {
             nlohmann::json j;
             j["id"] = row.getInt(0);
@@ -58,33 +58,30 @@ Server::Server(const std::string& dbPath) : db(dbPath) {
         res.status = 200;
     });
 
-    auto cap = [&](const httplib::Request& req, httplib::Response& res) {
-        std::unordered_map<std::string, std::string> map;
-        for (auto& [k, v] : req.headers) {
-            map[k] = v;
-        }
+    srv.Get("/*", [this](const auto& req, auto& res) { handleCap(req, res); });
 
-        for (auto& [k, v] : req.params) {
-            map[k] = v;
-        }
+    srv.Post("/*", [this](const auto& req, auto& res) { handleCap(req, res); });
 
-        nlohmann::json j = map;
-
-        // req.body;
-
-        auto stmt = db.prepare("INSERT INTO cap (data, meta, url, method) VALUES (?, ?, ?, ?)");
-        stmt->bind(1, req.body);
-        stmt->bind(2, j.dump());
-        stmt->bind(3, req.path);
-        stmt->bind(4, req.method);
-        stmt->execute();
-
-        res.status = 404;
-    };
-    srv.Get("/*", cap);
-    srv.Post("/*", cap);
-    srv.set_pre_routing_handler([&](const auto& req, auto& res) {
-        cap(req, res);
+    srv.set_pre_routing_handler([this](const auto& req, auto& res) {
+        handleCap(req, res);
         return httplib::Server::HandlerResponse::Unhandled;
     });
+}
+
+void Server::handleCap(const httplib::Request& req, httplib::Response& res) {
+    std::unordered_map<std::string, std::string> map;
+    for (auto& [k, v] : req.headers)
+        map[k] = v;
+    for (auto& [k, v] : req.params)
+        map[k] = v;
+    nlohmann::json j = map;
+
+    auto stmt = db.prepare("INSERT INTO cap (data, meta, url, method) VALUES (?, ?, ?, ?)");
+    stmt->bind(1, req.body);
+    stmt->bind(2, j.dump());
+    stmt->bind(3, req.path);
+    stmt->bind(4, req.method);
+    stmt->execute();
+
+    res.status = 404;
 }

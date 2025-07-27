@@ -28,7 +28,7 @@ int main(int argc, const char* argv[]) {
     });
 
     // start the http server
-    std::cout << format("Starting HTTP server at: %s:%d...\n", args.host(), args.port());
+    std::cout << format("Starting HTTP server at: {}:{}...\n", args.host(), args.port());
     srv.listen(args.host(), args.port());
 
     // ui
@@ -57,8 +57,14 @@ int main(int argc, const char* argv[]) {
     auto host = ftxui::Input(args.host(), "host");
     auto portRef = std::to_string(args.port());
     auto port = ftxui::Input(&portRef, "port");
-    auto serverComponents = Container::Vertical({host, port});
-    int serverSelected = 0;
+    auto startServer = ftxui::Button("Start Server", [&] {
+        // Convert portRef to int and start the server
+        int portValue = std::stoi(portRef);
+        std::cout << format("Starting server at %s:%d...\n", args.host().c_str(), portValue);
+        srv.listen(args.host(), portValue);
+    });
+
+    auto serverComponents = Container::Vertical({host, port, startServer});
 
     std::vector<std::string> settingsEntries{
         "Table",
@@ -71,7 +77,6 @@ int main(int argc, const char* argv[]) {
     auto tabContainer = Container::Tab(
         {
             Radiobox(&homeEntries, &homeSelected),
-            // Radiobox(&serverEntries, &serverSelected),
             serverComponents,
             Radiobox(&settingsEntries, &settingsSelected),
         },

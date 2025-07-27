@@ -1,6 +1,9 @@
 #include "db/statement.h"
+#include <cassert>
 
-Statement::Statement(Database& db, const std::string& query) {
+Statement::Statement(const Database& db, const std::string& query) {
+    assert(db.getHandle() != nullptr);
+
     if (sqlite3_prepare_v2(db.getHandle(), query.c_str(), -1, &stmt, nullptr) != SQLITE_OK)
         throw std::runtime_error("Failed to prepare statement");
 }

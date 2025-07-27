@@ -43,7 +43,7 @@ private:
 
 class Statement {
 public:
-    Statement(Database& db, const std::string& query);
+    Statement(const Database& db, const std::string& query);
     ~Statement();
 
     void bind(int index, int value);
@@ -62,5 +62,5 @@ public:
     StatementIterator end() { return StatementIterator(stmt, true); }
 
 private:
-    sqlite3_stmt* stmt;
+    sqlite3_stmt* stmt = nullptr;
 };
