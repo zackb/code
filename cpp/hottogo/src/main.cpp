@@ -20,6 +20,7 @@ int main(int argc, const char* argv[]) {
 
     if (args.daemon()) {
         // http server with database
+        args.port(8081);
         std::cout << "Using database at: " << args.dbPath() << "\n";
         srv.init();
 
@@ -31,7 +32,7 @@ int main(int argc, const char* argv[]) {
 
         // start the http server
         std::cout << format("Starting HTTP server at: {}:{}...\n", args.host(), args.port());
-        srv.listen(args.host(), args.port());
+        srv.listen();
     } else {
 
         // ui
@@ -64,7 +65,7 @@ int main(int argc, const char* argv[]) {
             // Convert portRef to int and start the server
             int portValue = std::stoi(portRef);
             std::cout << format("Starting server at %s:%d...\n", args.host().c_str(), portValue);
-            srv.listen(args.host(), portValue);
+            srv.listen();
         });
 
         auto serverComponents = Container::Vertical({host, port, startServer});

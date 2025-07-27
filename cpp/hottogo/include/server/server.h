@@ -2,6 +2,7 @@
 
 #include "args.h"
 #include "db/database.h"
+#include <optional>
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <httplib.h>
 #include <string>
@@ -13,9 +14,15 @@ public:
     ~Server() = default;
 
     void init();
-    void listen(const std::string& host, int port) { srv.listen(host.c_str(), port); }
+    void listen() { srv.listen(args.host().c_str(), args.port()); }
+    void start() {
+        serverThread.emplace([this]() { listen(); });
+    }
     void stop() {
         srv.stop();
+        if (serverThread && serverThread->joinable()) {
+            serverThread->join();
+        }
         db.close();
     }
 
@@ -28,6 +35,7 @@ private:
     Database db;
     httplib::Server srv;
     Args& args;
+    std::optional<std::thread> serverThread;
 
     void handleCap(const httplib::Request& req, httplib::Response& res);
 };
