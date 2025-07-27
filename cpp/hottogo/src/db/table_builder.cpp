@@ -1,6 +1,6 @@
-#include "db/TableBuilder.h"
-#include "db/Database.h"
-#include "db/Statement.h"
+#include "db/table_builder.h"
+#include "db/database.h"
+#include "db/statement.h"
 #include <sstream>
 
 void TableBuilder::execute() {

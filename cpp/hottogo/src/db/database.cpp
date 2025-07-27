@@ -1,6 +1,6 @@
-#include "db/Database.h"
-#include "db/Statement.h"
-#include "db/TableBuilder.h"
+#include "db/database.h"
+#include "db/statement.h"
+#include "db/table_builder.h"
 #include <memory>
 #include <sqlite3.h>
 

@@ -1,4 +1,4 @@
-#include "db/Statement.h"
+#include "db/statement.h"
 
 Statement::Statement(Database& db, const std::string& query) {
     if (sqlite3_prepare_v2(db.getHandle(), query.c_str(), -1, &stmt, nullptr) != SQLITE_OK)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Database.h"
+#include "database.h"
 #include <sqlite3.h>
 #include <string>
 

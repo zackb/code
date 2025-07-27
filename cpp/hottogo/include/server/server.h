@@ -1,6 +1,6 @@
 #pragma once
 
-#include "db/Database.h"
+#include "db/database.h"
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <httplib.h>
 #include <string>

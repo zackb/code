@@ -1,4 +1,4 @@
-#include "Signal.h"
+#include "sig.h"
 #include <csignal>
 
 namespace {

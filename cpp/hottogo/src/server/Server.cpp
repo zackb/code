@@ -1,7 +1,7 @@
-#include "server/Server.h"
-#include "db/Statement.h"
-#include "db/TableBuilder.h"
-#include "server/Pixel.h"
+#include "server/server.h"
+#include "db/statement.h"
+#include "db/table_builder.h"
+#include "server/pixel.h"
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 
