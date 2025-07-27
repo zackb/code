@@ -5,7 +5,11 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 
-Server::Server(const std::string& dbPath) : db(dbPath) {
+Server::Server(Args& args) : args(args) {}
+
+void Server::init() {
+    db.open(args.dbPath());
+
     db.createTable("cap")
         .ifNotExists()
         .column("id", "INTEGER PRIMARY KEY")

@@ -4,7 +4,12 @@
 #include <memory>
 #include <sqlite3.h>
 
-Database::Database(const std::string dbPath) {
+Database::Database(const std::string dbPath) { open(dbPath); }
+
+void Database::open(const std::string& dbPath) {
+    if (db) {
+        close();
+    }
     if (sqlite3_open(dbPath.c_str(), &db) != SQLITE_OK) {
         throw std::runtime_error(sqlite3_errmsg(db));
     }

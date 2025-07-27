@@ -1,5 +1,6 @@
 #pragma once
 
+#include "args.h"
 #include "db/database.h"
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <httplib.h>
@@ -8,9 +9,10 @@
 class Server {
 
 public:
-    explicit Server(const std::string& dbPath);
+    explicit Server(Args& args);
     ~Server() = default;
 
+    void init();
     void listen(const std::string& host, int port) { srv.listen(host.c_str(), port); }
     void stop() {
         srv.stop();
@@ -25,6 +27,7 @@ public:
 private:
     Database db;
     httplib::Server srv;
+    Args& args;
 
     void handleCap(const httplib::Request& req, httplib::Response& res);
 };

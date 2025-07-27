@@ -10,12 +10,14 @@ class TableBuilder;
 class Database {
 
 public:
+    explicit Database() = default;
     explicit Database(std::string dbPath);
     ~Database();
 
     std::unique_ptr<Statement> prepare(const std::string& query);
     TableBuilder createTable(const std::string& name);
 
+    void open(const std::string& dbPath);
     void close();
 
     // prevent copying and moving
@@ -26,6 +28,6 @@ public:
 
 private:
     friend class Statement;
-    sqlite3* db;
+    sqlite3* db = nullptr;
     sqlite3* getHandle() const { return db; }
 };
