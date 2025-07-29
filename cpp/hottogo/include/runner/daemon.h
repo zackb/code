@@ -8,6 +8,7 @@ class Daemon : public Runner {
 
 public:
     Daemon(Args& args);
+    ~Daemon() override;
 
     void run() override;
 

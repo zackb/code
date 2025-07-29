@@ -8,6 +8,11 @@
 Server::Server(Args& args) : args(args) {}
 
 void Server::init() {
+    if (initialized) {
+        std::cerr << "Server is already initialized.\n";
+        return;
+    }
+    initialized = true;
     db.open(args.dbPath());
 
     db.createTable("cap")

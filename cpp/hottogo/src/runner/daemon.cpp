@@ -3,6 +3,8 @@
 
 Daemon::Daemon(Args& args) : server(args) {}
 
+Daemon::~Daemon() = default;
+
 void Daemon::run() {
 
     server.init();

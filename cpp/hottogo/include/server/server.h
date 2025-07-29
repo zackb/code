@@ -36,6 +36,7 @@ private:
     httplib::Server srv;
     Args& args;
     std::optional<std::thread> serverThread;
+    bool initialized = false;
 
     void handleCap(const httplib::Request& req, httplib::Response& res);
 };
