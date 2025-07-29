@@ -1,11 +1,11 @@
 #include "args.h"
-#include "server/server.h"
-#include "sig.h"
-#define CPPHTTPLIB_OPENSSL_SUPPORT
+#include "runner/daemon.h"
 
 #include <cstdlib>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
+#define CPPHTTPLIB_OPENSSL_SUPPORT
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <httplib.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -16,23 +16,12 @@ int main(int argc, const char* argv[]) {
 
     // parse command line arguments
     Args args(argc, argv);
-    Server srv(args);
 
     if (args.daemon()) {
-        // http server with database
-        args.port(8081);
         std::cout << "Using database at: " << args.dbPath() << "\n";
-        srv.init();
-
-        // handle signals
-        setSignalHandler([&](int) {
-            std::cout << "Stopping HTTP server...\n";
-            srv.stop();
-        });
-
-        // start the http server
-        std::cout << format("Starting HTTP server at: {}:{}...\n", args.host(), args.port());
-        srv.listen();
+        std::cout << "Starting server at: http://" << args.host() << ":" << args.port() << "\n";
+        Daemon daemon(args);
+        daemon.run();
     } else {
 
         // ui
@@ -65,7 +54,7 @@ int main(int argc, const char* argv[]) {
             // Convert portRef to int and start the server
             int portValue = std::stoi(portRef);
             std::cout << format("Starting server at %s:%d...\n", args.host().c_str(), portValue);
-            srv.listen();
+            // srv.listen();
         });
 
         auto serverComponents = Container::Vertical({host, port, startServer});
