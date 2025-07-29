@@ -46,10 +46,13 @@ namespace ui {
         hostInput = Input(args.host(), "host");
         portInput = Input(&portStr, "port");
 
-        startButton = Button("Start Server", [&] {
+        auto statusText = running ? "Stop" : "Start";
+        startButton = Button(std::format("{} Server", statusText), [&] {
             if (running) {
                 server.stop();
+                running = false;
             } else {
+                running = true;
                 int portValue = std::stoi(portStr);
                 args.port(portValue);
 
