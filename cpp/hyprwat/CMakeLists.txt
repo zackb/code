@@ -28,6 +28,7 @@ add_executable(hyprwat
     src/input.cpp 
     src/signal.cpp 
     src/font.cpp 
+    src/hyprland/hyprland_ipc.cpp
     ${IMGUI_SOURCES})
 
 include_directories(${Fontconfig_INCLUDE_DIRS})

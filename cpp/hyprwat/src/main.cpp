@@ -1,4 +1,5 @@
 #include "choice.hpp"
+#include "hyprland/hyprland_ipc.hpp"
 #include "imgui_internal.h"
 #include "input.hpp"
 #include "ui.hpp"
@@ -149,7 +150,13 @@ int main(int argc, const char* argv[]) {
     } else {
         Input::parseStdin([&](Choice choice) { frame.add(choice); });
     }
+
+    // events
+    hyprland::Events events;
+    events.start([&](const std::string& event) { std::cout << "Event: " << event << std::endl; });
+
     ui.run(frame);
+    events.stop();
     ui.destroy();
     return 0;
 }
