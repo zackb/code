@@ -26,32 +26,32 @@ namespace hyprland {
     Control::~Control() {}
 
     std::string Control::send(const std::string& command) {
-        int fd = socket(AF_UNIX, SOCK_STREAM, 0);
-        if (fd < 0)
+        int wfd = socket(AF_UNIX, SOCK_STREAM, 0);
+        if (wfd < 0)
             throw std::runtime_error("Failed to create socket");
 
         sockaddr_un addr{};
         addr.sun_family = AF_UNIX;
         std::strncpy(addr.sun_path, socketPath.c_str(), sizeof(addr.sun_path) - 1);
 
-        if (connect(fd, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
-            close(fd);
+        if (connect(wfd, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
+            close(wfd);
             throw std::runtime_error("Failed to connect to control socket");
         }
 
         // send command
-        write(fd, command.c_str(), command.size());
+        write(wfd, command.c_str(), command.size());
 
         // read response
         char buf[4096];
-        ssize_t n = read(fd, buf, sizeof(buf) - 1);
+        ssize_t n = read(wfd, buf, sizeof(buf) - 1);
         if (n < 0) {
-            close(fd);
+            close(wfd);
             throw std::runtime_error("Failed to read response");
         }
         buf[n] = '\0';
 
-        close(fd);
+        close(wfd);
         return std::string(buf);
     }
 
@@ -71,13 +71,21 @@ namespace hyprland {
     }
 
     void Events::stop() {
+        if (!running) {
+            return;
+        }
         running = false;
-        if (thread.joinable())
+        if (fd != -1) {
+            shutdown(fd, SHUT_RD);
+            fd = -1;
+        }
+        if (thread.joinable()) {
             thread.join();
+        }
     }
 
     void Events::run(EventCallback cb) {
-        int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+        fd = socket(AF_UNIX, SOCK_STREAM, 0);
         if (fd < 0) {
             std::cerr << "Failed to create event socket\n";
             return;
@@ -112,7 +120,9 @@ namespace hyprland {
             }
         }
 
-        close(fd);
+        if (fd != -1) {
+            close(fd);
+        }
     }
 
 } // namespace hyprland

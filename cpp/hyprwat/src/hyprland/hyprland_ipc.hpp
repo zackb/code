@@ -39,5 +39,7 @@ namespace hyprland {
         std::string socketPath;
         std::thread thread;
         std::atomic<bool> running{false};
+        std::mutex mtx;
+        int fd{-1};
     };
 } // namespace hyprland
