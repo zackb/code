@@ -75,18 +75,23 @@ namespace hyprland {
             return;
         }
         running = false;
-        if (fd != -1) {
-            shutdown(fd, SHUT_RD);
-            fd = -1;
+
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (fd != -1) {
+                shutdown(fd, SHUT_RD);
+                fd = -1;
+            }
         }
+
         if (thread.joinable()) {
             thread.join();
         }
     }
 
     void Events::run(EventCallback cb) {
-        fd = socket(AF_UNIX, SOCK_STREAM, 0);
-        if (fd < 0) {
+        int localFd = socket(AF_UNIX, SOCK_STREAM, 0);
+        if (localFd < 0) {
             std::cerr << "Failed to create event socket\n";
             return;
         }
@@ -95,10 +100,15 @@ namespace hyprland {
         addr.sun_family = AF_UNIX;
         std::strncpy(addr.sun_path, socketPath.c_str(), sizeof(addr.sun_path) - 1);
 
-        if (connect(fd, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
+        if (connect(localFd, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
             std::cerr << "Failed to connect to event socket\n";
             close(fd);
             return;
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            fd = localFd;
         }
 
         char buf[1024];
@@ -120,8 +130,11 @@ namespace hyprland {
             }
         }
 
-        if (fd != -1) {
-            close(fd);
+        {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (fd != -1) {
+                close(fd);
+            }
         }
     }
 
