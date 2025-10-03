@@ -52,7 +52,6 @@ int main(int argc, const char* argv[]) {
     Selector frame;
     UI ui;
     ui.init("HyprWat");
-    ipc.send("dispatch moveactive mouse"); // center under mouse
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);
@@ -73,6 +72,8 @@ int main(int argc, const char* argv[]) {
     hyprland::Events events;
     events.start([&](const std::string& event) { std::cout << "Event: " << event << std::endl; });
 
+    auto resp = ipc.send("dispatch moveactive mouse"); // center under mouse
+    std::cout << "IPC Response: " << resp << std::endl;
     // run the UI loop
     ui.run(frame);
     events.stop();

@@ -72,19 +72,17 @@ void UI::init(std::string title) {
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
-    /*
     float scale = SDL_GetWindowDisplayScale(window);
     io.DisplayFramebufferScale = ImVec2(scale, scale);
     fprintf(stderr, "Display scale: %f\n", scale);
-    */
 
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f); // * scale);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 14.0f * scale);
         io.FontDefault = font;
     }
 
-    // io.FontGlobalScale = 1.0f / scale;
+    io.FontGlobalScale = 1.0f / scale;
 
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
@@ -132,7 +130,7 @@ void UI::renderFrame(Frame& frame) {
     ImGui::NewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize); // Fill the window
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     running = frame.render();
 
     ImGui::Render();
