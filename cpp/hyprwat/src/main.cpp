@@ -45,10 +45,14 @@ int main(int argc, const char* argv[]) {
         return 1;
     }
 
+    // initialize Hyprland IPC
+    hyprland::Control ipc;
+
     // setup a selection frame
     Selector frame;
     UI ui;
     ui.init("HyprWat");
+    ipc.send("dispatch moveactive mouse"); // center under mouse
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);
