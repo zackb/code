@@ -27,7 +27,6 @@ void UI::init(std::string title) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    // Create window - REMOVE SDL_WINDOW_HIGH_PIXEL_DENSITY for Wayland
     window = SDL_CreateWindow(title.c_str(),
                               winWidth,
                               winHeight,
@@ -52,18 +51,18 @@ void UI::init(std::string title) {
     SDL_GL_MakeCurrent(window, gl_context);
     SDL_GL_SetSwapInterval(1);
 
-    // ImGui setup - simple, no scaling
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
     float scale = SDL_GetWindowDisplayScale(window);
+    io.DisplayFramebufferScale = ImVec2(scale, scale);
     fprintf(stderr, "Display scale: %f\n", scale);
 
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 16.0f);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f);
         io.FontDefault = font;
     }
 
@@ -109,7 +108,6 @@ void UI::run(Frame& frame) {
 }
 
 void UI::renderFrame(Frame& frame) {
-    // ... event polling ...
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
@@ -121,7 +119,6 @@ void UI::renderFrame(Frame& frame) {
 
     ImGui::Render();
 
-    // Simple viewport
     int fbWidth, fbHeight;
     SDL_GetWindowSizeInPixels(window, &fbWidth, &fbHeight);
     glViewport(0, 0, fbWidth, fbHeight);
