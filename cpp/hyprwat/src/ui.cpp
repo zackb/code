@@ -13,11 +13,26 @@
 #include <iostream>
 
 void UI::init(std::string title) {
+#if not defined(__APPLE__)
     // SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
+    if (setenv("SDL_VIDEODRIVER", "wayland", 1) != 0) {
+        perror("Failed to set SDL_VIDEODRIVER");
+    }
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        fprintf(stderr, "Failed to init SDL with Wayland: %s\n", SDL_GetError());
+        // Try fallback
+        setenv("SDL_VIDEODRIVER", "x11", 1);
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
+            fprintf(stderr, "Failed to init SDL with X11 too: %s\n", SDL_GetError());
+        }
+    }
+#else
+
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stderr, "Failed to init SDL\n");
         std::exit(1);
     }
+#endif
 
     // Start with a reasonable default size
     int winWidth = 400;
@@ -57,17 +72,19 @@ void UI::init(std::string title) {
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
+    /*
     float scale = SDL_GetWindowDisplayScale(window);
     io.DisplayFramebufferScale = ImVec2(scale, scale);
     fprintf(stderr, "Display scale: %f\n", scale);
+    */
 
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f * scale);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f); // * scale);
         io.FontDefault = font;
     }
 
-    io.FontGlobalScale = 1.0f / scale;
+    // io.FontGlobalScale = 1.0f / scale;
 
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
