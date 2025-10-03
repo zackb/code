@@ -47,7 +47,7 @@ void UI::init(std::string title) {
                               winWidth,
                               winHeight,
                               SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
-                                  SDL_WINDOW_HIGH_PIXEL_DENSITY);
+                                  SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window) {
         fprintf(stderr, "Failed to create SDL window\n");
         std::exit(1);
@@ -133,7 +133,19 @@ void UI::renderFrame(Frame& frame) {
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     running = frame.render();
 
+    // Get the actual content size after rendering
+    ImVec2 contentSize = ImGui::GetWindowSize();
+
     ImGui::Render();
+
+    /* TODO: this doesnt work
+    // Resize SDL window to match content (only if size changed)
+    static ImVec2 lastSize = ImVec2(0, 0);
+    if (contentSize.x != lastSize.x || contentSize.y != lastSize.y) {
+        SDL_SetWindowSize(window, (int)contentSize.x, (int)contentSize.y);
+        lastSize = contentSize;
+    }
+    */
 
     int w, h;
     // SDL_GetWindowSizeInPixels(window, &w, &h);
