@@ -13,6 +13,7 @@
 #include <iostream>
 
 void UI::init(std::string title) {
+    // SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stderr, "Failed to init SDL\n");
         std::exit(1);
@@ -62,11 +63,11 @@ void UI::init(std::string title) {
 
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 20.0f * scale);
         io.FontDefault = font;
     }
 
-    // io.FontGlobalScale = 1.0f / scale;
+    io.FontGlobalScale = 1.0f / scale;
 
     ImGui::StyleColorsDark();
     ImGuiStyle& style = ImGui::GetStyle();
@@ -119,9 +120,10 @@ void UI::renderFrame(Frame& frame) {
 
     ImGui::Render();
 
-    int fbWidth, fbHeight;
-    SDL_GetWindowSizeInPixels(window, &fbWidth, &fbHeight);
-    glViewport(0, 0, fbWidth, fbHeight);
+    int w, h;
+    // SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_GetWindowSize(window, &w, &h);
+    glViewport(0, 0, w, h);
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
