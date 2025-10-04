@@ -148,7 +148,7 @@ void UI::renderFrame(Frame& frame) {
 
     static bool hasResized = false;
     // Resize SDL window to match content (only if size changed)
-    if (!hasResized && windowSize.x > 200.0) {
+    if (!hasResized && windowSize.x > 50.0) {
         std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
         // TODO: this does not "stick"
         SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);
