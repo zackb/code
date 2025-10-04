@@ -58,6 +58,7 @@ void UI::init(std::string title) {
     }
 
     SDL_SetWindowMinimumSize(window, 0, 0);
+    SDL_SetWindowBordered(window, false);
 
     // Position window under cursor
     float mouseX, mouseY;
