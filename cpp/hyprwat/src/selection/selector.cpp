@@ -67,9 +67,8 @@ bool Selector::render() {
                 clicked = i;
             }
         }
+        lastSize = ImGui::GetWindowSize();
     }
-
-    lastSize = ImGui::GetWindowSize();
 
     ImGui::End();
 
