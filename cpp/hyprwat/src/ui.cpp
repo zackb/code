@@ -7,6 +7,7 @@
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_opengl.h>
 #include <SDL3/SDL_video.h>
+#include <bits/stdc++.h>
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl3.h>
@@ -155,15 +156,12 @@ void UI::renderFrame(Frame& frame) {
 
     ImGui::Render();
 
-    // TODO: this works
-    // SDL_SetWindowSize(window, 298, 92);
-
     static bool hasResized = false;
     // Resize SDL window to match content (only if size changed)
     if (!hasResized && windowSize.x > 20.0) {
         std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
         // TODO: this does not "stick"
-        SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);
+        SDL_SetWindowSize(window, (int)std::max<int>(50, windowSize.x), (int)windowSize.y + 5);
         SDL_ShowWindow(window);
 
         int w, h;
