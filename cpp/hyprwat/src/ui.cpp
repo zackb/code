@@ -30,12 +30,14 @@ void UI::init(std::string title) {
             fprintf(stderr, "Failed to init SDL with X11 too: %s\n", SDL_GetError());
         }
     }
+    selfDecorate = false;
 #else
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stderr, "Failed to init SDL\n");
         std::exit(1);
     }
+    selfDecorate = true;
 #endif
 
     // Start with a reasonable default size
@@ -92,13 +94,23 @@ void UI::init(std::string title) {
     io.FontGlobalScale = 1.0f / scale;
 
     ImGui::StyleColorsDark();
+
     ImGuiStyle& style = ImGui::GetStyle();
-    style.WindowRounding = 10.0f;
-    style.FrameRounding = 6.0f;
-    style.WindowPadding = ImVec2(10, 10);
-    style.FramePadding = ImVec2(8, 4);
+
     style.ItemSpacing = ImVec2(10, 6);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.75f);
+
+    // if we should make the menu look ourselves
+    if (selfDecorate) {
+        style.WindowRounding = 10.0f;
+        style.FrameRounding = 6.0f;
+        style.WindowPadding = ImVec2(10, 10);
+        style.FramePadding = ImVec2(8, 4);
+    } else {
+        // or else let hyprland do it
+        style.FrameBorderSize = 0.0f;
+        style.WindowBorderSize = 0.0f;
+    }
 
     // Initialize ImGui backends
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -148,7 +160,7 @@ void UI::renderFrame(Frame& frame) {
 
     static bool hasResized = false;
     // Resize SDL window to match content (only if size changed)
-    if (!hasResized && windowSize.x > 50.0) {
+    if (!hasResized && windowSize.x > 20.0) {
         std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
         // TODO: this does not "stick"
         SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);

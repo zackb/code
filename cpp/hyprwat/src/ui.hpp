@@ -26,4 +26,5 @@ private:
     bool running = true;
     void renderFrame(Frame& frame);
     float dpi;
+    bool selfDecorate = false;
 };
