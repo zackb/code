@@ -69,6 +69,8 @@ bool Selector::render() {
         }
     }
 
+    lastSize = ImGui::GetWindowSize();
+
     ImGui::End();
 
     if (clicked >= 0) {

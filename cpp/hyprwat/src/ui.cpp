@@ -21,7 +21,9 @@ void UI::init(std::string title) {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stderr, "Failed to init SDL with Wayland: %s\n", SDL_GetError());
         // Try fallback
-        setenv("SDL_VIDEODRIVER", "x11", 1);
+        if (setenv("SDL_VIDEODRIVER", "x11", 1) != 0) {
+            perror("Failed to set SDL_VIDEODRIVER");
+        }
         if (!SDL_Init(SDL_INIT_VIDEO)) {
             fprintf(stderr, "Failed to init SDL with X11 too: %s\n", SDL_GetError());
         }
@@ -46,12 +48,14 @@ void UI::init(std::string title) {
     window = SDL_CreateWindow(title.c_str(),
                               winWidth,
                               winHeight,
-                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
+                              SDL_WINDOW_OPENGL /* | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP*/ |
                                   SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window) {
         fprintf(stderr, "Failed to create SDL window\n");
         std::exit(1);
     }
+
+    SDL_SetWindowMinimumSize(window, 0, 0);
 
     // Position window under cursor
     float mouseX, mouseY;
@@ -59,12 +63,12 @@ void UI::init(std::string title) {
     SDL_SetWindowPosition(window, int(mouseX), int(mouseY));
 
     // Create OpenGL context
-    gl_context = SDL_GL_CreateContext(window);
-    if (!gl_context) {
+    glContext = SDL_GL_CreateContext(window);
+    if (!glContext) {
         fprintf(stderr, "Failed to create OpenGL context\n");
         std::exit(1);
     }
-    SDL_GL_MakeCurrent(window, gl_context);
+    SDL_GL_MakeCurrent(window, glContext);
     SDL_GL_SetSwapInterval(1);
 
     IMGUI_CHECKVERSION();
@@ -94,7 +98,7 @@ void UI::init(std::string title) {
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.75f);
 
     // Initialize ImGui backends
-    ImGui_ImplSDL3_InitForOpenGL(window, gl_context);
+    ImGui_ImplSDL3_InitForOpenGL(window, glContext);
     ImGui_ImplOpenGL3_Init("#version 150");
 
     signalHandler([&](int sig) {
@@ -118,34 +122,39 @@ void UI::run(Frame& frame) {
             default:
                 break;
             }
-            renderFrame(frame);
         }
+        renderFrame(frame);
     }
 }
 
 void UI::renderFrame(Frame& frame) {
-
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+    // ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     running = frame.render();
 
-    // Get the actual content size after rendering
-    ImVec2 contentSize = ImGui::GetWindowSize();
+    Vec2 windowSize = frame.getSize();
 
     ImGui::Render();
 
-    /* TODO: this doesnt work
+    // TODO: this works
+    // SDL_SetWindowSize(window, 298, 92);
+
+    static bool hasResized = false;
     // Resize SDL window to match content (only if size changed)
-    static ImVec2 lastSize = ImVec2(0, 0);
-    if (contentSize.x != lastSize.x || contentSize.y != lastSize.y) {
-        SDL_SetWindowSize(window, (int)contentSize.x, (int)contentSize.y);
-        lastSize = contentSize;
+    if (windowSize.x > 200.0) {
+        std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
+        // TODO: this does not "stick"
+        SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);
+
+        int w, h;
+        SDL_GetWindowSize(window, &w, &h);
+        std::cerr << "SDL window size after resize: " << w << "x" << h << std::endl;
+        hasResized = true;
     }
-    */
 
     int w, h;
     // SDL_GetWindowSizeInPixels(window, &w, &h);
@@ -163,7 +172,7 @@ void UI::destroy() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
-    SDL_GL_DestroyContext(gl_context);
+    SDL_GL_DestroyContext(glContext);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
