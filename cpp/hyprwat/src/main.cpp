@@ -46,7 +46,7 @@ int main(int argc, const char* argv[]) {
     }
 
     // initialize Hyprland IPC
-    // hyprland::Control ipc;
+    hyprland::Control ipc;
 
     // setup a selection frame
     Selector frame;
@@ -72,8 +72,8 @@ int main(int argc, const char* argv[]) {
     // hyprland::Events events;
     // events.start([&](const std::string& event) { std::cout << "Event: " << event << std::endl; });
 
-    // auto resp = ipc.send("dispatch moveactive mouse"); // center under mouse
-    // std::cout << "IPC Response: " << resp << std::endl;
+    auto resp = ipc.send("dispatch moveactive mouse"); // center under mouse
+    std::cout << "IPC Response: " << resp << std::endl;
     // run the UI loop
     ui.run(frame);
     // events.stop();

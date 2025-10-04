@@ -15,6 +15,8 @@
 void UI::init(std::string title) {
 #if not defined(__APPLE__)
     // SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
+
+    // SDL_SetHint(SDL_HINT_APP_ID, "hyprwat");
     if (setenv("SDL_VIDEODRIVER", "wayland", 1) != 0) {
         perror("Failed to set SDL_VIDEODRIVER");
     }
@@ -48,7 +50,7 @@ void UI::init(std::string title) {
     window = SDL_CreateWindow(title.c_str(),
                               winWidth,
                               winHeight,
-                              SDL_WINDOW_OPENGL /* | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP*/ |
+                              SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
                                   SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
     if (!window) {
         fprintf(stderr, "Failed to create SDL window\n");
@@ -145,7 +147,7 @@ void UI::renderFrame(Frame& frame) {
 
     static bool hasResized = false;
     // Resize SDL window to match content (only if size changed)
-    if (windowSize.x > 200.0) {
+    if (!hasResized && windowSize.x > 200.0) {
         std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
         // TODO: this does not "stick"
         SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);
