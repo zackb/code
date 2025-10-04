@@ -51,7 +51,7 @@ void UI::init(std::string title) {
                               winWidth,
                               winHeight,
                               SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
-                                  SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+                                  SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN);
     if (!window) {
         fprintf(stderr, "Failed to create SDL window\n");
         std::exit(1);
@@ -151,7 +151,7 @@ void UI::renderFrame(Frame& frame) {
         std::cerr << "Resizing SDL window to: " << windowSize.x << "x" << windowSize.y << std::endl;
         // TODO: this does not "stick"
         SDL_SetWindowSize(window, (int)windowSize.x, (int)windowSize.y);
-        // SDL_ShowWindow(window);
+        SDL_ShowWindow(window);
 
         int w, h;
         SDL_GetWindowSize(window, &w, &h);
