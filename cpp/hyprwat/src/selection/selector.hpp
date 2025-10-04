@@ -18,7 +18,7 @@ public:
     virtual Vec2 getSize() { return Vec2{lastSize.x, lastSize.y}; }
 
 private:
-    int selected = 0;
+    int selected = -1;
     std::vector<Choice> choices;
     ImVec4 highlightedColor = ImVec4(0.2f, 0.4f, 0.7f, 1.0f);
     ImVec4 selectedColor = ImVec4(0.2f, 0.4f, 0.7f, 0.4f);

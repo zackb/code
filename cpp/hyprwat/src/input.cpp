@@ -12,22 +12,16 @@ std::vector<Choice> Input::parseArgv(int argc, const char* argv[]) {
         for (int i = 1; i < argc; ++i) {
             items.push_back(parseLine(argv[i]));
         }
-    } else {
-        /* moved to async
-        std::string line;
-        while (std::getline(std::cin, line)) {
-            if (!line.empty())
-                items.push_back(parseLine(line));
-        }
-        */
     }
 
     // Ensure only one item is selected
     bool anySelected = std::any_of(items.begin(), items.end(), [](const Choice& item) { return item.selected; });
 
+    /*
     if (!anySelected && !items.empty()) {
         items[0].selected = true; // Default to the first
     }
+    */
 
     return items;
 }
