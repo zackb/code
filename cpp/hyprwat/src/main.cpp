@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Initialize EGL
-    zEGLContext egl(display.display());
+    egl::Context egl(display.display());
     if (!egl.createWindowSurface(surface.surface(), width, height)) {
         return 1;
     }

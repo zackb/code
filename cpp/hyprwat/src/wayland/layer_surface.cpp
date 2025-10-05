@@ -34,7 +34,7 @@ namespace wl {
         wl_surface_commit(m_surface);
     }
 
-    void LayerSurface::resize(int new_width, int new_height, zEGLContext& egl) {
+    void LayerSurface::resize(int new_width, int new_height, egl::Context& egl) {
         m_width = new_width;
         m_height = new_height;
 

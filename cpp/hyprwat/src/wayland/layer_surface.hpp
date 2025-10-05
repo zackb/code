@@ -16,7 +16,7 @@ namespace wl {
         void create(int x, int y, int width, int height);
         bool is_configured() const { return m_configured; }
         wl_surface* surface() const { return m_surface; }
-        void resize(int new_width, int new_height, zEGLContext& egl);
+        void resize(int new_width, int new_height, egl::Context& egl);
 
         void request_exit() { m_should_exit = true; }
         bool should_exit() const { return m_should_exit; }
