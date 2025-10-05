@@ -1,7 +1,7 @@
 #pragma once
 
+#include "src/wayland/layer_surface.hpp"
 #include "src/wayland/wayland.hpp"
-#include <string>
 
 struct Vec2 {
     float x;
@@ -16,13 +16,16 @@ public:
 
 class UI {
 public:
-    void init(wl::Wayland& wayland);
+    UI(wl::Wayland& wayland) : wayland(wayland) {}
+    void init(int x, int y, int width, int height);
     void run(Frame& frame);
     void destroy();
 
 private:
+    wl::Wayland& wayland;
+    std::unique_ptr<wl::LayerSurface> surface;
+    std::unique_ptr<egl::Context> egl;
     bool running = true;
+
     void renderFrame(Frame& frame);
-    float dpi;
-    bool selfDecorate = false;
 };
