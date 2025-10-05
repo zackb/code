@@ -2,6 +2,7 @@
 
 #include "../choice.hpp"
 #include "imgui.h"
+#include "src/ui.hpp"
 #include <vector>
 
 class Selector : public Frame {

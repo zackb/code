@@ -19,7 +19,6 @@ public:
     UI(wl::Wayland& wayland) : wayland(wayland) {}
     void init(int x, int y, int width, int height);
     void run(Frame& frame);
-    void destroy();
 
 private:
     wl::Wayland& wayland;

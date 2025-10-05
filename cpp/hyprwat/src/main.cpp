@@ -1,9 +1,12 @@
+#include "input.hpp"
 #include "menu/popup_menu.hpp"
 #include "renderer/egl_context.hpp"
-#include "src/wayland/wayland.hpp"
+#include "selection/selector.hpp"
+#include "ui.hpp"
 #include "wayland/display.hpp"
 #include "wayland/input.hpp"
 #include "wayland/layer_surface.hpp"
+#include "wayland/wayland.hpp"
 
 #include "ext/imgui/backends/imgui_impl_opengl3.h"
 #include "ext/imgui/imgui.h"
@@ -11,7 +14,41 @@
 #include <GL/gl.h>
 #include <cstdio>
 
-int main(int argc, char* argv[]) {
+int main(const int argc, const char** argv) {
+    int x = 500;
+    int y = 300;
+    int width = 300;
+    int height = 200;
+
+    // Initialize Wayland
+    wl::Wayland wayland;
+
+    Selector frame;
+
+    UI ui(wayland);
+    ui.init(x, y, width, height);
+    if (argc > 1) {
+        // parse argv for choices
+        auto choices = Input::parseArgv(argc, argv);
+        int i = 0;
+        for (auto& choice : choices) {
+            frame.add({choice.id, choice.display});
+            if (choice.selected) {
+                frame.setSelected(i);
+            }
+            ++i;
+        }
+    } else {
+        // parse stdin for choices asynchronously
+        Input::parseStdin([&](Choice choice) { frame.add(choice); });
+    }
+
+    ui.run(frame);
+
+    return 0;
+}
+
+int main1(int argc, char* argv[]) {
     int x = 500;
     int y = 300;
     int width = 300;
