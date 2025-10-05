@@ -16,9 +16,9 @@ InputHandler::~InputHandler() {
         wl_pointer_destroy(pointer);
 }
 
-void InputHandler::setWindowBounds(int width, int height) {
-    width = width;
-    height = height;
+void InputHandler::setWindowBounds(int w, int h) {
+    this->width = w;
+    this->height = h;
 }
 
 void InputHandler::seat_capabilities(void* data, wl_seat* seat, uint32_t capabilities) {
