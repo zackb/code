@@ -45,6 +45,7 @@ add_executable(hyprwat
     src/wayland/input.cpp
     src/renderer/egl_context.cpp
     src/font/font.cpp
+    src/input.cpp
     src/menu/popup_menu.cpp
     ${IMGUI_SOURCES}
     ${WAYLAND_PROTOCOLS}
