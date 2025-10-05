@@ -58,6 +58,7 @@ namespace wl {
             self->m_height = height;
 
         zwlr_layer_surface_v1_ack_configure(layer_surface, serial);
+        wl_surface_commit(self->m_surface);
         self->m_configured = true;
     }
 

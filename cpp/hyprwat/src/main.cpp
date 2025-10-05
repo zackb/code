@@ -15,10 +15,10 @@
 #include <cstdio>
 
 int main(const int argc, const char** argv) {
-    int x = 500;
-    int y = 300;
-    int width = 300;
-    int height = 200;
+    int x = 10;
+    int y = 10;
+    int width = 1000;
+    int height = 1000;
 
     // Initialize Wayland
     wl::Wayland wayland;
