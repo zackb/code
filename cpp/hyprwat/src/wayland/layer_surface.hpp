@@ -1,5 +1,6 @@
 #pragma once
 
+#include "src/renderer/egl_context.hpp"
 extern "C" {
 #include "protocols/wlr-layer-shell-unstable-v1-client-protocol.h"
 #include <wayland-client.h>
@@ -13,6 +14,7 @@ public:
     void create(int x, int y, int width, int height);
     bool is_configured() const { return m_configured; }
     wl_surface* surface() const { return m_surface; }
+    void resize(int new_width, int new_height, zEGLContext& egl);
 
     void request_exit() { m_should_exit = true; }
     bool should_exit() const { return m_should_exit; }

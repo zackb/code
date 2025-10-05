@@ -79,18 +79,18 @@ int main(int argc, char* argv[]) {
 
         // Start ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
-        io.DisplaySize = ImVec2((float)width, (float)height);
+        io.DisplaySize = ImVec2((float)surface.width(), (float)surface.height());
         io.DeltaTime = 1.0f / 60.0f;
         ImGui::NewFrame();
 
         // Render menu
-        if (menu.render(width, height)) {
+        if (menu.render(surface.width(), surface.height())) {
             running = false;
         }
 
         // Render
         ImGui::Render();
-        glViewport(0, 0, width, height);
+        glViewport(0, 0, surface.width(), surface.height());
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

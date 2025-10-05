@@ -15,6 +15,7 @@ public:
     bool createWindowSurface(wl_surface* surface, int width, int height);
     void makeCurrent();
     void swapBuffers();
+    wl_egl_window* window() const { return egl_window; }
 
 private:
     wl_display* display;

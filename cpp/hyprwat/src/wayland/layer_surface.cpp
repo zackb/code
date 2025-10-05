@@ -32,9 +32,29 @@ void LayerSurface::create(int x, int y, int width, int height) {
     wl_surface_commit(m_surface);
 }
 
+void LayerSurface::resize(int new_width, int new_height, zEGLContext& egl) {
+    m_width = new_width;
+    m_height = new_height;
+
+    // Resize the layer surface
+    zwlr_layer_surface_v1_set_size(m_layer_surface, new_width, new_height);
+    wl_surface_commit(m_surface);
+
+    // Resize the EGL window
+    if (egl.window()) {
+        wl_egl_window_resize(egl.window(), new_width, new_height, 0, 0);
+    }
+}
+
 void LayerSurface::configure_handler(
     void* data, zwlr_layer_surface_v1* layer_surface, uint32_t serial, uint32_t width, uint32_t height) {
     LayerSurface* self = static_cast<LayerSurface*>(data);
+
+    if (width > 0)
+        self->m_width = width;
+    if (height > 0)
+        self->m_height = height;
+
     zwlr_layer_surface_v1_ack_configure(layer_surface, serial);
     self->m_configured = true;
 }
