@@ -6,6 +6,7 @@
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_opengl.h>
+#include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_video.h>
 #include <bits/stdc++.h>
 #include <imgui.h>
@@ -56,7 +57,7 @@ void UI::init(std::string title) {
                               SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP |
                                   SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN);
     if (!window) {
-        fprintf(stderr, "Failed to create SDL window\n");
+        fprintf(stderr, "Failed to create SDL window: %s\n", SDL_GetError());
         std::exit(1);
     }
 

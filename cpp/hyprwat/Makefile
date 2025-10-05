@@ -19,6 +19,8 @@ run: debug
 
 run2: debug
 	./build/debug/hyprwat foo:Foo bar:Bar zbz:'Baz'
+run3: debug
+	echo -e "foo:Foo\nbar:Bar\nbaz:Baz\nqux:Qux\nquux:Quux\ncorge:Corge\ngrault:Grault\ngarply:Garply*\nwaldo:Waldo\nfred:Fred\nplugh:Plugh\nxyzzy:Xyzzy\nthud:Thud" | ./build/debug/hyprwat
 
 test-wifi: debug
 	# nmcli -t -f ssid dev wifi | while IFS= read -r line; do echo "$line";     sleep 0.1; done | ./build/debug/hyprwat
