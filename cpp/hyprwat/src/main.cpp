@@ -1,8 +1,8 @@
-#include "../ext/imgui/backends/imgui_impl_opengl3.h"
-#include "../ext/imgui/imgui.h"
+#include "ext/imgui/backends/imgui_impl_opengl3.h"
+#include "ext/imgui/imgui.h"
 
 extern "C" {
-#include "wlr-layer-shell-unstable-v1-client-protocol.h"
+#include "protocols/wlr-layer-shell-unstable-v1-client-protocol.h"
 #include <linux/input-event-codes.h>
 #include <wayland-client-protocol.h>
 #include <wayland-client.h>

@@ -1,4 +1,4 @@
-#include "hyprland_ipc.hpp"
+#include "ipc.hpp"
 
 #include <cstring>
 #include <iostream>
