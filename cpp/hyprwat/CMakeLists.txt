@@ -25,14 +25,19 @@ set(IMGUI_SOURCES
 
 # Wayland protocol sources
 set(WAYLAND_PROTOCOLS
-    src/protocols/wlr-layer-shell-unstable-v1-client-protocol.c
-    src/protocols/xdg-shell-client-protocol.c
+    src/wayland/protocols/wlr-layer-shell-unstable-v1-client-protocol.c
+    src/wayland/protocols/xdg-shell-client-protocol.c
 )
 
 # Main executable
 add_executable(hyprwat
     src/main.cpp
     src/hyprland/ipc.cpp
+    src/wayland/display.cpp
+    src/wayland/layer_surface.cpp
+    src/wayland/input.cpp
+    src/renderer/egl_context.cpp
+    src/menu/popup_menu.cpp
     ${IMGUI_SOURCES}
     ${WAYLAND_PROTOCOLS}
 )
