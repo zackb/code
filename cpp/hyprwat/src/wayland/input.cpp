@@ -4,8 +4,11 @@ extern "C" {
 #include <linux/input-event-codes.h>
 }
 
+InputHandler::InputHandler(wl_seat* seat) : seat(seat), io(nullptr) {
+    wl_seat_add_listener(seat, &seat_listener, this);
+}
+
 InputHandler::InputHandler(wl_seat* seat, ImGuiIO* io) : seat(seat), io(io) {
-    static const wl_seat_listener seat_listener = {.capabilities = seat_capabilities, .name = seat_name};
     wl_seat_add_listener(seat, &seat_listener, this);
 }
 

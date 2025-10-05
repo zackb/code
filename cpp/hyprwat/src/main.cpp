@@ -22,6 +22,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Create Input Handler
+    InputHandler input(display.seat());
+
     // Create layer surface
     LayerSurface surface(display.compositor(), display.layerShell());
     surface.create(x, y, width, height);
@@ -45,7 +48,7 @@ int main(int argc, char* argv[]) {
     ImGui_ImplOpenGL3_Init("#version 130");
 
     // Set up input handling
-    InputHandler input(display.seat(), &io);
+    input.setIO(&io);
     input.setWindowBounds(width, height);
 
     // Create menu

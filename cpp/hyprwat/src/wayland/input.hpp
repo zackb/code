@@ -8,12 +8,14 @@ extern "C" {
 
 class InputHandler {
 public:
+    InputHandler(wl_seat*);
     InputHandler(wl_seat* seat, ImGuiIO* io);
     ~InputHandler();
 
     void setWindowBounds(int width, int height);
     bool clickedOutside() const { return clicked_outside; }
     void resetClickedOutside() { clicked_outside = false; }
+    void setIO(ImGuiIO* new_io) { io = new_io; }
 
 private:
     wl_seat* seat;
@@ -27,6 +29,8 @@ private:
     // Seat callbacks
     static void seat_capabilities(void* data, wl_seat* seat, uint32_t capabilities);
     static void seat_name(void* data, wl_seat* seat, const char* name);
+
+    constexpr static const wl_seat_listener seat_listener = {.capabilities = seat_capabilities, .name = seat_name};
 
     // Pointer callbacks
     static void pointer_enter(
