@@ -1,5 +1,6 @@
 #include "ui.hpp"
 #include "imgui_impl_opengl3.h"
+#include "src/font/font.hpp"
 #include <GL/gl.h>
 
 void UI::init(int x, int y, int width, int height) {
@@ -20,7 +21,26 @@ void UI::init(int x, int y, int width, int height) {
     ImGui::CreateContext();
     ImGui_ImplOpenGL3_Init("#version 130");
     ImGuiIO& io = ImGui::GetIO();
+
+    // load user font if available
+    auto fontPath = font::defaultFontPath();
+    if (!fontPath.empty()) {
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 14.0f);
+        io.FontDefault = font;
+    }
+
+    // Set up our ImGui style
     ImGui::StyleColorsDark();
+
+    ImGuiStyle& style = ImGui::GetStyle();
+
+    style.ItemSpacing = ImVec2(10, 6);
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.75f);
+
+    style.WindowRounding = 10.0f;
+    style.FrameRounding = 6.0f;
+    style.WindowPadding = ImVec2(10, 10);
+    style.FramePadding = ImVec2(8, 4);
 
     // Set up input handling wayland -> imgui
     wayland.input().setIO(&io);
