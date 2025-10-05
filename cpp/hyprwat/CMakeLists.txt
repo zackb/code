@@ -13,7 +13,7 @@ endif()
 find_package(OpenGL REQUIRED COMPONENTS OpenGL EGL)
 
 # ImGui sources
-set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../ext/imgui")
+set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ext/imgui")
 set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui.cpp
     ${IMGUI_DIR}/imgui_demo.cpp
@@ -25,13 +25,13 @@ set(IMGUI_SOURCES
 
 # Wayland protocol sources
 set(WAYLAND_PROTOCOLS
-    wlr-layer-shell-unstable-v1-client-protocol.c
-    xdg-shell-client-protocol.c
+    src/wlr-layer-shell-unstable-v1-client-protocol.c
+    src/xdg-shell-client-protocol.c
 )
 
 # Main executable
 add_executable(hyprwat
-    main.cpp
+    src/main.cpp
     ${IMGUI_SOURCES}
     ${WAYLAND_PROTOCOLS}
 )
@@ -60,9 +60,4 @@ target_link_libraries(hyprwat PRIVATE
     ${CMAKE_DL_LIBS}
     m
     pthread
-)
-
-# Optional: Set output directory
-set_target_properties(hyprwat PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
