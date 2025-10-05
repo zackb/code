@@ -46,8 +46,8 @@ bool Selector::render() {
 
     ImGui::Begin("Select",
                  nullptr,
-                 ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
-                     ImGuiWindowFlags_AlwaysAutoResize);
+                 ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+                     ImGuiWindowFlags_NoSavedSettings); // | ImGuiWindowFlags_AlwaysAutoResize);
 
     int clicked = -1;
 
