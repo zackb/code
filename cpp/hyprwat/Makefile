@@ -13,7 +13,6 @@ release:
 install: release
 	cmake --install build/release
 
-
 run: debug
 	./build/debug/hyprwat foo:FooZZZZZZZZZZZZZZZZZZZZZZZZZZZZ bar:Bar* zbz:'Zack Bartel'
 
@@ -21,9 +20,6 @@ run2: debug
 	./build/debug/hyprwat foo:Foo bar:Bar zbz:'Baz'
 run3: debug
 	echo -e "foo:Foo\nbar:Bar\nbaz:Baz\nqux:Qux\nquux:Quux\ncorge:Corge\ngrault:Grault\ngarply:Garply*\nwaldo:Waldo\nfred:Fred\nplugh:Plugh\nxyzzy:Xyzzy\nthud:Thud" | ./build/debug/hyprwat
-
-test-wifi: debug
-	# nmcli -t -f ssid dev wifi | while IFS= read -r line; do echo "$line";     sleep 0.1; done | ./build/debug/hyprwat
 
 
 .PHONY: fmt
@@ -35,4 +31,16 @@ fmt:
 
 clean:
 	rm -rf build
+
+old: 
+	gcc -c wlr-layer-shell-unstable-v1-client-protocol.c -o layer_shell.o
+	gcc -c xdg-shell-client-protocol.c -o xdg_shell.o
+	g++ -std=c++17 -o wayland_popup \
+    main.cpp \
+    ../ext/imgui/*.cpp \
+    ../ext/imgui/backends/imgui_impl_opengl3.cpp \
+	layer_shell.o xdg_shell.o \
+    -I../ext/imgui -I../ext/imgui/backends \
+    -I/usr/include \
+    -lwayland-client -lwayland-egl -lEGL -lGL -ldl -lm -pthread
 

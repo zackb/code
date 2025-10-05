@@ -55,6 +55,11 @@ void pointer_button(void*, wl_pointer*, uint32_t, uint32_t, uint32_t button, uin
                 should_exit = true;
             }
         }
+    } else if (button == BTN_RIGHT || button == BTN_MIDDLE) {
+        // Right-click or other buttons close the popup
+        if (state == WL_POINTER_BUTTON_STATE_PRESSED) {
+            should_exit = true;
+        }
     }
 }
 void pointer_axis(void*, wl_pointer*, uint32_t, uint32_t axis, wl_fixed_t value) {
