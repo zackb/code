@@ -12,6 +12,12 @@ endif()
 
 find_package(OpenGL REQUIRED COMPONENTS OpenGL EGL)
 
+# Fontconfig
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(Fontconfig REQUIRED fontconfig)
+link_directories(${Fontconfig_LIBRARY_DIRS})
+
+
 # ImGui sources
 set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ext/imgui")
 set(IMGUI_SOURCES
@@ -38,6 +44,7 @@ add_executable(hyprwat
     src/wayland/layer_surface.cpp
     src/wayland/input.cpp
     src/renderer/egl_context.cpp
+    src/font/font.cpp
     src/menu/popup_menu.cpp
     ${IMGUI_SOURCES}
     ${WAYLAND_PROTOCOLS}
@@ -64,6 +71,7 @@ endif()
 target_link_libraries(hyprwat PRIVATE
     OpenGL::OpenGL
     OpenGL::EGL
+    ${Fontconfig_LIBRARIES}
     ${CMAKE_DL_LIBS}
     m
     pthread
