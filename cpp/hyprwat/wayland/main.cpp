@@ -139,9 +139,14 @@ void create_popup_surface(int x, int y) {
 
     zwlr_layer_surface_v1_add_listener(layer_surface, &layer_surface_listener, nullptr);
     zwlr_layer_surface_v1_set_size(layer_surface, window_width, window_height);
+
+    // Anchor to top-left corner of screen, then use margins to position
     zwlr_layer_surface_v1_set_anchor(layer_surface,
                                      ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP | ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT);
-    zwlr_layer_surface_v1_set_margin(layer_surface, 0, 0, 0, 0);
+
+    // Set margins to position at (x, y) from top-left
+    zwlr_layer_surface_v1_set_margin(layer_surface, y, 0, 0, x);
+
     zwlr_layer_surface_v1_set_keyboard_interactivity(layer_surface, true);
     zwlr_layer_surface_v1_set_exclusive_zone(layer_surface, 0);
 
