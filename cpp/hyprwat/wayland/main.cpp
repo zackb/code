@@ -32,6 +32,7 @@ int window_width = 300;
 int window_height = 200;
 ImGuiIO* io = nullptr;
 bool surface_configured = false;
+bool should_exit = false;
 
 // ----------------- Pointer Callbacks -----------------
 void pointer_enter(
@@ -44,8 +45,17 @@ void pointer_motion(void* data, wl_pointer*, uint32_t, wl_fixed_t sx, wl_fixed_t
     io->MousePos = ImVec2((float)wl_fixed_to_int(sx), (float)wl_fixed_to_int(sy));
 }
 void pointer_button(void*, wl_pointer*, uint32_t, uint32_t, uint32_t button, uint32_t state) {
-    if (button == BTN_LEFT)
+    if (button == BTN_LEFT) {
         io->MouseDown[0] = (state == WL_POINTER_BUTTON_STATE_PRESSED);
+
+        // Check if click is outside the window bounds
+        if (state == WL_POINTER_BUTTON_STATE_PRESSED) {
+            if (io->MousePos.x < 0 || io->MousePos.x >= window_width || io->MousePos.y < 0 ||
+                io->MousePos.y >= window_height) {
+                should_exit = true;
+            }
+        }
+    }
 }
 void pointer_axis(void*, wl_pointer*, uint32_t, uint32_t axis, wl_fixed_t value) {
     if (axis == WL_POINTER_AXIS_VERTICAL_SCROLL)
@@ -200,7 +210,7 @@ int main() {
     ImGui_ImplOpenGL3_Init("#version 130");
 
     bool running = true;
-    while (running) {
+    while (running && !should_exit) {
         // Non-blocking event dispatch
         while (wl_display_prepare_read(display) != 0) {
             wl_display_dispatch_pending(display);
