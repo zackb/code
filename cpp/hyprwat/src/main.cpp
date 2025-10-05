@@ -1,5 +1,6 @@
 #include "menu/popup_menu.hpp"
 #include "renderer/egl_context.hpp"
+#include "src/wayland/wayland.hpp"
 #include "wayland/display.hpp"
 #include "wayland/input.hpp"
 #include "wayland/layer_surface.hpp"
@@ -17,16 +18,12 @@ int main(int argc, char* argv[]) {
     int height = 200;
 
     // Initialize Wayland
-    WaylandDisplay display;
-    if (!display.connect()) {
-        return 1;
-    }
-
-    // Create Input Handler
-    InputHandler input(display.seat());
+    wl::Wayland wayland;
+    wl::Display& display = wayland.display();
+    wl::InputHandler& input = wayland.input();
 
     // Create layer surface
-    LayerSurface surface(display.compositor(), display.layerShell());
+    wl::LayerSurface surface(display.compositor(), display.layerShell());
     surface.create(x, y, width, height);
 
     // Wait for surface to be configured

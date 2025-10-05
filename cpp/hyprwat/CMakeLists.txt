@@ -33,6 +33,7 @@ set(WAYLAND_PROTOCOLS
 add_executable(hyprwat
     src/main.cpp
     src/hyprland/ipc.cpp
+    src/wayland/wayland.cpp
     src/wayland/display.cpp
     src/wayland/layer_surface.cpp
     src/wayland/input.cpp
