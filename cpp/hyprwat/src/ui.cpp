@@ -148,6 +148,17 @@ void UI::renderFrame(Frame& frame) {
         int newWidth = std::max(100, (int)desiredSize.x);
         int newHeight = std::max(50, (int)desiredSize.y);
 
+        // Re-clamp position with actual size to ensure menu stays on screen
+        int clampedX = surface->x();
+        int clampedY = surface->y();
+        
+        if (wayland.display().clampToScreen(clampedX, clampedY, newWidth, newHeight)) {
+            // Only reposition if the position actually changed
+            if (clampedX != surface->x() || clampedY != surface->y()) {
+                surface->reposition(clampedX, clampedY);
+            }
+        }
+        
         surface->resize(newWidth, newHeight, *egl);
         wayland.input().setWindowBounds(newWidth, newHeight);
 
@@ -187,4 +198,14 @@ void UI::updateScale(int32_t new_scale) {
     }
 
     // ImGui will be updated in the next renderFrame() call
+}
+
+void UI::clampPosition(int& x, int& y, int estimatedWidth, int estimatedHeight) {
+    int32_t clampX = x;
+    int32_t clampY = y;
+    
+    if (wayland.display().clampToScreen(clampX, clampY, estimatedWidth, estimatedHeight)) {
+        x = clampX;
+        y = clampY;
+    }
 }

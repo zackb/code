@@ -17,12 +17,15 @@ namespace wl {
         bool is_configured() const { return m_configured; }
         wl_surface* surface() const { return m_surface; }
         void resize(int new_width, int new_height, egl::Context& egl);
+        void reposition(int new_x, int new_y);
 
         void request_exit() { m_should_exit = true; }
         bool should_exit() const { return m_should_exit; }
 
         int width() const { return m_width; }
         int height() const { return m_height; }
+        int x() const { return m_x; }
+        int y() const { return m_y; }
 
         void setBufferScale(int32_t scale);
         int32_t buffer_scale() const { return m_scale; }
@@ -36,6 +39,8 @@ namespace wl {
         bool m_should_exit = false;
         int m_width = 0;
         int m_height = 0;
+        int m_x = 0;
+        int m_y = 0;
         int32_t m_scale = 1;
 
         static void configure_handler(

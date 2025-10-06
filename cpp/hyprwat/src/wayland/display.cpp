@@ -1,5 +1,6 @@
 #include "display.hpp"
 #include <algorithm>
+#include <climits>
 #include <cstdio>
 #include <cstring>
 
@@ -114,10 +115,93 @@ namespace wl {
         }
     }
 
+    void Display::getScreenBounds(int32_t& totalWidth, int32_t& totalHeight) const {
+        totalWidth = 0;
+        totalHeight = 0;
+        
+        for (const auto& output : m_outputs) {
+            int32_t rightEdge = output.x + output.width;
+            int32_t bottomEdge = output.y + output.height;
+            
+            if (rightEdge > totalWidth) totalWidth = rightEdge;
+            if (bottomEdge > totalHeight) totalHeight = bottomEdge;
+        }
+        
+        // Fallback if no outputs detected
+        if (totalWidth == 0) totalWidth = 1920;
+        if (totalHeight == 0) totalHeight = 1080;
+    }
+
+    bool Display::clampToScreen(int32_t& x, int32_t& y, int32_t width, int32_t height) const {
+        if (m_outputs.empty()) {
+            // Fallback: assume 1920x1080 screen
+            x = std::max(0, std::min(x, 1920 - width));
+            y = std::max(0, std::min(y, 1080 - height));
+            return true;
+        }
+        
+        // Find which output the point (x,y) is on or closest to
+        const Output* targetOutput = nullptr;
+        int32_t minDistance = INT32_MAX;
+        
+        for (const auto& output : m_outputs) {
+            // Check if point is within this output
+            if (x >= output.x && x < output.x + output.width &&
+                y >= output.y && y < output.y + output.height) {
+                targetOutput = &output;
+                break;
+            }
+            
+            // Calculate distance to center of output
+            int32_t centerX = output.x + output.width / 2;
+            int32_t centerY = output.y + output.height / 2;
+            int32_t distance = abs(x - centerX) + abs(y - centerY);
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                targetOutput = &output;
+            }
+        }
+        
+        if (targetOutput) {
+            // Clamp to this output's bounds
+            x = std::max(targetOutput->x, std::min(x, targetOutput->x + targetOutput->width - width));
+            y = std::max(targetOutput->y, std::min(y, targetOutput->y + targetOutput->height - height));
+            return true;
+        }
+        
+        return false;
+    }
+
     // Output event handlers
-    void Display::output_geometry(
-        void*, wl_output*, int32_t, int32_t, int32_t, int32_t, int32_t, const char*, const char*, int32_t) {}
-    void Display::output_mode(void*, wl_output*, uint32_t, int32_t, int32_t, int32_t) {}
+    void Display::output_geometry(void* data, wl_output* output, int32_t x, int32_t y, int32_t, int32_t, int32_t, const char*, const char*, int32_t) {
+        Display* self = static_cast<Display*>(data);
+        
+        // Find and update the output position
+        for (auto& out : self->m_outputs) {
+            if (out.output == output) {
+                out.x = x;
+                out.y = y;
+                break;
+            }
+        }
+    }
+    
+    void Display::output_mode(void* data, wl_output* output, uint32_t flags, int32_t width, int32_t height, int32_t) {
+        // Only update if this is the current mode
+        if (flags & WL_OUTPUT_MODE_CURRENT) {
+            Display* self = static_cast<Display*>(data);
+            
+            // Find and update the output size
+            for (auto& out : self->m_outputs) {
+                if (out.output == output) {
+                    out.width = width;
+                    out.height = height;
+                    break;
+                }
+            }
+        }
+    }
     void Display::output_done(void*, wl_output*) {}
 
     void Display::output_scale(void* data, wl_output* output, int32_t factor) {

@@ -14,6 +14,8 @@ namespace wl {
     void LayerSurface::create(int x, int y, int width, int height) {
         m_width = width;
         m_height = height;
+        m_x = x;
+        m_y = y;
 
         m_surface = wl_compositor_create_surface(m_compositor);
         m_layer_surface = zwlr_layer_shell_v1_get_layer_surface(
@@ -48,6 +50,15 @@ namespace wl {
             const int buf_h = new_height * (m_scale > 0 ? m_scale : 1);
             wl_egl_window_resize(egl.window(), buf_w, buf_h, 0, 0);
         }
+    }
+
+    void LayerSurface::reposition(int new_x, int new_y) {
+        m_x = new_x;
+        m_y = new_y;
+        
+        // Update the layer surface margin to change position
+        zwlr_layer_surface_v1_set_margin(m_layer_surface, new_y, 0, 0, new_x);
+        wl_surface_commit(m_surface);
     }
 
     void LayerSurface::setBufferScale(int32_t scale) {

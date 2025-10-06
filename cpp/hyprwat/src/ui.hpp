@@ -15,6 +15,9 @@ public:
     UI(wl::Wayland& wayland) : wayland(wayland) {}
     void init(int x, int y, int width, int height);
     void run(Frame& frame);
+    
+    // Helper to clamp position to screen bounds (call after wayland is connected)
+    void clampPosition(int& x, int& y, int estimatedWidth = 400, int estimatedHeight = 200);
 
 private:
     wl::Wayland& wayland;

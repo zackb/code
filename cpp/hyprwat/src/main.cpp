@@ -31,8 +31,13 @@ int main(const int argc, const char** argv) {
     // find menu position
     hyprland::Control hyprctl;
     Vec2 pos = hyprctl.getCursorPos();
+    
+    // Clamp position to screen bounds to prevent menu going off-screen
+    int menuX = (int)pos.x;
+    int menuY = (int)pos.y;
+    ui.clampPosition(menuX, menuY, width, height);
 
-    ui.init((int)pos.x, (int)pos.y, width, height);
+    ui.init(menuX, menuY, width, height);
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);

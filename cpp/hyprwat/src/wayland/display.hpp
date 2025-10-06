@@ -13,6 +13,8 @@ namespace wl {
         wl_output* output;
         int32_t scale = 1;
         uint32_t id;
+        int32_t x = 0, y = 0;           // Position
+        int32_t width = 0, height = 0;  // Logical size
     };
 
     class Display {
@@ -37,6 +39,10 @@ namespace wl {
         const std::vector<Output>& outputs() const { return m_outputs; }
         int32_t getMaxScale() const;
         void setScaleChangeCallback(std::function<void(int32_t)> callback) { m_scale_callback = callback; }
+        
+        // Screen bounds
+        void getScreenBounds(int32_t& totalWidth, int32_t& totalHeight) const;
+        bool clampToScreen(int32_t& x, int32_t& y, int32_t width, int32_t height) const;
 
     private:
         wl_display* m_display;
