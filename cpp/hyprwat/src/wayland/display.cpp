@@ -149,10 +149,14 @@ namespace wl {
         int32_t minDistance = INT32_MAX;
         
         for (const auto& output : m_outputs) {
+            printf("DEBUG: Output: pos=(%d,%d) size=%dx%d scale=%d\n", 
+                   output.x, output.y, output.width, output.height, output.scale);
+                   
             // Check if point is within this output
             if (x >= output.x && x < output.x + output.width &&
                 y >= output.y && y < output.y + output.height) {
                 targetOutput = &output;
+                printf("DEBUG: Point is within this output\n");
                 break;
             }
             
@@ -168,18 +172,32 @@ namespace wl {
         }
         
         if (targetOutput) {
-            // Clamp to this output's bounds
-            x = std::max(targetOutput->x, std::min(x, targetOutput->x + targetOutput->width - width));
-            y = std::max(targetOutput->y, std::min(y, targetOutput->y + targetOutput->height - height));
-            return true;
+            // Check if output has valid dimensions
+            if (targetOutput->width > 0 && targetOutput->height > 0) {
+                printf("DEBUG: Using output bounds: %dx%d at (%d,%d)\n", 
+                       targetOutput->width, targetOutput->height, targetOutput->x, targetOutput->y);
+                // Clamp to this output's bounds
+                x = std::max(targetOutput->x, std::min(x, targetOutput->x + targetOutput->width - width));
+                y = std::max(targetOutput->y, std::min(y, targetOutput->y + targetOutput->height - height));
+                return true;
+            } else {
+                printf("DEBUG: Output has invalid dimensions, using fallback\n");
+                // Output exists but doesn't have valid dimensions yet, use fallback
+                x = std::max(0, std::min(x, 1920 - width));
+                y = std::max(0, std::min(y, 1080 - height));
+                return true;
+            }
         }
         
+        printf("DEBUG: No suitable output found\n");
         return false;
     }
 
     // Output event handlers
     void Display::output_geometry(void* data, wl_output* output, int32_t x, int32_t y, int32_t, int32_t, int32_t, const char*, const char*, int32_t) {
         Display* self = static_cast<Display*>(data);
+        
+        printf("DEBUG: output_geometry called: pos=(%d,%d)\n", x, y);
         
         // Find and update the output position
         for (auto& out : self->m_outputs) {
@@ -195,6 +213,8 @@ namespace wl {
         // Only update if this is the current mode
         if (flags & WL_OUTPUT_MODE_CURRENT) {
             Display* self = static_cast<Display*>(data);
+            
+            printf("DEBUG: output_mode called: size=%dx%d\n", width, height);
             
             // Find and update the output size
             for (auto& out : self->m_outputs) {
