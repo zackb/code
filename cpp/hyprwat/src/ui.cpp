@@ -23,6 +23,10 @@ void UI::init(int x, int y, int width, int height) {
     ImGui::CreateContext();
     ImGui_ImplOpenGL3_Init("#version 130");
     ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+    io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
+
+    io.DisplayFramebufferScale = ImVec2(1.0, 1.0);
 
     // load user font if available
     auto fontPath = font::defaultFontPath();
@@ -71,8 +75,8 @@ void UI::run(Frame& frame) {
 void UI::renderFrame(Frame& frame) {
 
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
     io.DeltaTime = 1.0f / 60.0f;
+    io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
 
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
