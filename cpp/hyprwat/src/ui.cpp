@@ -153,9 +153,15 @@ void UI::renderFrame(Frame& frame) {
         int clampedY = surface->y();
         
         if (wayland.display().clampToScreen(clampedX, clampedY, newWidth, newHeight)) {
+            printf("DEBUG: Resize clamp result: (%d, %d) -> (%d, %d), surface pos: (%d, %d)\n", 
+                   surface->x(), surface->y(), clampedX, clampedY, surface->x(), surface->y());
             // Only reposition if the position actually changed
             if (clampedX != surface->x() || clampedY != surface->y()) {
+                printf("DEBUG: Repositioning surface from (%d, %d) to (%d, %d)\n", 
+                       surface->x(), surface->y(), clampedX, clampedY);
                 surface->reposition(clampedX, clampedY);
+            } else {
+                printf("DEBUG: No reposition needed - position unchanged\n");
             }
         }
         
