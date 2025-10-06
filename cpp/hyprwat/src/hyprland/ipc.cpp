@@ -54,6 +54,14 @@ namespace hyprland {
         close(wfd);
         return std::string(buf);
     }
+    Vec2 Control::getCursorPos() {
+        std::string response = send("cursorpos");
+        int x = 0, y = 0;
+        if (sscanf(response.c_str(), "%d, %d", &x, &y) != 2) {
+            throw std::runtime_error("Failed to parse cursor position");
+        }
+        return {(float)x, (float)y};
+    }
 
     // Events
 

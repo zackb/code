@@ -2,6 +2,7 @@
 #include "menu/popup_menu.hpp"
 #include "renderer/egl_context.hpp"
 #include "selection/selector.hpp"
+#include "src/hyprland/ipc.hpp"
 #include "ui.hpp"
 #include "wayland/display.hpp"
 #include "wayland/input.hpp"
@@ -26,7 +27,12 @@ int main(const int argc, const char** argv) {
     Selector frame;
 
     UI ui(wayland);
-    ui.init(x, y, width, height);
+
+    // find menu position
+    hyprland::Control hyprctl;
+    Vec2 pos = hyprctl.getCursorPos();
+
+    ui.init(pos.x, pos.y, width, height);
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);

@@ -80,3 +80,9 @@ target_link_libraries(hyprwat PRIVATE
     m
     pthread
 )
+
+# Install the executable
+install(TARGETS hyprwat
+        RUNTIME DESTINATION bin)
+
+

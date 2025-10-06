@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../vec2.hpp"
 #include <atomic>
 #include <functional>
 #include <string>
@@ -14,6 +15,8 @@ namespace hyprland {
 
         // Send command, return raw response
         std::string send(const std::string& command);
+
+        Vec2 getCursorPos();
 
     private:
         std::string socketPath;
