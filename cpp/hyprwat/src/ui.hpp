@@ -20,8 +20,9 @@ private:
     wl::Wayland& wayland;
     std::unique_ptr<wl::LayerSurface> surface;
     std::unique_ptr<egl::Context> egl;
-    float scale = 2.0f;
+    int32_t current_scale = 1;
     bool running = true;
 
     void renderFrame(Frame& frame);
+    void updateScale(int32_t new_scale);
 };

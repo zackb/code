@@ -12,15 +12,21 @@ void UI::init(int x, int y, int width, int height) {
         wayland.display().dispatch();
     }
 
+    // Get the current maximum scale from all outputs
+    current_scale = wayland.display().getMaxScale();
+
+    // Set up callback for dynamic scale changes
+    wayland.display().setScaleChangeCallback([this](int32_t new_scale) { updateScale(new_scale); });
+
     // Apply buffer scale (HiDPI). Keep logical size for layer surface sizing,
     // but render buffers (EGL window) in pixel size.
-    surface->setBufferScale((int32_t)ceil(scale));
+    surface->setBufferScale(current_scale);
 
     // Initialize EGL
     egl = std::make_unique<egl::Context>(wayland.display().display());
     // Create EGL window with buffer pixel size (logical * buffer_scale)
-    const int buf_w = surface->width() * surface->buffer_scale();
-    const int buf_h = surface->height() * surface->buffer_scale();
+    const int buf_w = surface->width() * current_scale;
+    const int buf_h = surface->height() * current_scale;
     if (!egl->createWindowSurface(surface->surface(), buf_w, buf_h)) {
         throw std::runtime_error("Failed to create EGL window surface");
     }
@@ -39,7 +45,7 @@ void UI::init(int x, int y, int width, int height) {
     io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
 
     // Framebuffer scale = buffer pixels / logical points
-    io.DisplayFramebufferScale = ImVec2((float)surface->buffer_scale(), (float)surface->buffer_scale());
+    io.DisplayFramebufferScale = ImVec2((float)current_scale, (float)current_scale);
 
     // load user font if available
     auto fontPath = font::defaultFontPath();
@@ -95,7 +101,7 @@ void UI::renderFrame(Frame& frame) {
     ImGuiIO& io = ImGui::GetIO();
     io.DeltaTime = 1.0f / 60.0f;
     io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
-    io.DisplayFramebufferScale = ImVec2((float)surface->buffer_scale(), (float)surface->buffer_scale());
+    io.DisplayFramebufferScale = ImVec2((float)current_scale, (float)current_scale);
 
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -125,4 +131,24 @@ void UI::renderFrame(Frame& frame) {
 
     // EGL buffer swap
     egl->swapBuffers();
+}
+
+void UI::updateScale(int32_t new_scale) {
+    if (new_scale == current_scale || !surface || !egl) {
+        return;
+    }
+
+    current_scale = new_scale;
+
+    // Update buffer scale
+    surface->setBufferScale(current_scale);
+
+    // Resize EGL window with new buffer size
+    const int buf_w = surface->width() * current_scale;
+    const int buf_h = surface->height() * current_scale;
+    if (egl->window()) {
+        wl_egl_window_resize(egl->window(), buf_w, buf_h, 0, 0);
+    }
+
+    // ImGui will be updated in the next renderFrame() call
 }
