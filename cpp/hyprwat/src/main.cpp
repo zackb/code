@@ -18,8 +18,8 @@
 int main(const int argc, const char** argv) {
     int x = 10;
     int y = 10;
-    int width = 500;
-    int height = 500;
+    int width = 400;
+    int height = 300;
 
     // Initialize Wayland
     wl::Wayland wayland;
@@ -36,11 +36,12 @@ int main(const int argc, const char** argv) {
     // find menu position
     hyprland::Control hyprctl;
     Vec2 pos = hyprctl.getCursorPos();
-    
+
     // Clamp position to screen bounds to prevent menu going off-screen
+    // Use a conservative estimate for initial clamping
     int menuX = (int)pos.x;
     int menuY = (int)pos.y;
-    ui.clampPosition(menuX, menuY, width, height);
+    ui.clampPosition(menuX, menuY, 350, 200); // Conservative estimate
 
     ui.init(menuX, menuY, width, height);
     if (argc > 1) {
