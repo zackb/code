@@ -32,7 +32,7 @@ int main(const int argc, const char** argv) {
     hyprland::Control hyprctl;
     Vec2 pos = hyprctl.getCursorPos();
 
-    ui.init(pos.x, pos.y, width, height);
+    ui.init((int)pos.x, (int)pos.y, width, height);
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);
