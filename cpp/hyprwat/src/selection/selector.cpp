@@ -48,18 +48,26 @@ bool Selector::render() {
     if (choices.size() > 0) {
         float maxTextWidth = 0;
         float totalHeight = 0;
-        ImVec2 padding = ImGui::GetStyle().FramePadding;
-        ImVec2 windowPadding = ImGui::GetStyle().WindowPadding;
+        ImGuiStyle& style = ImGui::GetStyle();
+        ImVec2 framePadding = style.FramePadding;
+        ImVec2 windowPadding = style.WindowPadding;
+        ImVec2 itemSpacing = style.ItemSpacing;
 
         for (const auto& choice : choices) {
             ImVec2 textSize = ImGui::CalcTextSize(choice.display.c_str());
             maxTextWidth = std::max(maxTextWidth, textSize.x);
-            totalHeight += textSize.y + padding.y * 2;
+            // Each item: text height + frame padding + item spacing
+            totalHeight += textSize.y + framePadding.y * 2;
         }
 
-        // Add some margin and window padding
-        float desiredWidth = maxTextWidth + padding.x * 2 + windowPadding.x * 2 + 20; // 20px extra margin
-        float desiredHeight = totalHeight + windowPadding.y * 2;
+        // Add spacing between items (n-1 spacings for n items)
+        if (choices.size() > 1) {
+            totalHeight += itemSpacing.y * (choices.size() - 1);
+        }
+
+        // Add window padding (top and bottom) and some extra margin
+        float desiredWidth = maxTextWidth + framePadding.x * 2 + windowPadding.x * 2 + 20; // 20px extra margin
+        float desiredHeight = totalHeight + windowPadding.y * 2 + 20; // 20px extra bottom margin for safety
 
         lastSize = ImVec2(desiredWidth, desiredHeight);
     }
@@ -67,7 +75,7 @@ bool Selector::render() {
     // Set the window to fill the entire display
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    
+
     ImGui::Begin("Select",
                  nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
@@ -88,6 +96,18 @@ bool Selector::render() {
         }
         // Update with actual rendered size (for fine-tuning)
         ImVec2 actualSize = ImGui::GetWindowSize();
+
+        // Debug: Print size comparison for first few frames
+        static int debugCount = 0;
+        if (debugCount < 3) {
+            printf("Selector: calculated=%.0fx%.0f, actual=%.0fx%.0f\n",
+                   lastSize.x,
+                   lastSize.y,
+                   actualSize.x,
+                   actualSize.y);
+            debugCount++;
+        }
+
         if (actualSize.x > lastSize.x * 0.8f && actualSize.y > lastSize.y * 0.8f) {
             lastSize = actualSize;
         }
