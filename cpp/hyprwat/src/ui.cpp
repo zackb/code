@@ -12,6 +12,9 @@ void UI::init(int x, int y, int width, int height) {
         wayland.display().dispatch();
     }
 
+    // TODO: This doesnt work
+    // surface->setBufferScale(ceil(scale));
+
     // Initialize EGL
     egl = std::make_unique<egl::Context>(wayland.display().display());
     if (!egl->createWindowSurface(surface->surface(), surface->width(), surface->height())) {
@@ -30,12 +33,13 @@ void UI::init(int x, int y, int width, int height) {
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
     io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
 
+    // TODO: We'll need this when fixing scaling
     // io.DisplayFramebufferScale = ImVec2(scale, scale);
 
     // load user font if available
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 18.0f * scale);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 14.0f * scale);
         io.FontDefault = font;
     }
     io.FontGlobalScale = 1.0f / scale;

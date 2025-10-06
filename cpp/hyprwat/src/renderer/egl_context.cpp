@@ -46,6 +46,12 @@ namespace egl {
         egl_surface = EGL_NO_SURFACE;
     }
 
+    Vec2 Context::getBufferSize() const {
+        int width, height;
+        wl_egl_window_get_attached_size(egl_window, &width, &height);
+        return {(float)width, (float)height};
+    }
+
     Context::~Context() {
         if (egl_window)
             wl_egl_window_destroy(egl_window);

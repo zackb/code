@@ -1,5 +1,6 @@
 #pragma once
 
+#include "src/vec2.hpp"
 extern "C" {
 #include <wayland-client.h>
 #include <wayland-egl.h>
@@ -16,6 +17,7 @@ namespace egl {
         bool createWindowSurface(wl_surface* surface, int width, int height);
         void makeCurrent();
         void swapBuffers();
+        Vec2 getBufferSize() const;
         wl_egl_window* window() const { return egl_window; }
 
     private:

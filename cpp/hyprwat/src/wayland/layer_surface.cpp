@@ -48,6 +48,11 @@ namespace wl {
         }
     }
 
+    void LayerSurface::setBufferScale(int32_t scale) {
+        wl_surface_set_buffer_scale(m_surface, scale);
+        wl_surface_commit(m_surface);
+    }
+
     void LayerSurface::configure_handler(
         void* data, zwlr_layer_surface_v1* layer_surface, uint32_t serial, uint32_t width, uint32_t height) {
         LayerSurface* self = static_cast<LayerSurface*>(data);

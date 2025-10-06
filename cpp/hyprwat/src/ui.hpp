@@ -1,13 +1,8 @@
 #pragma once
 
+#include "src/vec2.hpp"
 #include "src/wayland/layer_surface.hpp"
 #include "src/wayland/wayland.hpp"
-
-struct Vec2 {
-    float x;
-    float y;
-    bool operator!=(const Vec2& other) const { return x != other.x || y != other.y; }
-};
 
 class Frame {
 public:
@@ -25,7 +20,7 @@ private:
     wl::Wayland& wayland;
     std::unique_ptr<wl::LayerSurface> surface;
     std::unique_ptr<egl::Context> egl;
-    float scale = 1.5f;
+    float scale = 2.0f;
     bool running = true;
 
     void renderFrame(Frame& frame);

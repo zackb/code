@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/renderer/egl_context.hpp"
+#include "../renderer/egl_context.hpp"
 extern "C" {
 #include "protocols/wlr-layer-shell-unstable-v1-client-protocol.h"
 #include <wayland-client.h>
@@ -23,6 +23,8 @@ namespace wl {
 
         int width() const { return m_width; }
         int height() const { return m_height; }
+
+        void setBufferScale(int32_t scale);
 
     private:
         wl_compositor* m_compositor;
