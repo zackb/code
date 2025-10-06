@@ -44,12 +44,15 @@ namespace wl {
 
         // Resize the EGL window
         if (egl.window()) {
-            wl_egl_window_resize(egl.window(), new_width, new_height, 0, 0);
+            const int buf_w = new_width * (m_scale > 0 ? m_scale : 1);
+            const int buf_h = new_height * (m_scale > 0 ? m_scale : 1);
+            wl_egl_window_resize(egl.window(), buf_w, buf_h, 0, 0);
         }
     }
 
     void LayerSurface::setBufferScale(int32_t scale) {
-        wl_surface_set_buffer_scale(m_surface, scale);
+        m_scale = scale > 0 ? scale : 1;
+        wl_surface_set_buffer_scale(m_surface, m_scale);
         wl_surface_commit(m_surface);
     }
 
