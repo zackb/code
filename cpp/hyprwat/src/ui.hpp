@@ -25,7 +25,7 @@ private:
     wl::Wayland& wayland;
     std::unique_ptr<wl::LayerSurface> surface;
     std::unique_ptr<egl::Context> egl;
-    float scale = 1.0f;
+    float scale = 1.5f;
     bool running = true;
 
     void renderFrame(Frame& frame);
