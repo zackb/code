@@ -43,7 +43,12 @@ int main(const int argc, const char** argv) {
     int menuY = (int)pos.y;
     ui.clampPosition(menuX, menuY, 350, 200); // Conservative estimate
 
-    ui.init(menuX, menuY, width, height);
+    // Convert to logical coordinates for layer surface positioning
+    int logicalX = menuX / wayland.display().getMaxScale();
+    int logicalY = menuY / wayland.display().getMaxScale();
+    printf("DEBUG: Creating UI at physical=(%d,%d), logical=(%d,%d)\n", menuX, menuY, logicalX, logicalY);
+    
+    ui.init(logicalX, logicalY, width, height);
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);
