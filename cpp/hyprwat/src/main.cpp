@@ -15,9 +15,43 @@
 #include <GL/gl.h>
 #include <cstdio>
 
+void usage() {
+    fprintf(stderr, R"(Usage:
+  hyprwat [OPTIONS] [id[:displayName][*]]...
+
+Description:
+  A simple Wayland panel to present selectable options.
+
+  You can pass a list of items directly as command-line arguments, where each
+  item is a tuple in the form:
+
+      id[:displayName][*]
+
+  - `id`           : Required identifier string (used internally)
+  - `displayName`  : Optional label to show in the UI (defaults to id)
+  - `*`            : Optional suffix to mark this item as initially selected
+
+  Examples:
+    wat performance:Performance* balanced:Balanced powersave:PowerSaver
+    wat wifi0:Home wifi1:Work wifi2:Other
+
+Alternatively, if no arguments are passed, options can be provided via stdin:
+
+  echo "wifi0:Home*" | wat
+  echo -e "wifi0:Home*\nwifi1:Work\nwifi2:Other" | wat
+
+Options:
+  -h, --help       Show this help message
+)");
+}
+
 int main(const int argc, const char** argv) {
-    int x = 10;
-    int y = 10;
+
+    if (argc == 2 && !strncmp(argv[1], "--help", strlen(argv[1]))) {
+        usage();
+        return 1;
+    }
+
     int width = 500;
     int height = 500;
 
