@@ -5,10 +5,10 @@
 
 void UI::init(int x, int y, int width, int height) {
 
-    // Create wl layer surface with a reasonable initial size
-    // This will be resized based on content, but avoids starting too large
-    int initialWidth = std::min(width, 400);   // Cap initial width
-    int initialHeight = std::min(height, 300); // Cap initial height
+    // Create wl layer surface with minimal initial size to avoid flashing
+    // The surface will be resized to fit content after first render
+    int initialWidth = 1;  // Minimal size - will be resized immediately
+    int initialHeight = 1; // Minimal size - will be resized immediately
 
     surface = std::make_unique<wl::LayerSurface>(wayland.display().compositor(), wayland.display().layerShell());
     surface->create(x, y, initialWidth, initialHeight);
@@ -120,7 +120,10 @@ void UI::renderFrame(Frame& frame) {
 
     static Vec2 lastWindowSize;
     static int resizeStabilityCounter = 0;
-    const int RESIZE_STABILITY_FRAMES = 3; // Wait 3 frames before resizing
+    static int frameCount = 0;
+    frameCount++;
+
+    const int RESIZE_STABILITY_FRAMES = (frameCount < 10) ? 0 : 3; // Resize immediately for first 10 frames
 
     // Check if size changed
     if (desiredSize != lastWindowSize) {
@@ -130,10 +133,12 @@ void UI::renderFrame(Frame& frame) {
         resizeStabilityCounter++;
     }
 
-    // Only resize after size has been stable for a few frames
-    if (resizeStabilityCounter == RESIZE_STABILITY_FRAMES &&
-        (desiredSize.x != surface->width() || desiredSize.y != surface->height())) {
+    // Resize conditions: immediately for first frames, or after stability for later frames
+    bool shouldResize = (resizeStabilityCounter >= RESIZE_STABILITY_FRAMES) &&
+                        (desiredSize.x != surface->width() || desiredSize.y != surface->height()) &&
+                        (desiredSize.x > 0 && desiredSize.y > 0); // Ensure valid size
 
+    if (shouldResize) {
         // Clamp to reasonable bounds
         int newWidth = std::max(100, (int)desiredSize.x);
         int newHeight = std::max(50, (int)desiredSize.y);
