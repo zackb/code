@@ -44,6 +44,26 @@ bool Selector::render() {
     // lock for streaming stdin
     std::lock_guard<std::mutex> lock(Input::mutex);
 
+    // Pre-calculate desired size based on content
+    if (choices.size() > 0) {
+        float maxTextWidth = 0;
+        float totalHeight = 0;
+        ImVec2 padding = ImGui::GetStyle().FramePadding;
+        ImVec2 windowPadding = ImGui::GetStyle().WindowPadding;
+
+        for (const auto& choice : choices) {
+            ImVec2 textSize = ImGui::CalcTextSize(choice.display.c_str());
+            maxTextWidth = std::max(maxTextWidth, textSize.x);
+            totalHeight += textSize.y + padding.y * 2;
+        }
+
+        // Add some margin and window padding
+        float desiredWidth = maxTextWidth + padding.x * 2 + windowPadding.x * 2 + 20; // 20px extra margin
+        float desiredHeight = totalHeight + windowPadding.y * 2;
+
+        lastSize = ImVec2(desiredWidth, desiredHeight);
+    }
+
     ImGui::Begin("Select",
                  nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
@@ -53,21 +73,20 @@ bool Selector::render() {
 
     if (choices.size() == 0) {
         ImGui::Text("Loading...");
+        lastSize = ImVec2(200, 50); // Fallback size for loading
     } else {
         for (int i = 0; i < choices.size(); i++) {
-            /*
-            if (ImGui::Selectable(choices[i].display.c_str(), selected == i)) {
-                selected = i;
-                clicked = i;
-            }
-            */
             bool isSelected = (selected == i);
             if (RoundedSelectableFullWidth(choices[i].display.c_str(), isSelected)) {
                 selected = i;
                 clicked = i;
             }
         }
-        lastSize = ImGui::GetWindowSize();
+        // Update with actual rendered size (for fine-tuning)
+        ImVec2 actualSize = ImGui::GetWindowSize();
+        if (actualSize.x > lastSize.x * 0.8f && actualSize.y > lastSize.y * 0.8f) {
+            lastSize = actualSize;
+        }
     }
 
     ImGui::End();

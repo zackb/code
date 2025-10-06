@@ -5,9 +5,13 @@
 
 void UI::init(int x, int y, int width, int height) {
 
-    // Create wl layer surface
+    // Create wl layer surface with a reasonable initial size
+    // This will be resized based on content, but avoids starting too large
+    int initialWidth = std::min(width, 400);   // Cap initial width
+    int initialHeight = std::min(height, 300); // Cap initial height
+
     surface = std::make_unique<wl::LayerSurface>(wayland.display().compositor(), wayland.display().layerShell());
-    surface->create(x, y, width, height);
+    surface->create(x, y, initialWidth, initialHeight);
     while (!surface->is_configured()) {
         wayland.display().dispatch();
     }
@@ -107,19 +111,38 @@ void UI::renderFrame(Frame& frame) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    // ImGui::SetNextWindowSize(ImVec2(surface->width(), surface->height()));
 
     running = frame.render();
-    Vec2 windowSize = frame.getSize();
+    Vec2 desiredSize = frame.getSize();
 
-    // Render
+    // Render (but don't swap yet)
     ImGui::Render();
 
     static Vec2 lastWindowSize;
-    if (windowSize != lastWindowSize) {
-        surface->resize((int)windowSize.x, (int)windowSize.y, *egl);
-        wayland.input().setWindowBounds((int)windowSize.x, (int)windowSize.y);
-        lastWindowSize = windowSize;
+    static int resizeStabilityCounter = 0;
+    const int RESIZE_STABILITY_FRAMES = 3; // Wait 3 frames before resizing
+
+    // Check if size changed
+    if (desiredSize != lastWindowSize) {
+        resizeStabilityCounter = 0; // Reset counter on size change
+        lastWindowSize = desiredSize;
+    } else {
+        resizeStabilityCounter++;
+    }
+
+    // Only resize after size has been stable for a few frames
+    if (resizeStabilityCounter == RESIZE_STABILITY_FRAMES &&
+        (desiredSize.x != surface->width() || desiredSize.y != surface->height())) {
+
+        // Clamp to reasonable bounds
+        int newWidth = std::max(100, (int)desiredSize.x);
+        int newHeight = std::max(50, (int)desiredSize.y);
+
+        surface->resize(newWidth, newHeight, *egl);
+        wayland.input().setWindowBounds(newWidth, newHeight);
+
+        // Update display size for next frame
+        io.DisplaySize = ImVec2((float)newWidth, (float)newHeight);
     }
 
     // Use buffer pixel size for viewport
