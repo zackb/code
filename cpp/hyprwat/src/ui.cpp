@@ -204,8 +204,14 @@ void UI::clampPosition(int& x, int& y, int estimatedWidth, int estimatedHeight) 
     int32_t clampX = x;
     int32_t clampY = y;
     
+    printf("DEBUG: Before clamp: (%d, %d), size: %dx%d\n", x, y, estimatedWidth, estimatedHeight);
+    printf("DEBUG: Number of outputs: %zu\n", wayland.display().outputs().size());
+    
     if (wayland.display().clampToScreen(clampX, clampY, estimatedWidth, estimatedHeight)) {
+        printf("DEBUG: After clamp: (%d, %d)\n", clampX, clampY);
         x = clampX;
         y = clampY;
+    } else {
+        printf("DEBUG: Clamp failed\n");
     }
 }

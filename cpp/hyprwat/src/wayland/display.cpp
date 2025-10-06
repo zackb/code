@@ -133,7 +133,11 @@ namespace wl {
     }
 
     bool Display::clampToScreen(int32_t& x, int32_t& y, int32_t width, int32_t height) const {
+        printf("DEBUG: clampToScreen called with (%d, %d) size %dx%d, outputs: %zu\n", 
+               x, y, width, height, m_outputs.size());
+               
         if (m_outputs.empty()) {
+            printf("DEBUG: No outputs, using fallback 1920x1080\n");
             // Fallback: assume 1920x1080 screen
             x = std::max(0, std::min(x, 1920 - width));
             y = std::max(0, std::min(y, 1080 - height));

@@ -28,6 +28,10 @@ int main(const int argc, const char** argv) {
 
     UI ui(wayland);
 
+    // Wait for Wayland outputs to be discovered
+    // This ensures we have screen bounds information for clamping
+    wayland.display().roundtrip();
+
     // find menu position
     hyprland::Control hyprctl;
     Vec2 pos = hyprctl.getCursorPos();
