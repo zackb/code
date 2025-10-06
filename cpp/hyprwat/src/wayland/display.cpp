@@ -174,19 +174,32 @@ namespace wl {
         if (targetOutput) {
             // Check if output has valid dimensions
             if (targetOutput->width > 0 && targetOutput->height > 0) {
-                printf("DEBUG: Using output bounds: %dx%d at (%d,%d) scale=%d\n", 
-                       targetOutput->width, targetOutput->height, targetOutput->x, targetOutput->y, targetOutput->scale);
-                       
-                // Clamp in physical pixel space (cursor and layer surface positions are in physical pixels)
-                // But menu width/height are in logical pixels, so scale them up
-                int32_t physicalWidth = width * targetOutput->scale;
-                int32_t physicalHeight = height * targetOutput->scale;
+                // Convert to logical coordinate space for clamping
+                int32_t logicalWidth = targetOutput->width / targetOutput->scale;
+                int32_t logicalHeight = targetOutput->height / targetOutput->scale;
+                int32_t logicalX = targetOutput->x / targetOutput->scale;
+                int32_t logicalY = targetOutput->y / targetOutput->scale;
                 
-                printf("DEBUG: Menu size: logical=%dx%d, physical=%dx%d\n", 
-                       width, height, physicalWidth, physicalHeight);
+                // Convert cursor position to logical coordinates
+                int32_t logicalCursorX = x / targetOutput->scale;
+                int32_t logicalCursorY = y / targetOutput->scale;
+                
+                printf("DEBUG: Physical bounds: %dx%d at (%d,%d), Logical bounds: %dx%d at (%d,%d)\n", 
+                       targetOutput->width, targetOutput->height, targetOutput->x, targetOutput->y,
+                       logicalWidth, logicalHeight, logicalX, logicalY);
+                printf("DEBUG: Cursor: physical=(%d,%d), logical=(%d,%d), menu size=%dx%d\n", 
+                       x, y, logicalCursorX, logicalCursorY, width, height);
                        
-                x = std::max(targetOutput->x, std::min(x, targetOutput->x + targetOutput->width - physicalWidth));
-                y = std::max(targetOutput->y, std::min(y, targetOutput->y + targetOutput->height - physicalHeight));
+                // Clamp in logical space
+                int32_t clampedLogicalX = std::max(logicalX, std::min(logicalCursorX, logicalX + logicalWidth - width));
+                int32_t clampedLogicalY = std::max(logicalY, std::min(logicalCursorY, logicalY + logicalHeight - height));
+                
+                // Convert back to physical coordinates
+                x = clampedLogicalX * targetOutput->scale;
+                y = clampedLogicalY * targetOutput->scale;
+                
+                printf("DEBUG: Clamped: logical=(%d,%d), physical=(%d,%d)\n", 
+                       clampedLogicalX, clampedLogicalY, x, y);
                 return true;
             } else {
                 printf("DEBUG: Output has invalid dimensions, using fallback\n");
