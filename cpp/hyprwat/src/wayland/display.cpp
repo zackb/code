@@ -174,11 +174,19 @@ namespace wl {
         if (targetOutput) {
             // Check if output has valid dimensions
             if (targetOutput->width > 0 && targetOutput->height > 0) {
-                printf("DEBUG: Using output bounds: %dx%d at (%d,%d)\n", 
-                       targetOutput->width, targetOutput->height, targetOutput->x, targetOutput->y);
-                // Clamp to this output's bounds
-                x = std::max(targetOutput->x, std::min(x, targetOutput->x + targetOutput->width - width));
-                y = std::max(targetOutput->y, std::min(y, targetOutput->y + targetOutput->height - height));
+                // Convert physical pixels to logical pixels for positioning
+                int32_t logicalWidth = targetOutput->width / targetOutput->scale;
+                int32_t logicalHeight = targetOutput->height / targetOutput->scale;
+                int32_t logicalX = targetOutput->x / targetOutput->scale;
+                int32_t logicalY = targetOutput->y / targetOutput->scale;
+                
+                printf("DEBUG: Using output bounds: %dx%d at (%d,%d) (logical: %dx%d at (%d,%d))\n", 
+                       targetOutput->width, targetOutput->height, targetOutput->x, targetOutput->y,
+                       logicalWidth, logicalHeight, logicalX, logicalY);
+                       
+                // Clamp to logical bounds
+                x = std::max(logicalX, std::min(x, logicalX + logicalWidth - width));
+                y = std::max(logicalY, std::min(y, logicalY + logicalHeight - height));
                 return true;
             } else {
                 printf("DEBUG: Output has invalid dimensions, using fallback\n");
