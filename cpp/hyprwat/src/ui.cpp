@@ -5,10 +5,10 @@
 
 void UI::init(int x, int y, int width, int height) {
 
-    // Create wl layer surface with minimal initial size to avoid flashing
-    // The surface will be resized to fit content after first render
-    int initialWidth = 1;  // Minimal size - will be resized immediately
-    int initialHeight = 1; // Minimal size - will be resized immediately
+    // Create wl layer surface with small but reasonable initial size
+    // Small enough to avoid flash, large enough for ImGui to work properly
+    int initialWidth = 200;  // Small but workable size
+    int initialHeight = 100; // Small but workable size
 
     surface = std::make_unique<wl::LayerSurface>(wayland.display().compositor(), wayland.display().layerShell());
     surface->create(x, y, initialWidth, initialHeight);
@@ -112,18 +112,24 @@ void UI::renderFrame(Frame& frame) {
     ImGui::NewFrame();
     ImGui::SetNextWindowPos(ImVec2(0, 0));
 
-    running = frame.render();
-    Vec2 desiredSize = frame.getSize();
-
-    // Render (but don't swap yet)
-    ImGui::Render();
-
     static Vec2 lastWindowSize;
     static int resizeStabilityCounter = 0;
     static int frameCount = 0;
     frameCount++;
 
-    const int RESIZE_STABILITY_FRAMES = (frameCount < 10) ? 0 : 3; // Resize immediately for first 10 frames
+    running = frame.render();
+    Vec2 desiredSize = frame.getSize();
+
+    // Debug: Print size info for first few frames
+    if (frameCount <= 5) {
+        printf("Frame %d: desired=%.0fx%.0f, surface=%dx%d\n", 
+               frameCount, desiredSize.x, desiredSize.y, surface->width(), surface->height());
+    }
+
+    // Render (but don't swap yet)
+    ImGui::Render();
+
+    const int RESIZE_STABILITY_FRAMES = (frameCount < 20) ? 0 : 3; // Resize immediately for first 20 frames
 
     // Check if size changed
     if (desiredSize != lastWindowSize) {
