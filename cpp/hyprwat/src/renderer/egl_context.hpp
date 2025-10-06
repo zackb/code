@@ -23,6 +23,7 @@ namespace egl {
         EGLDisplay egl_display;
         EGLContext egl_context;
         EGLSurface egl_surface;
+        EGLConfig egl_config;
         wl_egl_window* egl_window = nullptr;
     };
 } // namespace egl

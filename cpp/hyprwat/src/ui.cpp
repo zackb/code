@@ -14,24 +14,24 @@ void UI::init(int x, int y, int width, int height) {
 
     // Initialize EGL
     egl = std::make_unique<egl::Context>(wayland.display().display());
-    if (!egl->createWindowSurface(surface->surface(), surface->width(), surface->height())) {
+    if (!egl->createWindowSurface(surface->surface(), surface->width() * scale, surface->height() * scale)) {
         throw std::runtime_error("Failed to create EGL window surface");
     }
 
     // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGui_ImplOpenGL3_Init("#version 130");
+    ImGui_ImplOpenGL3_Init("#version 100");
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
     io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
 
-    io.DisplayFramebufferScale = ImVec2(1.0, 1.0);
+    io.DisplayFramebufferScale = ImVec2(scale, scale);
 
     // load user font if available
     auto fontPath = font::defaultFontPath();
     if (!fontPath.empty()) {
-        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 14.0f);
+        ImFont* font = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 14.0f * scale);
         io.FontDefault = font;
     }
 
@@ -39,9 +39,11 @@ void UI::init(int x, int y, int width, int height) {
     ImGui::StyleColorsDark();
 
     ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(scale);
 
     style.ItemSpacing = ImVec2(10, 6);
-    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.75f);
+    // style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f); -- no transparent
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.95f);
 
     style.WindowRounding = 10.0f;
     style.FrameRounding = 6.0f;
@@ -96,8 +98,8 @@ void UI::renderFrame(Frame& frame) {
         wayland.input().setWindowBounds((int)windowSize.x, (int)windowSize.y);
     }
 
-    glViewport(0, 0, surface->width(), surface->height());
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glViewport(0, 0, surface->width() * scale, surface->height() * scale);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

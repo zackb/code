@@ -17,8 +17,8 @@
 int main(const int argc, const char** argv) {
     int x = 10;
     int y = 10;
-    int width = 1000;
-    int height = 1000;
+    int width = 500;
+    int height = 500;
 
     // Initialize Wayland
     wl::Wayland wayland;

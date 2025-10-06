@@ -15,15 +15,31 @@ namespace egl {
             return;
         }
 
-        EGLConfig config;
         EGLint num_config;
-        static const EGLint attribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT, EGL_NONE};
-        eglChooseConfig(egl_display, attribs, &config, 1, &num_config);
+        // static const EGLint attribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT, EGL_NONE};
+        static const EGLint attribs[] = {EGL_SURFACE_TYPE,
+                                         EGL_WINDOW_BIT,
+                                         EGL_RENDERABLE_TYPE,
+                                         EGL_OPENGL_ES2_BIT, // Use ES2 instead
+                                         EGL_RED_SIZE,
+                                         8,
+                                         EGL_GREEN_SIZE,
+                                         8,
+                                         EGL_BLUE_SIZE,
+                                         8,
+                                         EGL_ALPHA_SIZE,
+                                         8,
+                                         EGL_NONE};
+        eglChooseConfig(egl_display, attribs, &egl_config, 1, &num_config);
 
-        eglBindAPI(EGL_OPENGL_API);
-        egl_context = eglCreateContext(egl_display, config, EGL_NO_CONTEXT, nullptr);
+        eglBindAPI(EGL_OPENGL_ES_API);
+        static const EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION,
+                                                 2, // Request ES 2.0
+                                                 EGL_NONE};
+        egl_context = eglCreateContext(egl_display, egl_config, EGL_NO_CONTEXT, context_attribs);
         if (egl_context == EGL_NO_CONTEXT) {
             fprintf(stderr, "Failed to create EGL context\n");
+            fprintf(stderr, "Error code: %d\n", eglGetError());
             return;
         }
 
@@ -48,14 +64,12 @@ namespace egl {
             return false;
         }
 
-        EGLConfig config;
-        EGLint num_config;
-        static const EGLint attribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT, EGL_NONE};
-        eglChooseConfig(egl_display, attribs, &config, 1, &num_config);
+        EGLint surface_attribs[] = {EGL_RENDER_BUFFER, EGL_BACK_BUFFER, EGL_NONE};
 
-        egl_surface = eglCreateWindowSurface(egl_display, config, (EGLNativeWindowType)egl_window, nullptr);
+        egl_surface = eglCreateWindowSurface(egl_display, egl_config, (EGLNativeWindowType)egl_window, surface_attribs);
         if (egl_surface == EGL_NO_SURFACE) {
             fprintf(stderr, "Failed to create EGL surface\n");
+            fprintf(stderr, "Error code: 0x%x\n", eglGetError());
             return false;
         }
 
