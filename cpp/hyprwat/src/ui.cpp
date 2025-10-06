@@ -149,22 +149,18 @@ void UI::renderFrame(Frame& frame) {
         int newHeight = std::max(50, (int)desiredSize.y);
 
         // Re-clamp position with actual size to ensure menu stays on screen
-        // Start with current position in physical coordinates
-        int clampedX = surface->x() * current_scale;
-        int clampedY = surface->y() * current_scale;
+        // Start with current position (already in logical coordinates)
+        int clampedX = surface->x();
+        int clampedY = surface->y();
         
         if (wayland.display().clampToScreen(clampedX, clampedY, newWidth, newHeight)) {
             printf("DEBUG: Resize clamp result: (%d, %d) -> (%d, %d), surface pos: (%d, %d)\n", 
                    surface->x(), surface->y(), clampedX, clampedY, surface->x(), surface->y());
-            // Only reposition if the position actually changed
-            // Convert to logical coordinates for repositioning
-            int logicalClampedX = clampedX / current_scale;
-            int logicalClampedY = clampedY / current_scale;
-            
-            if (logicalClampedX != surface->x() || logicalClampedY != surface->y()) {
-                printf("DEBUG: Repositioning surface from (%d, %d) to logical (%d, %d)\n", 
-                       surface->x(), surface->y(), logicalClampedX, logicalClampedY);
-                surface->reposition(logicalClampedX, logicalClampedY);
+            // Only reposition if the position actually changed (both already in logical coordinates)
+            if (clampedX != surface->x() || clampedY != surface->y()) {
+                printf("DEBUG: Repositioning surface from (%d, %d) to (%d, %d)\n", 
+                       surface->x(), surface->y(), clampedX, clampedY);
+                surface->reposition(clampedX, clampedY);
             } else {
                 printf("DEBUG: No reposition needed - position unchanged\n");
             }

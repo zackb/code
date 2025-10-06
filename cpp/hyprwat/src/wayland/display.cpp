@@ -194,12 +194,11 @@ namespace wl {
                 int32_t clampedLogicalX = std::max(logicalX, std::min(logicalCursorX, logicalX + logicalWidth - width));
                 int32_t clampedLogicalY = std::max(logicalY, std::min(logicalCursorY, logicalY + logicalHeight - height));
                 
-                // Convert back to physical coordinates
-                x = clampedLogicalX * targetOutput->scale;
-                y = clampedLogicalY * targetOutput->scale;
+                // Return logical coordinates (layer surface positioning uses logical coordinates)
+                x = clampedLogicalX;
+                y = clampedLogicalY;
                 
-                printf("DEBUG: Clamped: logical=(%d,%d), physical=(%d,%d)\n", 
-                       clampedLogicalX, clampedLogicalY, x, y);
+                printf("DEBUG: Clamped to logical=(%d,%d)\n", x, y);
                 return true;
             } else {
                 printf("DEBUG: Output has invalid dimensions, using fallback\n");

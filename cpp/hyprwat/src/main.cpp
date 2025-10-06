@@ -38,17 +38,16 @@ int main(const int argc, const char** argv) {
     Vec2 pos = hyprctl.getCursorPos();
 
     // Clamp position to screen bounds to prevent menu going off-screen
-    // Use a conservative estimate for initial clamping
-    int menuX = (int)pos.x;
-    int menuY = (int)pos.y;
+    // Convert cursor position to logical coordinates first
+    int logicalCursorX = (int)pos.x / wayland.display().getMaxScale();
+    int logicalCursorY = (int)pos.y / wayland.display().getMaxScale();
+    int menuX = logicalCursorX;
+    int menuY = logicalCursorY;
     ui.clampPosition(menuX, menuY, 350, 200); // Conservative estimate
 
-    // Convert to logical coordinates for layer surface positioning
-    int logicalX = menuX / wayland.display().getMaxScale();
-    int logicalY = menuY / wayland.display().getMaxScale();
-    printf("DEBUG: Creating UI at physical=(%d,%d), logical=(%d,%d)\n", menuX, menuY, logicalX, logicalY);
+    printf("DEBUG: Creating UI at position=(%d,%d)\n", menuX, menuY);
     
-    ui.init(logicalX, logicalY, width, height);
+    ui.init(menuX, menuY, width, height);
     if (argc > 1) {
         // parse argv for choices
         auto choices = Input::parseArgv(argc, argv);
