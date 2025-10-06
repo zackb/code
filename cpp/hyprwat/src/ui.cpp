@@ -77,6 +77,8 @@ void UI::renderFrame(Frame& frame) {
     // Start ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    // ImGui::SetNextWindowSize(ImVec2(surface->width(), surface->height()));
 
     running = frame.render();
     Vec2 windowSize = frame.getSize();
@@ -84,11 +86,10 @@ void UI::renderFrame(Frame& frame) {
     // Render
     ImGui::Render();
 
-    static bool hasResized = true;
-    if (!hasResized && windowSize.x > 20.0) {
+    static Vec2 lastWindowSize;
+    if (windowSize != lastWindowSize) {
         surface->resize((int)windowSize.x, (int)windowSize.y, *egl);
         wayland.input().setWindowBounds((int)windowSize.x, (int)windowSize.y);
-        hasResized = true;
     }
 
     glViewport(0, 0, surface->width(), surface->height());
