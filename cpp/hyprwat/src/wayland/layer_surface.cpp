@@ -16,6 +16,8 @@ namespace wl {
         m_height = height;
         m_x = x;
         m_y = y;
+        
+        printf("DEBUG: LayerSurface::create at (%d, %d) size %dx%d\n", x, y, width, height);
 
         m_surface = wl_compositor_create_surface(m_compositor);
         m_layer_surface = zwlr_layer_shell_v1_get_layer_surface(
@@ -55,6 +57,8 @@ namespace wl {
     void LayerSurface::reposition(int new_x, int new_y) {
         m_x = new_x;
         m_y = new_y;
+        
+        printf("DEBUG: LayerSurface::reposition to (%d, %d)\n", new_x, new_y);
         
         // Update the layer surface margin to change position
         zwlr_layer_surface_v1_set_margin(m_layer_surface, new_y, 0, 0, new_x);
