@@ -7,8 +7,8 @@ void UI::init(int x, int y, int width, int height) {
 
     // Create wl layer surface with small but reasonable initial size
     // Small enough to avoid flash, large enough for ImGui to work properly
-    int initialWidth = 200;  // Small but workable size
-    int initialHeight = 100; // Small but workable size
+    int initialWidth = 50;  // Small but workable size
+    int initialHeight = 50; // Small but workable size
 
     surface = std::make_unique<wl::LayerSurface>(wayland.display().compositor(), wayland.display().layerShell());
     surface->create(x, y, initialWidth, initialHeight);
@@ -123,9 +123,6 @@ void UI::renderFrame(Frame& frame) {
     // Debug: Print size info for first few frames
     if (frameCount <= 5) {
         Vec2 bufSize = egl->getBufferSize();
-        printf("Frame %d: desired=%.0fx%.0f, surface=%dx%d, buffer=%.0fx%.0f, display=%.0fx%.0f\n", 
-               frameCount, desiredSize.x, desiredSize.y, surface->width(), surface->height(),
-               bufSize.x, bufSize.y, io.DisplaySize.x, io.DisplaySize.y);
     }
 
     // Render (but don't swap yet)
