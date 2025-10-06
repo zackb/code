@@ -64,6 +64,10 @@ bool Selector::render() {
         lastSize = ImVec2(desiredWidth, desiredHeight);
     }
 
+    // Set the window to fill the entire display
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    
     ImGui::Begin("Select",
                  nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |

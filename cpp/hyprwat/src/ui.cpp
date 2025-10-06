@@ -104,7 +104,7 @@ void UI::renderFrame(Frame& frame) {
 
     ImGuiIO& io = ImGui::GetIO();
     io.DeltaTime = 1.0f / 60.0f;
-    io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
+    // DisplaySize will be updated after potential resize
     io.DisplayFramebufferScale = ImVec2((float)current_scale, (float)current_scale);
 
     // Start ImGui frame
@@ -122,8 +122,10 @@ void UI::renderFrame(Frame& frame) {
 
     // Debug: Print size info for first few frames
     if (frameCount <= 5) {
-        printf("Frame %d: desired=%.0fx%.0f, surface=%dx%d\n", 
-               frameCount, desiredSize.x, desiredSize.y, surface->width(), surface->height());
+        Vec2 bufSize = egl->getBufferSize();
+        printf("Frame %d: desired=%.0fx%.0f, surface=%dx%d, buffer=%.0fx%.0f, display=%.0fx%.0f\n", 
+               frameCount, desiredSize.x, desiredSize.y, surface->width(), surface->height(),
+               bufSize.x, bufSize.y, io.DisplaySize.x, io.DisplaySize.y);
     }
 
     // Render (but don't swap yet)
@@ -152,11 +154,14 @@ void UI::renderFrame(Frame& frame) {
         surface->resize(newWidth, newHeight, *egl);
         wayland.input().setWindowBounds(newWidth, newHeight);
 
-        // Update display size for next frame
+        // Update display size immediately for current frame
         io.DisplaySize = ImVec2((float)newWidth, (float)newHeight);
+    } else {
+        // Ensure DisplaySize is always current
+        io.DisplaySize = ImVec2((float)surface->width(), (float)surface->height());
     }
 
-    // Use buffer pixel size for viewport
+    // Use buffer pixel size for viewport (after any resize)
     Vec2 bufSize = egl->getBufferSize();
     glViewport(0, 0, (int)bufSize.x, (int)bufSize.y);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
