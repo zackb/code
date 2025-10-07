@@ -67,7 +67,7 @@ bool Selector::render() {
 
         // Add window padding (top and bottom) and some extra margin
         float desiredWidth = maxTextWidth + framePadding.x * 2 + windowPadding.x * 2 + 20; // 20px extra margin
-        float desiredHeight = totalHeight + windowPadding.y * 2 + 5; // 5px extra bottom margin
+        float desiredHeight = totalHeight + windowPadding.y * 2 + 5;                       // 5px extra bottom margin
 
         lastSize = ImVec2(desiredWidth, desiredHeight);
     }
@@ -94,19 +94,8 @@ bool Selector::render() {
                 clicked = i;
             }
         }
-        // Update with actual rendered size (for fine-tuning)
+        // Update with actual rendered size
         ImVec2 actualSize = ImGui::GetWindowSize();
-
-        // Debug: Print size comparison for first few frames
-        static int debugCount = 0;
-        if (debugCount < 3) {
-            printf("Selector: calculated=%.0fx%.0f, actual=%.0fx%.0f\n",
-                   lastSize.x,
-                   lastSize.y,
-                   actualSize.x,
-                   actualSize.y);
-            debugCount++;
-        }
 
         if (actualSize.x > lastSize.x * 0.8f && actualSize.y > lastSize.y * 0.8f) {
             lastSize = actualSize;
@@ -115,6 +104,7 @@ bool Selector::render() {
 
     ImGui::End();
 
+    // if an item was clicked, print its id and exit
     if (clicked >= 0) {
         std::cout << choices[clicked].id << std::endl;
         std::cout.flush();
