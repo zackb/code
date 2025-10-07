@@ -7,6 +7,8 @@ extern "C" {
 #include "imgui.h"
 
 namespace wl {
+
+    // Handles input from a wl_seat and forwards it to ImGui
     class InputHandler {
     public:
         InputHandler(wl_seat*);
@@ -14,8 +16,7 @@ namespace wl {
         ~InputHandler();
 
         void setWindowBounds(int width, int height);
-        bool clickedOutside() const { return clicked_outside; }
-        void resetClickedOutside() { clicked_outside = false; }
+        bool shouldExit() const { return should_exit; }
         void setIO(ImGuiIO* new_io) { io = new_io; }
 
     private:
@@ -25,12 +26,13 @@ namespace wl {
         ImGuiIO* io;
         int width = 0;
         int height = 0;
-        bool clicked_outside = false;
+        bool should_exit = false;
 
         // Seat callbacks
         static void seat_capabilities(void* data, wl_seat* seat, uint32_t capabilities);
         static void seat_name(void* data, wl_seat* seat, const char* name);
 
+        // Listener
         constexpr static const wl_seat_listener seat_listener = {.capabilities = seat_capabilities, .name = seat_name};
 
         // Pointer callbacks

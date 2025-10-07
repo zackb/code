@@ -8,24 +8,25 @@ extern "C" {
 
 namespace wl {
 
+    // manages a wl_layer_surface for a Wayland compositor using the wlr-layer-shell protocol
     class LayerSurface {
     public:
         LayerSurface(wl_compositor* compositor, zwlr_layer_shell_v1* shell);
         ~LayerSurface();
 
         void create(int x, int y, int width, int height);
-        bool is_configured() const { return m_configured; }
+        bool isConfigured() const { return m_configured; }
         wl_surface* surface() const { return m_surface; }
         void resize(int new_width, int new_height, egl::Context& egl);
 
-        void request_exit() { m_should_exit = true; }
-        bool should_exit() const { return m_should_exit; }
+        void requestExit() { m_should_exit = true; }
+        bool shouldExit() const { return m_should_exit; }
 
         int width() const { return m_width; }
         int height() const { return m_height; }
 
-        void setBufferScale(int32_t scale);
-        int32_t buffer_scale() const { return m_scale; }
+        void bufferScale(int32_t scale);
+        int32_t bufferScale() const { return m_scale; }
 
     private:
         wl_compositor* m_compositor;

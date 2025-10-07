@@ -13,14 +13,14 @@ public:
 class UI {
 public:
     UI(wl::Wayland& wayland) : wayland(wayland) {}
-    void init(int x, int y, int width, int height);
+    void init(int x, int y);
     void run(Frame& frame);
 
 private:
     wl::Wayland& wayland;
     std::unique_ptr<wl::LayerSurface> surface;
     std::unique_ptr<egl::Context> egl;
-    int32_t current_scale = 1;
+    int32_t currentScale = 1;
     bool running = true;
 
     void renderFrame(Frame& frame);

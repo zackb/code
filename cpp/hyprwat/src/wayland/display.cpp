@@ -87,13 +87,13 @@ namespace wl {
     }
 
     int32_t Display::getMaxScale() const {
-        int32_t max_scale = 1;
+        int32_t max = 1;
         for (const auto& output : m_outputs) {
-            if (output.scale > max_scale) {
-                max_scale = output.scale;
+            if (output.scale > max) {
+                max = output.scale;
             }
         }
-        return max_scale;
+        return max;
     }
 
     void Display::registry_remover(void* data, wl_registry*, uint32_t id) {

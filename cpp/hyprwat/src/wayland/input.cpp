@@ -25,9 +25,11 @@ namespace wl {
         this->height = h;
     }
 
+    // calback for the wayland seat capabilities event
     void InputHandler::seat_capabilities(void* data, wl_seat* seat, uint32_t capabilities) {
         InputHandler* self = static_cast<InputHandler*>(data);
 
+        // check if the seat has pointer capabilities
         if (capabilities & WL_SEAT_CAPABILITY_POINTER) {
             self->pointer = wl_seat_get_pointer(seat);
             static const wl_pointer_listener pointer_listener = {.enter = pointer_enter,
@@ -42,6 +44,7 @@ namespace wl {
             wl_pointer_add_listener(self->pointer, &pointer_listener, self);
         }
 
+        // check if the seat has keyboard capabilities
         if (capabilities & WL_SEAT_CAPABILITY_KEYBOARD) {
             self->keyboard = wl_seat_get_keyboard(seat);
             static const wl_keyboard_listener keyboard_listener = {.keymap = keyboard_keymap,
@@ -78,7 +81,7 @@ namespace wl {
                 float x = self->io->MousePos.x;
                 float y = self->io->MousePos.y;
                 if (x < 0 || x >= self->width || y < 0 || y >= self->height) {
-                    self->clicked_outside = true;
+                    self->should_exit = true;
                 }
             }
         }

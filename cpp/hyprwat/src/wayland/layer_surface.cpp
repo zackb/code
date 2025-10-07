@@ -11,6 +11,7 @@ namespace wl {
             wl_surface_destroy(m_surface);
     }
 
+    // create the layer surface at given position and size
     void LayerSurface::create(int x, int y, int width, int height) {
         m_width = width;
         m_height = height;
@@ -34,6 +35,7 @@ namespace wl {
         wl_surface_commit(m_surface);
     }
 
+    // resize the layer surface and associated EGL window
     void LayerSurface::resize(int new_width, int new_height, egl::Context& egl) {
         m_width = new_width;
         m_height = new_height;
@@ -50,7 +52,8 @@ namespace wl {
         }
     }
 
-    void LayerSurface::setBufferScale(int32_t scale) {
+    // set the buffer scale for hidpi support
+    void LayerSurface::bufferScale(int32_t scale) {
         m_scale = scale > 0 ? scale : 1;
         wl_surface_set_buffer_scale(m_surface, m_scale);
         wl_surface_commit(m_surface);
