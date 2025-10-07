@@ -1,3 +1,5 @@
+# MOVE TO TOPLEVEL
+[Moved to it's own repo](https://github.com/zackb/hyprwat)
 # hyprwat
 
 A simple Wayland panel to present selectable options with a modern GUI interface. Built with ImGui and designed to work seamlessly with Hyprland compositor.
