@@ -8,6 +8,7 @@ Hyprman::Hyprman() : button("Click Me") {
     set_margin_start(10);
     set_margin_end(10);
 
+    button.set_margin(10);
     button.set_size_request(50, 50);
     button.signal_clicked().connect(sigc::mem_fun(*this, &Hyprman::on_button_clicked));
 
