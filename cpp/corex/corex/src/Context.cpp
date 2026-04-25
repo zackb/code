@@ -18,7 +18,7 @@ bool Context::init() {
         return false;
     }
 
-    window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1281, 800, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Meconium", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1281, 800, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!window) {
         std::cerr << "CreateWindow Error: " << SDL_GetError() << std::endl;
@@ -59,6 +59,7 @@ bool Context::init() {
 
     // hold window size
     SDL_GetWindowSize(window, &windowSize.width, &windowSize.height);
+    SDL_RenderSetLogicalSize(renderer, windowSize.width, windowSize.height);
 
     return true;
 }
