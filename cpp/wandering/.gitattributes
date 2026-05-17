@@ -1,0 +1,5 @@
+assets/*.blend filter=lfs diff=lfs merge=lfs -text
+assets/jump.glb filter=lfs diff=lfs merge=lfs -text
+assets/player.glb filter=lfs diff=lfs merge=lfs -text
+assets/zlorp.glb filter=lfs diff=lfs merge=lfs -text
+assets/Zlorp.blend filter=lfs diff=lfs merge=lfs -text
