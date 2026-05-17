@@ -220,7 +220,7 @@ std::unique_ptr<ChunkData> World::GenerateChunkData(int cx, int cz) {
     int offsetY = baseOffsetY + cz * (CHUNK_RES - 1) - pad;
 
     Image noiseImage = GenImagePerlinNoise(paddedRes, paddedRes, offsetX, offsetY, adjustedScale);
-    ImageBlurGaussian(&noiseImage, 2);
+    // ImageBlurGaussian(&noiseImage, 2);
 
     // save padded heights for perfect normals across boundaries
     Color* paddedPixels = LoadImageColors(noiseImage);
