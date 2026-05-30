@@ -124,6 +124,11 @@ World::World(const std::string& mapPath) {
     Vector3 lightDir = {-1.0f, 1.0f, -1.0f}; // light pointing down, left, and backward
     SetShaderValue(terrainShader, lightDirLoc, &lightDir, SHADER_UNIFORM_VEC3);
 
+    Mesh sphere = GenMeshSphere(20.0f, 32, 32);
+    sphereModel = LoadModelFromMesh(sphere);
+    sphereModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture("assets/sky2.png");
+    sphereRotation = 0.0f;
+
     // initial load will happen in first Update call
 }
 
@@ -370,6 +375,12 @@ void World::Update(const Vector3& playerPos, float dt) {
     for (const auto& key : toUnload) {
         UnloadChunk(key.first, key.second);
     }
+    // testing sphere
+    sphereRotation += GetFrameTime() * 20.0f; // degrees per second
+    if (sphereRotation >= 360.0f)
+        sphereRotation -= 360.0f;
+    Matrix rotationMat = MatrixRotateY(DEG2RAD * sphereRotation);
+    sphereModel.transform = rotationMat;
 }
 
 float World::GetTerrainHeightAt(float x, float z) const {
@@ -465,4 +476,7 @@ void World::Draw() const {
             DrawCubeWiresV(prop.position, prop.size, BLACK);
         }
     }
+
+    // Draw sphere
+    DrawModel(sphereModel, (Vector3){0.0f, 60.0f, 30.0f}, 1.0f, WHITE);
 }

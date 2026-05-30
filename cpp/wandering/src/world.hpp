@@ -50,6 +50,8 @@ private:
 
     std::vector<Prop> globalProps; // all props loaded from map
     Shader terrainShader;
+    Model sphereModel;
+    float sphereRotation;
 
     int baseOffsetX;
     int baseOffsetY;
