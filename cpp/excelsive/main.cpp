@@ -139,15 +139,22 @@ int writeSchedule(Schedule& schedule) {
         year_month_day today_ymd = year_month_day{today};
         weekday today_wd = weekday{today};
 
-        // Compute days to next Sunday (0 = Sunday)
-        days days_until_sunday = weekday{Sunday} - today_wd;
+        // find the closest Sunday past or future
+        unsigned dow = today_wd.c_encoding(); // 0=sun 1=mon 6=sat
+        unsigned days_since = dow;
+        unsigned days_until = (7 - dow) % 7;
 
-        sys_days next_sunday = today + days_until_sunday;
+        sys_days closest_sunday;
+        if (days_since <= days_until)
+            closest_sunday = today - days{days_since};
+        else
+            closest_sunday = today + days{days_until};
+
         std::cout << "Today is: " << today_ymd << "\n";
-        std::cout << "Next Sunday is: " << next_sunday << "\n";
+        std::cout << "Closest Sunday is: " << closest_sunday << "\n";
 
         // Monday
-        sys_days monday = next_sunday - days{6};
+        sys_days monday = closest_sunday - days{6};
         writeShift(book, sheet, schedule, "m", monday, 16);
 
         // Tuesday
@@ -171,7 +178,7 @@ int writeSchedule(Schedule& schedule) {
         writeShift(book, sheet, schedule, "sa", saturday, 21);
 
         // Sunday
-        sys_days sunday = saturday + days{1};
+        sys_days sunday = closest_sunday;
         writeShift(book, sheet, schedule, "su", sunday, 22);
 
         // total up hours worked
