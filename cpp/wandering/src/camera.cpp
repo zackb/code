@@ -1,11 +1,14 @@
 #include "camera.hpp"
-#include "player.hpp"
+#include "components.hpp"
 #include <raymath.h>
 
-ThirdPersonCamera::ThirdPersonCamera(Player* target) : target(target), distance(12.0f), pitch(0.3f), yaw(0.0f) {
+ThirdPersonCamera::ThirdPersonCamera(entt::registry& reg, entt::entity target)
+    : reg(reg), target(target), distance(12.0f), pitch(0.3f), yaw(0.0f) {
+
+    Vector3 targetPos = reg.get<Spatial>(target).position;
 
     camera.position = {0.0f, 10.0f, 10.0f};
-    camera.target = target->GetPosition();
+    camera.target = targetPos;
     camera.up = {0.0f, 1.0f, 0.0f};
     camera.fovy = 60.0f;
     camera.projection = CAMERA_PERSPECTIVE;
@@ -26,8 +29,8 @@ void ThirdPersonCamera::Update(float dt) {
     if (pitch < -0.2f)
         pitch = -0.2f;
 
-    // update player's rotation to match camera yaw
-    target->SetRotation(yaw);
+    // feed the camera yaw back to the player as its control heading
+    reg.get<Heading>(target).yaw = yaw;
 
     // zoom
     float wheel = GetMouseWheelMove();
@@ -38,7 +41,7 @@ void ThirdPersonCamera::Update(float dt) {
         distance = 30.0f;
 
     // calculate camera position based on player and spherical coordinates
-    Vector3 playerPos = target->GetPosition();
+    Vector3 playerPos = reg.get<Spatial>(target).position;
 
     // an offset for where the camera looks
     Vector3 targetPos = Vector3Add(playerPos, {0.0f, 1.5f, 0.0f});

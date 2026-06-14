@@ -1,7 +1,8 @@
 #pragma once
 #include "camera.hpp"
-#include "player.hpp"
+#include "resources.hpp"
 #include "world.hpp"
+#include <entt/entt.hpp>
 #include <memory>
 #include <string>
 
@@ -17,8 +18,10 @@ private:
     void Update();
     void Draw();
 
-    std::unique_ptr<Player> player;
-    std::unique_ptr<ThirdPersonCamera> camera;
+    entt::registry registry;
+    std::unique_ptr<ResourceCache> resources;
     std::unique_ptr<World> world;
+    std::unique_ptr<ThirdPersonCamera> camera;
+    entt::entity playerEntity;
     bool isRunning;
 };

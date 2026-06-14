@@ -1,11 +1,10 @@
 #pragma once
+#include <entt/entt.hpp>
 #include <raylib.h>
-
-class Player;
 
 class ThirdPersonCamera {
 public:
-    ThirdPersonCamera(Player* target);
+    ThirdPersonCamera(entt::registry& reg, entt::entity target);
     ~ThirdPersonCamera() = default;
 
     void Update(float dt);
@@ -13,7 +12,8 @@ public:
     void EndMode() const;
 
 private:
-    Player* target;
+    entt::registry& reg;
+    entt::entity target;
     Camera3D camera;
     float distance;
     float pitch;

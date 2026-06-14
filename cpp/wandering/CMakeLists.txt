@@ -20,14 +20,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(nlohmann_json)
 
+FetchContent_Declare(
+    EnTT
+    GIT_REPOSITORY https://github.com/skypjack/entt.git
+    GIT_TAG v3.13.2
+)
+FetchContent_MakeAvailable(EnTT)
+
 add_executable(wandering
     src/main.cpp
     src/game.cpp
-    src/player.cpp
+    src/resources.cpp
+    src/systems.cpp
     src/camera.cpp
     src/world.cpp
     src/debug.cpp
 )
 
 target_include_directories(wandering PRIVATE src)
-target_link_libraries(wandering PRIVATE raylib nlohmann_json::nlohmann_json)
+target_link_libraries(wandering PRIVATE raylib nlohmann_json::nlohmann_json EnTT::EnTT)

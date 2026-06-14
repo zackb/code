@@ -43,31 +43,42 @@ in vec3 fragPosition;
 
 uniform vec3 lightDir;
 
+// Splatmap layers, low -> high elevation.
+uniform sampler2D texSand;
+uniform sampler2D texGrass;
+uniform sampler2D texRock;
+uniform sampler2D texSnow;
+
 out vec4 finalColor;
 
 void main()
 {
-    // Height-based color blending
-    vec3 colorSand = vec3(0.8, 0.7, 0.5);
-    vec3 colorGrass = vec3(0.2, 0.5, 0.2);
-    vec3 colorRock = vec3(0.4, 0.4, 0.4);
-    vec3 colorSnow = vec3(0.9, 0.95, 1.0);
+    // Tile the textures in world space so they line up seamlessly across
+    // chunk boundaries (chunk-local UVs would visibly repeat per chunk).
+    vec2 uv = fragPosition.xz * 0.08;
+    vec3 sand  = texture(texSand,  uv).rgb;
+    vec3 grass = texture(texGrass, uv).rgb;
+    vec3 rock  = texture(texRock,  uv).rgb;
+    vec3 snow  = texture(texSnow,  uv).rgb;
 
-    // relative height since world Y goes up based on local chunk
+    // Blend the layers by elevation.
     float h = fragPosition.y;
     vec3 terrainColor;
-
     if (h < 5.0) {
-        terrainColor = mix(colorSand, colorGrass, smoothstep(2.0, 5.0, h));
+        terrainColor = mix(sand, grass, smoothstep(2.0, 5.0, h));
     } else if (h < 20.0) {
-        terrainColor = mix(colorGrass, colorRock, smoothstep(12.0, 20.0, h));
+        terrainColor = mix(grass, rock, smoothstep(12.0, 20.0, h));
     } else {
-        terrainColor = mix(colorRock, colorSnow, smoothstep(25.0, 32.0, h));
+        terrainColor = mix(rock, snow, smoothstep(25.0, 32.0, h));
     }
+
+    // Steep faces become rocky regardless of height.
+    vec3 N = normalize(fragNormal);
+    float slope = 1.0 - N.y; // 0 = flat, 1 = vertical
+    terrainColor = mix(terrainColor, rock, smoothstep(0.35, 0.65, slope));
 
     // Basic diffuse lighting
     vec3 L = normalize(lightDir);
-    vec3 N = normalize(fragNormal);
     float NdotL = max(dot(N, L), 0.0);
 
     vec3 ambient = vec3(0.2, 0.2, 0.25);
@@ -78,6 +89,29 @@ void main()
     finalColor = vec4(terrainColor * lighting, 1.0);
 }
 )";
+
+// Builds a tileable terrain texture: a base colour modulated by Perlin noise so
+// each layer has surface detail. Generated at runtime so the project needs no
+// external image assets; swap in LoadTexture(...) here to use real PNGs.
+static Texture2D GenTerrainTexture(Color base, float noiseScale, int seed) {
+    const int S = 256;
+    Image noise = GenImagePerlinNoise(S, S, seed, seed, noiseScale);
+    Color* px = LoadImageColors(noise);
+    for (int i = 0; i < S * S; i++) {
+        float f = 0.65f + 0.45f * (px[i].r / 255.0f);
+        px[i].r = (unsigned char)Clamp(base.r * f, 0.0f, 255.0f);
+        px[i].g = (unsigned char)Clamp(base.g * f, 0.0f, 255.0f);
+        px[i].b = (unsigned char)Clamp(base.b * f, 0.0f, 255.0f);
+        px[i].a = 255;
+    }
+    Image img = {px, S, S, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8};
+    Texture2D tex = LoadTextureFromImage(img);
+    SetTextureFilter(tex, TEXTURE_FILTER_BILINEAR);
+    SetTextureWrap(tex, TEXTURE_WRAP_REPEAT);
+    UnloadImage(noise);
+    UnloadImageColors(px); // frees img.data (== px)
+    return tex;
+}
 
 World::World(const std::string& mapPath) {
     baseOffsetX = rand() % 1000;
@@ -124,6 +158,16 @@ World::World(const std::string& mapPath) {
     Vector3 lightDir = {-1.0f, 1.0f, -1.0f}; // light pointing down, left, and backward
     SetShaderValue(terrainShader, lightDirLoc, &lightDir, SHADER_UNIFORM_VEC3);
 
+    // generate the splatmap layer textures and cache their sampler locations
+    terrainTextures[0] = GenTerrainTexture({200, 180, 130, 255}, 12.0f, 1); // sand
+    terrainTextures[1] = GenTerrainTexture({60, 130, 55, 255}, 16.0f, 2);   // grass
+    terrainTextures[2] = GenTerrainTexture({110, 105, 100, 255}, 20.0f, 3); // rock
+    terrainTextures[3] = GenTerrainTexture({235, 240, 250, 255}, 10.0f, 4); // snow
+    terrainTexLocs[0] = GetShaderLocation(terrainShader, "texSand");
+    terrainTexLocs[1] = GetShaderLocation(terrainShader, "texGrass");
+    terrainTexLocs[2] = GetShaderLocation(terrainShader, "texRock");
+    terrainTexLocs[3] = GetShaderLocation(terrainShader, "texSnow");
+
     Mesh sphere = GenMeshSphere(20.0f, 32, 32);
     sphereModel = LoadModelFromMesh(sphere);
     sphereModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = LoadTexture("assets/sky2.png");
@@ -138,6 +182,9 @@ World::~World() {
         UnloadTexture(pair.second->texture);
     }
     activeChunks.clear();
+    for (int i = 0; i < 4; i++) {
+        UnloadTexture(terrainTextures[i]);
+    }
     UnloadShader(terrainShader);
 }
 
@@ -455,6 +502,12 @@ float World::GetTerrainHeightAt(float x, float z) const {
     return y_calc;
 }
 
+bool World::IsLoadedAt(float x, float z) const {
+    int cx = std::floor(x / CHUNK_SIZE);
+    int cz = std::floor(z / CHUNK_SIZE);
+    return activeChunks.find({cx, cz}) != activeChunks.end();
+}
+
 void World::Draw() const {
     if (debug::enabled) {
         return;
@@ -465,6 +518,15 @@ void World::Draw() const {
     if (should_print) {
         printf("Drawing World. Active chunks: %zu\n", activeChunks.size());
     }
+
+    // Bind the splatmap layers to the terrain shader. Done here (not via the
+    // chunk material maps) so chunk UnloadModel never frees these shared
+    // textures. SetShaderValueTexture binds to its own texture slots, which
+    // raylib's mesh draw leaves untouched for this single-map material.
+    SetShaderValueTexture(terrainShader, terrainTexLocs[0], terrainTextures[0]);
+    SetShaderValueTexture(terrainShader, terrainTexLocs[1], terrainTextures[1]);
+    SetShaderValueTexture(terrainShader, terrainTexLocs[2], terrainTextures[2]);
+    SetShaderValueTexture(terrainShader, terrainTexLocs[3], terrainTextures[3]);
 
     for (const auto& pair : activeChunks) {
         const auto& chunk = pair.second;

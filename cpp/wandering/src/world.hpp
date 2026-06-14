@@ -40,6 +40,11 @@ public:
 
     float GetTerrainHeightAt(float x, float z) const;
 
+    // True once the chunk containing (x, z) has finished generating, so its
+    // heights can be sampled. Used to defer placing static scenery until the
+    // ground beneath it exists.
+    bool IsLoadedAt(float x, float z) const;
+
 private:
     std::unique_ptr<ChunkData> GenerateChunkData(int cx, int cz);
     void UnloadChunk(int cx, int cz);
@@ -50,6 +55,8 @@ private:
 
     std::vector<Prop> globalProps; // all props loaded from map
     Shader terrainShader;
+    Texture2D terrainTextures[4]; // sand, grass, rock, snow splatmap layers
+    int terrainTexLocs[4];        // shader sampler locations for the above
     Model sphereModel;
     float sphereRotation;
 
